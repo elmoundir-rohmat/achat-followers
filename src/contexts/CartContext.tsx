@@ -3,9 +3,15 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 export interface CartItem {
   id: string;
   followers: number;
+  likes?: number;
   price: number;
   followerType: 'french' | 'international';
   username?: string;
+  selectedPosts?: Array<{
+    postId: string;
+    likesToAdd: number;
+    mediaUrl?: string;
+  }>;
 }
 
 interface CartContextType {
@@ -15,7 +21,9 @@ interface CartContextType {
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalFollowers: () => number;
+  getTotalLikes: () => number;
   updateLastItemUsername: (username: string) => void;
+  updateLastItemPosts: (posts: Array<{postId: string; likesToAdd: number; mediaUrl?: string}>) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -59,6 +67,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return items.reduce((total, item) => total + item.followers, 0);
   };
 
+  const getTotalLikes = () => {
+    return items.reduce((total, item) => total + (item.likes || 0), 0);
+  };
+
   const updateLastItemUsername = (username: string) => {
     setItems(prev => {
       if (prev.length === 0) return prev;
@@ -66,6 +78,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       updatedItems[updatedItems.length - 1] = {
         ...updatedItems[updatedItems.length - 1],
         username
+      };
+      return updatedItems;
+    });
+  };
+
+  const updateLastItemPosts = (posts: Array<{postId: string; likesToAdd: number; mediaUrl?: string}>) => {
+    setItems(prev => {
+      if (prev.length === 0) return prev;
+      const updatedItems = [...prev];
+      updatedItems[updatedItems.length - 1] = {
+        ...updatedItems[updatedItems.length - 1],
+        selectedPosts: posts
       };
       return updatedItems;
     });
@@ -79,7 +103,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       clearCart,
       getTotalPrice,
       getTotalFollowers,
-      updateLastItemUsername
+      getTotalLikes,
+      updateLastItemUsername,
+      updateLastItemPosts
     }}>
       {children}
     </CartContext.Provider>

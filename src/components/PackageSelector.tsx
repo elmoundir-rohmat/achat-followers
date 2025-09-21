@@ -15,11 +15,14 @@ interface Props {
   selectedPackage: string;
   onPackageChange: (packageId: string) => void;
   followerType: string;
+  isLikes?: boolean;
 }
 
-export default function PackageSelector({ selectedPackage, onPackageChange, followerType }: Props) {
+export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false }: Props) {
   const getPrice = (basePrice: number) => {
-    return followerType === 'french' ? Math.round(basePrice * 1.3) : basePrice;
+    // Pour les likes, les prix sont généralement moins chers
+    const adjustedPrice = isLikes ? basePrice * 0.5 : basePrice;
+    return followerType === 'french' ? Math.round(adjustedPrice * 1.3) : adjustedPrice;
   };
 
   const packages: Package[] = [
@@ -124,7 +127,7 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
                 {pkg.followers.toLocaleString()}
               </div>
               <div className="text-xs opacity-75">
-                Followers
+                {isLikes ? 'Likes' : 'Followers'}
               </div>
               <div className={`text-sm font-bold mt-1 ${
                 selectedPackage === pkg.id ? 'text-white' : 'text-blue-600'

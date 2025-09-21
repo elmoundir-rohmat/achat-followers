@@ -26,14 +26,22 @@ export default function CardinityPayment({
     if (typeof window !== 'undefined' && window.Cardinity) {
       console.log('✅ Cardinity SDK chargé');
     } else {
-      console.error('❌ Cardinity SDK non chargé');
-      setError('Erreur de chargement du système de paiement');
+      console.log('ℹ️ Cardinity SDK non chargé (normal en mode développement)');
+      // En mode développement, on n'affiche pas d'erreur car MockPayment sera utilisé
+      if (import.meta.env.PROD) {
+        setError('Erreur de chargement du système de paiement');
+      }
     }
   }, []);
 
   const handlePayment = async () => {
     if (!window.Cardinity) {
-      setError('Système de paiement non disponible');
+      if (import.meta.env.PROD) {
+        setError('Système de paiement non disponible');
+      } else {
+        console.log('ℹ️ Cardinity non disponible en mode développement - utilisez MockPayment');
+        setError('En mode développement, utilisez MockPayment pour tester les paiements');
+      }
       return;
     }
 

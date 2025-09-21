@@ -265,16 +265,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
     }
   };
 
-  // Debounce pour éviter trop d'appels API
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchTerm.length >= 3) {
-        searchUsers(searchTerm);
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
+  // Supprimer la recherche automatique - maintenant uniquement manuelle
 
   // Fallback vers recherche mockée si l'API échoue
   const mockSearch = async (term: string) => {
@@ -326,8 +317,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
       if (searchTerm.length >= 3) {
         searchUsers(searchTerm.trim());
       } else {
-        // Fallback vers recherche mockée si moins de 3 caractères
-        mockSearch(searchTerm.trim());
+        setError('Veuillez taper au moins 3 caractères pour rechercher');
       }
     }
   };
@@ -451,7 +441,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           {/* Message d'aide */}
           {searchTerm.length > 0 && searchTerm.length < 3 && (
             <p className="text-sm text-gray-500 mt-2">
-              Tapez au moins 3 caractères pour rechercher
+              Tapez au moins 3 caractères puis cliquez sur "Chercher"
             </p>
           )}
         </div>
@@ -464,7 +454,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
               </div>
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Recherchez votre profil</h3>
               <p className="text-gray-500 text-sm mb-4">
-                Tapez votre nom d'utilisateur Instagram et découvrez les profils correspondants
+                Tapez votre nom d'utilisateur Instagram (minimum 3 caractères) puis cliquez sur "Chercher"
               </p>
               <div className="flex flex-wrap justify-center gap-2 text-xs">
                 <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">cristiano</span>
@@ -503,7 +493,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           <div className="flex items-center justify-center text-xs text-gray-500">
             <div className="flex items-center">
               <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-              <span>Recherche en temps réel</span>
+              <span>Recherche manuelle</span>
             </div>
             <span className="mx-2">•</span>
             <div className="flex items-center">

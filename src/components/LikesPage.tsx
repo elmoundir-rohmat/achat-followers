@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, CreditCard, User, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, CreditCard, User, Mail, MapPin, Phone, Heart, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
 import MockPayment from './MockPayment';
 import SMMATest from './SMMATest';
 import { smmaService, SMMAOrder } from '../services/smmaService';
 
-interface CheckoutPageProps {
+interface LikesPageProps {
   onBack: () => void;
   onComplete: (orderData: any) => void;
 }
@@ -20,8 +20,8 @@ interface CustomerData {
   phone: string;
 }
 
-export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
-  const { items, getTotalPrice, getTotalFollowers, clearCart } = useCart();
+export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
+  const { items, getTotalPrice, getTotalLikes, clearCart, removeFromCart } = useCart();
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -68,23 +68,43 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
     setIsProcessingSMMA(true);
     
     try {
-      // Appeler l'API SMMA pour chaque article du panier
-      const smmaOrders: SMMAOrder[] = items.map(item => ({
-        username: item.username || 'unknown',
-        followers: item.followers,
-        followerType: item.followerType,
-        orderId: orderId,
-        paymentId: result.payment_id || result.transaction_id
-      }));
+      // Appeler l'API SMMA pour chaque article du panier (likes)
+      const smmaOrders: SMMAOrder[] = [];
+      
+      items.forEach(item => {
+        if (item.selectedPosts && item.selectedPosts.length > 0) {
+          // Pour les likes sur des posts spécifiques
+          item.selectedPosts.forEach(post => {
+            smmaOrders.push({
+              username: item.username || 'unknown',
+              followers: 0,
+              followerType: item.followerType,
+              orderId: orderId,
+              paymentId: result.payment_id || result.transaction_id,
+              postId: post.postId,
+              likesToAdd: post.likesToAdd
+            });
+          });
+        } else {
+          // Pour les likes généraux (fallback)
+          smmaOrders.push({
+            username: item.username || 'unknown',
+            followers: item.likes || item.followers,
+            followerType: item.followerType,
+            orderId: orderId,
+            paymentId: result.payment_id || result.transaction_id
+          });
+        }
+      });
 
-      console.log('📦 Commandes SMMA à traiter:', smmaOrders);
+      console.log('📦 Commandes SMMA à traiter (likes):', smmaOrders);
 
       // Traiter chaque commande SMMA
       const smmaResults = await Promise.all(
-        smmaOrders.map(order => smmaService.orderFollowers(order))
+        smmaOrders.map(order => smmaService.orderLikes(order))
       );
 
-      console.log('📊 Résultats SMMA:', smmaResults);
+      console.log('📊 Résultats SMMA (likes):', smmaResults);
       setSmmaResult(smmaResults);
 
       // Préparer les données de commande complètes
@@ -92,7 +112,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         items,
         customer: customerData,
         total: getTotalPrice(),
-        totalFollowers: getTotalFollowers(),
+        totalLikes: getTotalLikes(),
         orderId,
         paymentResult: result,
         smmaResults: smmaResults
@@ -112,7 +132,6 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
   const handlePaymentError = (error: any) => {
     console.error('❌ Erreur de paiement:', error);
     setShowPayment(false);
-    // Vous pouvez ajouter une notification d'erreur ici
   };
 
   const handlePaymentCancel = () => {
@@ -140,9 +159,9 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
               Retour
             </button>
             <div className="flex items-center">
-              <ShoppingCart className="w-8 h-8 text-pink-500 mr-3" />
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                FollowBoost
+              <Heart className="w-8 h-8 text-pink-500 mr-3" />
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">
+                LikesBoost
               </h1>
             </div>
           </div>
@@ -167,7 +186,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
               <MockPayment
                 amount={getTotalPrice()}
                 orderId={orderId}
-                description={`${getTotalFollowers()} followers Instagram`}
+                description={`${getTotalLikes()} likes Instagram`}
                 onSuccess={handlePaymentSuccess}
                 onError={handlePaymentError}
                 onCancel={handlePaymentCancel}
@@ -176,7 +195,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
               <CardinityPayment
                 amount={getTotalPrice()}
                 orderId={orderId}
-                description={`${getTotalFollowers()} followers Instagram`}
+                description={`${getTotalLikes()} likes Instagram`}
                 onSuccess={handlePaymentSuccess}
                 onError={handlePaymentError}
                 onCancel={handlePaymentCancel}
@@ -185,14 +204,14 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
             
             {/* Affichage du traitement SMMA */}
             {isProcessingSMMA && (
-              <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="mt-6 bg-pink-50 border border-pink-200 rounded-lg p-4">
                 <div className="flex items-center justify-center">
-                  <svg className="animate-spin h-6 w-6 text-blue-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-6 w-6 text-pink-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span className="text-blue-700 font-medium">
-                    Traitement de votre commande avec la plateforme SMMA...
+                  <span className="text-pink-700 font-medium">
+                    Traitement de votre commande de likes avec la plateforme SMMA...
                   </span>
                 </div>
               </div>
@@ -225,7 +244,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           {/* Formulaire client */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <User className="w-6 h-6 mr-3 text-blue-600" />
+              <User className="w-6 h-6 mr-3 text-pink-600" />
               Informations de livraison
             </h2>
             
@@ -239,7 +258,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                     type="text"
                     value={customerData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
                       errors.firstName ? 'border-red-500' : 'border-gray-300'
                     }`}
                     placeholder="Votre prénom"
@@ -257,7 +276,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                     type="text"
                     value={customerData.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
                       errors.lastName ? 'border-red-500' : 'border-gray-300'
                     }`}
                     placeholder="Votre nom"
@@ -277,7 +296,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                   type="email"
                   value={customerData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
                     errors.email ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="votre@email.com"
@@ -296,7 +315,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                   type="text"
                   value={customerData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
                     errors.address ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="123 Rue de la Paix, 75001 Paris"
@@ -314,7 +333,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                   <select
                     value={customerData.country}
                     onChange={(e) => handleInputChange('country', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                   >
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -333,7 +352,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                     type="tel"
                     value={customerData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
                       errors.phone ? 'border-red-500' : 'border-gray-300'
                     }`}
                     placeholder="06 12 34 56 78"
@@ -347,10 +366,15 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
               <div className="space-y-3">
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center"
+                  disabled={items.length === 0}
+                  className={`w-full font-bold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg text-lg flex items-center justify-center ${
+                    items.length === 0
+                      ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white transform hover:scale-105 hover:shadow-xl'
+                  }`}
                 >
                   <CreditCard className="w-6 h-6 mr-3" />
-                  Finaliser la commande - {getTotalPrice().toFixed(2)}€
+                  {items.length === 0 ? 'Panier vide' : `Finaliser la commande - ${getTotalPrice().toFixed(2)}€`}
                 </button>
                 
                 {/* Bouton de test SMMA en mode développement */}
@@ -360,7 +384,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                     onClick={() => setShowSMMATest(true)}
                     className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg transition-colors text-sm"
                   >
-                    🧪 Tester SMMA (ID 720)
+                    🧪 Tester SMMA (Likes)
                   </button>
                 )}
               </div>
@@ -369,53 +393,114 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
 
           {/* Résumé de la commande */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Résumé de votre commande
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Résumé de votre commande
+              </h2>
+              {items.length > 0 && (
+                <button
+                  onClick={clearCart}
+                  className="text-sm text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors"
+                  title="Vider tout le panier"
+                >
+                  Vider le panier
+                </button>
+              )}
+            </div>
             
             <div className="space-y-4 mb-6">
-              {items.map((item) => (
-                <div key={item.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <div className="font-semibold text-gray-900">
-                      {item.followers.toLocaleString()} followers {item.followerType === 'french' ? 'français' : 'internationaux'}
-                    </div>
-                    {item.username && (
-                      <div className="text-sm text-gray-600">
-                        @{item.username}
-                      </div>
-                    )}
-                  </div>
-                  <div className="font-bold text-blue-600">
-                    {item.price.toFixed(2)}€
-                  </div>
+              {items.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <ShoppingCart className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p className="text-lg font-medium">Votre panier est vide</p>
+                  <p className="text-sm">Retournez à la page précédente pour ajouter des articles</p>
                 </div>
-              ))}
+              ) : (
+                items.map((item) => (
+                <div key={item.id} className="p-4 bg-gray-50 rounded-lg relative">
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                    title="Supprimer cet article"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                  
+                  <div className="flex justify-between items-center mb-3 pr-8">
+                    <div>
+                      <div className="font-semibold text-gray-900">
+                        {(item.likes || item.followers).toLocaleString()} likes {item.followerType === 'french' ? 'français' : 'internationaux'}
+                      </div>
+                      {item.username && (
+                        <div className="text-sm text-gray-600">
+                          @{item.username}
+                        </div>
+                      )}
+                    </div>
+                    <div className="font-bold text-pink-600">
+                      {item.price.toFixed(2)}€
+                    </div>
+                  </div>
+                  
+                  {/* Affichage des posts sélectionnés */}
+                  {item.selectedPosts && item.selectedPosts.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="text-sm text-gray-600 mb-2">
+                        Posts sélectionnés ({item.selectedPosts.length}):
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {item.selectedPosts.map((post, index) => (
+                          <div key={post.postId} className="flex items-center space-x-2 text-xs">
+                            <div className="w-8 h-8 bg-gray-200 rounded overflow-hidden">
+                              {post.mediaUrl && (
+                                <img 
+                                  src={post.mediaUrl} 
+                                  alt="Post" 
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                  }}
+                                />
+                              )}
+                            </div>
+                            <div>
+                              <div className="font-medium">Post #{index + 1}</div>
+                              <div className="text-pink-600">+{post.likesToAdd} likes</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                ))
+              )}
             </div>
 
             <div className="border-t pt-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-lg font-semibold text-gray-700">Total followers:</span>
-                <span className="text-lg font-bold text-gray-900">{getTotalFollowers().toLocaleString()}</span>
+                <span className="text-lg font-semibold text-gray-700">Total likes:</span>
+                <span className="text-lg font-bold text-gray-900">{getTotalLikes().toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-xl font-bold text-gray-900">Total:</span>
-                <span className="text-2xl font-bold text-blue-600">{getTotalPrice().toFixed(2)}€</span>
+                <span className="text-2xl font-bold text-pink-600">{getTotalPrice().toFixed(2)}€</span>
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-green-50 rounded-lg">
-              <div className="flex items-center text-green-700">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+            <div className="mt-6 p-4 bg-pink-50 rounded-lg">
+              <div className="flex items-center text-pink-700">
+                <div className="w-2 h-2 bg-pink-500 rounded-full mr-2"></div>
                 <span className="text-sm font-medium">Garantie 30 jours</span>
               </div>
-              <div className="flex items-center text-green-700 mt-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+              <div className="flex items-center text-pink-700 mt-2">
+                <div className="w-2 h-2 bg-pink-500 rounded-full mr-2"></div>
                 <span className="text-sm font-medium">Livraison progressive</span>
               </div>
-              <div className="flex items-center text-green-700 mt-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                <span className="text-sm font-medium">Profils réels</span>
+              <div className="flex items-center text-pink-700 mt-2">
+                <div className="w-2 h-2 bg-pink-500 rounded-full mr-2"></div>
+                <span className="text-sm font-medium">Likes réels</span>
               </div>
             </div>
           </div>

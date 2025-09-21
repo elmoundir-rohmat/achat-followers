@@ -5,8 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Application d&#39;achat de followers</title>
-    <!-- Cardinity SDK -->
-    <script src="https://cdn.cardinity.com/js/cardinity.js"></script>
+    <!-- Cardinity SDK - Chargé uniquement en production -->
+    <script>
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.cardinity.com/js/cardinity.js';
+        document.head.appendChild(script);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Heart, MessageCircle, MoreHorizontal, Loader2 } from 'lucide-react';
 import { InstagramPost, instagramService } from '../services/instagramService';
 
 interface InstagramPostsGridProps {
   username: string;
-  onPostsSelect: (selectedPosts: InstagramPost[], likesPerPost: number) => void;
+  onPostsSelect: (selectedPosts: InstagramPost[], pricePerPost: number) => void;
   totalLikes: number;
+  isComments?: boolean;
+  isViews?: boolean;
+  pricePerPost?: number;
 }
 
-export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes }: InstagramPostsGridProps) {
+export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes, isComments = false, isViews = false, pricePerPost = 0 }: InstagramPostsGridProps) {
   const [posts, setPosts] = useState<InstagramPost[]>([]);
   const [selectedPosts, setSelectedPosts] = useState<InstagramPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,12 +19,17 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
   const [error, setError] = useState<string | null>(null);
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined);
   const [hasMore, setHasMore] = useState(true);
+  const [lastUsername, setLastUsername] = useState<string>('');
+  const loadingRef = useRef(false);
 
-  useEffect(() => {
-    loadPosts();
-  }, [username]);
+  const loadPosts = useCallback(async (cursor?: string) => {
+    // Éviter les appels multiples simultanés
+    if (loadingRef.current) {
+      console.log('🔄 Chargement déjà en cours, ignoré');
+      return;
+    }
 
-  const loadPosts = async (cursor?: string) => {
+    loadingRef.current = true;
     try {
       if (cursor) {
         setLoadingMore(true);
@@ -30,7 +38,10 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
         setError(null);
       }
 
-      const response = await instagramService.getUserPosts(username, cursor);
+      // Utiliser getUserClips pour les vues (reels), sinon getUserPosts
+      const response = isViews 
+        ? await instagramService.getUserClips(username, 12) 
+        : await instagramService.getUserPosts(username, cursor);
       
       if (response.success && response.data) {
         if (cursor) {
@@ -48,8 +59,21 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
     } finally {
       setLoading(false);
       setLoadingMore(false);
+      loadingRef.current = false;
     }
-  };
+  }, [username, isViews]); // Dépendances pour useCallback
+
+  useEffect(() => {
+    // Ne recharger que si le username a vraiment changé
+    if (username && username !== lastUsername) {
+      console.log('🔄 Username changé, rechargement des posts:', username);
+      setLastUsername(username);
+      setPosts([]); // Vider les posts précédents
+      setSelectedPosts([]); // Vider la sélection
+      setError(null);
+      loadPosts();
+    }
+  }, [username, lastUsername, loadPosts]);
 
   const handlePostSelect = (post: InstagramPost) => {
     setSelectedPosts(prev => {
@@ -64,36 +88,43 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
 
   const handleConfirmSelection = () => {
     if (selectedPosts.length === 0) {
-      alert('Veuillez sélectionner au moins un post');
+      alert(`Veuillez sélectionner au moins un ${isViews ? 'reel' : 'post'}`);
       return;
     }
 
-    const likesPerPost = Math.floor(totalLikes / selectedPosts.length);
-    const remainingLikes = totalLikes % selectedPosts.length;
+    if (isViews || isComments) {
+      // Pour les vues et commentaires, on passe le prix par post (qui sera multiplié par le nombre de posts)
+      onPostsSelect(selectedPosts, pricePerPost);
+    } else {
+      // Pour les likes, on divise le nombre total sur les posts sélectionnés
+      const likesPerPost = Math.floor(totalLikes / selectedPosts.length);
+      const remainingLikes = totalLikes % selectedPosts.length;
 
-    // Répartir les likes restants sur les premiers posts
-    const postsWithLikes = selectedPosts.map((post, index) => ({
-      ...post,
-      likesToAdd: likesPerPost + (index < remainingLikes ? 1 : 0)
-    }));
+      // Répartir les likes restants sur les premiers posts
+      const postsWithLikes = selectedPosts.map((post, index) => ({
+        ...post,
+        likesToAdd: likesPerPost + (index < remainingLikes ? 1 : 0)
+      }));
 
-    onPostsSelect(postsWithLikes, likesPerPost);
+      onPostsSelect(postsWithLikes, likesPerPost);
+    }
   };
 
-  const handleLoadMore = () => {
-    if (!loadingMore) {
+  const handleLoadMore = useCallback(() => {
+    if (!loadingMore && !loadingRef.current && hasMore) {
+      console.log('📄 Chargement de plus de posts...');
       // Essayer de charger plus de posts même sans cursor
       // Utiliser l'ID du dernier post comme cursor alternatif
       const lastPostId = posts.length > 0 ? posts[posts.length - 1].id : null;
       loadPosts(nextCursor || lastPostId || 'load_more');
     }
-  };
+  }, [loadingMore, hasMore, nextCursor, posts.length, loadPosts]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
         <Loader2 className="w-8 h-8 animate-spin text-pink-600" />
-        <span className="ml-3 text-gray-600">Chargement des posts...</span>
+        <span className="ml-3 text-gray-600">Chargement des {isViews ? 'reels' : 'posts'}...</span>
       </div>
     );
   }
@@ -103,10 +134,15 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
       <div className="text-center py-12">
         <div className="text-red-600 mb-4">❌ {error}</div>
         <button
-          onClick={() => loadPosts()}
-          className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors"
+          onClick={() => {
+            if (!loadingRef.current) {
+              loadPosts();
+            }
+          }}
+          disabled={loadingRef.current}
+          className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Réessayer
+          {loadingRef.current ? 'Chargement...' : 'Réessayer'}
         </button>
       </div>
     );
@@ -115,7 +151,7 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
   if (posts.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="text-gray-600 mb-4">Aucun post trouvé pour @{username}</div>
+        <div className="text-gray-600 mb-4">Aucun {isViews ? 'reel' : 'post'} trouvé pour @{username}</div>
       </div>
     );
   }
@@ -126,18 +162,42 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
       <div className="bg-white rounded-lg p-4 shadow-sm border">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Posts de @{username}</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{isViews ? 'Reels' : 'Posts'} de @{username}</h3>
             <p className="text-sm text-gray-600">
-              {selectedPosts.length} post{selectedPosts.length > 1 ? 's' : ''} sélectionné{selectedPosts.length > 1 ? 's' : ''}
+              {selectedPosts.length} {isViews ? 'reel' : 'post'}{selectedPosts.length > 1 ? 's' : ''} sélectionné{selectedPosts.length > 1 ? 's' : ''}
             </p>
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-600">Total likes à répartir:</div>
-            <div className="text-lg font-bold text-pink-600">{totalLikes.toLocaleString()}</div>
-            {selectedPosts.length > 0 && (
-              <div className="text-xs text-gray-500">
-                ~{Math.floor(totalLikes / selectedPosts.length)} likes/post
-              </div>
+            {isViews ? (
+              <>
+                <div className="text-sm text-gray-600">{totalLikes.toLocaleString()} vues par reel</div>
+                <div className="text-lg font-bold text-purple-600">{pricePerPost.toFixed(2)}€/reel</div>
+                {selectedPosts.length > 0 && (
+                  <div className="text-xs text-gray-500">
+                    Total: {(pricePerPost * selectedPosts.length).toFixed(2)}€
+                  </div>
+                )}
+              </>
+            ) : isComments ? (
+              <>
+                <div className="text-sm text-gray-600">{totalLikes.toLocaleString()} commentaires par post</div>
+                <div className="text-lg font-bold text-blue-600">{pricePerPost.toFixed(2)}€/post</div>
+                {selectedPosts.length > 0 && (
+                  <div className="text-xs text-gray-500">
+                    Total: {(pricePerPost * selectedPosts.length).toFixed(2)}€
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="text-sm text-gray-600">Total likes à répartir:</div>
+                <div className="text-lg font-bold text-pink-600">{totalLikes.toLocaleString()}</div>
+                {selectedPosts.length > 0 && (
+                  <div className="text-xs text-gray-500">
+                    ~{Math.floor(totalLikes / selectedPosts.length)} likes/post
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -178,9 +238,15 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
 
               {/* Overlay de sélection */}
               {isSelected && (
-                <div className="absolute inset-0 bg-pink-500 bg-opacity-20 flex items-center justify-center">
-                  <div className="bg-pink-500 text-white rounded-full p-2">
-                    <Heart className="w-6 h-6 fill-current" />
+                <div className={`absolute inset-0 ${isViews ? 'bg-purple-500' : isComments ? 'bg-blue-500' : 'bg-pink-500'} bg-opacity-20 flex items-center justify-center`}>
+                  <div className={`${isViews ? 'bg-purple-500' : isComments ? 'bg-blue-500' : 'bg-pink-500'} text-white rounded-full p-2`}>
+                    {isViews ? (
+                      <div className="w-6 h-6 text-white text-center leading-6">👁️</div>
+                    ) : isComments ? (
+                      <MessageCircle className="w-6 h-6 fill-current" />
+                    ) : (
+                      <Heart className="w-6 h-6 fill-current" />
+                    )}
                   </div>
                 </div>
               )}
@@ -188,7 +254,7 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
               {/* Indicateur de sélection */}
               {isSelected && (
                 <div className="absolute top-2 right-2">
-                  <div className="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                  <div className={`${isViews ? 'bg-purple-500' : isComments ? 'bg-blue-500' : 'bg-pink-500'} text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold`}>
                     ✓
                   </div>
                 </div>
@@ -208,11 +274,11 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
                 </div>
               </div>
 
-              {/* Badge pour les likes à ajouter */}
+              {/* Badge pour les likes/vues/commentaires à ajouter */}
               {isSelected && (
                 <div className="absolute top-2 left-2">
-                  <div className="bg-pink-500 text-white px-2 py-1 rounded text-xs font-bold">
-                    +{likesPerPost}
+                  <div className={`${isViews ? 'bg-purple-500' : isComments ? 'bg-blue-500' : 'bg-pink-500'} text-white px-2 py-1 rounded text-xs font-bold`}>
+                    +{isViews || isComments ? totalLikes : likesPerPost}
                   </div>
                 </div>
               )}
@@ -246,10 +312,16 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
         <div className="fixed bottom-6 right-6">
           <button
             onClick={handleConfirmSelection}
-            className="bg-gradient-to-r from-pink-600 to-red-600 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className={`bg-gradient-to-r ${isViews ? 'from-purple-600 to-pink-600' : isComments ? 'from-blue-600 to-indigo-600' : 'from-pink-600 to-red-600'} text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
           >
-            <Heart className="w-5 h-5 inline mr-2" />
-            Confirmer la sélection ({selectedPosts.length} posts)
+            {isViews ? (
+              <div className="w-5 h-5 inline mr-2 text-center leading-5">👁️</div>
+            ) : isComments ? (
+              <MessageCircle className="w-5 h-5 inline mr-2" />
+            ) : (
+              <Heart className="w-5 h-5 inline mr-2" />
+            )}
+            Confirmer la sélection ({selectedPosts.length} {isViews ? 'reels' : 'posts'})
           </button>
         </div>
       )}

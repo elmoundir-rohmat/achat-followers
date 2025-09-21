@@ -99,6 +99,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           bgColor: 'bg-gradient-to-br from-red-500 to-pink-600'
         },
         {
+          id: 'instagram-views',
+          name: 'Vues Instagram',
+          description: 'Boostez vos reels avec des vues authentiques pour maximiser votre portée',
+          icon: <Eye className="w-6 h-6" />,
+          color: 'text-white',
+          bgColor: 'bg-gradient-to-br from-purple-500 to-pink-600'
+        },
+        {
           id: 'instagram-comments',
           name: 'Commentaires Instagram',
           description: 'Des commentaires pertinents pour booster vos posts',

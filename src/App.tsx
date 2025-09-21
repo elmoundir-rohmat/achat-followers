@@ -10,11 +10,13 @@ import HomePage from './components/HomePage';
 import ModernNavigation from './components/ModernNavigation';
 import InstagramFollowersPage from './components/InstagramFollowersPage';
 import InstagramLikesPage from './components/InstagramLikesPage';
+import InstagramCommentsPage from './components/InstagramCommentsPage';
+import InstagramViewsPage from './components/InstagramViewsPage';
 import TikTokFollowersPage from './components/TikTokFollowersPage';
 import { CartProvider, useCart } from './contexts/CartContext';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'tiktok-followers' | 'followers' | 'likes'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'followers' | 'likes'>('home');
   
   // Debug: log current page
   console.log('Current page:', currentPage);
@@ -126,6 +128,26 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <InstagramLikesPage onBack={() => setCurrentPage('home')} />
+      </div>
+    );
+  }
+
+  // Page Instagram Comments
+  if (currentPage === 'instagram-comments') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <InstagramCommentsPage onBack={() => setCurrentPage('home')} />
+      </div>
+    );
+  }
+
+  // Page Instagram Views
+  if (currentPage === 'instagram-views') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <InstagramViewsPage onBack={() => setCurrentPage('home')} />
       </div>
     );
   }

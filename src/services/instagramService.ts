@@ -9,8 +9,11 @@ export interface InstagramPost {
   caption?: string;
   like_count?: number;
   comment_count?: number;
+  view_count?: number; // Spécifique aux reels/vidéos
   timestamp?: string;
   permalink?: string;
+  code?: string; // Code du post Instagram
+  is_reel?: boolean; // Marqueur pour identifier les reels
 }
 
 export interface InstagramUser {
@@ -217,102 +220,7 @@ class InstagramService {
     }
   }
 
-  /**
-   * Fallback vers des posts fictifs pour la démonstration
-   */
-  private async getMockUserPosts(username: string, cursor?: string): Promise<InstagramPostsResponse> {
-    try {
-      console.log('🎭 Génération des posts mock pour:', username);
-      
-      const mockPosts: InstagramPost[] = this.generateMockPosts(username, cursor);
-      
-      // Simuler un délai d'API réaliste
-      await new Promise(resolve => setTimeout(resolve, 800));
 
-      console.log('✅ Posts Instagram récupérés (mock):', mockPosts.length);
-      return {
-        success: true,
-        data: mockPosts,
-        next_cursor: mockPosts.length >= 12 ? 'next_page_cursor' : undefined
-      };
-    } catch (error) {
-      console.error('❌ Erreur dans la génération des posts mock:', error);
-      // En dernier recours, retourner des posts basiques
-      return {
-        success: true,
-        data: [{
-          id: `${username}_fallback_post`,
-          media_type: 1,
-          media_url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-          thumbnail_url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-          caption: `Post de démonstration pour @${username}`,
-          like_count: 150,
-          comment_count: 25,
-          timestamp: new Date().toISOString(),
-          permalink: `https://instagram.com/p/fallback_${username}`
-        }],
-        next_cursor: undefined
-      };
-    }
-  }
-
-  /**
-   * Générer des posts fictifs pour la démonstration
-   */
-  private generateMockPosts(username: string, cursor?: string): InstagramPost[] {
-    const posts: InstagramPost[] = [];
-    const startIndex = cursor ? 12 : 0; // Simuler la pagination
-    
-    // Images de démonstration plus réalistes
-    const demoImages = [
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=400&fit=crop'
-    ];
-    
-    const captions = [
-      `Beautiful sunset from my window 🌅 #${username}`,
-      `Coffee time ☕ #coffee #${username}`,
-      `Weekend vibes 🎉 #weekend #${username}`,
-      `New adventure begins! 🚀 #adventure #${username}`,
-      `Foodie moment 🍕 #food #${username}`,
-      `Nature walk 🌿 #nature #${username}`,
-      `City lights ✨ #city #${username}`,
-      `Morning routine 🌅 #morning #${username}`,
-      `Travel memories ✈️ #travel #${username}`,
-      `Work from home setup 💻 #work #${username}`,
-      `Gym session 💪 #fitness #${username}`,
-      `Evening chill 🌆 #evening #${username}`
-    ];
-    
-    for (let i = 0; i < 12; i++) {
-      const postIndex = startIndex + i;
-      const imageIndex = postIndex % demoImages.length;
-      
-      posts.push({
-        id: `${username}_post_${postIndex}`,
-        media_type: Math.random() > 0.3 ? 1 : 2, // 70% photos, 30% vidéos
-        media_url: demoImages[imageIndex],
-        thumbnail_url: demoImages[imageIndex],
-        caption: captions[imageIndex] || `Post ${postIndex + 1} de @${username}`,
-        like_count: Math.floor(Math.random() * 1500) + 100,
-        comment_count: Math.floor(Math.random() * 150) + 10,
-        timestamp: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-        permalink: `https://instagram.com/p/mock_post_${postIndex}`
-      });
-    }
-    
-    return posts;
-  }
 
   /**
    * Récupérer les informations d'un post spécifique
@@ -349,6 +257,218 @@ class InstagramService {
     } catch (error) {
       console.error('❌ Erreur lors de la récupération des infos du post:', error);
       return null;
+    }
+  }
+
+  /**
+   * Récupérer les reels/clips Instagram d'un utilisateur
+   * Utilise l'endpoint /instagram/user/get_clips de StarAPI
+   */
+  async getUserClips(username: string, count: number = 12): Promise<InstagramPostsResponse> {
+    try {
+      console.log('🎬 Récupération des reels/clips Instagram pour:', username);
+
+      // Étape 1: Récupérer l'ID utilisateur
+      console.log('🔍 Étape 1: Récupération de l\'ID utilisateur...');
+      const userId = await this.getUserIdFromUsername(username);
+      
+      if (!userId) {
+        return {
+          success: false,
+          error: `Impossible de trouver l'ID utilisateur pour @${username}. Vérifiez que le profil existe et est public.`
+        };
+      }
+
+      console.log('✅ ID utilisateur trouvé:', userId);
+
+      // Étape 2: Récupérer les reels/clips avec l'ID utilisateur
+      console.log('🔍 Étape 2: Récupération des reels/clips avec l\'ID...');
+      
+      const requestBody = {
+        id: parseInt(userId), // L'endpoint get_clips attend un number
+        count: Math.max(count * 2, 24) // Demander plus de clips pour compenser le filtrage
+      };
+      
+      console.log('📤 Requête StarAPI get_clips:', {
+        url: `${this.baseUrl}/instagram/user/get_clips`,
+        body: requestBody
+      });
+
+      const response = await fetch(`${this.baseUrl}/instagram/user/get_clips`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-rapidapi-host': 'starapi1.p.rapidapi.com',
+          'x-rapidapi-key': this.apiKey
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      console.log('📡 Réponse StarAPI get_clips:', response.status, response.statusText);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('📊 Données StarAPI get_clips:', data);
+        
+        // Vérifier la structure de réponse StarAPI pour les reels/clips
+        if (data.status === 'done' && data.response && data.response.body && data.response.body.items) {
+          const clips = data.response.body.items;
+          console.log('✅ Reels/clips Instagram récupérés (StarAPI):', clips.length);
+          
+          // Filtrer uniquement les reels/clips (media_type = 2) et les vidéos
+          const reelClips = clips.filter((clip: any) => 
+            clip.media_type === 2 || clip.media_type === 8 // 2 = video/reel, 8 = carousel avec vidéos
+            // Assouplir les critères - garder tous les clips de type vidéo même s'ils n'ont pas d'images parfaites
+          );
+          
+          console.log(`🎬 Reels/clips filtrés (media_type 2 ou 8 avec URLs valides): ${reelClips.length} sur ${clips.length} total`);
+          
+          // Transformer les clips au format attendu
+          const transformedClips = reelClips.map((clip: any) => {
+            // Gérer les différents types de médias pour les reels
+            let mediaUrl = '';
+            let thumbnailUrl = '';
+            
+            if (clip.media_type === 2) {
+              // Reel/Clip - essayer différentes sources d'images
+              mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
+                        clip.image_versions2?.candidates?.[0]?.url ||
+                        clip.image_versions2?.candidates?.[1]?.url || '';
+              thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url ||
+                           clip.image_versions2?.candidates?.[1]?.url || '';
+            } else if (clip.media_type === 8 && clip.carousel_media) {
+              // Carousel avec vidéos - prendre la première vidéo
+              const firstVideo = clip.carousel_media.find((item: any) => item.media_type === 2);
+              if (firstVideo) {
+                mediaUrl = firstVideo.image_versions2?.additional_candidates?.first_frame?.url || 
+                          firstVideo.image_versions2?.candidates?.[0]?.url ||
+                          firstVideo.image_versions2?.candidates?.[1]?.url || '';
+                thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url ||
+                             firstVideo.image_versions2?.candidates?.[1]?.url || '';
+              }
+            }
+            
+            return {
+              id: clip.id,
+              media_url: mediaUrl,
+              thumbnail_url: thumbnailUrl,
+              caption: clip.caption?.text || '',
+              like_count: clip.like_count || 0,
+              comment_count: clip.comment_count || 0,
+              view_count: clip.view_count || 0, // Ajouter le compteur de vues spécifique aux reels
+              media_type: clip.media_type || 2, // 2 = reel/video
+              code: clip.code,
+              is_reel: true // Marquer comme reel pour le filtrage
+            };
+          }).filter((clip: any) => {
+            // Filtrer seulement les clips qui ont un ID valide et au moins une donnée utile
+            const hasValidId = clip.id && clip.id.length > 0;
+            const hasEngagement = (clip.like_count > 0 || clip.comment_count > 0 || clip.view_count > 0);
+            
+            // Garder les clips avec un ID valide et au moins un engagement ou une URL
+            return hasValidId && (hasEngagement || clip.media_url || clip.thumbnail_url);
+          }).slice(0, count); // Limiter au nombre demandé
+          
+          console.log(`🎬 Clips finaux après filtrage: ${transformedClips.length} sur ${count} demandés`);
+          
+          // Si nous n'avons pas assez de clips, essayer de récupérer plus via getUserPosts
+          if (transformedClips.length < count && transformedClips.length > 0) {
+            console.log(`⚠️ Seulement ${transformedClips.length} clips trouvés, tentative de compléter avec getUserPosts...`);
+            try {
+              const postsResponse = await this.getUserPosts(username);
+              if (postsResponse.success && postsResponse.data) {
+                const additionalReels = postsResponse.data.filter(post => 
+                  (post.media_type === 2 || post.is_reel) &&
+                  post.id && post.id.length > 0 &&
+                  !transformedClips.some((existing: any) => existing.id === post.id) // Éviter les doublons
+                ).slice(0, count - transformedClips.length);
+                
+                if (additionalReels.length > 0) {
+                  console.log(`✅ Ajout de ${additionalReels.length} clips supplémentaires via getUserPosts`);
+                  transformedClips.push(...additionalReels);
+                }
+              }
+            } catch (error) {
+              console.log('⚠️ Impossible de compléter avec getUserPosts:', error);
+            }
+          }
+          
+          // Si aucun reel n'est trouvé, essayer avec getUserPosts et filtrer les reels
+          if (transformedClips.length === 0) {
+            console.log('⚠️ Aucun reel trouvé via get_clips, fallback vers getUserPosts...');
+            const postsResponse = await this.getUserPosts(username);
+            if (postsResponse.success && postsResponse.data) {
+              // Filtrer uniquement les reels/vidéos (moins restrictif)
+              const reelsFromPosts = postsResponse.data.filter(post => 
+                (post.media_type === 2 || post.is_reel) &&
+                post.id && post.id.length > 0 // Seulement vérifier que l'ID existe
+              ).slice(0, count); // Limiter au nombre demandé
+              
+              console.log(`🎬 Reels trouvés via getUserPosts: ${reelsFromPosts.length}`);
+              
+              if (reelsFromPosts.length > 0) {
+                return {
+                  success: true,
+                  data: reelsFromPosts,
+                  next_cursor: undefined
+                };
+              }
+            }
+          }
+          
+          return {
+            success: true,
+            data: transformedClips,
+            next_cursor: undefined // Les reels n'ont pas de pagination dans cet endpoint
+          };
+        } else {
+          console.log('❌ Structure de réponse StarAPI get_clips inattendue:', data);
+          return {
+            success: false,
+            error: 'Structure de réponse StarAPI get_clips inattendue - Vérifiez les logs'
+          };
+        }
+      } else {
+        const errorText = await response.text();
+        console.log('❌ Erreur HTTP StarAPI get_clips:', response.status, errorText);
+        return {
+          success: false,
+          error: `Erreur StarAPI get_clips ${response.status}: ${errorText}`
+        };
+      }
+
+    } catch (error) {
+      console.error('❌ Erreur lors de la récupération des reels/clips Instagram:', error);
+      
+      // Fallback : essayer avec getUserPosts et filtrer les reels
+      console.log('🔄 Fallback vers getUserPosts pour récupérer les reels...');
+      try {
+        const postsResponse = await this.getUserPosts(username);
+        if (postsResponse.success && postsResponse.data) {
+          // Filtrer uniquement les reels/vidéos (media_type = 2) - moins restrictif
+          const reelsFromPosts = postsResponse.data.filter(post => 
+            (post.media_type === 2 || post.is_reel) &&
+            post.id && post.id.length > 0 // Seulement vérifier que l'ID existe
+          ).slice(0, count); // Limiter au nombre demandé
+          
+          console.log(`🎬 Fallback réussi : ${reelsFromPosts.length} reels trouvés via getUserPosts`);
+          
+          if (reelsFromPosts.length > 0) {
+            return {
+              success: true,
+              data: reelsFromPosts,
+              next_cursor: undefined
+            };
+          }
+        }
+      } catch (fallbackError) {
+        console.error('❌ Erreur lors du fallback getUserPosts:', fallbackError);
+      }
+      
+      return {
+        success: false,
+        error: 'Erreur de connexion avec StarAPI: ' + (error instanceof Error ? error.message : 'Erreur inconnue')
+      };
     }
   }
 

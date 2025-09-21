@@ -4,11 +4,13 @@ import { getSMMAServiceId, getServiceDescription } from '../config/smmaMapping';
 export interface SMMAOrder {
   username: string;
   followers: number;
-  followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'tiktok_french' | 'tiktok_international';
+  followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international';
   orderId: string;
   paymentId: string;
-  postId?: string; // Pour les likes sur des posts spécifiques
+  postId?: string; // Pour les likes/commentaires/vues sur des posts spécifiques
   likesToAdd?: number; // Nombre de likes à ajouter à ce post
+  commentsToAdd?: number; // Nombre de commentaires à ajouter à ce post
+  viewsToAdd?: number; // Nombre de vues à ajouter à ce post
   runs?: number; // Pour TikTok drip feed
   interval?: number; // Pour TikTok drip feed
   platform?: 'instagram' | 'tiktok'; // Pour identifier la plateforme
@@ -162,6 +164,134 @@ class SMMAService {
   }
 
   /**
+   * Commande des commentaires sur la plateforme SMMA
+   */
+  async orderComments(order: SMMAOrder): Promise<SMMAResponse> {
+    try {
+      console.log('🚀 Envoi de la commande SMMA (commentaires):', order);
+
+      // Pour les commentaires, nous utilisons un service différent
+      const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'comments_french' : 'comments_international');
+      
+      if (!serviceId) {
+        return {
+          success: false,
+          error: `Service SMMA non trouvé pour les commentaires ${order.followerType}`
+        };
+      }
+
+      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.commentsToAdd || order.followers} commentaires ${order.followerType}`);
+
+      // Appel API réel vers JustAnotherPanel
+      const response = await fetch(this.baseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          key: this.apiKey,
+          action: 'add',
+          service: serviceId.toString(),
+          link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username}`,
+          quantity: (order.commentsToAdd || order.followers).toString() // Le nombre de commentaires est passé ici
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.order) {
+        console.log('✅ Commande SMMA (commentaires) créée:', data);
+        return {
+          success: true,
+          order_id: order.orderId,
+          smma_order_id: data.order.toString(),
+          message: `Commande SMMA #${data.order} créée avec succès pour ${order.postId ? `post ${order.postId}` : `@${order.username}`} (${order.commentsToAdd || order.followers} commentaires ${getServiceDescription(order.followerType)})`
+        };
+      } else {
+        return {
+          success: false,
+          error: 'Erreur lors de la création de la commande SMMA (commentaires)'
+        };
+      }
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'appel SMMA (commentaires):', error);
+      return {
+        success: false,
+        error: 'Erreur de connexion avec la plateforme SMMA (commentaires)'
+      };
+    }
+  }
+
+  /**
+   * Commande des vues Instagram sur la plateforme SMMA
+   */
+  async orderViews(order: SMMAOrder): Promise<SMMAResponse> {
+    try {
+      console.log('🚀 Envoi de la commande SMMA (vues):', order);
+
+      // Pour les vues, nous utilisons un service différent
+      const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'views_french' : 'views_international');
+      
+      if (!serviceId) {
+        return {
+          success: false,
+          error: `Service SMMA non trouvé pour les vues ${order.followerType}`
+        };
+      }
+
+      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.viewsToAdd || order.followers} vues ${order.followerType}`);
+
+      // Appel API réel vers JustAnotherPanel
+      const response = await fetch(this.baseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          key: this.apiKey,
+          action: 'add',
+          service: serviceId.toString(),
+          link: order.postId ? `https://instagram.com/reel/${order.postId}` : `https://instagram.com/${order.username}`,
+          quantity: (order.viewsToAdd || order.followers).toString() // Le nombre de vues est passé ici
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.order) {
+        console.log('✅ Commande SMMA (vues) créée:', data);
+        return {
+          success: true,
+          order_id: order.orderId,
+          smma_order_id: data.order.toString(),
+          message: `Commande SMMA #${data.order} créée avec succès pour ${order.postId ? `reel ${order.postId}` : `@${order.username}`} (${order.viewsToAdd || order.followers} vues ${getServiceDescription(order.followerType)})`
+        };
+      } else {
+        return {
+          success: false,
+          error: 'Erreur lors de la création de la commande SMMA (vues)'
+        };
+      }
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'appel SMMA (vues):', error);
+      return {
+        success: false,
+        error: 'Erreur de connexion avec la plateforme SMMA (vues)'
+      };
+    }
+  }
+
+  /**
    * Commander des followers TikTok via SMMA
    */
   async orderTikTokFollowers(order: SMMAOrder): Promise<SMMAResponse> {
@@ -218,8 +348,7 @@ class SMMAService {
       return {
         success: true,
         message: `Commande TikTok créée avec succès (ID: ${data.order})`,
-        smmaOrderId: data.order,
-        data: data
+        smma_order_id: data.order.toString()
       };
 
     } catch (error) {

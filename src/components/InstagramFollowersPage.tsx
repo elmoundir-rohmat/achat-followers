@@ -7,6 +7,7 @@ import InstagramSearchModal from './InstagramSearchModal';
 import CheckoutPage from './CheckoutPage';
 import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
+import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
 export default function InstagramFollowersPage({ onBack }: { onBack: () => void }) {
   const [followerType, setFollowerType] = useState('french');
@@ -16,23 +17,12 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername } = useCart();
 
-  const getPackagePrice = (packageId: string) => {
-    const internationalPrices: Record<string, number> = {
-      '25': 0.99,
-      '100': 2.95,
-      '250': 6.95,
-      '500': 8.95,
-      '1000': 14.95,
-      '5000': 49.95,
-      '10000': 97,
-      '25000': 229
-    };
-    const basePrice = internationalPrices[packageId] || 0;
-    return followerType === 'french' ? (basePrice * 2) : basePrice;
+  const getPackagePriceLocal = (packageId: string) => {
+    return getPackagePrice(packageId, 'followers', followerType as 'french' | 'international');
   };
 
   const getPackageFollowers = (packageId: string) => {
-    return parseInt(packageId) || 0;
+    return getPackageQuantity(packageId, 'followers');
   };
 
   const handlePurchase = () => {
@@ -43,7 +33,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     
     addToCart({
       followers: getPackageFollowers(selectedPackage),
-      price: getPackagePrice(selectedPackage),
+      price: getPackagePriceLocal(selectedPackage),
       followerType: followerType as 'french' | 'international'
     });
     
@@ -449,7 +439,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         onSelectProfile={handleProfileSelect}
         cartData={{
           followers: getPackageFollowers(selectedPackage),
-          price: getPackagePrice(selectedPackage),
+          price: getPackagePriceLocal(selectedPackage),
           followerType: followerType as 'french' | 'international'
         }}
       />

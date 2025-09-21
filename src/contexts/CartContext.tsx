@@ -4,6 +4,8 @@ export interface CartItem {
   id: string;
   followers: number;
   likes?: number;
+  comments?: number;
+  views?: number;
   price: number;
   followerType: 'french' | 'international';
   username?: string;
@@ -16,7 +18,9 @@ export interface CartItem {
   };
   selectedPosts?: Array<{
     postId: string;
-    likesToAdd: number;
+    likesToAdd?: number;
+    commentsToAdd?: number;
+    viewsToAdd?: number;
     mediaUrl?: string;
   }>;
 }
@@ -29,8 +33,11 @@ interface CartContextType {
   getTotalPrice: () => number;
   getTotalFollowers: () => number;
   getTotalLikes: () => number;
+  getTotalComments: () => number;
+  getTotalViews: () => number;
   updateLastItemUsername: (username: string) => void;
-  updateLastItemPosts: (posts: Array<{postId: string; likesToAdd: number; mediaUrl?: string}>) => void;
+  updateLastItemPosts: (posts: Array<{postId: string; likesToAdd?: number; commentsToAdd?: number; viewsToAdd?: number; mediaUrl?: string}>) => void;
+  updateLastItemPrice: (price: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -53,7 +60,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const addToCart = (item: Omit<CartItem, 'id'>) => {
     const newItem: CartItem = {
       ...item,
-      id: `${item.followers}-${item.followerType}-${Date.now()}`
+      id: `${item.followers || item.likes || item.comments || item.views || 0}-${item.followerType}-${Date.now()}`
     };
     setItems(prev => [...prev, newItem]);
   };
@@ -78,6 +85,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return items.reduce((total, item) => total + (item.likes || 0), 0);
   };
 
+  const getTotalComments = () => {
+    return items.reduce((total, item) => total + (item.comments || 0), 0);
+  };
+
+  const getTotalViews = () => {
+    return items.reduce((total, item) => total + (item.views || 0), 0);
+  };
+
   const updateLastItemUsername = (username: string) => {
     setItems(prev => {
       if (prev.length === 0) return prev;
@@ -90,13 +105,25 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     });
   };
 
-  const updateLastItemPosts = (posts: Array<{postId: string; likesToAdd: number; mediaUrl?: string}>) => {
+  const updateLastItemPosts = (posts: Array<{postId: string; likesToAdd?: number; commentsToAdd?: number; viewsToAdd?: number; mediaUrl?: string}>) => {
     setItems(prev => {
       if (prev.length === 0) return prev;
       const updatedItems = [...prev];
       updatedItems[updatedItems.length - 1] = {
         ...updatedItems[updatedItems.length - 1],
         selectedPosts: posts
+      };
+      return updatedItems;
+    });
+  };
+
+  const updateLastItemPrice = (price: number) => {
+    setItems(prev => {
+      if (prev.length === 0) return prev;
+      const updatedItems = [...prev];
+      updatedItems[updatedItems.length - 1] = {
+        ...updatedItems[updatedItems.length - 1],
+        price: price
       };
       return updatedItems;
     });
@@ -111,8 +138,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       getTotalPrice,
       getTotalFollowers,
       getTotalLikes,
+      getTotalComments,
+      getTotalViews,
       updateLastItemUsername,
-      updateLastItemPosts
+      updateLastItemPosts,
+      updateLastItemPrice
     }}>
       {children}
     </CartContext.Provider>

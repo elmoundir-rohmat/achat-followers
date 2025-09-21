@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, Zap, Shield, Clock } from 'lucide-react';
+import { getPackagesForService, PackageConfig } from '../config/packagesConfig';
 
 interface Package {
   id: string;
@@ -16,83 +17,27 @@ interface Props {
   onPackageChange: (packageId: string) => void;
   followerType: string;
   isLikes?: boolean;
+  isComments?: boolean;
+  isViews?: boolean;
 }
 
-export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false }: Props) {
-  const getPrice = (basePrice: number) => {
-    // Pour les likes, les prix sont généralement moins chers
-    const adjustedPrice = isLikes ? basePrice * 0.5 : basePrice;
-    return followerType === 'french' ? Math.round(adjustedPrice * 1.3) : adjustedPrice;
-  };
-
-  const packages: Package[] = [
-    {
-      id: '25',
-      followers: 25,
-      price: followerType === 'french' ? (0.99 * 2) : 0.99,
-      features: ['Livraison rapide', 'Profils réels', 'Garantie 30j'],
-      delivery: '6-12h',
-      icon: <Zap className="w-5 h-5" />
-    },
-    {
-      id: '100',
-      followers: 100,
-      price: followerType === 'french' ? (2.95 * 2) : 2.95,
-      features: ['Livraison progressive', 'Profils actifs', 'Garantie 30j'],
-      delivery: '12-24h',
-      icon: <Shield className="w-5 h-5" />
-    },
-    {
-      id: '250',
-      followers: 250,
-      price: followerType === 'french' ? (6.95 * 2) : 6.95,
-      features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j'],
-      delivery: '24-48h',
-      icon: <Check className="w-5 h-5" />
-    },
-    {
-      id: '500',
-      followers: 500,
-      price: followerType === 'french' ? (8.95 * 2) : 8.95,
-      popular: true,
-      features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
-      delivery: '24-48h',
-      icon: <Check className="w-5 h-5" />
-    },
-    {
-      id: '1000',
-      followers: 1000,
-      price: followerType === 'french' ? (14.95 * 2) : 14.95,
-      popular: true,
-      features: ['Livraison progressive', 'Profils premium', 'Garantie 30j', 'Remplacement gratuit'],
-      delivery: '24-72h',
-      icon: <Shield className="w-5 h-5" />
-    },
-    {
-      id: '5000',
-      followers: 5000,
-      price: followerType === 'french' ? (49.95 * 2) : 49.95,
-      features: ['Livraison naturelle', 'Profils vérifiés', 'Garantie 30j', 'Bonus engagement'],
-      delivery: '5-7 jours',
-      icon: <Check className="w-5 h-5" />
-    },
-    {
-      id: '10000',
-      followers: 10000,
-      price: followerType === 'french' ? Math.round(97 * 2) : 97,
-      features: ['Livraison premium', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'],
-      delivery: '7-10 jours',
-      icon: <Shield className="w-5 h-5" />
-    },
-    {
-      id: '25000',
-      followers: 25000,
-      price: followerType === 'french' ? Math.round(229 * 2) : 229,
-      features: ['Livraison VIP', 'Profils haut de gamme', 'Garantie 30j', 'Service personnalisé'],
-      delivery: '10-15 jours',
-      icon: <Zap className="w-5 h-5" />
-    }
-  ];
+export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false, isComments = false, isViews = false }: Props) {
+  // Déterminer le type de service
+  const serviceType: 'followers' | 'likes' | 'comments' | 'views' = isViews ? 'views' : isComments ? 'comments' : isLikes ? 'likes' : 'followers';
+  
+  // Obtenir les packages depuis la configuration centralisée
+  const packagesConfig = getPackagesForService(serviceType);
+  
+  // Convertir les packages de configuration en packages d'interface
+  const packages: Package[] = packagesConfig.map(pkg => ({
+    id: pkg.id,
+    followers: pkg.quantity,
+    price: followerType === 'french' ? pkg.priceFrench : pkg.priceInternational,
+    popular: pkg.popular,
+    features: pkg.features,
+    delivery: pkg.delivery,
+    icon: <Shield className="w-5 h-5" /> // Icône par défaut, peut être personnalisée
+  }));
 
   return (
     <div className="mb-8">
@@ -127,7 +72,7 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
                 {pkg.followers.toLocaleString()}
               </div>
               <div className="text-xs opacity-75 text-black">
-                {isLikes ? 'Likes' : 'Followers'}
+                {isViews ? 'Vues' : isLikes ? 'Likes' : isComments ? 'Commentaires' : 'Followers'}
               </div>
               <div className={`text-sm font-bold mt-1 ${
                 selectedPackage === pkg.id ? 'text-white' : 'text-blue-600'

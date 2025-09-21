@@ -7,6 +7,13 @@ export interface CartItem {
   price: number;
   followerType: 'french' | 'international';
   username?: string;
+  platform?: string;
+  deliveryOption?: {
+    runs: number;
+    interval: number;
+    totalTime: string;
+    additionalCost: number;
+  };
   selectedPosts?: Array<{
     postId: string;
     likesToAdd: number;

@@ -4,11 +4,14 @@ import { getSMMAServiceId, getServiceDescription } from '../config/smmaMapping';
 export interface SMMAOrder {
   username: string;
   followers: number;
-  followerType: 'french' | 'international';
+  followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'tiktok_french' | 'tiktok_international';
   orderId: string;
   paymentId: string;
   postId?: string; // Pour les likes sur des posts spécifiques
   likesToAdd?: number; // Nombre de likes à ajouter à ce post
+  runs?: number; // Pour TikTok drip feed
+  interval?: number; // Pour TikTok drip feed
+  platform?: 'instagram' | 'tiktok'; // Pour identifier la plateforme
 }
 
 export interface SMMAResponse {
@@ -154,6 +157,76 @@ class SMMAService {
       return {
         success: false,
         error: 'Erreur de connexion avec la plateforme SMMA (likes)'
+      };
+    }
+  }
+
+  /**
+   * Commander des followers TikTok via SMMA
+   */
+  async orderTikTokFollowers(order: SMMAOrder): Promise<SMMAResponse> {
+    try {
+      console.log('🚀 Envoi de la commande SMMA TikTok:', order);
+      
+      const serviceId = getSMMAServiceId(order.followerType);
+      if (!serviceId) {
+        return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
+      }
+      
+      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} followers TikTok ${order.followerType}`);
+
+      const params: Record<string, string> = {
+        key: this.apiKey,
+        action: 'add',
+        service: serviceId.toString(),
+        link: order.username, // URL TikTok complète
+        quantity: order.followers.toString() // Quantité totale
+      };
+
+      // Ajouter les paramètres de drip feed si disponibles
+      if (order.runs && order.runs > 1) {
+        params.runs = order.runs.toString();
+        if (order.interval) {
+          params.interval = order.interval.toString();
+        }
+      }
+
+      console.log('📤 Paramètres SMMA TikTok:', params);
+
+      const response = await fetch(this.baseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(params)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('📊 Réponse SMMA TikTok:', data);
+
+      if (data.error) {
+        return {
+          success: false,
+          error: data.error
+        };
+      }
+
+      return {
+        success: true,
+        message: `Commande TikTok créée avec succès (ID: ${data.order})`,
+        smmaOrderId: data.order,
+        data: data
+      };
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'appel SMMA (TikTok):', error);
+      return {
+        success: false,
+        error: 'Erreur de connexion avec la plateforme SMMA (TikTok)'
       };
     }
   }

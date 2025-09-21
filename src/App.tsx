@@ -6,11 +6,17 @@ import GuaranteeSection from './components/GuaranteeSection';
 import InstagramSearchModal from './components/InstagramSearchModal';
 import CheckoutPage from './components/CheckoutPage';
 import LikesMainPage from './components/LikesMainPage';
-import NavigationMenu from './components/NavigationMenu';
+import HomePage from './components/HomePage';
+import ModernNavigation from './components/ModernNavigation';
+import InstagramFollowersPage from './components/InstagramFollowersPage';
+import InstagramLikesPage from './components/InstagramLikesPage';
 import { CartProvider, useCart } from './contexts/CartContext';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'followers' | 'likes'>('followers');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'followers' | 'likes'>('home');
+  
+  // Debug: log current page
+  console.log('Current page:', currentPage);
   const [followerType, setFollowerType] = useState('french');
   const [selectedPackage, setSelectedPackage] = useState('');
   const [selectedProfile, setSelectedProfile] = useState('');
@@ -83,32 +89,59 @@ function AppContent() {
 
   if (currentStep === 'checkout') {
     return (
-      <CheckoutPage 
-        onBack={handleBackToSelection}
-        onComplete={handleCheckoutComplete}
-      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <CheckoutPage 
+          onBack={handleBackToSelection}
+          onComplete={handleCheckoutComplete}
+        />
+      </div>
+    );
+  }
+
+  // Si on est sur la page d'accueil, afficher HomePage
+  if (currentPage === 'home') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <HomePage onNavigate={(page) => setCurrentPage(page as any)} />
+      </div>
+    );
+  }
+
+  // Page Instagram Followers
+  if (currentPage === 'instagram-followers') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <InstagramFollowersPage onBack={() => setCurrentPage('home')} />
+      </div>
+    );
+  }
+
+  // Page Instagram Likes
+  if (currentPage === 'instagram-likes') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <InstagramLikesPage onBack={() => setCurrentPage('home')} />
+      </div>
     );
   }
 
   // Si on est sur la page likes, afficher LikesMainPage
   if (currentPage === 'likes') {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <NavigationMenu 
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-        />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <LikesMainPage onBack={() => setCurrentPage('followers')} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavigationMenu 
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
 
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white py-16">
@@ -201,11 +234,11 @@ function AppContent() {
       <footer className="bg-gray-900 text-white py-12 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex justify-center items-center mb-4">
-            <Instagram className="w-8 h-8 text-pink-500 mr-3" />
-            <span className="text-2xl font-bold">FollowBoost</span>
+            <Instagram className="w-8 h-8 text-blue-500 mr-3" />
+            <span className="text-2xl font-bold">Doctor Followers</span>
           </div>
           <p className="text-gray-400 mb-6">
-            La plateforme de confiance pour booster votre présence sur Instagram
+            La plateforme professionnelle pour booster votre présence sur Instagram
           </p>
           <div className="flex justify-center space-x-8 text-sm text-gray-400">
             <span>✓ Service client 24/7</span>

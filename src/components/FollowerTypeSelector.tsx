@@ -44,7 +44,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange }: Pro
 
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-semibold text-gray-700 mb-3 text-center">
+      <h2 className="text-lg font-semibold text-black mb-3 text-center">
         Type de followers
       </h2>
       <div className="flex gap-3 justify-center max-w-md mx-auto">
@@ -64,7 +64,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange }: Pro
               }`}>
                 {type.icon}
               </div>
-              <span className="text-sm font-medium">
+              <span className="text-sm font-medium text-black">
                 {type.id === 'french' ? 'Français' : 'Internationaux'}
               </span>
             </div>

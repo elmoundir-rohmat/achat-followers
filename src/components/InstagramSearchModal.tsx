@@ -367,7 +367,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   onFocus={() => searchTerm.length >= 3 && searchResults.length > 0 && setShowSuggestions(true)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                 />
               </div>
               <button

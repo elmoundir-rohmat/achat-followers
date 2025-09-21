@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, CreditCard, User, Mail, MapPin, Phone } from 'lucide-react';
+import { ShoppingCart, CreditCard, User, Mail, MapPin, Phone, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
 import MockPayment from './MockPayment';
 import SMMATest from './SMMATest';
+import ConfirmDialog from './ConfirmDialog';
+import Toast, { ToastProps } from './Toast';
 import { smmaService, SMMAOrder } from '../services/smmaService';
 
 interface CheckoutPageProps {
@@ -21,7 +23,7 @@ interface CustomerData {
 }
 
 export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
-  const { items, getTotalPrice, getTotalFollowers, clearCart } = useCart();
+  const { items, getTotalPrice, getTotalFollowers, clearCart, removeFromCart } = useCart();
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -37,6 +39,18 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
   const [smmaResult, setSmmaResult] = useState<any>(null);
   const [showSMMATest, setShowSMMATest] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    itemId?: string;
+    action?: 'remove' | 'clear';
+  }>({ isOpen: false });
+  const [toast, setToast] = useState<ToastProps>({
+    type: 'error',
+    title: '',
+    message: '',
+    onClose: () => setToast(prev => ({ ...prev, isVisible: false })),
+    isVisible: false
+  });
 
   const validateForm = () => {
     const newErrors: Partial<CustomerData> = {};
@@ -112,7 +126,16 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
   const handlePaymentError = (error: any) => {
     console.error('❌ Erreur de paiement:', error);
     setShowPayment(false);
-    // Vous pouvez ajouter une notification d'erreur ici
+    
+    // Afficher la notification d'erreur
+    setToast({
+      type: 'error',
+      title: 'Paiement échoué',
+      message: 'Le paiement a échoué. Merci de réessayer.',
+      onClose: () => setToast(prev => ({ ...prev, isVisible: false })),
+      isVisible: true,
+      duration: 6000
+    });
   };
 
   const handlePaymentCancel = () => {
@@ -126,28 +149,36 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
     }
   };
 
+  const handleRemoveItem = (itemId: string) => {
+    setConfirmDialog({
+      isOpen: true,
+      itemId,
+      action: 'remove'
+    });
+  };
+
+  const handleClearCart = () => {
+    setConfirmDialog({
+      isOpen: true,
+      action: 'clear'
+    });
+  };
+
+  const handleConfirmAction = () => {
+    if (confirmDialog.action === 'remove' && confirmDialog.itemId) {
+      removeFromCart(confirmDialog.itemId);
+    } else if (confirmDialog.action === 'clear') {
+      clearCart();
+    }
+    setConfirmDialog({ isOpen: false });
+  };
+
+  const handleCancelAction = () => {
+    setConfirmDialog({ isOpen: false });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button
-              onClick={onBack}
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Retour
-            </button>
-            <div className="flex items-center">
-              <ShoppingCart className="w-8 h-8 text-pink-500 mr-3" />
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                FollowBoost
-              </h1>
-            </div>
-          </div>
-        </div>
-      </header>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {showSMMATest ? (
@@ -347,10 +378,15 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
               <div className="space-y-3">
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center"
+                  disabled={items.length === 0}
+                  className={`w-full font-bold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg text-lg flex items-center justify-center ${
+                    items.length === 0
+                      ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transform hover:scale-105 hover:shadow-xl'
+                  }`}
                 >
                   <CreditCard className="w-6 h-6 mr-3" />
-                  Finaliser la commande - {getTotalPrice().toFixed(2)}€
+                  {items.length === 0 ? 'Panier vide' : `Finaliser la commande - ${getTotalPrice().toFixed(2)}€`}
                 </button>
                 
                 {/* Bouton de test SMMA en mode développement */}
@@ -369,28 +405,57 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
 
           {/* Résumé de la commande */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Résumé de votre commande
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Résumé de votre commande
+              </h2>
+              {items.length > 0 && (
+                <button
+                  onClick={handleClearCart}
+                  className="text-sm text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors"
+                  title="Vider tout le panier"
+                >
+                  Vider le panier
+                </button>
+              )}
+            </div>
             
             <div className="space-y-4 mb-6">
-              {items.map((item) => (
-                <div key={item.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <div className="font-semibold text-gray-900">
-                      {item.followers.toLocaleString()} followers {item.followerType === 'french' ? 'français' : 'internationaux'}
-                    </div>
-                    {item.username && (
-                      <div className="text-sm text-gray-600">
-                        @{item.username}
-                      </div>
-                    )}
-                  </div>
-                  <div className="font-bold text-blue-600">
-                    {item.price.toFixed(2)}€
-                  </div>
+              {items.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <ShoppingCart className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p className="text-lg font-medium">Votre panier est vide</p>
+                  <p className="text-sm">Retournez à la page précédente pour ajouter des articles</p>
                 </div>
-              ))}
+              ) : (
+                items.map((item) => (
+                  <div key={item.id} className="relative p-4 bg-gray-50 rounded-lg">
+                    <button
+                      onClick={() => handleRemoveItem(item.id)}
+                      className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                      title="Supprimer cet article"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="flex justify-between items-center pr-8">
+                      <div>
+                        <div className="font-semibold text-gray-900">
+                          {item.followers.toLocaleString()} followers {item.followerType === 'french' ? 'français' : 'internationaux'}
+                        </div>
+                        {item.username && (
+                          <div className="text-sm text-gray-600">
+                            @{item.username}
+                          </div>
+                        )}
+                      </div>
+                      <div className="font-bold text-blue-600">
+                        {item.price.toFixed(2)}€
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
 
             <div className="border-t pt-4">
@@ -422,6 +487,25 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         </div>
         )}
       </div>
+
+      {/* Dialog de confirmation */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={handleCancelAction}
+        onConfirm={handleConfirmAction}
+        title={confirmDialog.action === 'remove' ? 'Supprimer l\'article' : 'Vider le panier'}
+        message={
+          confirmDialog.action === 'remove' 
+            ? 'Êtes-vous sûr de vouloir supprimer cet article de votre panier ?' 
+            : 'Êtes-vous sûr de vouloir vider tout votre panier ? Cette action est irréversible.'
+        }
+        confirmText="Supprimer"
+        cancelText="Annuler"
+        type="danger"
+      />
+
+      {/* Toast de notification */}
+      <Toast {...toast} />
     </div>
   );
 }

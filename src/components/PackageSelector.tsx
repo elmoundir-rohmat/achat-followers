@@ -96,7 +96,7 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
 
   return (
     <div className="mb-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+      <h2 className="text-2xl font-bold text-black mb-6 text-center">
         Sélectionnez votre pack
       </h2>
       
@@ -123,10 +123,10 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
             
             {/* Contenu compact */}
             <div className="text-center">
-              <div className="text-sm font-bold mb-1">
+              <div className="text-sm font-bold mb-1 text-black">
                 {pkg.followers.toLocaleString()}
               </div>
-              <div className="text-xs opacity-75">
+              <div className="text-xs opacity-75 text-black">
                 {isLikes ? 'Likes' : 'Followers'}
               </div>
               <div className={`text-sm font-bold mt-1 ${

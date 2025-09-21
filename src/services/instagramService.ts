@@ -64,6 +64,19 @@ class InstagramService {
       // Étape 2: Récupérer les posts avec l'ID utilisateur
       console.log('🔍 Étape 2: Récupération des posts avec l\'ID...');
       
+      const requestBody = {
+        id: userId, // Utiliser l'ID récupéré
+        count: 12,
+        ...(cursor && { max_id: cursor }) // Ajouter le cursor pour la pagination
+      };
+      
+      console.log('📤 Requête StarAPI get_media:', {
+        url: `${this.baseUrl}/instagram/user/get_media`,
+        body: requestBody,
+        hasCursor: !!cursor,
+        cursor: cursor
+      });
+
       const response = await fetch(`${this.baseUrl}/instagram/user/get_media`, {
         method: 'POST',
         headers: {
@@ -71,10 +84,7 @@ class InstagramService {
           'x-rapidapi-host': 'starapi1.p.rapidapi.com',
           'x-rapidapi-key': this.apiKey
         },
-        body: JSON.stringify({
-          id: userId, // Utiliser l'ID récupéré
-          count: 12
-        })
+        body: JSON.stringify(requestBody)
       });
 
       console.log('📡 Réponse StarAPI get_media:', response.status, response.statusText);
@@ -122,10 +132,19 @@ class InstagramService {
             };
           });
           
+          // Log pour debug de la pagination
+          console.log('🔍 Structure de la réponse pour pagination:', {
+            hasNextMaxId: !!data.response.body.next_max_id,
+            nextMaxId: data.response.body.next_max_id,
+            hasMoreData: !!data.response.body.more_available,
+            moreAvailable: data.response.body.more_available,
+            totalCount: data.response.body.num_results
+          });
+          
           return {
             success: true,
             data: transformedPosts,
-            next_cursor: data.response.body.next_max_id || null
+            next_cursor: data.response.body.next_max_id || (data.response.body.more_available ? 'has_more' : null)
           };
         } else {
           console.log('❌ Structure de réponse StarAPI inattendue:', data);
@@ -148,7 +167,7 @@ class InstagramService {
       console.error('❌ Erreur lors de la récupération des posts Instagram:', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec StarAPI: ' + error.message
+        error: 'Erreur de connexion avec StarAPI: ' + (error instanceof Error ? error.message : 'Erreur inconnue')
       };
     }
   }

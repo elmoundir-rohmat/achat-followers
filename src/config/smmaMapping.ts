@@ -19,17 +19,16 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
     smmaServiceId: 4343, // Service Instagram likes internationaux (JustAnotherPanel)
     description: 'Instagram likes internationaux'
   },
-  // TODO: Ajouter les services français quand vous aurez les IDs
-  // {
-  //   followerType: 'french',
-  //   smmaServiceId: XXX, // Service Instagram followers français
-  //   description: 'Instagram followers français'
-  // },
-  // {
-  //   followerType: 'likes_french',
-  //   smmaServiceId: XXX, // Service Instagram likes français
-  //   description: 'Instagram likes français'
-  // }
+  {
+    followerType: 'french',
+    smmaServiceId: 720, // Service Instagram followers français
+    description: 'Instagram followers français'
+  },
+  {
+    followerType: 'likes_french',
+    smmaServiceId: 4343, // Service Instagram likes français (même que les internationaux)
+    description: 'Instagram likes français'
+  }
 ];
 
 /**

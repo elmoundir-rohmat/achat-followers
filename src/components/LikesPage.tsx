@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, CreditCard, User, Mail, MapPin, Phone, Heart, X } from 'lucide-react';
+import { ShoppingCart, CreditCard, User, Mail, MapPin, Phone, Heart, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
 import MockPayment from './MockPayment';
 import SMMATest from './SMMATest';
+import ConfirmDialog from './ConfirmDialog';
+import Toast, { ToastProps } from './Toast';
 import { smmaService, SMMAOrder } from '../services/smmaService';
 
 interface LikesPageProps {
@@ -37,6 +39,18 @@ export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
   const [smmaResult, setSmmaResult] = useState<any>(null);
   const [showSMMATest, setShowSMMATest] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    itemId?: string;
+    action?: 'remove' | 'clear';
+  }>({ isOpen: false });
+  const [toast, setToast] = useState<ToastProps>({
+    type: 'error',
+    title: '',
+    message: '',
+    onClose: () => setToast(prev => ({ ...prev, isVisible: false })),
+    isVisible: false
+  });
 
   const validateForm = () => {
     const newErrors: Partial<CustomerData> = {};
@@ -132,6 +146,16 @@ export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
   const handlePaymentError = (error: any) => {
     console.error('❌ Erreur de paiement:', error);
     setShowPayment(false);
+    
+    // Afficher la notification d'erreur
+    setToast({
+      type: 'error',
+      title: 'Paiement échoué',
+      message: 'Le paiement a échoué. Merci de réessayer.',
+      onClose: () => setToast(prev => ({ ...prev, isVisible: false })),
+      isVisible: true,
+      duration: 6000
+    });
   };
 
   const handlePaymentCancel = () => {
@@ -145,28 +169,36 @@ export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
     }
   };
 
+  const handleRemoveItem = (itemId: string) => {
+    setConfirmDialog({
+      isOpen: true,
+      itemId,
+      action: 'remove'
+    });
+  };
+
+  const handleClearCart = () => {
+    setConfirmDialog({
+      isOpen: true,
+      action: 'clear'
+    });
+  };
+
+  const handleConfirmAction = () => {
+    if (confirmDialog.action === 'remove' && confirmDialog.itemId) {
+      removeFromCart(confirmDialog.itemId);
+    } else if (confirmDialog.action === 'clear') {
+      clearCart();
+    }
+    setConfirmDialog({ isOpen: false });
+  };
+
+  const handleCancelAction = () => {
+    setConfirmDialog({ isOpen: false });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button
-              onClick={onBack}
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Retour
-            </button>
-            <div className="flex items-center">
-              <Heart className="w-8 h-8 text-pink-500 mr-3" />
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">
-                LikesBoost
-              </h1>
-            </div>
-          </div>
-        </div>
-      </header>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {showSMMATest ? (
@@ -399,7 +431,7 @@ export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
               </h2>
               {items.length > 0 && (
                 <button
-                  onClick={clearCart}
+                  onClick={handleClearCart}
                   className="text-sm text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors"
                   title="Vider tout le panier"
                 >
@@ -419,7 +451,7 @@ export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
                 items.map((item) => (
                 <div key={item.id} className="p-4 bg-gray-50 rounded-lg relative">
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => handleRemoveItem(item.id)}
                     className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
                     title="Supprimer cet article"
                   >
@@ -507,6 +539,25 @@ export default function LikesPage({ onBack, onComplete }: LikesPageProps) {
         </div>
         )}
       </div>
+
+      {/* Dialog de confirmation */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={handleCancelAction}
+        onConfirm={handleConfirmAction}
+        title={confirmDialog.action === 'remove' ? 'Supprimer l\'article' : 'Vider le panier'}
+        message={
+          confirmDialog.action === 'remove' 
+            ? 'Êtes-vous sûr de vouloir supprimer cet article de votre panier ?' 
+            : 'Êtes-vous sûr de vouloir vider tout votre panier ? Cette action est irréversible.'
+        }
+        confirmText="Supprimer"
+        cancelText="Annuler"
+        type="danger"
+      />
+
+      {/* Toast de notification */}
+      <Toast {...toast} />
     </div>
   );
 }

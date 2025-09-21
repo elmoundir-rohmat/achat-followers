@@ -81,8 +81,11 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
   };
 
   const handleLoadMore = () => {
-    if (nextCursor && !loadingMore) {
-      loadPosts(nextCursor);
+    if (!loadingMore) {
+      // Essayer de charger plus de posts même sans cursor
+      // Utiliser l'ID du dernier post comme cursor alternatif
+      const lastPostId = posts.length > 0 ? posts[posts.length - 1].id : null;
+      loadPosts(nextCursor || lastPostId || 'load_more');
     }
   };
 
@@ -142,13 +145,13 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
 
       {/* Grille des posts */}
       <div className="grid grid-cols-4 gap-3">
-        {posts.map((post) => {
+        {posts.map((post, index) => {
           const isSelected = selectedPosts.some(p => p.id === post.id);
           const likesPerPost = selectedPosts.length > 0 ? Math.floor(totalLikes / selectedPosts.length) : 0;
           
           return (
             <div
-              key={post.id}
+              key={`${post.id}_${index}`}
               className={`relative aspect-square rounded-lg overflow-hidden cursor-pointer transition-all duration-200 ${
                 isSelected 
                   ? 'ring-4 ring-pink-500 shadow-lg scale-105' 
@@ -219,7 +222,7 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
       </div>
 
       {/* Bouton "Voir plus" */}
-      {hasMore && (
+      {(hasMore || (posts.length >= 12 && !nextCursor)) && (
         <div className="text-center">
           <button
             onClick={handleLoadMore}

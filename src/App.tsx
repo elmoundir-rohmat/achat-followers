@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Instagram, ShoppingCart, Zap } from 'lucide-react';
 import FollowerTypeSelector from './components/FollowerTypeSelector';
 import PackageSelector from './components/PackageSelector';
@@ -15,11 +15,38 @@ import InstagramViewsPage from './components/InstagramViewsPage';
 import TikTokFollowersPage from './components/TikTokFollowersPage';
 import TikTokLikesPage from './components/TikTokLikesPage';
 import LegalPage from './components/LegalPage';
+import BlogPage from './components/BlogPage';
+import BlogArticle from './components/BlogArticle';
 import Footer from './components/Footer';
 import { CartProvider, useCart } from './contexts/CartContext';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'followers' | 'likes' | 'legal'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
+  const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
+  
+  // Gestion du routage basé sur l'URL
+  useEffect(() => {
+    const handleRoute = () => {
+      const path = window.location.pathname;
+      
+      if (path === '/blog') {
+        setCurrentPage('blog');
+      } else if (path.startsWith('/blog/')) {
+        const slug = path.replace('/blog/', '');
+        setCurrentArticleSlug(slug);
+        setCurrentPage('blog-article');
+      } else if (path === '/') {
+        setCurrentPage('home');
+      }
+      // Ajoutez d'autres routes selon vos besoins
+    };
+
+    // Écouter les changements d'URL
+    window.addEventListener('popstate', handleRoute);
+    handleRoute(); // Vérifier l'URL initiale
+
+    return () => window.removeEventListener('popstate', handleRoute);
+  }, []);
   
   // Debug: log current page
   console.log('Current page:', currentPage);
@@ -188,6 +215,54 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <LegalPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+      </div>
+    );
+  }
+
+  // Page Blog
+  if (currentPage === 'blog') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => {
+          if (page === 'blog') {
+            window.history.pushState({}, '', '/blog');
+          } else {
+            setCurrentPage(page as any);
+          }
+        }} />
+        <BlogPage 
+          onNavigate={(page) => setCurrentPage(page as any)}
+          onViewArticle={(slug) => {
+            window.history.pushState({}, '', `/blog/${slug}`);
+            setCurrentArticleSlug(slug);
+            setCurrentPage('blog-article');
+          }}
+        />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+      </div>
+    );
+  }
+
+  // Page Article de Blog
+  if (currentPage === 'blog-article') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => {
+          if (page === 'blog') {
+            window.history.pushState({}, '', '/blog');
+            setCurrentPage('blog');
+          } else {
+            setCurrentPage(page as any);
+          }
+        }} />
+        <BlogArticle 
+          slug={currentArticleSlug}
+          onBack={() => {
+            window.history.pushState({}, '', '/blog');
+            setCurrentPage('blog');
+          }}
+        />
         <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );

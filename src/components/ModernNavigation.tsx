@@ -120,15 +120,24 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
             </div>
 
             {/* Other Menu Items */}
-            <a href="/outils" className="text-white hover:text-blue-300 transition-colors font-medium">
+            <button
+              onClick={() => onNavigate?.('outils')}
+              className="text-white hover:text-blue-300 transition-colors font-medium"
+            >
               Outils
-            </a>
-            <a href="/blog" className="text-white hover:text-blue-300 transition-colors font-medium">
+            </button>
+            <a
+              href="/blog"
+              className="text-white hover:text-blue-300 transition-colors font-medium"
+            >
               Blog
             </a>
-            <a href="/contact" className="text-white hover:text-blue-300 transition-colors font-medium">
+            <button
+              onClick={() => onNavigate?.('contact')}
+              className="text-white hover:text-blue-300 transition-colors font-medium"
+            >
               Contact
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -175,15 +184,31 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
 
               {/* Other Mobile Links */}
               <div className="space-y-2">
-                <a href="/outils" className="block text-white hover:text-blue-300 transition-colors">
+                <button
+                  onClick={() => {
+                    onNavigate?.('outils');
+                    setIsMenuOpen(false);
+                  }}
+                  className="block text-white hover:text-blue-300 transition-colors w-full text-left"
+                >
                   Outils
-                </a>
-                <a href="/blog" className="block text-white hover:text-blue-300 transition-colors">
+                </button>
+                <a
+                  href="/blog"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-white hover:text-blue-300 transition-colors w-full text-left"
+                >
                   Blog
                 </a>
-                <a href="/contact" className="block text-white hover:text-blue-300 transition-colors">
+                <button
+                  onClick={() => {
+                    onNavigate?.('contact');
+                    setIsMenuOpen(false);
+                  }}
+                  className="block text-white hover:text-blue-300 transition-colors w-full text-left"
+                >
                   Contact
-                </a>
+                </button>
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ export default function LegalPage({ onBack }: LegalPageProps) {
             <FileText className="w-8 h-8 text-blue-600 mr-3" />
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Informations Légales</h1>
-              <p className="text-gray-600">Conformité Cardinity</p>
+              <p className="text-gray-600">Conformité PSP Cardinity</p>
             </div>
           </div>
         </div>
@@ -41,13 +41,11 @@ export default function LegalPage({ onBack }: LegalPageProps) {
                     <p><strong>Raison sociale :</strong> ThinkWell</p>
                     <p><strong>Adresse :</strong> 1 rue Teddy Riner, 92600 Asnières-sur-Seine, France</p>
                     <p><strong>SIRET :</strong> 947 844 965</p>
-                    <p><strong>RCS :</strong> Paris B 947 844 965</p>
                   </div>
-                  <div>
-                    <p><strong>Capital social :</strong> 10 000 €</p>
-                    <p><strong>Forme juridique :</strong> SARL</p>
-                    <p><strong>TVA intracommunautaire :</strong> FR12 123456789</p>
-                    <p><strong>Directeur de publication :</strong> M. Jean Dupont</p>
+                  <div> 
+                    <p><strong>Forme juridique :</strong> Entrepreneur individuel</p>
+                    <p><strong>TVA intracommunautaire :</strong> FR83947844965</p>
+                    <p><strong>Directeur de publication :</strong> M. El Moundir Rohmat</p>
                   </div>
                 </div>
               </div>
@@ -137,7 +135,7 @@ export default function LegalPage({ onBack }: LegalPageProps) {
                   <p>• <strong>Remboursement sur demande :</strong> Commande effectuée par erreur (dans les 2h)</p>
                   <p>• <strong>Garantie de remplacement :</strong> Perte de plus de 20% des followers/likes dans les 7 premiers jours</p>
                   <p>• <strong>Délai de traitement :</strong> 2-5 jours ouvrés</p>
-                  <p>• <strong>Contact :</strong> refunds@doctorfollowers.com</p>
+                  <p>• <strong>Contact :</strong> support@doctorfollowers.com</p>
                 </div>
               </div>
             </section>

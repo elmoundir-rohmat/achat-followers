@@ -11,7 +11,7 @@ export default function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="flex justify-center items-center mb-4">
           <Instagram className="w-8 h-8 text-blue-500 mr-3" />
-          <span className="text-2xl font-bold">ThinkWell</span>
+          <span className="text-2xl font-bold">Doctor Followers</span>
         </div>
         <p className="text-gray-400 mb-6">
           La plateforme professionnelle pour booster votre présence sur Instagram
@@ -54,7 +54,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             </button>
           </div>
           <div className="text-xs text-gray-600">
-            <p>© 2024 ThinkWell - SIRET: 947 844 965 - RCS: Paris B 947 844 965</p>
+            <p> Doctor Followers by ThinkWell © 2025 - SIRET: 947 844 965</p>
             <p className="mt-1">Adresse: 1 rue Teddy Riner, 92600 Asnières-sur-Seine, France</p>
             <p className="mt-1">Contact: support@doctorfollowers.com - +33 6 19 47 05 19</p>
           </div>

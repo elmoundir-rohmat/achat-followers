@@ -260,19 +260,7 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
                 </div>
               )}
 
-              {/* Informations du post */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
-                <div className="flex items-center justify-between text-white text-xs">
-                  <div className="flex items-center space-x-2">
-                    <Heart className="w-3 h-3" />
-                    <span>{post.like_count?.toLocaleString() || '0'}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MessageCircle className="w-3 h-3" />
-                    <span>{post.comment_count?.toLocaleString() || '0'}</span>
-                  </div>
-                </div>
-              </div>
+              {/* Informations du post - Supprimé pour optimiser les performances */}
 
               {/* Badge pour les likes/vues/commentaires à ajouter */}
               {isSelected && (

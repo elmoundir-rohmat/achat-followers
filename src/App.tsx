@@ -13,10 +13,11 @@ import InstagramLikesPage from './components/InstagramLikesPage';
 import InstagramCommentsPage from './components/InstagramCommentsPage';
 import InstagramViewsPage from './components/InstagramViewsPage';
 import TikTokFollowersPage from './components/TikTokFollowersPage';
+import TikTokLikesPage from './components/TikTokLikesPage';
 import { CartProvider, useCart } from './contexts/CartContext';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'followers' | 'likes'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'followers' | 'likes'>('home');
   
   // Debug: log current page
   console.log('Current page:', currentPage);
@@ -158,6 +159,16 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <TikTokFollowersPage onBack={() => setCurrentPage('home')} />
+      </div>
+    );
+  }
+
+  // Page TikTok Likes
+  if (currentPage === 'tiktok-likes') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <TikTokLikesPage onBack={() => setCurrentPage('home')} />
       </div>
     );
   }

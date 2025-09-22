@@ -361,6 +361,76 @@ class SMMAService {
   }
 
   /**
+   * Commande des likes TikTok sur la plateforme SMMA
+   */
+  async orderTikTokLikes(order: SMMAOrder): Promise<SMMAResponse> {
+    try {
+      console.log('🚀 Envoi de la commande SMMA TikTok Likes:', order);
+      
+      const serviceId = getSMMAServiceId(order.followerType);
+      if (!serviceId) {
+        return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
+      }
+      
+      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} likes TikTok ${order.followerType}`);
+
+      const params: Record<string, string> = {
+        key: this.apiKey,
+        action: 'add',
+        service: serviceId.toString(),
+        link: order.username, // URL TikTok complète
+        quantity: order.followers.toString() // Quantité totale
+      };
+
+      // Ajouter les paramètres de drip feed si disponibles
+      if (order.runs && order.runs > 1) {
+        params.runs = order.runs.toString();
+        if (order.interval) {
+          params.interval = order.interval.toString();
+        }
+      }
+
+      console.log('📤 Paramètres SMMA TikTok Likes:', params);
+
+      const response = await fetch(this.baseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(params)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('📊 Réponse SMMA TikTok Likes:', data);
+
+      if (data.error) {
+        return {
+          success: false,
+          error: data.error
+        };
+      }
+
+      return {
+        success: true,
+        order_id: order.orderId,
+        smma_order_id: data.order.toString(),
+        message: `Commande TikTok Likes créée avec succès (ID: ${data.order})`
+      };
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'appel SMMA (TikTok Likes):', error);
+      return {
+        success: false,
+        error: 'Erreur de connexion avec la plateforme SMMA (TikTok Likes)'
+      };
+    }
+  }
+
+  /**
    * Vérifier le statut d'une commande SMMA
    */
   async checkOrderStatus(smmaOrderId: string): Promise<any> {

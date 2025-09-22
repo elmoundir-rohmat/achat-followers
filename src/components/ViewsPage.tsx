@@ -39,6 +39,7 @@ export default function ViewsPage({ onBack, onComplete }: ViewsPageProps) {
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
   const [smmaResult, setSmmaResult] = useState<any>(null);
   const [showSMMATest, setShowSMMATest] = useState(false);
+  const [paymentProcessed, setPaymentProcessed] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{
     isOpen: boolean;
     itemId?: string;
@@ -79,6 +80,13 @@ export default function ViewsPage({ onBack, onComplete }: ViewsPageProps) {
   const handlePaymentSuccess = async (result: any) => {
     console.log('✅ Paiement réussi:', result);
     
+    // Protection contre les appels multiples
+    if (paymentProcessed) {
+      console.log('⚠️ Paiement déjà traité, ignoré');
+      return;
+    }
+    
+    setPaymentProcessed(true);
     setIsProcessingSMMA(true);
     
     try {
@@ -112,10 +120,14 @@ export default function ViewsPage({ onBack, onComplete }: ViewsPageProps) {
       });
 
       console.log('📦 Commandes SMMA à traiter (vues):', smmaOrders);
+      console.log('🚨 ATTENTION: Envoi des commandes SMMA maintenant!');
 
       // Traiter chaque commande SMMA
       const smmaResults = await Promise.all(
-        smmaOrders.map(order => smmaService.orderViews(order))
+        smmaOrders.map(order => {
+          console.log('🚀 Envoi commande SMMA pour:', order.username, order.viewsToAdd, 'vues');
+          return smmaService.orderViews(order);
+        })
       );
 
       console.log('📊 Résultats SMMA (vues):', smmaResults);
@@ -146,6 +158,7 @@ export default function ViewsPage({ onBack, onComplete }: ViewsPageProps) {
   const handlePaymentError = (error: any) => {
     console.error('❌ Erreur de paiement:', error);
     setShowPayment(false);
+    setPaymentProcessed(false); // Réinitialiser l'état de traitement
     
     // Afficher la notification d'erreur
     setToast({
@@ -160,6 +173,7 @@ export default function ViewsPage({ onBack, onComplete }: ViewsPageProps) {
 
   const handlePaymentCancel = () => {
     setShowPayment(false);
+    setPaymentProcessed(false); // Réinitialiser l'état de traitement
   };
 
   const handleInputChange = (field: keyof CustomerData, value: string) => {

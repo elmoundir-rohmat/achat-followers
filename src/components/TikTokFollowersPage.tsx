@@ -130,7 +130,7 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
               </div>
               <div className="flex items-center">
                 <Users2 className="w-6 h-6 mr-2" />
-                <span>+75K clients</span>
+                <span>Service pro</span>
               </div>
               <div className="flex items-center">
                 <Shield className="w-6 h-6 mr-2" />

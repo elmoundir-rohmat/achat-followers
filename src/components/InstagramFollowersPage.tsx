@@ -91,7 +91,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 </div>
                 <div className="flex items-center">
                   <Users2 className="w-6 h-6 mr-2" />
-                  <span>+50K clients</span>
+                  <span>Service pro</span>
                 </div>
                 <div className="flex items-center">
                   <Shield className="w-6 h-6 mr-2" />
@@ -229,42 +229,6 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
           </div>
         </div>
 
-        {/* Testimonials Section */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Avis des clients</h2>
-            <div className="flex items-center justify-center space-x-2">
-              <span className="text-2xl font-bold text-blue-600">4.7</span>
-              <div className="flex space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <span className="text-gray-600">(256 avis)</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { name: "Sophie, Paris", date: "16/03/2025", rating: 5, comment: "J'ai absolument adoré ce produit ! Il a dépassé mes attentes et je le recommande vivement à tout le monde." },
-              { name: "Pierre, Marseille", date: "07/02/2025", rating: 4, comment: "Ce produit a bien rempli sa fonction et a répondu à mes attentes, même s'il n'a pas été exceptionnel." },
-              { name: "Julie, Lyon", date: "22/09/2024", rating: 5, comment: "J'utilise ce service pour développer ma présence sur les réseaux sociaux depuis des mois maintenant, et je suis extrêmement satisfait des résultats." }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="font-bold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-500">{testimonial.date}</div>
-                </div>
-                <div className="flex space-x-1 mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 text-sm">{testimonial.comment}</p>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Security & Guarantees Section */}
         <div className="bg-blue-50 rounded-2xl p-8 mb-16">
@@ -399,7 +363,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
             },
             {
               question: "Est-ce risqué d'acheter des followers Instagram ?",
-              answer: "Non, à condition de passer par un fournisseur sérieux comme Doctor Followers. Nos méthodes de livraison sont conformes aux conditions d'utilisation d'Instagram. Nous ne vous demandons jamais vos identifiants, et nous utilisons uniquement des profils authentiques. Depuis 2018, aucun de nos clients n'a été banni ou pénalisé par Instagram."
+              answer: "Non, à condition de passer par un fournisseur sérieux comme ThinkWell. Nos méthodes de livraison sont conformes aux conditions d'utilisation d'Instagram. Nous ne vous demandons jamais vos identifiants, et nous utilisons uniquement des profils authentiques. Nos méthodes sont sûres et respectent les limites d'Instagram."
             },
             {
               question: "Quel est le nombre maximum d'abonnés Instagram que je peux acheter ?",

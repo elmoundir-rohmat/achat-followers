@@ -24,35 +24,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const testimonials = [
-    {
-      id: 1,
-      name: "Sarah M.",
-      role: "Influenceuse Mode",
-      avatar: "👩‍💼",
-      content: "Doctor Followers m'a aidée à passer de 5k à 50k followers en 3 mois ! Leurs followers sont vraiment actifs et engagés.",
-      rating: 5,
-      followers: "+45k followers"
-    },
-    {
-      id: 2,
-      name: "Marc L.",
-      role: "Entrepreneur",
-      avatar: "👨‍💻",
-      content: "Service professionnel et livraison rapide. Mes posts ont maintenant beaucoup plus d'engagement grâce aux likes.",
-      rating: 5,
-      followers: "+12k likes"
-    },
-    {
-      id: 3,
-      name: "Emma R.",
-      role: "Créatrice de contenu",
-      avatar: "👩‍🎨",
-      content: "Parfait pour développer ma marque personnelle. Les followers sont de qualité et restent fidèles.",
-      rating: 5,
-      followers: "+28k followers"
-    }
-  ];
 
   const faqs = [
     {
@@ -307,44 +278,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
-      {/* Testimonials Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Témoignages Clients
-          </h2>
-          <p className="text-xl text-blue-200">
-            Découvrez ce que disent nos clients satisfaits
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
-              <div className="flex items-center mb-4">
-                <div className="text-4xl mr-4">{testimonial.avatar}</div>
-                <div>
-                  <h4 className="text-white font-bold">{testimonial.name}</h4>
-                  <p className="text-blue-200 text-sm">{testimonial.role}</p>
-                </div>
-              </div>
-              
-              <div className="flex mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              
-              <p className="text-blue-100 mb-4 italic">"{testimonial.content}"</p>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-green-400 font-bold text-sm">{testimonial.followers}</span>
-                <CheckCircle className="w-5 h-5 text-green-400" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* FAQ Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -384,23 +317,23 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
             <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">50k+</div>
-            <div className="text-blue-200">Clients satisfaits</div>
+            <div className="text-3xl font-bold text-white mb-2">24/7</div>
+            <div className="text-blue-200">Support client</div>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
             <Users className="w-8 h-8 text-blue-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">2M+</div>
-            <div className="text-blue-200">Followers livrés</div>
+            <div className="text-3xl font-bold text-white mb-2">100%</div>
+            <div className="text-blue-200">Sécurisé</div>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
             <Award className="w-8 h-8 text-yellow-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">99%</div>
-            <div className="text-blue-200">Taux de satisfaction</div>
+            <div className="text-3xl font-bold text-white mb-2">Rapide</div>
+            <div className="text-blue-200">Livraison</div>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
             <Globe className="w-8 h-8 text-purple-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">50+</div>
-            <div className="text-blue-200">Pays desservis</div>
+            <div className="text-3xl font-bold text-white mb-2">Pro</div>
+            <div className="text-blue-200">Service</div>
           </div>
         </div>
       </div>
@@ -438,23 +371,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-slate-900/50 backdrop-blur-sm border-t border-white/10 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center items-center mb-4">
-            <Instagram className="w-8 h-8 text-blue-400 mr-3" />
-            <span className="text-2xl font-bold text-white">Doctor Followers</span>
-          </div>
-          <p className="text-blue-200 mb-6">
-            Votre partenaire professionnel pour les réseaux sociaux
-          </p>
-          <div className="flex justify-center space-x-8 text-sm text-blue-300">
-            <span>✓ Service client 24/7</span>
-            <span>✓ Garantie satisfait ou remboursé</span>
-            <span>✓ Plus de 50 000 clients</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

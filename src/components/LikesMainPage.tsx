@@ -136,7 +136,7 @@ export default function LikesMainPage({ onBack }: LikesMainPageProps) {
             </div>
             <div className="flex items-center">
               <ShoppingCart className="w-6 h-6 mr-2" />
-              <span className="font-semibold">+50k clients satisfaits</span>
+              <span className="font-semibold">Service professionnel</span>
             </div>
           </div>
         </div>
@@ -208,23 +208,6 @@ export default function LikesMainPage({ onBack }: LikesMainPageProps) {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center items-center mb-4">
-            <Heart className="w-8 h-8 text-blue-500 mr-3" />
-            <span className="text-2xl font-bold">Doctor Followers</span>
-          </div>
-          <p className="text-gray-400 mb-6">
-            La plateforme professionnelle pour booster l'engagement de vos posts Instagram
-          </p>
-          <div className="flex justify-center space-x-8 text-sm text-gray-400">
-            <span>✓ Service client 24/7</span>
-            <span>✓ Garantie satisfait ou remboursé</span>
-            <span>✓ Plus de 50 000 clients</span>
-          </div>
-        </div>
-      </footer>
 
       <InstagramSearchModal
         isOpen={isModalOpen}

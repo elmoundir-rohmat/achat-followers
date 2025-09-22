@@ -390,7 +390,7 @@ export default function TikTokLikesCheckoutPage({ onBack, onComplete }: TikTokLi
                           className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent ${
                             errors.phone ? 'border-red-500' : 'border-gray-300'
                           }`}
-                          placeholder="+33 1 23 45 67 89"
+                          placeholder="+33 6 19 47 05 19"
                         />
                         {errors.phone && (
                           <p className="text-red-500 text-sm mt-1">{errors.phone}</p>

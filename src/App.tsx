@@ -14,10 +14,12 @@ import InstagramCommentsPage from './components/InstagramCommentsPage';
 import InstagramViewsPage from './components/InstagramViewsPage';
 import TikTokFollowersPage from './components/TikTokFollowersPage';
 import TikTokLikesPage from './components/TikTokLikesPage';
+import LegalPage from './components/LegalPage';
+import Footer from './components/Footer';
 import { CartProvider, useCart } from './contexts/CartContext';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'followers' | 'likes'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'followers' | 'likes' | 'legal'>('home');
   
   // Debug: log current page
   console.log('Current page:', currentPage);
@@ -109,6 +111,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <HomePage onNavigate={(page) => setCurrentPage(page as any)} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -119,6 +122,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <InstagramFollowersPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -129,6 +133,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <InstagramLikesPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -139,6 +144,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <InstagramCommentsPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -149,6 +155,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <InstagramViewsPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -159,6 +166,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <TikTokFollowersPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -169,6 +177,18 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <TikTokLikesPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+      </div>
+    );
+  }
+
+  // Page Légale
+  if (currentPage === 'legal') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
+        <LegalPage onBack={() => setCurrentPage('home')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -179,6 +199,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
         <LikesMainPage onBack={() => setCurrentPage('followers')} />
+        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
       </div>
     );
   }
@@ -203,7 +224,7 @@ function AppContent() {
             </div>
             <div className="flex items-center">
               <ShoppingCart className="w-6 h-6 mr-2" />
-              <span className="font-semibold">+50k clients satisfaits</span>
+              <span className="font-semibold">Service professionnel</span>
             </div>
           </div>
         </div>
@@ -274,23 +295,7 @@ function AppContent() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center items-center mb-4">
-            <Instagram className="w-8 h-8 text-blue-500 mr-3" />
-            <span className="text-2xl font-bold">Doctor Followers</span>
-          </div>
-          <p className="text-gray-400 mb-6">
-            La plateforme professionnelle pour booster votre présence sur Instagram
-          </p>
-          <div className="flex justify-center space-x-8 text-sm text-gray-400">
-            <span>✓ Service client 24/7</span>
-            <span>✓ Garantie satisfait ou remboursé</span>
-            <span>✓ Plus de 50 000 clients</span>
-          </div>
-        </div>
-      </footer>
+      <Footer onNavigate={(page) => setCurrentPage(page as any)} />
 
       <InstagramSearchModal
         isOpen={isModalOpen}

@@ -72,7 +72,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         {
           id: 'instagram-views',
           name: 'Vues Instagram',
-          description: 'Boostez vos reels avec des vues authentiques pour maximiser votre portée',
+          description: 'Boostez vos reels, stories et vidéos avec des vues authentiques',
           icon: <Eye className="w-6 h-6" />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-purple-500 to-pink-600'
@@ -84,14 +84,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           icon: <MessageCircle className="w-6 h-6" />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-blue-500 to-cyan-600'
-        },
-        {
-          id: 'instagram-views',
-          name: 'Vues Instagram',
-          description: 'Augmentez la visibilité de vos stories et vidéos',
-          icon: <Eye className="w-6 h-6" />,
-          color: 'text-white',
-          bgColor: 'bg-gradient-to-br from-purple-500 to-indigo-600'
         }
       ]
     },
@@ -246,13 +238,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 {platform.services.map((service) => (
                   <div
                     key={service.id}
-                    className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                    className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 ${
                       hoveredService === service.id ? 'scale-105' : ''
                     }`}
                     onMouseEnter={() => setHoveredService(service.id)}
                     onMouseLeave={() => setHoveredService(null)}
+                    onClick={() => onNavigate?.(service.id)}
                   >
-                    <div className={`${service.bgColor} rounded-2xl p-6 h-full border-2 border-transparent group-hover:border-white/20 transition-all duration-300 shadow-lg`}>
+                    <div className={`${service.bgColor} rounded-2xl p-6 h-full border-2 border-transparent group-hover:border-white/20 transition-all duration-300 shadow-lg group-hover:shadow-xl`}>
                       <div className={`${service.color} mb-4`}>
                         {service.icon}
                       </div>
@@ -263,8 +256,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                         {service.description}
                       </p>
                       <button
-                        onClick={() => onNavigate?.(service.id)}
-                        className="flex items-center text-white font-medium group-hover:text-white/80 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Éviter le double clic
+                          onNavigate?.(service.id);
+                        }}
+                        className="flex items-center text-white font-medium group-hover:text-white/80 transition-colors hover:bg-white/10 px-3 py-2 rounded-lg"
                       >
                         <span className="text-sm">Découvrir</span>
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

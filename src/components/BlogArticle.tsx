@@ -1,7 +1,9 @@
 import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
-import { getBlogPostBySlug } from '../config/blogPosts';
+import { BlogService } from '../services/blogService';
 import { generateArticleMeta } from '../utils/seo';
-import { useEffect } from 'react';
+import { parseMarkdownToHTML, generateTableOfContents } from '../utils/markdownParser';
+import { useEffect, useState } from 'react';
+import { BlogPost } from '../types/blog';
 
 interface BlogArticleProps {
   slug: string;
@@ -9,9 +11,33 @@ interface BlogArticleProps {
 }
 
 export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
-  const post = getBlogPostBySlug(slug);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [parsedContent, setParsedContent] = useState<{
+    html: string;
+    headings: Array<{ level: number; text: string; id: string }>;
+    wordCount: number;
+    readingTime: number;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Mise à jour des métadonnées SEO
+  // Charger l'article
+  useEffect(() => {
+    const loadArticle = async () => {
+      try {
+        setLoading(true);
+        const article = await BlogService.getBlogPostBySlug(slug);
+        setPost(article);
+      } catch (error) {
+        console.error('Error loading article:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadArticle();
+  }, [slug]);
+
+  // Mise à jour des métadonnées SEO et parsing du contenu
   useEffect(() => {
     if (post) {
       const meta = generateArticleMeta(post);
@@ -72,8 +98,25 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
       if (ogUrl) {
         ogUrl.setAttribute('content', meta.openGraph.url);
       }
+
+      // Parser le contenu Markdown
+      if (post.content) {
+        const parsed = parseMarkdownToHTML(post.content);
+        setParsedContent(parsed);
+      }
     }
   }, [post]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement de l'article...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -123,7 +166,7 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
           <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
             <div className="flex items-center">
               <User className="w-5 h-5 mr-2" />
-              <span>{post.author}</span>
+              <span>{post.author?.name || 'Auteur inconnu'}</span>
             </div>
             <div className="flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
@@ -163,15 +206,28 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
         </div>
 
         {/* Article Content */}
-        <div className="prose prose-lg max-w-none">
+        <article className="prose prose-lg max-w-none">
+          {/* Excerpt */}
           <div className="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8 rounded-r-lg">
             <p className="text-lg text-gray-700 italic leading-relaxed">
               {post.excerpt}
             </p>
           </div>
 
+          {/* Table of Contents */}
+          {parsedContent && parsedContent.headings.length > 0 && (
+            <div dangerouslySetInnerHTML={{ 
+              __html: generateTableOfContents(parsedContent.headings)
+            }} />
+          )}
+
+          {/* Article Content */}
           <div className="text-gray-800 leading-relaxed">
-            {post.content ? (
+            {parsedContent ? (
+              <div dangerouslySetInnerHTML={{ 
+                __html: parsedContent.html
+              }} />
+            ) : post.content ? (
               <div dangerouslySetInnerHTML={{ 
                 __html: post.content.replace(/\n/g, '<br/>').replace(/## (.*?)(?=\n|$)/g, '<h2 class="text-2xl font-bold text-gray-900 mb-4 mt-8">$1</h2>')
               }} />
@@ -179,7 +235,20 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
               <p>Contenu de l'article en cours de chargement...</p>
             )}
           </div>
-        </div>
+
+          {/* Article Stats */}
+          {parsedContent && (
+            <div className="mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500">
+              <div className="flex flex-wrap gap-4">
+                <span>{parsedContent.wordCount} mots</span>
+                <span>•</span>
+                <span>{parsedContent.readingTime} min de lecture</span>
+                <span>•</span>
+                <span>{parsedContent.headings.length} sections</span>
+              </div>
+            </div>
+          )}
+        </article>
 
         {/* Call to Action */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white mt-12">

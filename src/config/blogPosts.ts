@@ -14,88 +14,16 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: 1,
-    title: "Comment augmenter ses followers Instagram en 2025 : Guide complet",
-    excerpt: "Découvrez les stratégies les plus efficaces pour développer votre audience Instagram en 2025. Techniques éprouvées, conseils d'experts et méthodes légitimes pour booster votre visibilité.",
-    image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop",
-    date: "22 septembre 2025",
-    author: "ThinkWell",
-    category: "Instagram",
-    slug: "augmenter-followers-instagram-2025",
-    tags: ["Instagram", "Followers", "Growth", "Social Media"],
-    readTime: 8
-  },
-  {
-    id: 2,
-    title: "TikTok : Les secrets du succès viral en 2025",
-    excerpt: "Apprenez les techniques qui font le succès sur TikTok. Algorithmes, timing, contenu engageant : tout ce qu'il faut savoir pour créer des vidéos virales.",
-    image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=800&h=400&fit=crop",
-    date: "20 septembre 2025",
-    author: "ThinkWell",
-    category: "TikTok",
-    slug: "secrets-succes-viral-tiktok-2025",
-    tags: ["TikTok", "Viral", "Content", "Algorithm"],
-    readTime: 6
-  },
-  {
-    id: 3,
-    title: "YouTube : Optimiser ses vidéos pour l'algorithme",
-    excerpt: "Maîtrisez l'algorithme YouTube et maximisez la visibilité de vos vidéos. SEO, thumbnails, engagement : les clés du succès sur la plateforme.",
-    image: "https://images.unsplash.com/photo-1611162616305-c69b5031e2d1?w=800&h=400&fit=crop",
-    date: "18 septembre 2025",
-    author: "ThinkWell",
-    category: "YouTube",
-    slug: "optimiser-videos-youtube-algorithme",
-    tags: ["YouTube", "SEO", "Algorithm", "Optimization"],
-    readTime: 10
-  },
-  {
-    id: 4,
-    title: "Facebook : Stratégies de croissance pour les pages",
-    excerpt: "Développez votre page Facebook avec des stratégies efficaces. Engagement, contenu viral, publicités : les meilleures pratiques pour 2025.",
-    image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop",
-    date: "15 septembre 2025",
-    author: "ThinkWell",
-    category: "Facebook",
-    slug: "strategies-croissance-pages-facebook",
-    tags: ["Facebook", "Growth", "Strategy", "Engagement"],
-    readTime: 7
-  },
-  {
-    id: 5,
-    title: "Les erreurs à éviter sur les réseaux sociaux",
-    excerpt: "Découvrez les pièges les plus courants sur les réseaux sociaux et comment les éviter. Conseils d'experts pour une stratégie social media réussie.",
-    image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=800&h=400&fit=crop",
-    date: "12 septembre 2025",
-    author: "ThinkWell",
-    category: "Conseils",
-    slug: "erreurs-eviter-reseaux-sociaux",
-    tags: ["Social Media", "Mistakes", "Tips", "Strategy"],
-    readTime: 5
-  },
-  {
-    id: 6,
-    title: "Comment créer du contenu engageant ?",
-    excerpt: "Les secrets d'un contenu qui engage et convertit. Formats, timing, storytelling : tous les éléments pour captiver votre audience.",
-    image: "https://images.unsplash.com/photo-1611162616305-c69b5031e2d1?w=800&h=400&fit=crop",
-    date: "10 septembre 2025",
-    author: "ThinkWell",
-    category: "Conseils",
-    slug: "creer-contenu-engageant",
-    tags: ["Content", "Engagement", "Storytelling", "Strategy"],
-    readTime: 6
-  },
-  {
     id: 7,
     title: "6 conseils pratiques pour augmenter le nombre d'abonnés Instagram",
     excerpt: "Découvrez 6 conseils essentiels pour développer votre audience Instagram. Contenu de qualité, engagement, hashtags et stratégies éprouvées pour attirer de nouveaux abonnés.",
     image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop",
     date: "25 janvier 2025",
-    author: "Dr. Followers",
+    author: "Moundir Rohmat",
     category: "Instagram",
-    slug: "6-conseils-augmenter-abonnes-instagram",
+    slug: "6-conseils-pour-augmenter-les-abonnes-instagram",
     tags: ["Instagram", "Abonnés", "Conseils", "Growth", "Engagement"],
-    readTime: 5,
+    readTime: 3,
     content: `Instagram est une plateforme de réseau social très populaire, utilisée par des millions de personnes dans le monde entier. Si vous souhaitez augmenter votre nombre d'abonnés sur Instagram, voici quelques conseils qui pourraient vous aider :
 
 ## 1. Créez du contenu de qualité

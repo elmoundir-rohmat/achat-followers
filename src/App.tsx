@@ -19,9 +19,10 @@ import BlogPage from './components/BlogPage';
 import BlogArticle from './components/BlogArticle';
 import Footer from './components/Footer';
 import { CartProvider, useCart } from './contexts/CartContext';
+import { getServicePageBySlug, applyServicePageSEO } from './services/routingService';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   
   // Gestion du routage basé sur l'URL
@@ -29,16 +30,44 @@ function AppContent() {
     const handleRoute = () => {
       const path = window.location.pathname;
       
+      // Pages de blog
       if (path === '/blog') {
         setCurrentPage('blog');
       } else if (path.startsWith('/blog/')) {
         const slug = path.replace('/blog/', '');
         setCurrentArticleSlug(slug);
         setCurrentPage('blog-article');
-      } else if (path === '/') {
+      }
+      // Pages de services avec slugs
+      else if (path.startsWith('/instagram-followers') || path === '/instagram-followers') {
+        setCurrentPage('instagram-followers');
+        applyServicePageSEO('instagram-followers');
+      } else if (path.startsWith('/instagram-likes') || path === '/instagram-likes') {
+        setCurrentPage('instagram-likes');
+        applyServicePageSEO('instagram-likes');
+      } else if (path.startsWith('/instagram-views') || path === '/instagram-views') {
+        setCurrentPage('instagram-views');
+        applyServicePageSEO('instagram-views');
+      } else if (path.startsWith('/instagram-comments') || path === '/instagram-comments') {
+        setCurrentPage('instagram-comments');
+        applyServicePageSEO('instagram-comments');
+      } else if (path.startsWith('/tiktok-followers') || path === '/tiktok-followers') {
+        setCurrentPage('tiktok-followers');
+        applyServicePageSEO('tiktok-followers');
+      } else if (path.startsWith('/tiktok-likes') || path === '/tiktok-likes') {
+        setCurrentPage('tiktok-likes');
+        applyServicePageSEO('tiktok-likes');
+      } else if (path.startsWith('/tiktok-views') || path === '/tiktok-views') {
+        setCurrentPage('tiktok-views');
+        applyServicePageSEO('tiktok-views');
+      } else if (path.startsWith('/tiktok-comments') || path === '/tiktok-comments') {
+        setCurrentPage('tiktok-comments');
+        applyServicePageSEO('tiktok-comments');
+      }
+      // Page d'accueil
+      else if (path === '/') {
         setCurrentPage('home');
       }
-      // Ajoutez d'autres routes selon vos besoins
     };
 
     // Écouter les changements d'URL
@@ -132,13 +161,28 @@ function AppContent() {
     );
   }
 
+  // Fonction de navigation avec gestion des slugs
+  const handleNavigate = (page: string) => {
+    const servicePage = getServicePageBySlug(page);
+    
+    if (servicePage) {
+      // Navigation vers une page de service avec slug
+      window.history.pushState({}, '', servicePage.canonicalUrl);
+      setCurrentPage(page as any);
+      applyServicePageSEO(page);
+    } else {
+      // Navigation vers une page normale
+      setCurrentPage(page as any);
+    }
+  };
+
   // Si on est sur la page d'accueil, afficher HomePage
   if (currentPage === 'home') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <HomePage onNavigate={(page) => setCurrentPage(page as any)} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <HomePage onNavigate={handleNavigate} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -147,9 +191,9 @@ function AppContent() {
   if (currentPage === 'instagram-followers') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <InstagramFollowersPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <InstagramFollowersPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -158,9 +202,9 @@ function AppContent() {
   if (currentPage === 'instagram-likes') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <InstagramLikesPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <InstagramLikesPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -169,9 +213,9 @@ function AppContent() {
   if (currentPage === 'instagram-comments') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <InstagramCommentsPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <InstagramCommentsPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -180,9 +224,9 @@ function AppContent() {
   if (currentPage === 'instagram-views') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <InstagramViewsPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <InstagramViewsPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -191,9 +235,9 @@ function AppContent() {
   if (currentPage === 'tiktok-followers') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <TikTokFollowersPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <TikTokFollowersPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -202,9 +246,53 @@ function AppContent() {
   if (currentPage === 'tiktok-likes') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <TikTokLikesPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <TikTokLikesPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    );
+  }
+
+  // Page TikTok Views
+  if (currentPage === 'tiktok-views') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-bold mb-4">TikTok Views</h1>
+            <p className="text-xl mb-8">Page en cours de développement</p>
+            <button
+              onClick={() => handleNavigate('home')}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Retour à l'accueil
+            </button>
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    );
+  }
+
+  // Page TikTok Comments
+  if (currentPage === 'tiktok-comments') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-bold mb-4">TikTok Comments</h1>
+            <p className="text-xl mb-8">Page en cours de développement</p>
+            <button
+              onClick={() => handleNavigate('home')}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Retour à l'accueil
+            </button>
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }

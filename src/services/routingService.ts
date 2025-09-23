@@ -23,6 +23,9 @@ export class RoutingService {
     // Mise à jour des meta keywords
     this.updateMetaTag('name', 'keywords', meta.keywords);
 
+    // Mise à jour des meta robots
+    this.updateMetaTag('name', 'robots', 'index, follow');
+
     // Mise à jour de l'URL canonique
     this.updateCanonicalUrl(meta.canonical);
 
@@ -84,40 +87,87 @@ export class RoutingService {
   }
 
   /**
-   * Génère un sitemap XML pour le SEO
+   * Génère un sitemap XML complet pour le SEO
    */
   static generateSitemap(): string {
-    const baseUrl = window.location.origin;
-    const servicePages = [
-      '/instagram-followers',
-      '/instagram-likes',
-      '/instagram-views',
-      '/instagram-comments',
-      '/tiktok-followers',
-      '/tiktok-likes',
-      '/tiktok-views',
-      '/tiktok-comments',
-      '/blog'
-    ];
-
+    const baseUrl = 'https://doctorfollowers.com';
+    const currentDate = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+    
     let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
     sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
     
     // Page d'accueil
     sitemap += '  <url>\n';
     sitemap += `    <loc>${baseUrl}/</loc>\n`;
+    sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
     sitemap += '    <changefreq>daily</changefreq>\n';
     sitemap += '    <priority>1.0</priority>\n';
     sitemap += '  </url>\n';
 
-    // Pages de services
-    servicePages.forEach(page => {
+    // Pages de services Instagram
+    const instagramServices = [
+      { url: '/instagram-followers', priority: '0.9' },
+      { url: '/instagram-likes', priority: '0.9' },
+      { url: '/instagram-views', priority: '0.9' },
+      { url: '/instagram-comments', priority: '0.9' }
+    ];
+
+    instagramServices.forEach(service => {
       sitemap += '  <url>\n';
-      sitemap += `    <loc>${baseUrl}${page}</loc>\n`;
+      sitemap += `    <loc>${baseUrl}${service.url}</loc>\n`;
+      sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
       sitemap += '    <changefreq>weekly</changefreq>\n';
-      sitemap += '    <priority>0.8</priority>\n';
+      sitemap += `    <priority>${service.priority}</priority>\n`;
       sitemap += '  </url>\n';
     });
+
+    // Pages de services TikTok
+    const tiktokServices = [
+      { url: '/tiktok-followers', priority: '0.9' },
+      { url: '/tiktok-likes', priority: '0.9' },
+      { url: '/tiktok-views', priority: '0.9' },
+      { url: '/tiktok-comments', priority: '0.9' }
+    ];
+
+    tiktokServices.forEach(service => {
+      sitemap += '  <url>\n';
+      sitemap += `    <loc>${baseUrl}${service.url}</loc>\n`;
+      sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+      sitemap += '    <changefreq>weekly</changefreq>\n';
+      sitemap += `    <priority>${service.priority}</priority>\n`;
+      sitemap += '  </url>\n';
+    });
+
+    // Page Blog
+    sitemap += '  <url>\n';
+    sitemap += `    <loc>${baseUrl}/blog</loc>\n`;
+    sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+    sitemap += '    <changefreq>daily</changefreq>\n';
+    sitemap += '    <priority>0.8</priority>\n';
+    sitemap += '  </url>\n';
+
+    // Articles de blog (à récupérer dynamiquement)
+    try {
+      const { blogPosts } = require('../config/blogPosts');
+      blogPosts.forEach((post: any) => {
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+        sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+        sitemap += '    <changefreq>monthly</changefreq>\n';
+        sitemap += '    <priority>0.7</priority>\n';
+        sitemap += '  </url>\n';
+      });
+    } catch (error) {
+      console.warn('Impossible de charger les articles de blog pour le sitemap:', error);
+    }
+
+    // Page légale
+    sitemap += '  <url>\n';
+    sitemap += `    <loc>${baseUrl}/legal</loc>\n`;
+    sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+    sitemap += '    <changefreq>monthly</changefreq>\n';
+    sitemap += '    <priority>0.3</priority>\n';
+    sitemap += '  </url>\n';
 
     sitemap += '</urlset>';
     return sitemap;

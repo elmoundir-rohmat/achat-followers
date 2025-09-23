@@ -1,2 +1,5 @@
 # Netlify redirects for SPA routing
-/*    /index.html   200
+# Exclure les fichiers statiques importants
+/sitemap.xml    /sitemap.xml   200
+/robots.txt     /robots.txt    200
+/*              /index.html    200

@@ -67,6 +67,17 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
         document.head.appendChild(metaKw);
       }
 
+      // Mise à jour des meta robots
+      const metaRobots = document.querySelector('meta[name="robots"]');
+      if (metaRobots) {
+        metaRobots.setAttribute('content', 'index, follow');
+      } else {
+        const metaR = document.createElement('meta');
+        metaR.name = 'robots';
+        metaR.content = 'index, follow';
+        document.head.appendChild(metaR);
+      }
+
       // Mise à jour de l'URL canonique
       const canonical = document.querySelector('link[rel="canonical"]');
       if (canonical) {

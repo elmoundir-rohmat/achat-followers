@@ -46,6 +46,48 @@ export class RoutingService {
   }
 
   /**
+   * Applique les métadonnées SEO d'une page de service SANS mettre à jour l'historique
+   */
+  static applyServicePageSEOWithoutHistory(pageSlug: string): void {
+    const page = getServicePageBySlug(pageSlug);
+    if (!page) {
+      console.warn(`Page de service non trouvée pour le slug: ${pageSlug}`);
+      return;
+    }
+
+    const meta = generateServicePageMeta(page);
+
+    // Mise à jour du titre de la page
+    document.title = meta.title;
+
+    // Mise à jour de la meta description
+    this.updateMetaTag('name', 'description', meta.description);
+
+    // Mise à jour des meta keywords
+    this.updateMetaTag('name', 'keywords', meta.keywords);
+
+    // Mise à jour des meta robots
+    this.updateMetaTag('name', 'robots', 'index, follow');
+
+    // Mise à jour de l'URL canonique
+    this.updateCanonicalUrl(meta.canonical);
+
+    // Open Graph
+    this.updateMetaTag('property', 'og:title', meta.openGraph.title);
+    this.updateMetaTag('property', 'og:description', meta.openGraph.description);
+    this.updateMetaTag('property', 'og:type', meta.openGraph.type);
+    this.updateMetaTag('property', 'og:url', meta.openGraph.url);
+    this.updateMetaTag('property', 'og:site_name', meta.openGraph.siteName);
+
+    // Twitter Card
+    this.updateMetaTag('name', 'twitter:card', meta.twitter.card);
+    this.updateMetaTag('name', 'twitter:title', meta.twitter.title);
+    this.updateMetaTag('name', 'twitter:description', meta.twitter.description);
+
+    // NE PAS mettre à jour l'historique ici - c'est fait dans handleNavigate
+  }
+
+  /**
    * Met à jour une balise meta
    */
   private static updateMetaTag(attribute: string, name: string, content: string): void {

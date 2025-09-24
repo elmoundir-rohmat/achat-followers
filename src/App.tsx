@@ -31,6 +31,9 @@ function AppContent() {
     const handleRoute = () => {
       const path = window.location.pathname;
       
+      // Debug pour production
+      console.log('Routing to:', path);
+      
       // Pages de blog
       if (path === '/blogs') {
         setCurrentPage('blog');
@@ -68,6 +71,12 @@ function AppContent() {
       // Page d'accueil
       else if (path === '/') {
         setCurrentPage('home');
+      }
+      // Page non trouvée - rediriger vers l'accueil
+      else {
+        console.warn('Route non trouvée:', path, '- redirection vers l\'accueil');
+        setCurrentPage('home');
+        window.history.replaceState({}, '', '/');
       }
     };
 
@@ -181,9 +190,11 @@ function AppContent() {
     
     if (servicePage) {
       // Navigation vers une page de service avec slug
-      window.history.pushState({}, '', servicePage.canonicalUrl);
       setCurrentPage(page as any);
-      RoutingService.applyServicePageSEO(slug);
+      // Appliquer le SEO SANS mettre à jour l'historique (éviter la double mise à jour)
+      RoutingService.applyServicePageSEOWithoutHistory(slug);
+      // Mettre à jour l'URL après avoir défini la page
+      window.history.pushState({}, '', servicePage.canonicalUrl);
     } else {
       // Navigation vers une page normale
       setCurrentPage(page as any);
@@ -328,6 +339,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => {
           if (page === 'blog') {
+            setCurrentPage('blog');
             window.history.pushState({}, '', '/blogs');
           } else {
             setCurrentPage(page as any);
@@ -336,9 +348,9 @@ function AppContent() {
         <BlogPage 
           onNavigate={(page) => setCurrentPage(page as any)}
           onViewArticle={(slug) => {
-            window.history.pushState({}, '', `/blogs/${slug}`);
             setCurrentArticleSlug(slug);
             setCurrentPage('blog-article');
+            window.history.pushState({}, '', `/blogs/${slug}`);
           }}
         />
         <Footer onNavigate={(page) => setCurrentPage(page as any)} />
@@ -352,8 +364,8 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => {
           if (page === 'blog') {
-            window.history.pushState({}, '', '/blogs');
             setCurrentPage('blog');
+            window.history.pushState({}, '', '/blogs');
           } else {
             setCurrentPage(page as any);
           }
@@ -361,8 +373,8 @@ function AppContent() {
         <BlogArticle 
           slug={currentArticleSlug}
           onBack={() => {
-            window.history.pushState({}, '', '/blogs');
             setCurrentPage('blog');
+            window.history.pushState({}, '', '/blogs');
           }}
         />
         <Footer onNavigate={(page) => setCurrentPage(page as any)} />

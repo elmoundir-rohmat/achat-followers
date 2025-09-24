@@ -26,10 +26,17 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
+  const [isManualNavigation, setIsManualNavigation] = useState(false);
   
   // Gestion du routage basé sur l'URL
   useEffect(() => {
     const handleRoute = () => {
+      // Ignorer les changements d'URL pendant une navigation manuelle
+      if (isManualNavigation) {
+        console.log('Ignoring URL change during manual navigation');
+        return;
+      }
+      
       const path = window.location.pathname;
       
       // Debug pour production
@@ -86,10 +93,10 @@ function AppContent() {
     handleRoute(); // Vérifier l'URL initiale
 
     return () => window.removeEventListener('popstate', handleRoute);
-  }, []);
+  }, [isManualNavigation]);
   
   // Debug: log current page
-  console.log('Current page:', currentPage);
+  console.log('Current page:', currentPage, 'URL:', window.location.pathname);
   const [followerType, setFollowerType] = useState('french');
   const [selectedPackage, setSelectedPackage] = useState('');
   const [selectedProfile, setSelectedProfile] = useState('');
@@ -182,6 +189,7 @@ function AppContent() {
     
     console.log('handleNavigate called with:', page);
     setIsNavigating(true);
+    setIsManualNavigation(true);
     
     // Mapper les IDs internes vers les slugs correspondants
     const pageSlugMap: { [key: string]: string } = {
@@ -203,21 +211,29 @@ function AppContent() {
     if (servicePage) {
       // Navigation vers une page de service avec slug
       console.log('Navigating to service page:', servicePage.canonicalUrl);
-      setCurrentPage(page as any);
-      // Appliquer le SEO SANS mettre à jour l'historique (éviter la double mise à jour)
-      RoutingService.applyServicePageSEOWithoutHistory(slug);
-      // Mettre à jour l'URL après avoir défini la page
+      
+      // Mettre à jour l'URL d'abord
       window.history.pushState({}, '', servicePage.canonicalUrl);
       // Forcer la mise à jour de l'URL (pour les navigateurs avec cache)
       if (window.location.pathname !== servicePage.canonicalUrl) {
         window.history.replaceState({}, '', servicePage.canonicalUrl);
       }
+      
+      // Appliquer le SEO SANS mettre à jour l'historique (éviter la double mise à jour)
+      RoutingService.applyServicePageSEOWithoutHistory(slug);
+      
+      // Mettre à jour la page après un micro-délai pour éviter les conflits de timing
+      setTimeout(() => {
+        setCurrentPage(page as any);
+        console.log('Page state updated to:', page);
+      }, 0);
+      
       console.log('URL updated to:', window.location.pathname);
     } else {
       // Navigation vers une page normale
       console.log('Navigating to normal page:', page);
-      setCurrentPage(page as any);
-      // Pour les pages normales, mettre à jour l'URL aussi
+      
+      // Mettre à jour l'URL d'abord
       if (page === 'home') {
         window.history.pushState({}, '', '/');
         // Forcer la mise à jour de l'URL
@@ -231,19 +247,28 @@ function AppContent() {
           window.history.replaceState({}, '', '/blogs');
         }
       }
+      
+      // Mettre à jour la page après un micro-délai
+      setTimeout(() => {
+        setCurrentPage(page as any);
+        console.log('Page state updated to:', page);
+      }, 0);
+      
       console.log('URL updated to:', window.location.pathname);
     }
     
-    // Réinitialiser le flag de navigation après un court délai
+    // Réinitialiser les flags de navigation après un court délai
     setTimeout(() => {
       setIsNavigating(false);
+      setIsManualNavigation(false);
+      console.log('Navigation completed, flags reset');
     }, 100);
   };
 
   // Si on est sur la page d'accueil, afficher HomePage
   if (currentPage === 'home') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="home" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
         <HomePage onNavigate={handleNavigate} />
         <Footer onNavigate={handleNavigate} />
@@ -254,7 +279,7 @@ function AppContent() {
   // Page Instagram Followers
   if (currentPage === 'instagram-followers') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-followers" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramFollowersPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -265,7 +290,7 @@ function AppContent() {
   // Page Instagram Likes
   if (currentPage === 'instagram-likes') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-likes" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramLikesPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -276,7 +301,7 @@ function AppContent() {
   // Page Instagram Comments
   if (currentPage === 'instagram-comments') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-comments" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramCommentsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -287,7 +312,7 @@ function AppContent() {
   // Page Instagram Views
   if (currentPage === 'instagram-views') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-views" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramViewsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -375,15 +400,8 @@ function AppContent() {
   // Page Blog
   if (currentPage === 'blog') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => {
-          if (page === 'blog') {
-            setCurrentPage('blog');
-            window.history.pushState({}, '', '/blogs');
-          } else {
-            setCurrentPage(page as any);
-          }
-        }} />
+      <div key="blog" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
         <BlogPage 
           onNavigate={(page) => setCurrentPage(page as any)}
           onViewArticle={(slug) => {
@@ -392,7 +410,7 @@ function AppContent() {
             window.history.pushState({}, '', `/blogs/${slug}`);
           }}
         />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -400,23 +418,13 @@ function AppContent() {
   // Page Article de Blog
   if (currentPage === 'blog-article') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => {
-          if (page === 'blog') {
-            setCurrentPage('blog');
-            window.history.pushState({}, '', '/blogs');
-          } else {
-            setCurrentPage(page as any);
-          }
-        }} />
+      <div key={`blog-article-${currentArticleSlug}`} className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
         <BlogArticle 
           slug={currentArticleSlug}
-          onBack={() => {
-            setCurrentPage('blog');
-            window.history.pushState({}, '', '/blogs');
-          }}
+          onBack={() => handleNavigate('blog')}
         />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }

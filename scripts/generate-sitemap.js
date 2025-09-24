@@ -37,10 +37,10 @@ function generateSitemap() {
 
   // Pages de services Instagram
   const instagramServices = [
-    { url: '/instagram-followers', priority: '0.9' },
-    { url: '/instagram-likes', priority: '0.9' },
-    { url: '/instagram-views', priority: '0.9' },
-    { url: '/instagram-comments', priority: '0.9' }
+    { url: '/products/acheter-followers-instagram', priority: '0.9' },
+    { url: '/products/acheter-des-likes-instagram', priority: '0.9' },
+    { url: '/products/acheter-des-vues-instagram', priority: '0.9' },
+    { url: '/products/acheter-des-commentaires-instagram', priority: '0.9' }
   ];
 
   instagramServices.forEach(service => {
@@ -54,10 +54,10 @@ function generateSitemap() {
 
   // Pages de services TikTok
   const tiktokServices = [
-    { url: '/tiktok-followers', priority: '0.9' },
-    { url: '/tiktok-likes', priority: '0.9' },
-    { url: '/tiktok-views', priority: '0.9' },
-    { url: '/tiktok-comments', priority: '0.9' }
+    { url: '/products/tiktok/acheter-des-abonnes-tiktok', priority: '0.9' },
+    { url: '/products/tiktok/acheter-des-likes-tiktok', priority: '0.9' },
+    { url: '/products/tiktok/acheter-vues-tiktok', priority: '0.9' },
+    { url: '/products/tiktok/acheter-des-commentaires-tiktok', priority: '0.9' }
   ];
 
   tiktokServices.forEach(service => {

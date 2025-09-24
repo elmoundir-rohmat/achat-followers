@@ -11,14 +11,14 @@ Le sitemap contient **12 URLs** importantes :
 | Page | URL | Priorité | Fréquence |
 |------|-----|----------|-----------|
 | **Accueil** | `/` | 1.0 | daily |
-| **Instagram Followers** | `/instagram-followers` | 0.9 | weekly |
-| **Instagram Likes** | `/instagram-likes` | 0.9 | weekly |
-| **Instagram Views** | `/instagram-views` | 0.9 | weekly |
-| **Instagram Comments** | `/instagram-comments` | 0.9 | weekly |
-| **TikTok Followers** | `/tiktok-followers` | 0.9 | weekly |
-| **TikTok Likes** | `/tiktok-likes` | 0.9 | weekly |
-| **TikTok Views** | `/tiktok-views` | 0.9 | weekly |
-| **TikTok Comments** | `/tiktok-comments` | 0.9 | weekly |
+| **Instagram Followers** | `/products/acheter-followers-instagram` | 0.9 | weekly |
+| **Instagram Likes** | `/products/acheter-des-likes-instagram` | 0.9 | weekly |
+| **Instagram Views** | `/products/acheter-des-vues-instagram` | 0.9 | weekly |
+| **Instagram Comments** | `/products/acheter-des-commentaires-instagram` | 0.9 | weekly |
+| **TikTok Followers** | `/products/tiktok/acheter-des-abonnes-tiktok` | 0.9 | weekly |
+| **TikTok Likes** | `/products/tiktok/acheter-des-likes-tiktok` | 0.9 | weekly |
+| **TikTok Views** | `/products/tiktok/acheter-vues-tiktok` | 0.9 | weekly |
+| **TikTok Comments** | `/products/tiktok/acheter-des-commentaires-tiktok` | 0.9 | weekly |
 | **Blog** | `/blog` | 0.8 | daily |
 | **Article Blog** | `/blog/6-conseils-pour-augmenter-les-abonnes-instagram` | 0.7 | monthly |
 | **Page Légale** | `/legal` | 0.3 | monthly |

@@ -28,20 +28,20 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
       name: 'Instagram',
       icon: <Instagram className="w-5 h-5" />,
       services: [
-        { id: 'instagram-followers', name: 'Followers', icon: <Users className="w-4 h-4" />, href: '/instagram/followers' },
-        { id: 'instagram-likes', name: 'Likes', icon: <Heart className="w-4 h-4" />, href: '/instagram/likes' },
-        { id: 'instagram-comments', name: 'Commentaires', icon: <MessageCircle className="w-4 h-4" />, href: '/instagram/comments' },
-        { id: 'instagram-views', name: 'Vues', icon: <Eye className="w-4 h-4" />, href: '/instagram/views' }
+        { id: 'instagram-followers', name: 'Followers', icon: <Users className="w-4 h-4" />, href: '/products/acheter-followers-instagram' },
+        { id: 'instagram-likes', name: 'Likes', icon: <Heart className="w-4 h-4" />, href: '/products/acheter-des-likes-instagram' },
+        { id: 'instagram-comments', name: 'Commentaires', icon: <MessageCircle className="w-4 h-4" />, href: '/products/acheter-des-commentaires-instagram' },
+        { id: 'instagram-views', name: 'Vues', icon: <Eye className="w-4 h-4" />, href: '/products/acheter-des-vues-instagram' }
       ]
     },
     {
       name: 'TikTok',
       icon: <div className="w-5 h-5 bg-black text-white rounded flex items-center justify-center font-bold text-xs">TT</div>,
       services: [
-        { id: 'tiktok-followers', name: 'Followers', icon: <Users className="w-4 h-4" />, href: '/tiktok/followers' },
-        { id: 'tiktok-likes', name: 'Likes', icon: <Heart className="w-4 h-4" />, href: '/tiktok/likes' },
-        { id: 'tiktok-comments', name: 'Commentaires', icon: <MessageCircle className="w-4 h-4" />, href: '/tiktok/comments' },
-        { id: 'tiktok-views', name: 'Vues', icon: <Eye className="w-4 h-4" />, href: '/tiktok/views' }
+        { id: 'tiktok-followers', name: 'Followers', icon: <Users className="w-4 h-4" />, href: '/products/tiktok/acheter-des-abonnes-tiktok' },
+        { id: 'tiktok-likes', name: 'Likes', icon: <Heart className="w-4 h-4" />, href: '/products/tiktok/acheter-des-likes-tiktok' },
+        { id: 'tiktok-comments', name: 'Commentaires', icon: <MessageCircle className="w-4 h-4" />, href: '/products/tiktok/acheter-des-commentaires-tiktok' },
+        { id: 'tiktok-views', name: 'Vues', icon: <Eye className="w-4 h-4" />, href: '/products/tiktok/acheter-vues-tiktok' }
       ]
     }
   ];

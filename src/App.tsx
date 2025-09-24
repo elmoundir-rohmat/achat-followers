@@ -19,7 +19,8 @@ import BlogPage from './components/BlogPage';
 import BlogArticle from './components/BlogArticle';
 import Footer from './components/Footer';
 import { CartProvider, useCart } from './contexts/CartContext';
-import { getServicePageBySlug, applyServicePageSEO } from './services/routingService';
+import { getServicePageBySlug } from './config/serviceSlugs';
+import { RoutingService } from './services/routingService';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
@@ -39,30 +40,30 @@ function AppContent() {
         setCurrentPage('blog-article');
       }
       // Pages de services avec slugs
-      else if (path.startsWith('/instagram-followers') || path === '/instagram-followers') {
+      else if (path.startsWith('/products/acheter-followers-instagram') || path === '/products/acheter-followers-instagram') {
         setCurrentPage('instagram-followers');
-        applyServicePageSEO('instagram-followers');
-      } else if (path.startsWith('/instagram-likes') || path === '/instagram-likes') {
+        RoutingService.applyServicePageSEO('products/acheter-followers-instagram');
+      } else if (path.startsWith('/products/acheter-des-likes-instagram') || path === '/products/acheter-des-likes-instagram') {
         setCurrentPage('instagram-likes');
-        applyServicePageSEO('instagram-likes');
-      } else if (path.startsWith('/instagram-views') || path === '/instagram-views') {
+        RoutingService.applyServicePageSEO('products/acheter-des-likes-instagram');
+      } else if (path.startsWith('/products/acheter-des-vues-instagram') || path === '/products/acheter-des-vues-instagram') {
         setCurrentPage('instagram-views');
-        applyServicePageSEO('instagram-views');
-      } else if (path.startsWith('/instagram-comments') || path === '/instagram-comments') {
+        RoutingService.applyServicePageSEO('products/acheter-des-vues-instagram');
+      } else if (path.startsWith('/products/acheter-des-commentaires-instagram') || path === '/products/acheter-des-commentaires-instagram') {
         setCurrentPage('instagram-comments');
-        applyServicePageSEO('instagram-comments');
-      } else if (path.startsWith('/tiktok-followers') || path === '/tiktok-followers') {
+        RoutingService.applyServicePageSEO('products/acheter-des-commentaires-instagram');
+      } else if (path.startsWith('/products/tiktok/acheter-des-abonnes-tiktok') || path === '/products/tiktok/acheter-des-abonnes-tiktok') {
         setCurrentPage('tiktok-followers');
-        applyServicePageSEO('tiktok-followers');
-      } else if (path.startsWith('/tiktok-likes') || path === '/tiktok-likes') {
+        RoutingService.applyServicePageSEO('products/tiktok/acheter-des-abonnes-tiktok');
+      } else if (path.startsWith('/products/tiktok/acheter-des-likes-tiktok') || path === '/products/tiktok/acheter-des-likes-tiktok') {
         setCurrentPage('tiktok-likes');
-        applyServicePageSEO('tiktok-likes');
-      } else if (path.startsWith('/tiktok-views') || path === '/tiktok-views') {
+        RoutingService.applyServicePageSEO('products/tiktok/acheter-des-likes-tiktok');
+      } else if (path.startsWith('/products/tiktok/acheter-vues-tiktok') || path === '/products/tiktok/acheter-vues-tiktok') {
         setCurrentPage('tiktok-views');
-        applyServicePageSEO('tiktok-views');
-      } else if (path.startsWith('/tiktok-comments') || path === '/tiktok-comments') {
+        RoutingService.applyServicePageSEO('products/tiktok/acheter-vues-tiktok');
+      } else if (path.startsWith('/products/tiktok/acheter-des-commentaires-tiktok') || path === '/products/tiktok/acheter-des-commentaires-tiktok') {
         setCurrentPage('tiktok-comments');
-        applyServicePageSEO('tiktok-comments');
+        RoutingService.applyServicePageSEO('products/tiktok/acheter-des-commentaires-tiktok');
       }
       // Page d'accueil
       else if (path === '/') {
@@ -163,13 +164,26 @@ function AppContent() {
 
   // Fonction de navigation avec gestion des slugs
   const handleNavigate = (page: string) => {
-    const servicePage = getServicePageBySlug(page);
+    // Mapper les IDs internes vers les slugs correspondants
+    const pageSlugMap: { [key: string]: string } = {
+      'instagram-followers': 'products/acheter-followers-instagram',
+      'instagram-likes': 'products/acheter-des-likes-instagram',
+      'instagram-views': 'products/acheter-des-vues-instagram',
+      'instagram-comments': 'products/acheter-des-commentaires-instagram',
+      'tiktok-followers': 'products/tiktok/acheter-des-abonnes-tiktok',
+      'tiktok-likes': 'products/tiktok/acheter-des-likes-tiktok',
+      'tiktok-views': 'products/tiktok/acheter-vues-tiktok',
+      'tiktok-comments': 'products/tiktok/acheter-des-commentaires-tiktok'
+    };
+
+    const slug = pageSlugMap[page] || page;
+    const servicePage = getServicePageBySlug(slug);
     
     if (servicePage) {
       // Navigation vers une page de service avec slug
       window.history.pushState({}, '', servicePage.canonicalUrl);
       setCurrentPage(page as any);
-      applyServicePageSEO(page);
+      RoutingService.applyServicePageSEO(slug);
     } else {
       // Navigation vers une page normale
       setCurrentPage(page as any);

@@ -270,7 +270,7 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
             Découvrez nos services de croissance organique pour Instagram, TikTok et YouTube.
           </p>
           <button
-            onClick={() => window.location.href = '/'}
+            onClick={() => onBack()}
             className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
             Découvrir nos services

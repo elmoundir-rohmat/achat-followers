@@ -25,6 +25,7 @@ import { RoutingService } from './services/routingService';
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
+  const [isNavigating, setIsNavigating] = useState(false);
   
   // Gestion du routage basé sur l'URL
   useEffect(() => {
@@ -173,6 +174,15 @@ function AppContent() {
 
   // Fonction de navigation avec gestion des slugs
   const handleNavigate = (page: string) => {
+    // Protection contre les navigations multiples rapides
+    if (isNavigating) {
+      console.log('Navigation en cours, ignorée');
+      return;
+    }
+    
+    console.log('handleNavigate called with:', page);
+    setIsNavigating(true);
+    
     // Mapper les IDs internes vers les slugs correspondants
     const pageSlugMap: { [key: string]: string } = {
       'instagram-followers': 'products/acheter-followers-instagram',
@@ -188,17 +198,46 @@ function AppContent() {
     const slug = pageSlugMap[page] || page;
     const servicePage = getServicePageBySlug(slug);
     
+    console.log('Mapped slug:', slug, 'Service page found:', !!servicePage);
+    
     if (servicePage) {
       // Navigation vers une page de service avec slug
+      console.log('Navigating to service page:', servicePage.canonicalUrl);
       setCurrentPage(page as any);
       // Appliquer le SEO SANS mettre à jour l'historique (éviter la double mise à jour)
       RoutingService.applyServicePageSEOWithoutHistory(slug);
       // Mettre à jour l'URL après avoir défini la page
       window.history.pushState({}, '', servicePage.canonicalUrl);
+      // Forcer la mise à jour de l'URL (pour les navigateurs avec cache)
+      if (window.location.pathname !== servicePage.canonicalUrl) {
+        window.history.replaceState({}, '', servicePage.canonicalUrl);
+      }
+      console.log('URL updated to:', window.location.pathname);
     } else {
       // Navigation vers une page normale
+      console.log('Navigating to normal page:', page);
       setCurrentPage(page as any);
+      // Pour les pages normales, mettre à jour l'URL aussi
+      if (page === 'home') {
+        window.history.pushState({}, '', '/');
+        // Forcer la mise à jour de l'URL
+        if (window.location.pathname !== '/') {
+          window.history.replaceState({}, '', '/');
+        }
+      } else if (page === 'blog') {
+        window.history.pushState({}, '', '/blogs');
+        // Forcer la mise à jour de l'URL
+        if (window.location.pathname !== '/blogs') {
+          window.history.replaceState({}, '', '/blogs');
+        }
+      }
+      console.log('URL updated to:', window.location.pathname);
     }
+    
+    // Réinitialiser le flag de navigation après un court délai
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 100);
   };
 
   // Si on est sur la page d'accueil, afficher HomePage

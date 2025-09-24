@@ -15,6 +15,11 @@ const __dirname = path.dirname(__filename);
 // Import des données - version simplifiée pour éviter les problèmes d'import
 const blogPosts = [
   {
+    slug: "achat-followers-instagram-ca-vaut-le-coup",
+    title: "Achat followers Instagram, ça vaut le coup ?",
+    date: "2025-01-26"
+  },
+  {
     slug: "6-conseils-pour-augmenter-les-abonnes-instagram",
     date: "2025-01-25"
   }
@@ -71,7 +76,7 @@ function generateSitemap() {
 
   // Page Blog
   sitemap += '  <url>\n';
-  sitemap += `    <loc>${baseUrl}/blog</loc>\n`;
+  sitemap += `    <loc>${baseUrl}/blogs</loc>\n`;
   sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
   sitemap += '    <changefreq>daily</changefreq>\n';
   sitemap += '    <priority>0.8</priority>\n';
@@ -80,7 +85,7 @@ function generateSitemap() {
   // Articles de blog
   blogPosts.forEach(post => {
     sitemap += '  <url>\n';
-    sitemap += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+    sitemap += `    <loc>${baseUrl}/blogs/${post.slug}</loc>\n`;
     sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
     sitemap += '    <changefreq>monthly</changefreq>\n';
     sitemap += '    <priority>0.7</priority>\n';

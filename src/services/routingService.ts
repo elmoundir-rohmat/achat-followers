@@ -140,7 +140,7 @@ export class RoutingService {
 
     // Page Blog
     sitemap += '  <url>\n';
-    sitemap += `    <loc>${baseUrl}/blog</loc>\n`;
+    sitemap += `    <loc>${baseUrl}/blogs</loc>\n`;
     sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
     sitemap += '    <changefreq>daily</changefreq>\n';
     sitemap += '    <priority>0.8</priority>\n';
@@ -151,7 +151,7 @@ export class RoutingService {
       const { blogPosts } = require('../config/blogPosts');
       blogPosts.forEach((post: any) => {
         sitemap += '  <url>\n';
-        sitemap += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+        sitemap += `    <loc>${baseUrl}/blogs/${post.slug}</loc>\n`;
         sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
         sitemap += '    <changefreq>monthly</changefreq>\n';
         sitemap += '    <priority>0.7</priority>\n';

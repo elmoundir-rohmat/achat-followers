@@ -126,12 +126,12 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
             >
               Outils
             </button>
-            <a
-              href="/blog"
+            <button
+              onClick={() => onNavigate?.('blog')}
               className="text-white hover:text-blue-300 transition-colors font-medium"
             >
               Blog
-            </a>
+            </button>
             <button
               onClick={() => onNavigate?.('contact')}
               className="text-white hover:text-blue-300 transition-colors font-medium"
@@ -193,13 +193,15 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
                 >
                   Outils
                 </button>
-                <a
-                  href="/blog"
-                  onClick={() => setIsMenuOpen(false)}
+                <button
+                  onClick={() => {
+                    onNavigate?.('blog');
+                    setIsMenuOpen(false);
+                  }}
                   className="block text-white hover:text-blue-300 transition-colors w-full text-left"
                 >
                   Blog
-                </a>
+                </button>
                 <button
                   onClick={() => {
                     onNavigate?.('contact');

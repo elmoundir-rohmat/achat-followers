@@ -32,10 +32,10 @@ function AppContent() {
       const path = window.location.pathname;
       
       // Pages de blog
-      if (path === '/blog') {
+      if (path === '/blogs') {
         setCurrentPage('blog');
-      } else if (path.startsWith('/blog/')) {
-        const slug = path.replace('/blog/', '');
+      } else if (path.startsWith('/blogs/')) {
+        const slug = path.replace('/blogs/', '');
         setCurrentArticleSlug(slug);
         setCurrentPage('blog-article');
       }
@@ -328,7 +328,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => {
           if (page === 'blog') {
-            window.history.pushState({}, '', '/blog');
+            window.history.pushState({}, '', '/blogs');
           } else {
             setCurrentPage(page as any);
           }
@@ -336,7 +336,7 @@ function AppContent() {
         <BlogPage 
           onNavigate={(page) => setCurrentPage(page as any)}
           onViewArticle={(slug) => {
-            window.history.pushState({}, '', `/blog/${slug}`);
+            window.history.pushState({}, '', `/blogs/${slug}`);
             setCurrentArticleSlug(slug);
             setCurrentPage('blog-article');
           }}
@@ -352,7 +352,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={(page) => {
           if (page === 'blog') {
-            window.history.pushState({}, '', '/blog');
+            window.history.pushState({}, '', '/blogs');
             setCurrentPage('blog');
           } else {
             setCurrentPage(page as any);
@@ -361,7 +361,7 @@ function AppContent() {
         <BlogArticle 
           slug={currentArticleSlug}
           onBack={() => {
-            window.history.pushState({}, '', '/blog');
+            window.history.pushState({}, '', '/blogs');
             setCurrentPage('blog');
           }}
         />

@@ -19,8 +19,9 @@ Le sitemap contient **12 URLs** importantes :
 | **TikTok Likes** | `/products/tiktok/acheter-des-likes-tiktok` | 0.9 | weekly |
 | **TikTok Views** | `/products/tiktok/acheter-vues-tiktok` | 0.9 | weekly |
 | **TikTok Comments** | `/products/tiktok/acheter-des-commentaires-tiktok` | 0.9 | weekly |
-| **Blog** | `/blog` | 0.8 | daily |
-| **Article Blog** | `/blog/6-conseils-pour-augmenter-les-abonnes-instagram` | 0.7 | monthly |
+| **Blog** | `/blogs` | 0.8 | daily |
+| **Article Blog 1** | `/blogs/achat-followers-instagram-ca-vaut-le-coup` | 0.7 | monthly |
+| **Article Blog 2** | `/blogs/6-conseils-pour-augmenter-les-abonnes-instagram` | 0.7 | monthly |
 | **Page Légale** | `/legal` | 0.3 | monthly |
 
 ## 🔧 Fonctionnalités implémentées

@@ -9,7 +9,7 @@ export const generateArticleMeta = (post: BlogPost) => {
       title: post.title,
       description: post.excerpt,
       image: post.image,
-      url: `https://doctorfollowers.com/blog/${post.slug}`,
+      url: `https://doctorfollowers.com/blogs/${post.slug}`,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author],
@@ -21,7 +21,7 @@ export const generateArticleMeta = (post: BlogPost) => {
       description: post.excerpt,
       image: post.image,
     },
-    canonical: `https://doctorfollowers.com/blog/${post.slug}`,
+    canonical: `https://doctorfollowers.com/blogs/${post.slug}`,
   };
 };
 
@@ -33,9 +33,9 @@ export const generateBlogMeta = () => {
     openGraph: {
       title: 'Blog | Doctor Followers',
       description: 'Conseils d\'experts pour les réseaux sociaux',
-      url: 'https://doctorfollowers.com/blog',
+      url: 'https://doctorfollowers.com/blogs',
       type: 'website',
     },
-    canonical: 'https://doctorfollowers.com/blog',
+    canonical: 'https://doctorfollowers.com/blogs',
   };
 };

@@ -1,8 +1,7 @@
-import React from 'react';
 import { Instagram } from 'lucide-react';
 
 interface FooterProps {
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: string, section?: string) => void;
 }
 
 export default function Footer({ onNavigate }: FooterProps) {
@@ -26,35 +25,35 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="border-t border-gray-800 pt-6">
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs text-gray-600 mb-3">
             <button 
-              onClick={() => onNavigate?.('legal')}
+              onClick={() => onNavigate?.('legal', 'cgv')}
               className="hover:text-gray-400 transition-colors"
             >
               CGV
             </button>
             <span>•</span>
             <button 
-              onClick={() => onNavigate?.('legal')}
+              onClick={() => onNavigate?.('legal', 'privacy')}
               className="hover:text-gray-400 transition-colors"
             >
               Politique de confidentialité
             </button>
             <span>•</span>
             <button 
-              onClick={() => onNavigate?.('legal')}
+              onClick={() => onNavigate?.('legal', 'delivery')}
               className="hover:text-gray-400 transition-colors"
             >
               Conditions de livraison
             </button>
             <span>•</span>
             <button 
-              onClick={() => onNavigate?.('legal')}
+              onClick={() => onNavigate?.('legal', 'refund')}
               className="hover:text-gray-400 transition-colors"
             >
               Politique de remboursement
             </button>
           </div>
           <div className="text-xs text-gray-600">
-            <p> Doctor Followers by ThinkWell © 2025 - SIRET: 947 844 965</p>
+            <p> Doctor Followers by ElseWay © 2025 - SIREN: 904 173 820</p>
             <p className="mt-1">Adresse: 1 rue Teddy Riner, 92600 Asnières-sur-Seine, France</p>
             <p className="mt-1">Contact: support@doctorfollowers.com - +33 6 19 47 05 19</p>
           </div>

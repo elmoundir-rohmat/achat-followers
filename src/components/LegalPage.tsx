@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeft, FileText, Shield, Building2, Truck, RefreshCw } from 'lucide-react';
 
 interface LegalPageProps {
   onBack: () => void;
+  section?: string;
 }
 
-export default function LegalPage({ onBack }: LegalPageProps) {
+export default function LegalPage({ onBack, section }: LegalPageProps) {
+  // Effet pour faire défiler vers la section appropriée
+  useEffect(() => {
+    if (section) {
+      const element = document.getElementById(section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [section]);
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -38,13 +48,13 @@ export default function LegalPage({ onBack }: LegalPageProps) {
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p><strong>Raison sociale :</strong> ThinkWell</p>
+                    <p><strong>Raison sociale :</strong> ElseWay</p>
                     <p><strong>Adresse :</strong> 1 rue Teddy Riner, 92600 Asnières-sur-Seine, France</p>
-                    <p><strong>SIRET :</strong> 947 844 965</p>
+                    <p><strong>SIREN :</strong> 904 173 820</p>
                   </div>
                   <div> 
                     <p><strong>Forme juridique :</strong> Entrepreneur individuel</p>
-                    <p><strong>TVA intracommunautaire :</strong> FR83947844965</p>
+                    <p><strong>TVA intracommunautaire :</strong> FR86904173820</p>
                     <p><strong>Directeur de publication :</strong> M. El Moundir Rohmat</p>
                   </div>
                 </div>
@@ -74,12 +84,12 @@ export default function LegalPage({ onBack }: LegalPageProps) {
             </section>
 
             {/* Conditions générales */}
-            <section className="mb-8">
+            <section id="cgv" className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Conditions Générales de Vente</h2>
               <div className="space-y-4 text-gray-800">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">1. Objet</h3>
-                  <p>Les présentes conditions générales de vente régissent les relations entre ThinkWell et ses clients pour la fourniture de services de croissance organique sur les réseaux sociaux (Instagram, TikTok).</p>
+                  <p>Les présentes conditions générales de vente régissent les relations entre ElseWay et ses clients pour la fourniture de services de croissance organique sur les réseaux sociaux (Instagram, TikTok).</p>
                 </div>
                 
                 <div>
@@ -100,7 +110,7 @@ export default function LegalPage({ onBack }: LegalPageProps) {
             </section>
 
             {/* Conditions de livraison */}
-            <section className="mb-8">
+            <section id="delivery" className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <Truck className="w-6 h-6 mr-2" />
                 Conditions de Livraison
@@ -123,7 +133,7 @@ export default function LegalPage({ onBack }: LegalPageProps) {
             </section>
 
             {/* Politique de remboursement */}
-            <section className="mb-8">
+            <section id="refund" className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <RefreshCw className="w-6 h-6 mr-2" />
                 Politique de Remboursement
@@ -141,7 +151,7 @@ export default function LegalPage({ onBack }: LegalPageProps) {
             </section>
 
             {/* Politique de confidentialité */}
-            <section className="mb-8">
+            <section id="privacy" className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Politique de Confidentialité</h2>
               <div className="space-y-4 text-gray-800">
                 <div>
@@ -169,7 +179,7 @@ export default function LegalPage({ onBack }: LegalPageProps) {
                   <p><strong>Loi applicable :</strong> Droit français</p>
                   <p><strong>Juridiction compétente :</strong> Tribunaux français</p>
                   <p><strong>Médiation :</strong> Médiation de la consommation (Code de la consommation)</p>
-                  <p><strong>Dernière mise à jour :</strong> {new Date().toLocaleDateString('fr-FR')}</p>
+                  <p><strong>Dernière mise à jour :</strong> 28/09/2025</p>
                 </div>
               </div>
             </section>

@@ -25,6 +25,7 @@ import { RoutingService } from './services/routingService';
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article' | 'cart'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
+  const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
   
   // Gestion du routage basé sur l'URL
@@ -73,6 +74,11 @@ function AppContent() {
       } else if (path.startsWith('/products/tiktok/acheter-des-commentaires-tiktok') || path === '/products/tiktok/acheter-des-commentaires-tiktok') {
         setCurrentPage('tiktok-comments');
         RoutingService.applyServicePageSEO('products/tiktok/acheter-des-commentaires-tiktok');
+      }
+      // Page légale
+      else if (path === '/legal') {
+        setCurrentPage('legal');
+        setCurrentLegalSection('');
       }
       // Page d'accueil
       else if (path === '/') {
@@ -209,15 +215,33 @@ function AppContent() {
   };
 
   // Fonction de navigation avec gestion des slugs
-  const handleNavigate = (page: string) => {
+  const handleNavigate = (page: string, section?: string) => {
     // Protection contre les navigations multiples rapides
     if (isNavigating) {
       console.log('Navigation en cours, ignorée');
       return;
     }
     
-    console.log('handleNavigate called with:', page);
+    console.log('handleNavigate called with:', page, section);
     setIsNavigating(true);
+    
+    // Si c'est une page légale avec une section spécifique
+    if (page === 'legal' && section) {
+      setCurrentLegalSection(section);
+      setCurrentPage('legal');
+      window.history.pushState({}, '', '/legal');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+    
+    // Si c'est une page légale sans section spécifique
+    if (page === 'legal') {
+      setCurrentLegalSection('');
+      setCurrentPage('legal');
+      window.history.pushState({}, '', '/legal');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
     
     // Mapper les IDs internes vers les slugs correspondants
     const pageSlugMap: { [key: string]: string } = {
@@ -444,7 +468,10 @@ function AppContent() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
-        <LegalPage onBack={() => handleNavigate('home')} />
+        <LegalPage 
+          onBack={() => handleNavigate('home')} 
+          section={currentLegalSection}
+        />
         <Footer onNavigate={handleNavigate} />
       </div>
     );

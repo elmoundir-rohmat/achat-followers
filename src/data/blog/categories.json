@@ -1,0 +1,50 @@
+{
+  "categories": [
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "slug": "instagram",
+      "description": "Conseils et stratégies pour Instagram",
+      "color": "#E4405F",
+      "icon": "instagram",
+      "order": 1
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "slug": "tiktok",
+      "description": "Conseils et stratégies pour TikTok",
+      "color": "#000000",
+      "icon": "tiktok",
+      "order": 2
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "slug": "youtube",
+      "description": "Conseils et stratégies pour YouTube",
+      "color": "#FF0000",
+      "icon": "youtube",
+      "order": 3
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "slug": "facebook",
+      "description": "Conseils et stratégies pour Facebook",
+      "color": "#1877F2",
+      "icon": "facebook",
+      "order": 4
+    },
+    {
+      "id": "conseils",
+      "name": "Conseils",
+      "slug": "conseils",
+      "description": "Conseils généraux pour les réseaux sociaux",
+      "color": "#6366F1",
+      "icon": "lightbulb",
+      "order": 5
+    }
+  ],
+  "lastUpdated": "2025-01-26T10:30:00Z"
+}

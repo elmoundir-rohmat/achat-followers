@@ -1,0 +1,22 @@
+{
+  "authors": [
+    {
+      "id": "moundir-rohmat",
+      "name": "Moundir Rohmat",
+      "email": "moundir@doctorfollowers.com",
+      "bio": "Expert en marketing digital et réseaux sociaux avec plus de 5 ans d'expérience dans le développement de stratégies de croissance pour les influenceurs et les marques.",
+      "avatar": "/blog/assets/images/authors/moundir-rohmat.jpg",
+      "social": {
+        "twitter": "@moundir_rohmat",
+        "linkedin": "moundir-rohmat",
+        "instagram": "@moundir_rohmat"
+      },
+      "specialties": ["Instagram", "TikTok", "Growth Hacking", "Content Strategy"],
+      "joinDate": "2024-01-01T00:00:00Z",
+      "articleCount": 2,
+      "totalViews": 2140,
+      "totalLikes": 77
+    }
+  ],
+  "lastUpdated": "2025-01-26T10:30:00Z"
+}

@@ -1,9 +1,7 @@
 import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
-import { BlogService } from '../services/blogService';
-import { generateArticleMeta } from '../utils/seo';
+import { BlogService, BlogPost } from '../lib/blog';
 import { parseMarkdownToHTML, generateTableOfContents } from '../utils/markdownParser';
 import { useEffect, useState } from 'react';
-import { BlogPost } from '../types/blog';
 
 interface BlogArticleProps {
   slug: string;
@@ -25,7 +23,7 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
     const loadArticle = async () => {
       try {
         setLoading(true);
-        const article = await BlogService.getBlogPostBySlug(slug);
+        const article = await BlogService.getArticle(slug);
         setPost(article);
       } catch (error) {
         console.error('Error loading article:', error);
@@ -40,30 +38,28 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
   // Mise à jour des métadonnées SEO et parsing du contenu
   useEffect(() => {
     if (post) {
-      const meta = generateArticleMeta(post);
-      
       // Mise à jour du titre de la page
-      document.title = meta.title;
+      document.title = post.seo.metaTitle;
       
       // Mise à jour de la meta description
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
-        metaDescription.setAttribute('content', meta.description);
+        metaDescription.setAttribute('content', post.seo.metaDescription);
       } else {
         const metaDesc = document.createElement('meta');
         metaDesc.name = 'description';
-        metaDesc.content = meta.description;
+        metaDesc.content = post.seo.metaDescription;
         document.head.appendChild(metaDesc);
       }
 
       // Mise à jour des meta keywords
       const metaKeywords = document.querySelector('meta[name="keywords"]');
       if (metaKeywords) {
-        metaKeywords.setAttribute('content', meta.keywords);
+        metaKeywords.setAttribute('content', post.seo.keywords.join(', '));
       } else {
         const metaKw = document.createElement('meta');
         metaKw.name = 'keywords';
-        metaKw.content = meta.keywords;
+        metaKw.content = post.seo.keywords.join(', ');
         document.head.appendChild(metaKw);
       }
 
@@ -81,33 +77,35 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
       // Mise à jour de l'URL canonique
       const canonical = document.querySelector('link[rel="canonical"]');
       if (canonical) {
-        canonical.setAttribute('href', meta.canonical);
+        canonical.setAttribute('href', post.seo.canonicalUrl || `https://doctorfollowers.com/blogs/${post.slug}`);
       } else {
         const linkCanonical = document.createElement('link');
         linkCanonical.rel = 'canonical';
-        linkCanonical.href = meta.canonical;
+        linkCanonical.href = post.seo.canonicalUrl || `https://doctorfollowers.com/blogs/${post.slug}`;
         document.head.appendChild(linkCanonical);
       }
 
       // Open Graph
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) {
-        ogTitle.setAttribute('content', meta.openGraph.title);
-      }
+      if (post.openGraph) {
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+          ogTitle.setAttribute('content', post.openGraph.title);
+        }
 
-      const ogDescription = document.querySelector('meta[property="og:description"]');
-      if (ogDescription) {
-        ogDescription.setAttribute('content', meta.openGraph.description);
-      }
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+          ogDescription.setAttribute('content', post.openGraph.description);
+        }
 
-      const ogImage = document.querySelector('meta[property="og:image"]');
-      if (ogImage) {
-        ogImage.setAttribute('content', meta.openGraph.image);
-      }
+        const ogImage = document.querySelector('meta[property="og:image"]');
+        if (ogImage) {
+          ogImage.setAttribute('content', post.openGraph.image);
+        }
 
-      const ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) {
-        ogUrl.setAttribute('content', meta.openGraph.url);
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) {
+          ogUrl.setAttribute('content', post.openGraph.url || `https://doctorfollowers.com/blogs/${post.slug}`);
+        }
       }
 
       // Parser le contenu Markdown
@@ -147,7 +145,16 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
   }
 
   const formatDate = (dateString: string) => {
-    return dateString; // La date est déjà formatée dans les données
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return dateString; // Retourner la chaîne originale en cas d'erreur
+    }
   };
 
   return (
@@ -177,11 +184,11 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
           <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
             <div className="flex items-center">
               <User className="w-5 h-5 mr-2" />
-              <span>{post.author?.name || 'Auteur inconnu'}</span>
+              <span>{post.author || 'Auteur inconnu'}</span>
             </div>
             <div className="flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
-              <span>{formatDate(post.date)}</span>
+              <span>{formatDate(post.publishedAt)}</span>
             </div>
             {post.readTime && (
               <div className="flex items-center">
@@ -211,7 +218,7 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
         <div className="mb-8">
           <img
             src={post.image}
-            alt={post.title}
+            alt={post.seo.imageAlt || post.title}
             className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg"
           />
         </div>
@@ -233,14 +240,10 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
           )}
 
           {/* Article Content */}
-          <div className="text-gray-800 leading-relaxed">
+          <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
             {parsedContent ? (
               <div dangerouslySetInnerHTML={{ 
                 __html: parsedContent.html
-              }} />
-            ) : post.content ? (
-              <div dangerouslySetInnerHTML={{ 
-                __html: post.content.replace(/\n/g, '<br/>').replace(/## (.*?)(?=\n|$)/g, '<h2 class="text-2xl font-bold text-gray-900 mb-4 mt-8">$1</h2>')
               }} />
             ) : (
               <p>Contenu de l'article en cours de chargement...</p>

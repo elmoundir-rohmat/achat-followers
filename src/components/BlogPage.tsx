@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, Calendar, User, ArrowRight, Clock } from 'lucide-react';
-import { BlogService } from '../services/blogService';
-import { BlogMetadata } from '../types/blog';
+import { BlogService, BlogMetadata } from '../lib/blog';
 
 interface BlogPageProps {
   onNavigate?: (page: string) => void;
@@ -20,8 +19,8 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
     const loadPosts = async () => {
       try {
         setLoading(true);
-        const blogPosts = await BlogService.getBlogPosts();
-        setPosts(blogPosts);
+        const response = await BlogService.getArticlesList();
+        setPosts(response.posts);
       } catch (error) {
         console.error('Error loading blog posts:', error);
       } finally {
@@ -37,8 +36,9 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const cats = await BlogService.getCategories();
-        setCategories(cats);
+        const response = await BlogService.getArticlesList();
+        const uniqueCategories = [...new Set(response.posts.map(post => post.category))];
+        setCategories(uniqueCategories);
       } catch (error) {
         console.error('Error loading categories:', error);
       }

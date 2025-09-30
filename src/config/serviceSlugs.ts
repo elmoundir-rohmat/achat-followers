@@ -22,8 +22,8 @@ export const servicePages: ServicePage[] = [
     keywords: ['followers instagram', 'acheter followers', 'followers réels', 'boost instagram', 'croissance instagram'],
     category: 'instagram',
     serviceType: 'followers',
-    metaTitle: 'Followers Instagram Réels | Acheter des Followers Actifs',
-    metaDescription: 'Obtenez des followers Instagram réels et actifs pour booster votre compte. Livraison rapide, followers de qualité, garantie 30 jours.',
+    metaTitle: 'Acheter des followers Instagram Actifs',
+    metaDescription: 'Achetez des followers Instagram & TikTok 100% réels. Livraison instantanée, satisfait ou remboursé. Boostez votre crédibilité en une minute !',
     canonicalUrl: '/products/acheter-followers-instagram'
   },
   {
@@ -34,8 +34,8 @@ export const servicePages: ServicePage[] = [
     keywords: ['likes instagram', 'acheter likes', 'likes réels', 'engagement instagram', 'boost likes'],
     category: 'instagram',
     serviceType: 'likes',
-    metaTitle: 'Likes Instagram Réels | Acheter des Likes Authentiques',
-    metaDescription: 'Boostez vos posts Instagram avec des likes réels et authentiques. Augmentez votre engagement rapidement et en toute sécurité.',
+    metaTitle: 'Acheter des likes Instagram Réels',
+    metaDescription: 'Boostez vos posts Instagram avec des likes réels et authentiques. Augmentez votre engagement rapidement, satisfait ou remboursé.',
     canonicalUrl: '/products/acheter-des-likes-instagram'
   },
   {
@@ -46,7 +46,7 @@ export const servicePages: ServicePage[] = [
     keywords: ['vues instagram', 'vues reels', 'vues stories', 'boost vues', 'visibilité instagram'],
     category: 'instagram',
     serviceType: 'views',
-    metaTitle: 'Vues Instagram | Acheter des Vues pour Reels et Stories',
+    metaTitle: 'Acheter des Vues instagram pour vos Reels et Stories',
     metaDescription: 'Augmentez les vues de vos Reels et Stories Instagram. Service rapide et fiable pour booster la visibilité de votre contenu.',
     canonicalUrl: '/products/acheter-des-vues-instagram'
   },
@@ -58,7 +58,7 @@ export const servicePages: ServicePage[] = [
     keywords: ['commentaires instagram', 'commentaires réels', 'engagement instagram', 'boost commentaires'],
     category: 'instagram',
     serviceType: 'comments',
-    metaTitle: 'Commentaires Instagram | Acheter des Commentaires Qualitatifs',
+    metaTitle: 'Acheter des Commentaires Instagram',
     metaDescription: 'Obtenez des commentaires pertinents et authentiques pour vos posts Instagram. Améliorez l\'engagement de votre contenu.',
     canonicalUrl: '/products/acheter-des-commentaires-instagram'
   },
@@ -72,7 +72,7 @@ export const servicePages: ServicePage[] = [
     keywords: ['followers tiktok', 'acheter followers tiktok', 'followers réels tiktok', 'boost tiktok'],
     category: 'tiktok',
     serviceType: 'followers',
-    metaTitle: 'Followers TikTok Réels | Acheter des Followers Actifs',
+    metaTitle: 'Acheter des abonnés Tiktok Actifs',
     metaDescription: 'Obtenez des followers TikTok réels et engagés pour développer votre audience. Service rapide et sécurisé.',
     canonicalUrl: '/products/tiktok/acheter-des-abonnes-tiktok'
   },
@@ -84,7 +84,7 @@ export const servicePages: ServicePage[] = [
     keywords: ['likes tiktok', 'acheter likes tiktok', 'likes réels tiktok', 'boost likes tiktok'],
     category: 'tiktok',
     serviceType: 'likes',
-    metaTitle: 'Likes TikTok | Acheter des Likes Authentiques',
+    metaTitle: 'Acheter des Likes Tiktok Authentiques',
     metaDescription: 'Boostez vos vidéos TikTok avec des likes réels et authentiques. Augmentez l\'engagement de votre contenu rapidement.',
     canonicalUrl: '/products/tiktok/acheter-des-likes-tiktok'
   },
@@ -96,7 +96,7 @@ export const servicePages: ServicePage[] = [
     keywords: ['vues tiktok', 'acheter vues tiktok', 'boost vues tiktok', 'visibilité tiktok'],
     category: 'tiktok',
     serviceType: 'views',
-    metaTitle: 'Vues TikTok | Acheter des Vues pour vos Vidéos',
+    metaTitle: 'Acheter des Vues pour vos Vidéos Tiktok',
     metaDescription: 'Augmentez les vues de vos vidéos TikTok avec notre service professionnel. Boostez la portée de votre contenu.',
     canonicalUrl: '/products/tiktok/acheter-vues-tiktok'
   },
@@ -108,8 +108,8 @@ export const servicePages: ServicePage[] = [
     keywords: ['commentaires tiktok', 'commentaires réels tiktok', 'engagement tiktok', 'boost commentaires tiktok'],
     category: 'tiktok',
     serviceType: 'comments',
-    metaTitle: 'Commentaires TikTok | Acheter des Commentaires Engagés',
-    metaDescription: 'Obtenez des commentaires pertinents et authentiques pour vos vidéos TikTok. Améliorez l\'engagement de votre contenu.',
+    metaTitle: 'Acheter commentaires TikTok authentiques',
+    metaDescription: 'Ajoutez de la crédibilité à vos vidéos. Des commentaires TikTok réels et personnalisés pour plus d\'impact.',
     canonicalUrl: '/products/tiktok/acheter-des-commentaires-tiktok'
   }
 ];

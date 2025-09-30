@@ -1,0 +1,109 @@
+{
+  "articles": [
+    {
+      "id": "achat-followers-instagram-ca-vaut-le-coup",
+      "slug": "achat-followers-instagram-ca-vaut-le-coup",
+      "title": "Achat followers Instagram, ça vaut le coup ?",
+      "excerpt": "Découvrez les aspects techniques et éthiques de l'achat de followers Instagram. Analyse des influenceurs français, types de comptes achetés et implications pour votre stratégie.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Followers", "Achat", "Influenceurs", "Éthique"],
+      "publishedAt": "2025-01-26T00:00:00Z",
+      "readTime": 5,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop",
+      "views": 1250,
+      "likes": 45
+    },
+    {
+      "id": "6-conseils-pour-augmenter-les-abonnes-instagram",
+      "slug": "6-conseils-pour-augmenter-les-abonnes-instagram",
+      "title": "6 conseils pratiques pour augmenter le nombre d'abonnés Instagram",
+      "excerpt": "Découvrez 6 conseils essentiels pour développer votre audience Instagram. Contenu de qualité, engagement, hashtags et stratégies éprouvées pour attirer de nouveaux abonnés.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Abonnés", "Conseils", "Growth", "Engagement"],
+      "publishedAt": "2025-01-25T00:00:00Z",
+      "readTime": 3,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop",
+      "views": 890,
+      "likes": 32
+    }
+  ],
+  "lastUpdated": "2025-01-26T10:30:00Z",
+  "totalArticles": 2,
+  "categories": [
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "slug": "instagram",
+      "description": "Conseils et stratégies pour Instagram",
+      "color": "#E4405F",
+      "icon": "instagram",
+      "articleCount": 2
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "slug": "tiktok",
+      "description": "Conseils et stratégies pour TikTok",
+      "color": "#000000",
+      "icon": "tiktok",
+      "articleCount": 0
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "slug": "youtube",
+      "description": "Conseils et stratégies pour YouTube",
+      "color": "#FF0000",
+      "icon": "youtube",
+      "articleCount": 0
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "slug": "facebook",
+      "description": "Conseils et stratégies pour Facebook",
+      "color": "#1877F2",
+      "icon": "facebook",
+      "articleCount": 0
+    },
+    {
+      "id": "conseils",
+      "name": "Conseils",
+      "slug": "conseils",
+      "description": "Conseils généraux pour les réseaux sociaux",
+      "color": "#6366F1",
+      "icon": "lightbulb",
+      "articleCount": 0
+    }
+  ],
+  "authors": [
+    {
+      "id": "moundir-rohmat",
+      "name": "Moundir Rohmat",
+      "email": "moundir@doctorfollowers.com",
+      "bio": "Expert en marketing digital et réseaux sociaux",
+      "avatar": "/blog/assets/images/authors/moundir-rohmat.jpg",
+      "social": {
+        "twitter": "@moundir_rohmat",
+        "linkedin": "moundir-rohmat"
+      },
+      "articleCount": 2
+    }
+  ],
+  "stats": {
+    "totalArticles": 2,
+    "publishedArticles": 2,
+    "draftArticles": 0,
+    "totalViews": 2140,
+    "totalLikes": 77,
+    "categoriesCount": 5,
+    "authorsCount": 1,
+    "averageReadTime": 4
+  }
+}

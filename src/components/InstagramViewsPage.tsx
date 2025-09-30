@@ -5,7 +5,7 @@ import PackageSelector from './PackageSelector';
 import GuaranteeSection from './GuaranteeSection';
 import InstagramSearchModal from './InstagramSearchModal';
 import InstagramPostsModal from './InstagramPostsModal';
-import ViewsPage from './ViewsPage';
+// ViewsPage supprimé - utilisation du CheckoutPage unifié
 import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
@@ -35,21 +35,12 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
       return;
     }
     
-    addToCart({
-      followers: 0,
-      likes: 0,
-      comments: 0,
-      views: getPackageViews(selectedPackage),
-      price: getPackagePriceLocal(selectedPackage),
-      followerType: followerType as 'french' | 'international'
-    });
-    
+    // Ne pas ajouter au panier maintenant - attendre la sélection des posts
     setIsModalOpen(true);
   };
 
   const handleProfileSelect = (username: string, cartData: any) => {
     setSelectedProfile(username);
-    updateLastItemUsername(username);
     setIsModalOpen(false);
     setIsPostsModalOpen(true);
   };
@@ -63,14 +54,27 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
       viewsToAdd: getPackageViews(selectedPackage), // Chaque reel reçoit le nombre complet de vues du pack
       mediaUrl: post.media_url || post.thumbnail_url
     }));
-    updateLastItemPosts(postsData);
     
-    // Mettre à jour le prix total dans le panier (prix par post × nombre de posts)
+    // Calculer le prix total (prix par post × nombre de posts)
     const totalPrice = pricePerPost * posts.length;
-    updateLastItemPrice(totalPrice);
+    
+    // Ajouter au panier SEULEMENT après la sélection des posts
+    addToCart({
+      followers: 0,
+      likes: 0,
+      comments: 0,
+      views: getPackageViews(selectedPackage),
+      price: totalPrice,
+      followerType: followerType as 'french' | 'international',
+      username: selectedProfile,
+      platform: 'Instagram',
+      selectedPosts: postsData
+    });
     
     setIsPostsModalOpen(false);
-    setCurrentStep('checkout');
+    
+    // Rediriger vers le panier
+    window.location.href = '/cart';
   };
 
   const handleCheckoutComplete = (orderData: any) => {
@@ -85,14 +89,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
     setCurrentStep('selection');
   };
 
-  if (currentStep === 'checkout') {
-    return (
-      <ViewsPage 
-        onBack={handleBackToSelection}
-        onComplete={handleCheckoutComplete}
-      />
-    );
-  }
+  // Le checkout est maintenant géré par l'App.tsx via /cart
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -491,6 +488,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
         isViews={true}
         selectedPackage={selectedPackage}
         getPackagePrice={getPackagePriceLocal}
+        pricePerPost={getPackagePriceLocal(selectedPackage)}
       />
     </div>
   );

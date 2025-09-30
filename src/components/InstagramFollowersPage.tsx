@@ -44,7 +44,9 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     setSelectedProfile(username);
     updateLastItemUsername(username);
     setIsModalOpen(false);
-    setCurrentStep('checkout');
+    
+    // Rediriger vers la page de panier unifiée
+    window.location.href = '/cart';
   };
 
   const handleCheckoutComplete = (orderData: any) => {

@@ -23,7 +23,27 @@ interface CustomerData {
 }
 
 export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
-  const { items, getTotalPrice, getTotalFollowers, clearCart, removeFromCart } = useCart();
+  const { items, getTotalPrice, getTotalFollowers, getTotalLikes, getTotalViews, getTotalComments, clearCart, removeFromCart, addToCart } = useCart();
+  
+  // Si le panier est vide, afficher un message
+  if (items.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Votre panier est vide</h2>
+          <p className="text-gray-600 mb-6">Ajoutez des produits à votre panier pour continuer</p>
+          <button
+            onClick={onBack}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+          >
+            Retour aux produits
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -441,7 +461,71 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                     <div className="flex justify-between items-center pr-8">
                       <div>
                         <div className="font-semibold text-gray-900">
-                          {item.followers.toLocaleString()} followers {item.followerType === 'french' ? 'français' : 'internationaux'}
+                          {(() => {
+                            // DEBUG: Log des données de l'item
+                            console.log('🔍 DEBUG Item data:', {
+                              id: item.id,
+                              comments: item.comments,
+                              selectedPosts: item.selectedPosts,
+                              selectedPostsLength: item.selectedPosts?.length
+                            });
+                            
+                            const likes = item.likes || 0;
+                            const views = item.views || 0;
+                            const comments = item.comments || 0;
+                            const followers = item.followers || 0;
+                            
+                            // Calculer le total réel pour chaque type si des posts sont sélectionnés
+                            let totalLikes = likes;
+                            let totalViews = views;
+                            let totalComments = comments;
+                            
+                            if (item.selectedPosts && item.selectedPosts.length > 0) {
+                              totalLikes = item.selectedPosts.reduce((sum, post) => sum + (post.likesToAdd || 0), 0);
+                              totalViews = item.selectedPosts.reduce((sum, post) => sum + (post.viewsToAdd || 0), 0);
+                              totalComments = item.selectedPosts.reduce((sum, post) => sum + (post.commentsToAdd || 0), 0);
+                            }
+                            
+                            // DEBUG: Log des calculs
+                            console.log('🔍 DEBUG Calculs:', {
+                              commentsOriginal: comments,
+                              totalCommentsCalculated: totalComments,
+                              selectedPostsCount: item.selectedPosts?.length
+                            });
+                            
+                            // Déterminer le type de service basé sur la valeur la plus élevée
+                            const maxValue = Math.max(totalLikes, totalViews, totalComments, followers);
+                            
+                            // Ajouter l'indicateur de posts si des posts sont sélectionnés
+                            const postIndicator = item.selectedPosts && item.selectedPosts.length > 1 
+                              ? ` (${item.selectedPosts.length}x)` 
+                              : '';
+                            
+                            // Ajouter l'indicateur de plateforme si nécessaire
+                            const platformIndicator = item.platform ? ` ${item.platform}` : '';
+                            
+                            if (maxValue === totalLikes && totalLikes > 0) {
+                              // Calculer la quantité par post pour l'affichage
+                              const likesPerPost = item.selectedPosts && item.selectedPosts.length > 0 
+                                ? (item.selectedPosts[0]?.likesToAdd || 0)
+                                : likes;
+                              return `${likesPerPost.toLocaleString()} likes${platformIndicator} ${item.followerType === 'french' ? 'français' : 'internationaux'}${postIndicator}`;
+                            } else if (maxValue === totalViews && totalViews > 0) {
+                              // Calculer la quantité par post pour l'affichage
+                              const viewsPerPost = item.selectedPosts && item.selectedPosts.length > 0 
+                                ? (item.selectedPosts[0]?.viewsToAdd || 0)
+                                : views;
+                              return `${viewsPerPost.toLocaleString()} vues${platformIndicator} ${item.followerType === 'french' ? 'français' : 'internationaux'}${postIndicator}`;
+                            } else if (maxValue === totalComments && totalComments > 0) {
+                              // Calculer la quantité par post pour l'affichage
+                              const commentsPerPost = item.selectedPosts && item.selectedPosts.length > 0 
+                                ? (item.selectedPosts[0]?.commentsToAdd || 0)
+                                : comments;
+                              return `${commentsPerPost.toLocaleString()} commentaires${platformIndicator} ${item.followerType === 'french' ? 'français' : 'internationaux'}${postIndicator}`;
+                            } else {
+                              return `${followers.toLocaleString()} followers${platformIndicator} ${item.followerType === 'french' ? 'français' : 'internationaux'}${postIndicator}`;
+                            }
+                          })()}
                         </div>
                         {item.username && (
                           <div className="text-sm text-gray-600">
@@ -453,6 +537,46 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                         {item.price.toFixed(2)}€
                       </div>
                     </div>
+                    
+                    {/* Affichage des posts sélectionnés */}
+                    {item.selectedPosts && item.selectedPosts.length > 0 && (
+                      <div className="mt-3 pt-3 border-t border-gray-200">
+                        <div className="text-sm text-gray-600 mb-2">
+                          Posts sélectionnés ({item.selectedPosts.length}):
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {item.selectedPosts.map((post, index) => (
+                            <div key={post.postId} className="flex items-center space-x-2 text-xs">
+                              <div className="w-8 h-8 bg-gray-200 rounded overflow-hidden">
+                                {post.mediaUrl && (
+                                  <img 
+                                    src={post.mediaUrl} 
+                                    alt="Post" 
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.style.display = 'none';
+                                    }}
+                                  />
+                                )}
+                              </div>
+                              <div>
+                                <div className="font-medium">Post #{index + 1}</div>
+                                {post.likesToAdd && (
+                                  <div className="text-pink-600">+{post.likesToAdd} likes</div>
+                                )}
+                                {post.commentsToAdd && (
+                                  <div className="text-blue-600">+{post.commentsToAdd} commentaires</div>
+                                )}
+                                {post.viewsToAdd && (
+                                  <div className="text-purple-600">+{post.viewsToAdd} vues</div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))
               )}
@@ -463,6 +587,24 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                 <span className="text-lg font-semibold text-gray-700">Total followers:</span>
                 <span className="text-lg font-bold text-gray-900">{getTotalFollowers().toLocaleString()}</span>
               </div>
+              {getTotalLikes() > 0 && (
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-lg font-semibold text-gray-700">Total likes:</span>
+                  <span className="text-lg font-bold text-gray-900">{getTotalLikes().toLocaleString()}</span>
+                </div>
+              )}
+              {getTotalViews() > 0 && (
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-lg font-semibold text-gray-700">Total vues:</span>
+                  <span className="text-lg font-bold text-gray-900">{getTotalViews().toLocaleString()}</span>
+                </div>
+              )}
+              {getTotalComments() > 0 && (
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-lg font-semibold text-gray-700">Total commentaires:</span>
+                  <span className="text-lg font-bold text-gray-900">{getTotalComments().toLocaleString()}</span>
+                </div>
+              )}
               <div className="flex justify-between items-center">
                 <span className="text-xl font-bold text-gray-900">Total:</span>
                 <span className="text-2xl font-bold text-blue-600">{getTotalPrice().toFixed(2)}€</span>

@@ -94,3 +94,4 @@ Après avoir ajouté un article :
 - **Slugs** : Utilisez des tirets, pas d'espaces
 - **Images** : Choisissez des images de qualité et pertinentes
 - **Tags** : Utilisez des mots-clés que vos lecteurs rechercheraient
+

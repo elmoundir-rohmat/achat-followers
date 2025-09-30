@@ -3,7 +3,7 @@ import { Music, Star, Shield, Heart, Zap, ShoppingCart, X } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
 import TikTokLikesDeliveryModal from './TikTokLikesDeliveryModal';
-import TikTokLikesCheckoutPage from './TikTokLikesCheckoutPage';
+// TikTokLikesCheckoutPage supprimé - utilisation du CheckoutPage unifié
 import { useCart } from '../contexts/CartContext';
 
 export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
@@ -98,8 +98,8 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
       delivery: deliveryOption
     });
     
-    setIsDeliveryModalOpen(false);
-    setCurrentStep('checkout');
+    // Rediriger vers la page de panier unifiée
+    window.location.href = '/cart';
   };
 
   const handleCheckoutComplete = (orderData: any) => {
@@ -122,14 +122,7 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
     setSelectedPackage('');
   };
 
-  if (currentStep === 'checkout') {
-    return (
-      <TikTokLikesCheckoutPage 
-        onBack={() => setCurrentStep('selection')} 
-        onComplete={handleCheckoutComplete}
-      />
-    );
-  }
+  // Le checkout est maintenant géré par l'App.tsx via /cart
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">

@@ -23,20 +23,13 @@ import { getServicePageBySlug } from './config/serviceSlugs';
 import { RoutingService } from './services/routingService';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article' | 'cart'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
-  const [isManualNavigation, setIsManualNavigation] = useState(false);
   
   // Gestion du routage basé sur l'URL
   useEffect(() => {
     const handleRoute = () => {
-      // Ignorer les changements d'URL pendant une navigation manuelle
-      if (isManualNavigation) {
-        console.log('Ignoring URL change during manual navigation');
-        return;
-      }
-      
       const path = window.location.pathname;
       
       // Debug pour production
@@ -49,6 +42,11 @@ function AppContent() {
         const slug = path.replace('/blogs/', '');
         setCurrentArticleSlug(slug);
         setCurrentPage('blog-article');
+      }
+      // Page de panier/checkout
+      else if (path === '/cart' || path === '/checkout') {
+        setCurrentPage('cart');
+        setCurrentStep('checkout');
       }
       // Pages de services avec slugs
       else if (path.startsWith('/products/acheter-followers-instagram') || path === '/products/acheter-followers-instagram') {
@@ -93,7 +91,7 @@ function AppContent() {
     handleRoute(); // Vérifier l'URL initiale
 
     return () => window.removeEventListener('popstate', handleRoute);
-  }, [isManualNavigation]);
+  }, []);
   
   // Debug: log current page
   console.log('Current page:', currentPage, 'URL:', window.location.pathname);
@@ -151,8 +149,9 @@ function AppContent() {
     // Fermer le modal
     setIsModalOpen(false);
     
-    // Rediriger vers le checkout immédiatement
-    console.log('🚀 Redirection vers checkout...');
+    // Rediriger vers la page de panier avec URL standard
+    console.log('🚀 Redirection vers panier: /cart');
+    window.history.pushState({}, '', '/cart');
     setCurrentStep('checkout');
   };
 
@@ -164,20 +163,50 @@ function AppContent() {
   };
 
   const handleBackToSelection = () => {
+    // Retourner à la page de service précédente basée sur le contenu du panier
+    const { items } = useCart();
+    
+    if (items.length > 0) {
+      // Déterminer le type de service basé sur le premier item du panier
+      const firstItem = items[0];
+      let servicePage = 'instagram-followers'; // par défaut
+      
+      if (firstItem.likes > 0) {
+        servicePage = 'instagram-likes';
+      } else if (firstItem.views > 0) {
+        servicePage = 'instagram-views';
+      } else if (firstItem.comments > 0) {
+        servicePage = 'instagram-comments';
+      } else if (firstItem.platform === 'TikTok' || firstItem.platform === 'tiktok') {
+        if (firstItem.likes > 0) {
+          servicePage = 'tiktok-likes';
+        } else {
+          servicePage = 'tiktok-followers';
+        }
+      }
+      
+      const serviceSlugMap: { [key: string]: string } = {
+        'instagram-followers': 'products/acheter-followers-instagram',
+        'instagram-likes': 'products/acheter-des-likes-instagram',
+        'instagram-views': 'products/acheter-des-vues-instagram',
+        'instagram-comments': 'products/acheter-des-commentaires-instagram',
+        'tiktok-followers': 'products/tiktok/acheter-des-abonnes-tiktok',
+        'tiktok-likes': 'products/tiktok/acheter-des-likes-tiktok'
+      };
+      
+      const slug = serviceSlugMap[servicePage];
+      if (slug) {
+        window.history.pushState({}, '', `/${slug}`);
+        setCurrentPage(servicePage as any);
+      }
+    } else {
+      // Si le panier est vide, retourner à l'accueil
+      window.history.pushState({}, '', '/');
+      setCurrentPage('home');
+    }
+    
     setCurrentStep('selection');
   };
-
-  if (currentStep === 'checkout') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <CheckoutPage 
-          onBack={handleBackToSelection}
-          onComplete={handleCheckoutComplete}
-        />
-      </div>
-    );
-  }
 
   // Fonction de navigation avec gestion des slugs
   const handleNavigate = (page: string) => {
@@ -189,7 +218,6 @@ function AppContent() {
     
     console.log('handleNavigate called with:', page);
     setIsNavigating(true);
-    setIsManualNavigation(true);
     
     // Mapper les IDs internes vers les slugs correspondants
     const pageSlugMap: { [key: string]: string } = {
@@ -229,6 +257,19 @@ function AppContent() {
       }, 0);
       
       console.log('URL updated to:', window.location.pathname);
+    } else if (page === 'cart') {
+      // Navigation vers la page panier
+      console.log('Navigating to cart page');
+      
+      // Mettre à jour l'URL d'abord
+      window.history.pushState({}, '', '/cart');
+      
+      // Mettre à jour la page immédiatement
+      setCurrentPage('cart');
+      setCurrentStep('checkout');
+      console.log('Page state updated to: cart');
+      
+      console.log('URL updated to:', window.location.pathname);
     } else {
       // Navigation vers une page normale
       console.log('Navigating to normal page:', page);
@@ -257,13 +298,25 @@ function AppContent() {
       console.log('URL updated to:', window.location.pathname);
     }
     
-    // Réinitialiser les flags de navigation après un court délai
+    // Réinitialiser le flag de navigation après un court délai
     setTimeout(() => {
       setIsNavigating(false);
-      setIsManualNavigation(false);
-      console.log('Navigation completed, flags reset');
     }, 100);
   };
+
+  // Page de panier/checkout
+  if (currentPage === 'cart') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
+        <CheckoutPage 
+          onBack={handleBackToSelection}
+          onComplete={handleCheckoutComplete}
+        />
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    );
+  }
 
   // Si on est sur la page d'accueil, afficher HomePage
   if (currentPage === 'home') {
@@ -390,9 +443,9 @@ function AppContent() {
   if (currentPage === 'legal') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <LegalPage onBack={() => setCurrentPage('home')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <LegalPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }
@@ -403,7 +456,7 @@ function AppContent() {
       <div key="blog" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
         <BlogPage 
-          onNavigate={(page) => setCurrentPage(page as any)}
+          onNavigate={handleNavigate}
           onViewArticle={(slug) => {
             setCurrentArticleSlug(slug);
             setCurrentPage('blog-article');
@@ -433,9 +486,9 @@ function AppContent() {
   if (currentPage === 'likes') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-        <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
-        <LikesMainPage onBack={() => setCurrentPage('followers')} />
-        <Footer onNavigate={(page) => setCurrentPage(page as any)} />
+        <ModernNavigation onNavigate={handleNavigate} />
+        <LikesMainPage onBack={() => handleNavigate('followers')} />
+        <Footer onNavigate={handleNavigate} />
       </div>
     );
   }

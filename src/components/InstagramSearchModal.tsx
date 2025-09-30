@@ -64,6 +64,8 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
 
   // Recherche d'utilisateurs avec API réelle
   const searchUsers = async (query: string) => {
+    console.log('🔍 DEBUG searchUsers called with query:', query);
+    
     if (query.length < 3) {
       setSearchResults([]);
       setShowSuggestions(false);
@@ -201,6 +203,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
       console.log('🔍 Premier résultat détaillé:', results[0] ? JSON.stringify(results[0], null, 2) : 'Aucun résultat');
       
       if (results && results.length > 0) {
+        console.log('🔍 DEBUG Setting search results:', results.length);
         setSearchResults(results);
         setShowSuggestions(true);
         setError('');
@@ -323,10 +326,13 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
   };
 
   const handleSuggestionClick = (user: SearchResult) => {
+    console.log('🔍 DEBUG handleSuggestionClick called with:', user.username);
     console.log('👆 Clic sur profil:', user.username);
     console.log('📦 cartData:', cartData);
     setShowSuggestions(false);
+    console.log('🔍 DEBUG About to call onSelectProfile');
     onSelectProfile(user.username, cartData);
+    console.log('🔍 DEBUG onSelectProfile called');
   };
 
 

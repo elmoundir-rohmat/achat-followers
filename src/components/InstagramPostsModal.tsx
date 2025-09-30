@@ -53,6 +53,15 @@ export default function InstagramPostsModal({
 
   if (!isOpen) return null;
 
+  console.log('🔍 DEBUG InstagramPostsModal rendering with:', { 
+    isOpen, 
+    username, 
+    step, 
+    selectedPosts: selectedPosts.length,
+    isComments,
+    isViews 
+  });
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
@@ -128,21 +137,11 @@ export default function InstagramPostsModal({
                   </div>
                 </div>
 
-{isViews || isComments ? (
-                  <div className={`border rounded-lg p-3 ${isViews ? 'bg-purple-50 border-purple-200' : 'bg-blue-50 border-blue-200'}`}>
-                    <p className={`text-sm ${isViews ? 'text-purple-800' : 'text-blue-800'}`}>
-                      <strong>Note:</strong> Chaque {isViews ? 'reel' : 'post'} sélectionné recevra {totalLikes.toLocaleString()} {isViews ? 'vues' : isComments ? 'commentaires' : 'likes'}. Le prix total est calculé en multipliant le prix par {isViews ? 'reel' : 'post'} par le nombre de {isViews ? 'reels' : 'posts'} sélectionnés.
-                    </p>
-                  </div>
-                ) : (
-                  totalLikes % selectedPosts.length > 0 && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                      <p className="text-sm text-yellow-800">
-                        <strong>Note:</strong> Les {totalLikes % selectedPosts.length} likes restants seront répartis sur les premiers posts sélectionnés.
-                      </p>
-                    </div>
-                  )
-                )}
+              <div className={`border rounded-lg p-3 ${isViews ? 'bg-purple-50 border-purple-200' : isComments ? 'bg-blue-50 border-blue-200' : 'bg-pink-50 border-pink-200'}`}>
+                <p className={`text-sm ${isViews ? 'text-purple-800' : isComments ? 'text-blue-800' : 'text-pink-800'}`}>
+                  <strong>Note:</strong> Chaque {isViews ? 'reel' : 'post'} sélectionné recevra {totalLikes.toLocaleString()} {isViews ? 'vues' : isComments ? 'commentaires' : 'likes'}. Le prix total est calculé en multipliant le prix par {isViews ? 'reel' : 'post'} par le nombre de {isViews ? 'reels' : 'posts'} sélectionnés.
+                </p>
+              </div>
               </div>
 
               {/* Liste des posts sélectionnés */}
@@ -153,11 +152,8 @@ export default function InstagramPostsModal({
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {selectedPosts.map((post, index) => {
-                    // Pour les commentaires, chaque post reçoit le nombre complet de commentaires
-                    // Pour les likes, on divise et on répartit les restes
-                    const engagementForThisPost = isComments 
-                      ? totalLikes 
-                      : Math.floor(totalLikes / selectedPosts.length) + (index < (totalLikes % selectedPosts.length) ? 1 : 0);
+                    // Pour tous les services (likes, commentaires, vues), chaque post reçoit le nombre complet
+                    const engagementForThisPost = totalLikes;
                     
                     return (
                       <div key={post.id} className="relative">

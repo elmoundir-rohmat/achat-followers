@@ -5,7 +5,7 @@ import PackageSelector from './PackageSelector';
 import GuaranteeSection from './GuaranteeSection';
 import InstagramSearchModal from './InstagramSearchModal';
 import InstagramPostsModal from './InstagramPostsModal';
-import LikesPage from './LikesPage';
+// LikesPage supprimé - utilisation du CheckoutPage unifié
 import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
 
@@ -49,52 +49,45 @@ export default function LikesMainPage({ onBack }: LikesMainPageProps) {
       return;
     }
     
-    // Ajouter au panier avec likes
-    addToCart({
-      followers: 0, // Pas de followers pour les likes
-      likes: getPackageLikes(selectedPackage),
-      price: getPackagePrice(selectedPackage),
-      followerType: followerType as 'french' | 'international'
-    });
-    
-    // Ouvrir le modal de recherche
+    // Ne pas ajouter au panier maintenant - attendre la sélection des posts
     setIsModalOpen(true);
   };
 
   const handleProfileSelect = (username: string, cartData: any) => {
-    console.log('🎯 handleProfileSelect appelé avec:', username);
-    
     setSelectedProfile(username);
-    
-    // Mettre à jour le dernier article du panier avec le nom d'utilisateur
-    updateLastItemUsername(username);
-    
-    // Fermer le modal de recherche
     setIsModalOpen(false);
-    
-    // Ouvrir le modal de sélection des posts
     setIsPostsModalOpen(true);
   };
 
   const handlePostsSelected = (posts: InstagramPost[], likesPerPost: number) => {
-    console.log('📸 Posts sélectionnés:', posts.length, 'likes par post:', likesPerPost);
-    
     setSelectedPosts(posts);
     
-    // Mettre à jour le dernier article du panier avec les posts sélectionnés
+    // Pour les likes, chaque post reçoit le nombre complet de likes du pack
     const postsData = posts.map(post => ({
       postId: post.id,
-      likesToAdd: likesPerPost + (posts.indexOf(post) < (getPackageLikes(selectedPackage) % posts.length) ? 1 : 0),
+      likesToAdd: getPackageLikes(selectedPackage), // Chaque post reçoit le nombre complet de likes du pack
       mediaUrl: post.media_url || post.thumbnail_url
     }));
-    updateLastItemPosts(postsData);
+    
+    // Calculer le prix total (prix par post × nombre de posts)
+    const totalPrice = getPackagePrice(selectedPackage) * posts.length;
+    
+    // Ajouter au panier SEULEMENT après la sélection des posts
+    addToCart({
+      followers: 0,
+      likes: getPackageLikes(selectedPackage), // Quantité de base pour l'affichage
+      price: totalPrice,
+      followerType: followerType as 'french' | 'international',
+      username: selectedProfile,
+      platform: 'Instagram',
+      selectedPosts: postsData
+    });
     
     // Fermer le modal des posts
     setIsPostsModalOpen(false);
     
-    // Rediriger vers le checkout
-    console.log('🚀 Redirection vers checkout likes...');
-    setCurrentStep('checkout');
+    // Rediriger vers le panier
+    window.location.href = '/cart';
   };
 
   const handleCheckoutComplete = (orderData: any) => {
@@ -109,14 +102,7 @@ export default function LikesMainPage({ onBack }: LikesMainPageProps) {
     setCurrentStep('selection');
   };
 
-  if (currentStep === 'checkout') {
-    return (
-      <LikesPage 
-        onBack={handleBackToSelection}
-        onComplete={handleCheckoutComplete}
-      />
-    );
-  }
+  // Le checkout est maintenant géré par l'App.tsx via /cart
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -227,6 +213,7 @@ export default function LikesMainPage({ onBack }: LikesMainPageProps) {
         username={selectedProfile}
         totalLikes={getPackageLikes(selectedPackage)}
         onPostsSelected={handlePostsSelected}
+        pricePerPost={getPackagePrice(selectedPackage)}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Instagram, Heart, MessageCircle, Eye, Users, ChevronDown, Menu, X } from 'lucide-react';
+import { Instagram, Heart, MessageCircle, Eye, Users, ChevronDown, Menu, X, ShoppingCart } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 
 interface Service {
   id: string;
@@ -22,6 +23,7 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { items } = useCart();
 
   const platforms: Platform[] = [
     {
@@ -141,7 +143,20 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center">
+          <div className="flex items-center space-x-2">
+            {/* Mobile Cart Icon */}
+            <button
+              onClick={() => onNavigate?.('cart')}
+              className="relative text-white hover:text-blue-300 transition-colors p-2"
+            >
+              <ShoppingCart className="w-6 h-6" />
+              {items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {items.length}
+                </span>
+              )}
+            </button>
+            
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden text-white hover:text-blue-300 transition-colors"

@@ -85,7 +85,8 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
       }
     });
     
-    // Passer à la page de checkout
+    // Rediriger vers la page de panier avec URL standard
+    window.history.pushState({}, '', '/cart');
     setIsDeliveryModalOpen(false);
     setCurrentStep('checkout');
     setTiktokUrl('');

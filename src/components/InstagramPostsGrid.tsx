@@ -87,26 +87,27 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
   };
 
   const handleConfirmSelection = () => {
+    console.log('🔍 DEBUG handleConfirmSelection called!', { 
+      selectedPosts: selectedPosts.length, 
+      isComments, 
+      isViews, 
+      pricePerPost 
+    });
+    
     if (selectedPosts.length === 0) {
       alert(`Veuillez sélectionner au moins un ${isViews ? 'reel' : 'post'}`);
       return;
     }
 
-    if (isViews || isComments) {
-      // Pour les vues et commentaires, on passe le prix par post (qui sera multiplié par le nombre de posts)
+    if (isViews || isComments || true) {
+      // Pour tous les services (vues, commentaires ET likes), on passe le prix par post (qui sera multiplié par le nombre de posts)
+      console.log('🔍 DEBUG InstagramPostsGrid calling onPostsSelect for all services:', { 
+        selectedPosts: selectedPosts.length, 
+        pricePerPost, 
+        isComments, 
+        isViews 
+      });
       onPostsSelect(selectedPosts, pricePerPost);
-    } else {
-      // Pour les likes, on divise le nombre total sur les posts sélectionnés
-      const likesPerPost = Math.floor(totalLikes / selectedPosts.length);
-      const remainingLikes = totalLikes % selectedPosts.length;
-
-      // Répartir les likes restants sur les premiers posts
-      const postsWithLikes = selectedPosts.map((post, index) => ({
-        ...post,
-        likesToAdd: likesPerPost + (index < remainingLikes ? 1 : 0)
-      }));
-
-      onPostsSelect(postsWithLikes, likesPerPost);
     }
   };
 
@@ -190,11 +191,11 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
               </>
             ) : (
               <>
-                <div className="text-sm text-gray-600">Total likes à répartir:</div>
-                <div className="text-lg font-bold text-pink-600">{totalLikes.toLocaleString()}</div>
+                <div className="text-sm text-gray-600">Total {isViews ? 'vues' : isComments ? 'commentaires' : 'likes'} à répartir:</div>
+                <div className={`text-lg font-bold ${isViews ? 'text-purple-600' : isComments ? 'text-blue-600' : 'text-pink-600'}`}>{(totalLikes * Math.max(selectedPosts.length, 1)).toLocaleString()}</div>
                 {selectedPosts.length > 0 && (
                   <div className="text-xs text-gray-500">
-                    ~{Math.floor(totalLikes / selectedPosts.length)} likes/post
+                    {totalLikes.toLocaleString()} {isViews ? 'vues' : isComments ? 'commentaires' : 'likes'}/post
                   </div>
                 )}
               </>
@@ -207,7 +208,8 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
       <div className="grid grid-cols-4 gap-3">
         {posts.map((post, index) => {
           const isSelected = selectedPosts.some(p => p.id === post.id);
-          const likesPerPost = selectedPosts.length > 0 ? Math.floor(totalLikes / selectedPosts.length) : 0;
+          // Pour tous les services (likes, commentaires, vues), chaque post reçoit le nombre complet
+          const engagementPerPost = totalLikes;
           
           return (
             <div
@@ -266,7 +268,7 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
               {isSelected && (
                 <div className="absolute top-2 left-2">
                   <div className={`${isViews ? 'bg-purple-500' : isComments ? 'bg-blue-500' : 'bg-pink-500'} text-white px-2 py-1 rounded text-xs font-bold`}>
-                    +{isViews || isComments ? totalLikes : likesPerPost}
+                    +{engagementPerPost}
                   </div>
                 </div>
               )}
@@ -296,6 +298,7 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
       )}
 
       {/* Bouton de confirmation */}
+      {console.log('🔍 DEBUG Bouton confirmation - selectedPosts.length:', selectedPosts.length, 'isComments:', isComments, 'isViews:', isViews)}
       {selectedPosts.length > 0 && (
         <div className="fixed bottom-6 right-6">
           <button

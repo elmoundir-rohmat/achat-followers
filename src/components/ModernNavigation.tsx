@@ -217,15 +217,6 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
                 >
                   Blog
                 </button>
-                <button
-                  onClick={() => {
-                    onNavigate?.('contact');
-                    setIsMenuOpen(false);
-                  }}
-                  className="block text-white hover:text-blue-300 transition-colors w-full text-left"
-                >
-                  Contact
-                </button>
               </div>
             </div>
           </div>

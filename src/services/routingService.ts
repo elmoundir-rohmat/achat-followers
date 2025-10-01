@@ -203,6 +203,22 @@ export class RoutingService {
       console.warn('Impossible de charger les articles de blog pour le sitemap:', error);
     }
 
+    // Page À propos
+    sitemap += '  <url>\n';
+    sitemap += `    <loc>${baseUrl}/about</loc>\n`;
+    sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+    sitemap += '    <changefreq>monthly</changefreq>\n';
+    sitemap += '    <priority>0.5</priority>\n';
+    sitemap += '  </url>\n';
+
+    // Page Contact
+    sitemap += '  <url>\n';
+    sitemap += `    <loc>${baseUrl}/contact</loc>\n`;
+    sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+    sitemap += '    <changefreq>monthly</changefreq>\n';
+    sitemap += '    <priority>0.6</priority>\n';
+    sitemap += '  </url>\n';
+
     // Page légale
     sitemap += '  <url>\n';
     sitemap += `    <loc>${baseUrl}/legal</loc>\n`;

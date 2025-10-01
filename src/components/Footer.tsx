@@ -25,6 +25,20 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="border-t border-gray-800 pt-6">
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs text-gray-600 mb-3">
             <button 
+              onClick={() => onNavigate?.('about')}
+              className="hover:text-gray-400 transition-colors"
+            >
+              À propos
+            </button>
+            <span>•</span>
+            <button 
+              onClick={() => onNavigate?.('contact')}
+              className="hover:text-gray-400 transition-colors"
+            >
+              Contact
+            </button>
+            <span>•</span>
+            <button 
               onClick={() => onNavigate?.('legal', 'cgv')}
               className="hover:text-gray-400 transition-colors"
             >

@@ -15,6 +15,8 @@ import InstagramViewsPage from './components/InstagramViewsPage';
 import TikTokFollowersPage from './components/TikTokFollowersPage';
 import TikTokLikesPage from './components/TikTokLikesPage';
 import LegalPage from './components/LegalPage';
+import AboutPage from './components/AboutPage';
+import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogArticle from './components/BlogArticle';
 import Footer from './components/Footer';
@@ -23,7 +25,7 @@ import { getServicePageBySlug } from './config/serviceSlugs';
 import { RoutingService } from './services/routingService';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'blog' | 'blog-article' | 'cart'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
@@ -79,6 +81,14 @@ function AppContent() {
       else if (path === '/legal') {
         setCurrentPage('legal');
         setCurrentLegalSection('');
+      }
+      // Page À propos
+      else if (path === '/about') {
+        setCurrentPage('about');
+      }
+      // Page Contact
+      else if (path === '/contact') {
+        setCurrentPage('contact');
       }
       // Page d'accueil
       else if (path === '/') {
@@ -239,6 +249,22 @@ function AppContent() {
       setCurrentLegalSection('');
       setCurrentPage('legal');
       window.history.pushState({}, '', '/legal');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+    
+    // Si c'est la page À propos
+    if (page === 'about') {
+      setCurrentPage('about');
+      window.history.pushState({}, '', '/about');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+    
+    // Si c'est la page Contact
+    if (page === 'contact') {
+      setCurrentPage('contact');
+      window.history.pushState({}, '', '/contact');
       setTimeout(() => setIsNavigating(false), 100);
       return;
     }
@@ -472,6 +498,28 @@ function AppContent() {
           onBack={() => handleNavigate('home')} 
           section={currentLegalSection}
         />
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    );
+  }
+
+  // Page À propos
+  if (currentPage === 'about') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
+        <AboutPage onBack={() => handleNavigate('home')} />
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    );
+  }
+
+  // Page Contact
+  if (currentPage === 'contact') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <ModernNavigation onNavigate={handleNavigate} />
+        <ContactPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
       </div>
     );

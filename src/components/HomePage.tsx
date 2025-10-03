@@ -163,11 +163,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <Instagram className="relative w-12 h-12 text-white mr-4" />
               </div>
               <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                Doctor Followers
+                Acheter followers Instagram, Tiktok, et plus encore...
               </h1>
             </div>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              La plateforme professionnelle pour booster votre présence sur les réseaux sociaux
+            <p>
+              Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer votre audience en revenus.
+            </p>
+
             </p>
             
             {/* CTA Buttons */}
@@ -209,10 +212,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-4">
-            Nos Services
+            Nos services
           </h2>
           <p className="text-xl text-blue-200">
-            Choisissez votre plateforme et boostez votre présence
+            Choisissez votre plateforme et boostez votre présence avec des followers réels et actifs.
           </p>
         </div>
 

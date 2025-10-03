@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="text" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e2e8f0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cbd5e1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Decorative circles -->
+  <circle cx="200" cy="150" r="80" fill="#3b82f6" opacity="0.2"/>
+  <circle cx="1000" cy="200" r="100" fill="#8b5cf6" opacity="0.2"/>
+  <circle cx="600" cy="450" r="120" fill="#ec4899" opacity="0.2"/>
+  
+  <!-- Main title -->
+  <text x="600" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="url(#text)">
+    Doctor Followers
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" fill="#e2e8f0">
+    Boostez votre Instagram &amp; TikTok
+  </text>
+  
+  <!-- Description -->
+  <text x="600" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#94a3b8">
+    Followers réels • Livraison rapide • Garantie 30 jours
+  </text>
+  
+  <!-- URL -->
+  <text x="600" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#3b82f6" font-weight="bold">
+    www.doctorfollowers.com
+  </text>
+  
+  <!-- Instagram icon -->
+  <circle cx="500" cy="520" r="20" fill="#ffffff" opacity="0.8"/>
+  <circle cx="500" cy="520" r="15" fill="none" stroke="#1e293b" stroke-width="2"/>
+  <circle cx="505" cy="515" r="3" fill="#1e293b"/>
+  
+  <!-- TikTok icon -->
+  <rect x="680" y="500" width="40" height="40" rx="8" fill="#ffffff" opacity="0.8"/>
+  <text x="700" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1e293b">TT</text>
+</svg>

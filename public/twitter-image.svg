@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="600" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="600" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="600" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white">
+    Doctor Followers
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#e2e8f0">
+    Followers Instagram &amp; TikTok Réels
+  </text>
+  
+  <!-- Features -->
+  <text x="600" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#94a3b8">
+    ✓ Livraison rapide 24-72h
+  </text>
+  <text x="600" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#94a3b8">
+    ✓ Garantie 30 jours
+  </text>
+  <text x="600" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#94a3b8">
+    ✓ Service sécurisé
+  </text>
+  
+  <!-- URL -->
+  <text x="600" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#3b82f6" font-weight="bold">
+    www.doctorfollowers.com
+  </text>
+</svg>

@@ -10,7 +10,7 @@ import { useCart } from '../contexts/CartContext';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
 export default function InstagramFollowersPage({ onBack }: { onBack: () => void }) {
-  const [followerType, setFollowerType] = useState('french');
+  const [followerType, setFollowerType] = useState('international');
   const [selectedPackage, setSelectedPackage] = useState('');
   const [selectedProfile, setSelectedProfile] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,11 +80,11 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="flex items-center mb-6">
                 <Instagram className="w-16 h-16 mr-4" />
                 <h1 className="text-5xl md:text-7xl font-bold">
-                  Followers Instagram
+                  Acheter des followers Instagram
                 </h1>
               </div>
               <p className="text-xl md:text-2xl mb-8 opacity-90">
-                Des followers réels et actifs pour faire grandir votre communauté Instagram
+                Acheter des followers Instagram réels et actifs pour faire grandir votre communauté
               </p>
               <div className="flex items-center space-x-8 text-lg">
                 <div className="flex items-center">
@@ -235,7 +235,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         {/* Security & Guarantees Section */}
         <div className="bg-blue-50 rounded-2xl p-8 mb-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Acheter des abonnés Instagram en toute sécurité avec Doctor Followers
+            Renforcez votre crédibilité sur Instagram
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -280,7 +280,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         {/* Why Buy Followers Section */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Pourquoi acheter des abonnés Instagram en 2025?
+            Pourquoi acheter des followers Instagram réels et actifs en 2025?
           </h2>
 
           <div className="space-y-16">

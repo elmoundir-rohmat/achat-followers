@@ -17,18 +17,6 @@ interface Props {
 export default function FollowerTypeSelector({ selectedType, onTypeChange }: Props) {
   const followerTypes: FollowerType[] = [
     {
-      id: 'french',
-      title: 'Followers Français',
-      description: 'Abonnés ciblés spécifiquement depuis la France',
-      features: [
-        'Profils 100% français',
-        'Meilleur engagement local',
-        'Contenu en français',
-        'Horaires français'
-      ],
-      icon: <MapPin className="w-6 h-6" />
-    },
-    {
       id: 'international',
       title: 'Followers Internationaux',
       description: 'Abonnés provenant du monde entier',
@@ -39,6 +27,18 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange }: Pro
         'Prix avantageux'
       ],
       icon: <Globe className="w-6 h-6" />
+    },
+    {
+      id: 'french',
+      title: 'Followers Français',
+      description: 'Abonnés ciblés spécifiquement depuis la France',
+      features: [
+        'Profils 100% français',
+        'Meilleur engagement local',
+        'Contenu en français',
+        'Horaires français'
+      ],
+      icon: <MapPin className="w-6 h-6" />
     }
   ];
 

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Instagram, Heart, MessageCircle, Eye, Users, Zap, Shield, Clock, ArrowRight, Star, CheckCircle, TrendingUp, Award, Globe, Smartphone, ChevronDown } from 'lucide-react';
+import { smmaService, SMMAOrder } from '../services/smmaService';
 
 interface Service {
   id: string;
@@ -23,6 +24,94 @@ interface HomePageProps {
 export default function HomePage({ onNavigate }: HomePageProps) {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+  const [orderDetails, setOrderDetails] = useState<any>(null);
+  const [smmaResults, setSmmaResults] = useState<any>(null);
+  const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
+
+  // Vérifier si on est sur une page de paiement
+  useEffect(() => {
+    const path = window.location.pathname;
+    
+    if (path === '/payment/success') {
+      console.log('🎯 Page de succès détectée - Affichage du modal');
+      setShowPaymentSuccess(true);
+      
+      // Récupérer les paramètres Cardinity
+      const urlParams = new URLSearchParams(window.location.search);
+      const cardinityOrderId = urlParams.get('order_id');
+      const cardinityAmount = urlParams.get('amount');
+      const cardinityStatus = urlParams.get('status');
+      const cardinityId = urlParams.get('id');
+      
+      console.log('🔍 Paramètres Cardinity:', {
+        order_id: cardinityOrderId,
+        amount: cardinityAmount,
+        status: cardinityStatus,
+        id: cardinityId
+      });
+      
+      // Si c'est un retour Cardinity réussi, déclencher SMMA
+      if (cardinityStatus === 'approved' || cardinityId) {
+        console.log('✅ Paiement Cardinity confirmé - Déclenchement SMMA');
+        processSMMAIntegration(cardinityId || cardinityOrderId);
+      }
+      
+      // Récupérer les détails de la commande
+      const savedOrder = localStorage.getItem('pendingOrder');
+      if (savedOrder) {
+        try {
+          const order = JSON.parse(savedOrder);
+          setOrderDetails({
+            orderId: cardinityOrderId || order.orderId,
+            amount: cardinityAmount || order.amount,
+            followers: order.followers,
+            followerType: order.followerType,
+            username: order.username,
+            timestamp: new Date().toLocaleString('fr-FR')
+          });
+          localStorage.removeItem('pendingOrder');
+        } catch (error) {
+          console.error('Erreur:', error);
+        }
+      }
+    }
+  }, []);
+
+  const processSMMAIntegration = async (paymentId: string) => {
+    console.log('🚀 Déclenchement SMMA avec paymentId:', paymentId);
+    setIsProcessingSMMA(true);
+    
+    try {
+      const savedCartItems = localStorage.getItem('cartItems');
+      if (savedCartItems) {
+        const cartItems = JSON.parse(savedCartItems);
+        
+        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
+          username: item.username || 'unknown',
+          followers: item.followers,
+          followerType: item.followerType,
+          orderId: orderDetails?.orderId || paymentId,
+          paymentId: paymentId
+        }));
+
+        console.log('📦 Commandes SMMA:', smmaOrders);
+
+        const smmaResults = await Promise.all(
+          smmaOrders.map(order => smmaService.orderFollowers(order))
+        );
+
+        console.log('📊 Résultats SMMA:', smmaResults);
+        setSmmaResults(smmaResults);
+        localStorage.removeItem('cartItems');
+      }
+    } catch (error) {
+      console.error('❌ Erreur SMMA:', error);
+      setSmmaResults({ error: 'Erreur lors du traitement' });
+    } finally {
+      setIsProcessingSMMA(false);
+    }
+  };
 
 
   const faqs = [

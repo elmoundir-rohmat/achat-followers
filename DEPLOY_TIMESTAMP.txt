@@ -1,0 +1,5 @@
+Déploiement forcé pour corriger le problème 404
+Timestamp: 2024-10-06T18:55:00Z
+Problème: Pages de paiement retournent 404
+Solution: Redirections explicites dans _redirects et netlify.toml
+Status: PRÊT POUR DÉPLOIEMENT

@@ -2,4 +2,11 @@
 # Exclure les fichiers statiques importants
 /sitemap.xml    /sitemap.xml   200
 /robots.txt     /robots.txt    200
+
+# Routes de paiement spécifiques
+/payment/success    /index.html    200
+/payment/cancel     /index.html    200
+/pay                /index.html    200
+
+# Toutes les autres routes vers index.html
 /*              /index.html    200

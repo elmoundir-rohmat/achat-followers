@@ -4,14 +4,17 @@ export const CARDINITY_CONFIG = {
   consumerKey: import.meta.env.VITE_CARDINITY_CONSUMER_KEY || 'your_consumer_key_here',
   consumerSecret: import.meta.env.VITE_CARDINITY_CONSUMER_SECRET || 'your_consumer_secret_here',
   
-  // URLs de callback depuis les variables d'environnement
-  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://your-domain.com/success',
-  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://your-domain.com/cancel',
+  // URLs de callback pour la production
+  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/success',
+  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel',
   
   // Configuration par défaut
   currency: 'EUR',
   country: 'FR',
-  language: 'fr'
+  language: 'fr',
+  
+  // Mode de test (true pour les clés test, false pour les clés live)
+  isTestMode: import.meta.env.VITE_CARDINITY_CONSUMER_KEY?.startsWith('test_') || false
 };
 
 // Types pour TypeScript

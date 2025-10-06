@@ -1,0 +1,237 @@
+import React, { useState, useEffect } from 'react';
+import { CreditCard, Lock, Shield, ArrowLeft, Users, Clock } from 'lucide-react';
+import CardinityPayment from './CardinityPayment';
+import { useCart } from '../contexts/CartContext';
+import { CARDINITY_CONFIG } from '../config/cardinity';
+
+interface PaymentPageProps {
+  onBack?: () => void;
+}
+
+export default function PaymentPage({ onBack }: PaymentPageProps) {
+  const { cartItems, clearCart } = useCart();
+  const [orderDetails, setOrderDetails] = useState<any>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+    // Récupérer les détails de la commande depuis le localStorage ou les props
+    const savedOrder = localStorage.getItem('pendingOrder');
+    if (savedOrder) {
+      try {
+        const order = JSON.parse(savedOrder);
+        setOrderDetails(order);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des détails de commande:', error);
+      }
+    }
+
+    // Si pas de commande sauvegardée, créer une commande à partir du panier
+    if (!savedOrder && cartItems.length > 0) {
+      const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
+      const totalFollowers = cartItems.reduce((sum, item) => sum + item.followers, 0);
+      const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
+      const newOrder = {
+        orderId,
+        amount: totalAmount,
+        currency: 'EUR',
+        description: `${totalFollowers} followers Instagram`,
+        followers: totalFollowers,
+        followerType: cartItems[0]?.followerType || 'international',
+        username: cartItems[0]?.username || 'Non spécifié',
+        timestamp: new Date().toISOString()
+      };
+      
+      setOrderDetails(newOrder);
+      localStorage.setItem('pendingOrder', JSON.stringify(newOrder));
+    }
+  }, [cartItems]);
+
+  const handlePaymentSuccess = (result: any) => {
+    console.log('✅ Paiement réussi:', result);
+    setIsProcessing(false);
+    
+    // Nettoyer le panier
+    clearCart();
+    
+    // Rediriger vers la page de succès
+    window.location.href = '/payment/success';
+  };
+
+  const handlePaymentError = (error: any) => {
+    console.error('❌ Erreur de paiement:', error);
+    setIsProcessing(false);
+    
+    // Rediriger vers la page d'échec
+    window.location.href = '/payment/cancel?error=payment_failed&error_description=' + encodeURIComponent(error.message || 'Erreur de paiement');
+  };
+
+  const handlePaymentCancel = () => {
+    console.log('🚫 Paiement annulé');
+    setIsProcessing(false);
+    
+    if (onBack) {
+      onBack();
+    } else {
+      window.location.href = '/cart';
+    }
+  };
+
+  if (!orderDetails) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement des détails de commande...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <button
+                onClick={handlePaymentCancel}
+                className="flex items-center text-gray-600 hover:text-gray-900 mr-4"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Retour
+              </button>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Paiement sécurisé
+              </h1>
+            </div>
+            <div className="flex items-center text-sm text-gray-500">
+              <Lock className="w-4 h-4 mr-1" />
+              Paiement 100% sécurisé
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Résumé de la commande */}
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">
+              Résumé de votre commande
+            </h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                <div className="flex items-center">
+                  <Users className="w-6 h-6 text-blue-600 mr-3" />
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      {orderDetails.followers?.toLocaleString()} followers
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {orderDetails.followerType === 'french' ? 'Français' : 'Internationaux'}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-bold text-blue-600">
+                    {orderDetails.amount?.toFixed(2)}€
+                  </p>
+                </div>
+              </div>
+
+              <div className="border-t pt-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600">Sous-total</span>
+                  <span className="font-semibold">{orderDetails.amount?.toFixed(2)}€</span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600">TVA (20%)</span>
+                  <span className="font-semibold">{(orderDetails.amount * 0.2).toFixed(2)}€</span>
+                </div>
+                <div className="flex justify-between items-center text-lg font-bold border-t pt-2">
+                  <span>Total</span>
+                  <span className="text-blue-600">{orderDetails.amount?.toFixed(2)}€</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Garanties */}
+            <div className="mt-6 p-4 bg-green-50 rounded-lg">
+              <h3 className="font-semibold text-green-800 mb-3">✅ Garanties incluses</h3>
+              <div className="space-y-2 text-sm text-green-700">
+                <div className="flex items-center">
+                  <Shield className="w-4 h-4 mr-2" />
+                  <span>Followers 100% réels et actifs</span>
+                </div>
+                <div className="flex items-center">
+                  <Clock className="w-4 h-4 mr-2" />
+                  <span>Livraison en 24-72h</span>
+                </div>
+                <div className="flex items-center">
+                  <Shield className="w-4 h-4 mr-2" />
+                  <span>Garantie 30 jours satisfait ou remboursé</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Formulaire de paiement */}
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="flex items-center mb-6">
+              <CreditCard className="w-6 h-6 text-blue-600 mr-3" />
+              <h2 className="text-xl font-bold text-gray-900">
+                Informations de paiement
+              </h2>
+            </div>
+
+            {CARDINITY_CONFIG.isTestMode && (
+              <div className="mb-4 p-4 bg-yellow-50 rounded-lg">
+                <p className="text-sm text-yellow-800">
+                  <strong>Mode test activé</strong> - Utilisez les cartes de test Cardinity pour simuler le paiement
+                </p>
+              </div>
+            )}
+
+            {/* Composant Cardinity */}
+            <CardinityPayment
+              amount={orderDetails.amount}
+              orderId={orderDetails.orderId}
+              description={orderDetails.description}
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+              onCancel={handlePaymentCancel}
+            />
+
+            {/* Informations de sécurité */}
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center mb-2">
+                <Lock className="w-4 h-4 text-gray-600 mr-2" />
+                <span className="text-sm font-semibold text-gray-700">Paiement sécurisé</span>
+              </div>
+              <p className="text-xs text-gray-600">
+                Vos données sont protégées par un chiffrement SSL 256-bit. 
+                Nous ne stockons jamais vos informations de carte bancaire.
+              </p>
+            </div>
+
+            {/* Cartes de test - seulement en mode test */}
+            {CARDINITY_CONFIG.isTestMode && (
+              <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
+                <h4 className="text-sm font-semibold text-yellow-800 mb-2">
+                  💳 Cartes de test Cardinity
+                </h4>
+                <div className="text-xs text-yellow-700 space-y-1">
+                  <p><strong>Succès:</strong> 4111111111111111 (12/25, CVV: 123)</p>
+                  <p><strong>Échec:</strong> 4000000000000002 (12/25, CVV: 123)</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -19,13 +19,16 @@ import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogArticle from './components/BlogArticle';
+import PaymentSuccessPage from './components/PaymentSuccessPage';
+import PaymentCancelPage from './components/PaymentCancelPage';
+import PaymentPage from './components/PaymentPage';
 import Footer from './components/Footer';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { getServicePageBySlug } from './config/serviceSlugs';
 import { RoutingService } from './services/routingService';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
@@ -50,6 +53,14 @@ function AppContent() {
       else if (path === '/cart' || path === '/checkout') {
         setCurrentPage('cart');
         setCurrentStep('checkout');
+      }
+      // Pages de paiement
+      else if (path === '/pay') {
+        setCurrentPage('payment');
+      } else if (path === '/payment/success') {
+        setCurrentPage('payment-success');
+      } else if (path === '/payment/cancel') {
+        setCurrentPage('payment-cancel');
       }
       // Pages de services avec slugs
       else if (path.startsWith('/products/acheter-followers-instagram') || path === '/products/acheter-followers-instagram') {
@@ -565,6 +576,27 @@ function AppContent() {
         <LikesMainPage onBack={() => handleNavigate('followers')} />
         <Footer onNavigate={handleNavigate} />
       </div>
+    );
+  }
+
+  // Page de paiement
+  if (currentPage === 'payment') {
+    return (
+      <PaymentPage onBack={() => handleNavigate('cart')} />
+    );
+  }
+
+  // Page de succès de paiement
+  if (currentPage === 'payment-success') {
+    return (
+      <PaymentSuccessPage onBack={() => handleNavigate('home')} />
+    );
+  }
+
+  // Page d'échec de paiement
+  if (currentPage === 'payment-cancel') {
+    return (
+      <PaymentCancelPage onBack={() => handleNavigate('cart')} />
     );
   }
 

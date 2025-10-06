@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShoppingCart, CreditCard, User, Mail, MapPin, Phone, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
@@ -71,6 +71,31 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
     onClose: () => setToast(prev => ({ ...prev, isVisible: false })),
     isVisible: false
   });
+
+  // Redirection automatique vers la page de paiement
+  useEffect(() => {
+    if (showPayment) {
+      // Sauvegarder les détails de la commande
+      const orderDetails = {
+        orderId,
+        amount: getTotalPrice(),
+        currency: 'EUR',
+        description: `${getTotalFollowers()} followers Instagram`,
+        followers: getTotalFollowers(),
+        followerType: items[0]?.followerType || 'international',
+        username: items[0]?.username || 'Non spécifié',
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+      
+      // Rediriger vers la page de paiement après un court délai
+      const timer = setTimeout(() => {
+        window.location.href = '/pay';
+      }, 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showPayment, orderId, getTotalPrice, getTotalFollowers, items]);
 
   const validateForm = () => {
     const newErrors: Partial<CustomerData> = {};
@@ -213,26 +238,18 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           </div>
         ) : showPayment ? (
           <div className="max-w-2xl mx-auto">
-            {/* Mode développement : utiliser MockPayment, sinon CardinityPayment */}
-            {import.meta.env.DEV ? (
-              <MockPayment
-                amount={getTotalPrice()}
-                orderId={orderId}
-                description={`${getTotalFollowers()} followers Instagram`}
-                onSuccess={handlePaymentSuccess}
-                onError={handlePaymentError}
-                onCancel={handlePaymentCancel}
-              />
-            ) : (
-              <CardinityPayment
-                amount={getTotalPrice()}
-                orderId={orderId}
-                description={`${getTotalFollowers()} followers Instagram`}
-                onSuccess={handlePaymentSuccess}
-                onError={handlePaymentError}
-                onCancel={handlePaymentCancel}
-              />
-            )}
+            {/* Redirection automatique vers la page de paiement */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+              <div className="mb-6">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  Redirection vers le paiement...
+                </h2>
+                <p className="text-gray-600">
+                  Préparation de votre commande
+                </p>
+              </div>
+            </div>
             
             {/* Affichage du traitement SMMA */}
             {isProcessingSMMA && (

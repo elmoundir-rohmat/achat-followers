@@ -26,22 +26,28 @@ export default function CardinityPayment({
     if (typeof window !== 'undefined' && window.Cardinity) {
       console.log('✅ Cardinity SDK chargé');
     } else {
-      console.log('ℹ️ Cardinity SDK non chargé (normal en mode développement)');
-      // En mode développement, on n'affiche pas d'erreur car MockPayment sera utilisé
-      if (import.meta.env.PROD) {
-        setError('Erreur de chargement du système de paiement');
-      }
+      console.log('ℹ️ Cardinity SDK non chargé');
+      // Attendre que le SDK se charge
+      const checkCardinity = setInterval(() => {
+        if (window.Cardinity) {
+          console.log('✅ Cardinity SDK chargé après attente');
+          clearInterval(checkCardinity);
+        }
+      }, 1000);
+      
+      // Arrêter la vérification après 10 secondes
+      setTimeout(() => {
+        clearInterval(checkCardinity);
+        if (!window.Cardinity) {
+          setError('Erreur de chargement du système de paiement Cardinity');
+        }
+      }, 10000);
     }
   }, []);
 
   const handlePayment = async () => {
     if (!window.Cardinity) {
-      if (import.meta.env.PROD) {
-        setError('Système de paiement non disponible');
-      } else {
-        console.log('ℹ️ Cardinity non disponible en mode développement - utilisez MockPayment');
-        setError('En mode développement, utilisez MockPayment pour tester les paiements');
-      }
+      setError('Système de paiement Cardinity non disponible. Veuillez réessayer dans quelques instants.');
       return;
     }
 
@@ -49,6 +55,16 @@ export default function CardinityPayment({
     setError('');
 
     try {
+      // Sauvegarder les détails de la commande dans le localStorage
+      const orderDetails = {
+        orderId,
+        amount,
+        currency: CARDINITY_CONFIG.currency,
+        description,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+
       // Préparer les données de paiement
       const paymentData: CardinityPaymentData = {
         amount: Math.round(amount * 100), // Convertir en centimes

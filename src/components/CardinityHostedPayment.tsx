@@ -46,13 +46,13 @@ export default function CardinityHostedPayment({
         language: CARDINITY_CONFIG.language,
         order_id: orderId,
         description: description,
-        project_id: CARDINITY_CONFIG.consumerKey, // Utiliser consumer_key comme project_id
+        project_id: CARDINITY_CONFIG.projectId, // Utiliser project_id spécifique
         return_url: CARDINITY_CONFIG.successUrl,
         cancel_url: CARDINITY_CONFIG.cancelUrl
       };
 
-      // Générer la signature
-      const signature = generateSignature(params, CARDINITY_CONFIG.consumerSecret);
+      // Générer la signature avec project_secret
+      const signature = generateSignature(params, CARDINITY_CONFIG.projectSecret);
       
       // Ajouter la signature aux paramètres
       const signedParams = {

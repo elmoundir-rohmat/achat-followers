@@ -4,6 +4,10 @@ export const CARDINITY_CONFIG = {
   consumerKey: import.meta.env.VITE_CARDINITY_CONSUMER_KEY || 'your_consumer_key_here',
   consumerSecret: import.meta.env.VITE_CARDINITY_CONSUMER_SECRET || 'your_consumer_secret_here',
   
+  // Project ID pour Hosted Payment Page (différent du consumer_key)
+  projectId: import.meta.env.VITE_CARDINITY_PROJECT_ID || 'test_pr_qv9zu05bvo31crposua7589yrjf8uy',
+  projectSecret: import.meta.env.VITE_CARDINITY_PROJECT_SECRET || 'tms6iehwwaa1vb8y8xlz4ymygyxmp1nyt0apeizog9wuqbwh6p',
+  
   // URLs de callback pour la production
   successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/success',
   cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel',

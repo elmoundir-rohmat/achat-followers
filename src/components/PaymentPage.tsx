@@ -3,6 +3,7 @@ import { CreditCard, Lock, Shield, ArrowLeft, Users, Clock } from 'lucide-react'
 import CardinityHostedPayment from './CardinityHostedPayment';
 import { useCart } from '../contexts/CartContext';
 import { CARDINITY_CONFIG } from '../config/cardinity';
+import { smmaService, SMMAOrder } from '../services/smmaService';
 
 interface PaymentPageProps {
   onBack?: () => void;
@@ -47,15 +48,49 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
     }
   }, [cartItems]);
 
-  const handlePaymentSuccess = (result: any) => {
+  const handlePaymentSuccess = async (result: any) => {
     console.log('✅ Paiement réussi:', result);
-    setIsProcessing(false);
+    setIsProcessing(true);
     
-    // Nettoyer le panier
-    clearCart();
-    
-    // Rediriger vers la page de succès
-    window.location.href = '/payment/success';
+    try {
+      // Appeler l'API SMMA pour traiter la commande
+      if (orderDetails && cartItems.length > 0) {
+        const smmaOrders: SMMAOrder[] = cartItems.map(item => ({
+          username: item.username || 'unknown',
+          followers: item.followers,
+          followerType: item.followerType,
+          orderId: orderDetails.orderId,
+          paymentId: result.payment_id || result.transaction_id || result.id
+        }));
+
+        console.log('📦 Commandes SMMA à traiter:', smmaOrders);
+
+        // Traiter chaque commande SMMA
+        const smmaResults = await Promise.all(
+          smmaOrders.map(order => smmaService.orderFollowers(order))
+        );
+
+        console.log('📊 Résultats SMMA:', smmaResults);
+        
+        // Sauvegarder les résultats SMMA dans le localStorage pour la page de succès
+        localStorage.setItem('smmaResults', JSON.stringify(smmaResults));
+      }
+      
+      // Nettoyer le panier
+      clearCart();
+      
+      // Rediriger vers la page de succès
+      window.location.href = '/payment/success';
+      
+    } catch (error) {
+      console.error('❌ Erreur lors du traitement SMMA:', error);
+      // Même en cas d'erreur SMMA, on redirige vers la page de succès
+      // car le paiement a réussi
+      clearCart();
+      window.location.href = '/payment/success';
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handlePaymentError = (error: any) => {

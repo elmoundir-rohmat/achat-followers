@@ -7,6 +7,7 @@ interface PaymentSuccessPageProps {
 
 export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) {
   const [orderDetails, setOrderDetails] = useState<any>(null);
+  const [smmaResults, setSmmaResults] = useState<any>(null);
 
   useEffect(() => {
     // Récupérer les détails de la commande depuis l'URL ou le localStorage
@@ -34,6 +35,20 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         localStorage.removeItem('pendingOrder');
       } catch (error) {
         console.error('Erreur lors de la récupération des détails de commande:', error);
+      }
+    }
+
+    // Récupérer les résultats SMMA
+    const savedSmmaResults = localStorage.getItem('smmaResults');
+    if (savedSmmaResults) {
+      try {
+        const results = JSON.parse(savedSmmaResults);
+        setSmmaResults(results);
+        console.log('📊 Résultats SMMA récupérés:', results);
+        // Nettoyer le localStorage
+        localStorage.removeItem('smmaResults');
+      } catch (error) {
+        console.error('Erreur lors de la récupération des résultats SMMA:', error);
       }
     }
   }, []);
@@ -119,6 +134,38 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
               <p>📧 Un email de confirmation vous sera envoyé</p>
             </div>
           </div>
+
+          {/* Résultats SMMA */}
+          {smmaResults && (
+            <div className="bg-green-50 rounded-xl p-6 mb-6">
+              <div className="flex items-center justify-center mb-3">
+                <Users className="w-6 h-6 text-green-600 mr-2" />
+                <h3 className="text-lg font-bold text-green-600">
+                  Commande transmise à Just Another Panel
+                </h3>
+              </div>
+              
+              <div className="space-y-2 text-sm text-gray-700">
+                {Array.isArray(smmaResults) ? (
+                  smmaResults.map((result: any, index: number) => (
+                    <div key={index} className="p-3 bg-white rounded-lg">
+                      <p><strong>Commande #{index + 1}:</strong></p>
+                      <p>• ID SMMA: {result.id || 'En cours...'}</p>
+                      <p>• Statut: {result.status || 'Traitement en cours'}</p>
+                      {result.error && (
+                        <p className="text-red-600">• Erreur: {result.error}</p>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-3 bg-white rounded-lg">
+                    <p><strong>Résultat:</strong></p>
+                    <p>• {JSON.stringify(smmaResults)}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Garanties */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

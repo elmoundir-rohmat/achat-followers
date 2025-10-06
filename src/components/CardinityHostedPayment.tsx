@@ -1,0 +1,170 @@
+import React, { useState } from 'react';
+import { CARDINITY_CONFIG } from '../config/cardinity';
+import CryptoJS from 'crypto-js';
+
+interface CardinityHostedPaymentProps {
+  amount: number;
+  orderId: string;
+  description: string;
+  onSuccess: (result: any) => void;
+  onError: (error: any) => void;
+  onCancel: () => void;
+}
+
+export default function CardinityHostedPayment({
+  amount,
+  orderId,
+  description,
+  onSuccess,
+  onError,
+  onCancel
+}: CardinityHostedPaymentProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const generateSignature = (params: Record<string, string>, secret: string): string => {
+    // Trier les paramètres par clé
+    const sortedParams = Object.keys(params)
+      .sort()
+      .map(key => key + params[key])
+      .join('');
+    
+    // Générer la signature HMAC-SHA256
+    return CryptoJS.HmacSHA256(sortedParams, secret).toString(CryptoJS.enc.Hex);
+  };
+
+  const handlePayment = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Paramètres pour la Hosted Payment Page
+      const params = {
+        amount: amount.toFixed(2),
+        currency: CARDINITY_CONFIG.currency,
+        country: CARDINITY_CONFIG.country,
+        language: CARDINITY_CONFIG.language,
+        order_id: orderId,
+        description: description,
+        project_id: CARDINITY_CONFIG.consumerKey, // Utiliser consumer_key comme project_id
+        return_url: CARDINITY_CONFIG.successUrl,
+        cancel_url: CARDINITY_CONFIG.cancelUrl
+      };
+
+      // Générer la signature
+      const signature = generateSignature(params, CARDINITY_CONFIG.consumerSecret);
+      
+      // Ajouter la signature aux paramètres
+      const signedParams = {
+        ...params,
+        signature: signature
+      };
+
+      console.log('💳 Redirection vers Hosted Payment Page Cardinity:', signedParams);
+
+      // Sauvegarder les détails de la commande
+      const orderDetails = {
+        orderId,
+        amount,
+        currency: CARDINITY_CONFIG.currency,
+        description,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+
+      // Créer un formulaire et le soumettre automatiquement
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://checkout.cardinity.com';
+      form.style.display = 'none';
+
+      // Ajouter tous les paramètres comme champs cachés
+      Object.entries(signedParams).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      // Ajouter le formulaire au DOM et le soumettre
+      document.body.appendChild(form);
+      form.submit();
+
+    } catch (error: any) {
+      console.error('❌ Erreur de paiement:', error);
+      setError(error.message || 'Erreur lors de la création du paiement');
+      onError(error);
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-lg">
+      <h3 className="text-xl font-bold mb-4 text-gray-800">
+        💳 Paiement sécurisé
+      </h3>
+      
+      <div className="mb-4">
+        <p className="text-gray-600 mb-2">
+          <strong>Montant :</strong> {amount.toFixed(2)}€
+        </p>
+        <p className="text-gray-600 mb-2">
+          <strong>Commande :</strong> {orderId}
+        </p>
+        <p className="text-gray-600 mb-4">
+          <strong>Description :</strong> {description}
+        </p>
+      </div>
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button
+              onClick={() => setError('')}
+              className="ml-4 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-3">
+        <button
+          onClick={handlePayment}
+          disabled={isLoading}
+          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-4 rounded-lg transition-colors"
+        >
+          {isLoading ? (
+            <span className="flex items-center justify-center">
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Redirection vers le paiement...
+            </span>
+          ) : (
+            'Payer avec Cardinity'
+          )}
+        </button>
+
+        <button
+          onClick={onCancel}
+          className="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg transition-colors"
+        >
+          Annuler
+        </button>
+      </div>
+
+      <div className="mt-4 text-sm text-gray-500 text-center">
+        <p>🔒 Paiement sécurisé par Cardinity</p>
+        <p>Visa, Mastercard, American Express acceptés</p>
+        {CARDINITY_CONFIG.isTestMode && (
+          <p className="text-yellow-600 font-semibold">Mode test activé</p>
+        )}
+      </div>
+    </div>
+  );
+}

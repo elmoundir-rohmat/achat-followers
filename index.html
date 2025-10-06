@@ -164,21 +164,8 @@
     }
     </script>
 
-    <!-- Cardinity SDK - Chargé en production et pour les tests -->
-    <script>
-      // Charger Cardinity SDK pour tous les environnements
-      const script = document.createElement('script');
-      script.src = 'https://cdn.cardinity.com/js/cardinity.js';
-      script.async = true;
-      script.defer = true;
-      script.onload = function() {
-        console.log('✅ Cardinity SDK chargé avec succès');
-      };
-      script.onerror = function() {
-        console.error('❌ Erreur de chargement du SDK Cardinity');
-      };
-      document.head.appendChild(script);
-    </script>
+    <!-- Cardinity n'a pas de SDK JavaScript côté client -->
+    <!-- Utilisation de l'API REST ou Hosted Payment Page -->
   </head>
   <body>
     <div id="root"></div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CreditCard, Lock, Shield, ArrowLeft, Users, Clock } from 'lucide-react';
-import CardinityPayment from './CardinityPayment';
+import CardinityHostedPayment from './CardinityHostedPayment';
 import { useCart } from '../contexts/CartContext';
 import { CARDINITY_CONFIG } from '../config/cardinity';
 
@@ -195,8 +195,8 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
               </div>
             )}
 
-            {/* Composant Cardinity */}
-            <CardinityPayment
+            {/* Composant Cardinity Hosted Payment */}
+            <CardinityHostedPayment
               amount={orderDetails.amount}
               orderId={orderDetails.orderId}
               description={orderDetails.description}

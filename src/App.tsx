@@ -39,6 +39,7 @@ function AppContent() {
       const path = window.location.pathname;
       
       // Debug pour production
+      console.log('Current page:', currentPage, 'URL:', path);
       console.log('Routing to:', path);
       
       // Pages de blog
@@ -115,6 +116,21 @@ function AppContent() {
 
     // Écouter les changements d'URL
     window.addEventListener('popstate', handleRoute);
+    
+    // Écouter aussi les changements d'URL programmatiques
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+    
+    window.history.pushState = function(...args) {
+      originalPushState.apply(window.history, args);
+      setTimeout(handleRoute, 0);
+    };
+    
+    window.history.replaceState = function(...args) {
+      originalReplaceState.apply(window.history, args);
+      setTimeout(handleRoute, 0);
+    };
+    
     handleRoute(); // Vérifier l'URL initiale
 
     return () => window.removeEventListener('popstate', handleRoute);

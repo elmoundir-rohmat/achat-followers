@@ -169,6 +169,30 @@
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- SOLUTION IMMÉDIATE : Script pour gérer les routes de paiement -->
+    <script>
+      // Gérer les routes de paiement avant que React ne se charge
+      (function() {
+        const path = window.location.pathname;
+        const href = window.location.href;
+        
+        console.log('🔍 Vérification des routes de paiement:', { path, href });
+        
+        // Si on est sur une route de paiement, forcer le chargement de l'app React
+        if (path === '/payment/success' || href.includes('payment/success')) {
+          console.log('✅ Route de succès détectée - Chargement de l\'application');
+          // L'application React gérera le reste
+        } else if (path === '/payment/cancel' || href.includes('payment/cancel')) {
+          console.log('❌ Route d\'annulation détectée - Chargement de l\'application');
+          // L'application React gérera le reste
+        } else if (path === '/pay' || href.includes('/pay')) {
+          console.log('💳 Route de paiement détectée - Chargement de l\'application');
+          // L'application React gérera le reste
+        }
+      })();
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -42,6 +42,25 @@ function AppContent() {
       console.log('Current page:', currentPage, 'URL:', path);
       console.log('Routing to:', path);
       
+      // SOLUTION IMMÉDIATE : Gérer les routes de paiement même si Netlify ne les reconnaît pas
+      if (path === '/payment/success' || path.includes('payment/success') || window.location.href.includes('payment/success')) {
+        console.log('🎯 Route de succès détectée - Redirection vers page de succès');
+        setCurrentPage('payment-success');
+        return;
+      }
+      
+      if (path === '/payment/cancel' || path.includes('payment/cancel') || window.location.href.includes('payment/cancel')) {
+        console.log('🎯 Route d\'annulation détectée - Redirection vers page d\'annulation');
+        setCurrentPage('payment-cancel');
+        return;
+      }
+      
+      if (path === '/pay' || path.includes('/pay') || window.location.href.includes('/pay')) {
+        console.log('🎯 Route de paiement détectée - Redirection vers page de paiement');
+        setCurrentPage('payment');
+        return;
+      }
+      
       // Pages de blog
       if (path === '/blogs') {
         setCurrentPage('blog');

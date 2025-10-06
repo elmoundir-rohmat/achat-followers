@@ -19,7 +19,7 @@ import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogArticle from './components/BlogArticle';
-import PaymentSuccessPage from './components/PaymentSuccessPage';
+import PaymentSuccessPageFixed from './components/PaymentSuccessPageFixed';
 import PaymentCancelPage from './components/PaymentCancelPage';
 import PaymentPage from './components/PaymentPage';
 import Footer from './components/Footer';
@@ -605,7 +605,7 @@ function AppContent() {
   // Page de succès de paiement
   if (currentPage === 'payment-success') {
     return (
-      <PaymentSuccessPage onBack={() => handleNavigate('home')} />
+      <PaymentSuccessPageFixed onBack={() => handleNavigate('home')} />
     );
   }
 

@@ -24,24 +24,26 @@ export default function CardinityPayment({
   useEffect(() => {
     // Vérifier que Cardinity est chargé
     if (typeof window !== 'undefined' && window.Cardinity) {
-      console.log('✅ Cardinity SDK chargé');
+      console.log('✅ Cardinity SDK déjà chargé');
     } else {
-      console.log('ℹ️ Cardinity SDK non chargé');
+      console.log('ℹ️ Attente du chargement du SDK Cardinity...');
       // Attendre que le SDK se charge
       const checkCardinity = setInterval(() => {
         if (window.Cardinity) {
           console.log('✅ Cardinity SDK chargé après attente');
           clearInterval(checkCardinity);
+          setError(''); // Clear any previous error
         }
-      }, 1000);
+      }, 500);
       
-      // Arrêter la vérification après 10 secondes
+      // Arrêter la vérification après 15 secondes
       setTimeout(() => {
         clearInterval(checkCardinity);
         if (!window.Cardinity) {
-          setError('Erreur de chargement du système de paiement Cardinity');
+          console.error('❌ Timeout: Cardinity SDK non chargé après 15 secondes');
+          setError('Erreur de chargement du système de paiement Cardinity. Veuillez actualiser la page.');
         }
-      }, 10000);
+      }, 15000);
     }
   }, []);
 
@@ -119,7 +121,15 @@ export default function CardinityPayment({
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button
+              onClick={() => window.location.reload()}
+              className="ml-4 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+            >
+              Actualiser
+            </button>
+          </div>
         </div>
       )}
 

@@ -45,6 +45,9 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
       
       setOrderDetails(newOrder);
       localStorage.setItem('pendingOrder', JSON.stringify(newOrder));
+      
+      // Sauvegarder aussi les détails du panier pour l'intégration SMMA
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   }, [cartItems]);
 

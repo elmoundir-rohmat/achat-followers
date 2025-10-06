@@ -71,6 +71,10 @@ export default function CardinityHostedPayment({
         timestamp: new Date().toISOString()
       };
       localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+      
+      // Sauvegarder aussi les détails du panier pour l'intégration SMMA
+      // (Les détails du panier seront récupérés depuis le contexte ou localStorage)
+      console.log('💾 Détails de commande sauvegardés pour SMMA');
 
       // Créer un formulaire et le soumettre automatiquement
       const form = document.createElement('form');

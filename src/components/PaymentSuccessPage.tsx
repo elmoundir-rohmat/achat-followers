@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Users, Clock, Mail, ArrowLeft } from 'lucide-react';
+import { smmaService, SMMAOrder } from '../services/smmaService';
 
 interface PaymentSuccessPageProps {
   onBack?: () => void;
@@ -8,6 +9,7 @@ interface PaymentSuccessPageProps {
 export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) {
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [smmaResults, setSmmaResults] = useState<any>(null);
+  const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
 
   useEffect(() => {
     // Récupérer les détails de la commande depuis l'URL ou le localStorage
@@ -50,8 +52,55 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       } catch (error) {
         console.error('Erreur lors de la récupération des résultats SMMA:', error);
       }
+    } else {
+      // Si pas de résultats SMMA, déclencher l'intégration maintenant
+      processSMMAIntegration();
     }
   }, []);
+
+  const processSMMAIntegration = async () => {
+    if (!orderDetails || isProcessingSMMA) return;
+    
+    console.log('🚀 Déclenchement de l\'intégration SMMA...');
+    setIsProcessingSMMA(true);
+    
+    try {
+      // Récupérer les paramètres URL
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // Récupérer les détails du panier depuis le localStorage
+      const savedCartItems = localStorage.getItem('cartItems');
+      if (savedCartItems) {
+        const cartItems = JSON.parse(savedCartItems);
+        
+        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
+          username: item.username || 'unknown',
+          followers: item.followers,
+          followerType: item.followerType,
+          orderId: orderDetails.orderId,
+          paymentId: urlParams.get('id') || orderDetails.orderId
+        }));
+
+        console.log('📦 Commandes SMMA à traiter:', smmaOrders);
+
+        // Traiter chaque commande SMMA
+        const smmaResults = await Promise.all(
+          smmaOrders.map(order => smmaService.orderFollowers(order))
+        );
+
+        console.log('📊 Résultats SMMA:', smmaResults);
+        setSmmaResults(smmaResults);
+        
+        // Nettoyer le panier
+        localStorage.removeItem('cartItems');
+      }
+    } catch (error) {
+      console.error('❌ Erreur lors du traitement SMMA:', error);
+      setSmmaResults({ error: 'Erreur lors du traitement de la commande' });
+    } finally {
+      setIsProcessingSMMA(false);
+    }
+  };
 
   const handleBackToHome = () => {
     if (onBack) {
@@ -135,8 +184,24 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             </div>
           </div>
 
+          {/* Traitement SMMA en cours */}
+          {isProcessingSMMA && (
+            <div className="bg-blue-50 rounded-xl p-6 mb-6">
+              <div className="flex items-center justify-center mb-3">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-2"></div>
+                <h3 className="text-lg font-bold text-blue-600">
+                  Traitement de la commande...
+                </h3>
+              </div>
+              <div className="text-center text-sm text-gray-700">
+                <p>🚀 Transmission à Just Another Panel en cours...</p>
+                <p>⏱️ Veuillez patienter quelques instants</p>
+              </div>
+            </div>
+          )}
+
           {/* Résultats SMMA */}
-          {smmaResults && (
+          {smmaResults && !isProcessingSMMA && (
             <div className="bg-green-50 rounded-xl p-6 mb-6">
               <div className="flex items-center justify-center mb-3">
                 <Users className="w-6 h-6 text-green-600 mr-2" />

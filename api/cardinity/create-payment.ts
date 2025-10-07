@@ -62,7 +62,7 @@ export default async function handler(
       });
     }
 
-    // Paramètres pour la Hosted Payment Page
+    // Paramètres pour la Hosted Payment Page Cardinity
     const params = {
       amount: amount.toFixed(2),
       currency: currency,
@@ -72,7 +72,9 @@ export default async function handler(
       description: description,
       project_id: projectId,
       return_url: successUrlFinal,
-      cancel_url: cancelUrlFinal
+      cancel_url: cancelUrlFinal,
+      // Ajouter des paramètres optionnels pour une meilleure compatibilité
+      payment_method: 'card'
     };
 
     // Générer la signature HMAC-SHA256

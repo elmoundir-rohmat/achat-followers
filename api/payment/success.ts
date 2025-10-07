@@ -24,7 +24,15 @@ export default async function handler(
     });
 
     // Récupérer les paramètres de retour de Cardinity
+    // Cardinity peut envoyer les données en POST ou GET
     const paymentData = req.method === 'POST' ? req.body : req.query;
+    
+    console.log('📋 Données brutes de Cardinity:', {
+      method: req.method,
+      body: req.body,
+      query: req.query,
+      headers: req.headers
+    });
     
     const {
       project_id,
@@ -33,7 +41,12 @@ export default async function handler(
       currency,
       status,
       authorization_information,
-      threeds2_data
+      threeds2_data,
+      // Autres paramètres possibles de Cardinity
+      id,
+      payment_id,
+      transaction_id,
+      result
     } = paymentData;
 
     console.log('💳 Données de paiement Cardinity:', {

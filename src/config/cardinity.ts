@@ -4,8 +4,9 @@ export const CARDINITY_CONFIG = {
   // Elles ne sont JAMAIS exposées au client pour des raisons de sécurité
   
   // URLs de callback (publiques, OK de les exposer)
-  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/api/payment/success',
-  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/api/payment/cancel',
+  // IMPORTANT: Cardinity fait une redirection directe vers ces URLs
+  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/success',
+  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel',
   
   // Configuration par défaut
   currency: 'EUR',

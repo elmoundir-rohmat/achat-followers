@@ -69,12 +69,28 @@ function AppContent() {
       if (path === '/payment/success' || path.includes('payment/success') || window.location.href.includes('payment/success')) {
         console.log('🎯 Route de succès détectée - Redirection vers page de succès');
         setCurrentPage('payment-success');
+        
+        // SOLUTION CRITIQUE : Forcer le rechargement si on vient de Cardinity
+        if (document.referrer && document.referrer.includes('cardinity.com')) {
+          console.log('🔄 Redirection depuis Cardinity détectée - Forcer le rechargement');
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }
         return;
       }
       
       if (path === '/payment/cancel' || path.includes('payment/cancel') || window.location.href.includes('payment/cancel')) {
         console.log('🎯 Route d\'annulation détectée - Redirection vers page d\'annulation');
         setCurrentPage('payment-cancel');
+        
+        // SOLUTION CRITIQUE : Forcer le rechargement si on vient de Cardinity
+        if (document.referrer && document.referrer.includes('cardinity.com')) {
+          console.log('🔄 Redirection depuis Cardinity détectée - Forcer le rechargement');
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }
         return;
       }
       

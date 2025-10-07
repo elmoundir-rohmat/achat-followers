@@ -28,6 +28,17 @@ export default function CardinityHostedPayment({
 
     try {
       // Appeler l'API backend pour créer le paiement Cardinity
+      console.log('🚀 Envoi de la requête vers l\'API Cardinity:', {
+        amount,
+        orderId,
+        description,
+        currency: CARDINITY_CONFIG.currency,
+        country: CARDINITY_CONFIG.country,
+        language: CARDINITY_CONFIG.language,
+        returnUrl: CARDINITY_CONFIG.successUrl,
+        cancelUrl: CARDINITY_CONFIG.cancelUrl
+      });
+
       const response = await fetch('/api/cardinity/create-payment', {
         method: 'POST',
         headers: {
@@ -45,12 +56,20 @@ export default function CardinityHostedPayment({
         })
       });
 
+      console.log('📡 Réponse de l\'API Cardinity:', {
+        status: response.status,
+        ok: response.ok,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('❌ Erreur API Cardinity:', errorData);
         throw new Error(`Erreur API: ${response.status} - ${errorData.message || 'Unknown error'}`);
       }
 
       const paymentData = await response.json();
+      console.log('✅ Données de paiement reçues:', paymentData);
       
       console.log('💳 Redirection vers Hosted Payment Page Cardinity:', paymentData);
 

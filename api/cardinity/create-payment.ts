@@ -72,9 +72,7 @@ export default async function handler(
       description: description,
       project_id: projectId,
       return_url: successUrlFinal,
-      cancel_url: cancelUrlFinal,
-      // Ajouter des paramètres optionnels pour une meilleure compatibilité
-      payment_method: 'card'
+      cancel_url: cancelUrlFinal
     };
 
     // Générer la signature HMAC-SHA256
@@ -93,6 +91,11 @@ export default async function handler(
       currency,
       orderId,
       description
+    });
+
+    console.log('📋 Paramètres finaux envoyés à Cardinity:', {
+      ...params,
+      signature: signature
     });
 
     // Retourner les paramètres signés pour le formulaire

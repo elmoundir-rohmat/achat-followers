@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CARDINITY_CONFIG } from '../config/cardinity';
-import CryptoJS from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 
 interface CardinityHostedPaymentProps {
   amount: number;

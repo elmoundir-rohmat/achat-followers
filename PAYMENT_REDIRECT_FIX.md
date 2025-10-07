@@ -28,7 +28,8 @@ return {
 return {
   statusCode: 302,  // ✅ Plus stable
   headers: {
-    'Location': `https://doctorfollowers.com/payment/success?payment_id=${paymentId}`  // ✅ URL absolue
+    Location: `https://doctorfollowers.com/payment/success?payment_id=${paymentId}&status=${status}`,
+    'Cache-Control': 'no-cache',  // ✅ Empêche le cache CDN/navigateur
   }
 };
 ```

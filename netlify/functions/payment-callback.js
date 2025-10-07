@@ -1,41 +1,36 @@
-exports.handler = async (event, context) => {
+// netlify/functions/payment-callback.js
+exports.handler = async (event) => {
   console.log('=== PAYMENT CALLBACK RECEIVED ===');
-  console.log('Method:', event.httpMethod);
-  console.log('Body:', event.body);
-  console.log('Query:', event.queryStringParameters);
   
-  if (event.httpMethod === 'POST') {
-    try {
-      const paymentData = JSON.parse(event.body || '{}');
-      const paymentId = paymentData.id || paymentData.payment_id;
-      const status = paymentData.status;
-      
-      console.log('Payment ID:', paymentId);
-      console.log('Status:', status);
-      
-      // Redirection GET vers la page de succès
+  try {
+    if (event.httpMethod === 'POST') {
+      const body = JSON.parse(event.body || '{}');
+      const paymentId = body.id || body.payment_id || 'unknown';
+      const status = body.status || 'unknown';
+
+      // ✅ Redirection absolue vers la page de succès (GET)
       return {
         statusCode: 302,
         headers: {
-          'Location': `https://doctorfollowers.com/payment/success?payment_id=${paymentId || 'unknown'}&status=${status || 'pending'}`
-        }
-      };
-    } catch (error) {
-      console.error('Error parsing payment data:', error);
-      return {
-        statusCode: 302,
-        headers: {
-          'Location': 'https://doctorfollowers.com/payment/success'
-        }
+          Location: `https://doctorfollowers.com/payment/success?payment_id=${paymentId}&status=${status}`,
+          'Cache-Control': 'no-cache',
+        },
       };
     }
+
+    // ✅ Fallback GET direct
+    return {
+      statusCode: 302,
+      headers: {
+        Location: `https://doctorfollowers.com/payment/success`,
+        'Cache-Control': 'no-cache',
+      },
+    };
+  } catch (error) {
+    console.error('❌ Error in payment callback:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Payment callback failed', details: error.message }),
+    };
   }
-  
-  // Fallback pour GET
-  return {
-    statusCode: 302,
-    headers: {
-      'Location': 'https://doctorfollowers.com/payment/success'
-    }
-  };
 };

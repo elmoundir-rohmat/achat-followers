@@ -21,9 +21,9 @@
 
 [[redirects]]
   from = "/payment/success"
-  to = "/index.html"
+  to = "/.netlify/functions/payment-callback"
   status = 200
-  headers = { Cache-Control = "no-cache, no-store, must-revalidate" }
+  force = true
 
 [[redirects]]
   from = "/payment/cancel"

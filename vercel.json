@@ -53,6 +53,22 @@
   
   "rewrites": [
     {
+      "source": "/cart",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/payment/success",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/payment/cancel",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/pay",
+      "destination": "/index.html"
+    },
+    {
       "source": "/((?!sitemap\\.xml|robots\\.txt|favicon.*\\.svg|apple-touch-icon\\.svg|og-image\\.svg|twitter-image\\.svg|.*\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|eot)).*)",
       "destination": "/index.html"
     }

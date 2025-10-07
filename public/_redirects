@@ -1,6 +1,0 @@
-# Netlify redirects for SPA routing
-# Gestion spécifique des méthodes HTTP
-/payment/success    /index.html    200
-/payment/cancel     /index.html    200
-/pay                /index.html    200
-/*                  /index.html    200

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Redirections Netlify</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(to bottom right, #0f172a, #1e3a8a);
+            color: white;
+        }
+        .success {
+            background: #10b981;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .info {
+            background: #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>✅ Test de Redirections Netlify</h1>
+    
+    <div class="success">
+        <h2>🎉 Si vous voyez cette page, les redirections Netlify FONCTIONNENT !</h2>
+        <p>Cette page confirme que Netlify redirige correctement les routes vers index.html.</p>
+    </div>
+
+    <div class="info">
+        <h3>📍 Informations de la page actuelle :</h3>
+        <p><strong>URL :</strong> <code id="current-url"></code></p>
+        <p><strong>Chemin :</strong> <code id="current-path"></code></p>
+        <p><strong>Heure :</strong> <code id="current-time"></code></p>
+    </div>
+
+    <div class="info">
+        <h3>🧪 Tests à effectuer :</h3>
+        <ol>
+            <li>Accéder à <code>https://doctorfollowers.com/payment/success</code></li>
+            <li>Accéder à <code>https://doctorfollowers.com/payment/cancel</code></li>
+            <li>Accéder à <code>https://doctorfollowers.com/any-random-route</code></li>
+        </ol>
+        <p>Si vous voyez une page blanche ou React charge = ✅ OK</p>
+        <p>Si vous voyez une 404 de Netlify = ❌ Problème de config</p>
+    </div>
+
+    <script>
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('current-path').textContent = window.location.pathname;
+        document.getElementById('current-time').textContent = new Date().toLocaleString('fr-FR');
+    </script>
+</body>
+</html>
+

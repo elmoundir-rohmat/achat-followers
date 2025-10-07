@@ -1,20 +1,16 @@
-// Configuration Cardinity
+// Configuration Cardinity (côté client - UNIQUEMENT URLs publiques)
 export const CARDINITY_CONFIG = {
-  // Clés Cardinity depuis les variables d'environnement
-  consumerKey: import.meta.env.VITE_CARDINITY_CONSUMER_KEY || 'your_consumer_key_here',
-  consumerSecret: import.meta.env.VITE_CARDINITY_CONSUMER_SECRET || 'your_consumer_secret_here',
-  
-  // URLs de callback pour la production
-  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/success',
-  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel',
+  // URLs de callback pour la production (variables publiques, préfixe VITE_ conservé)
+  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || window.location.origin + '/payment/success',
+  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || window.location.origin + '/payment/cancel',
   
   // Configuration par défaut
   currency: 'EUR',
   country: 'FR',
   language: 'fr',
   
-  // Mode de test (true pour les clés test, false pour les clés live)
-  isTestMode: import.meta.env.VITE_CARDINITY_CONSUMER_KEY?.startsWith('test_') || false
+  // API Route interne (appelle le serveur Vercel qui a les clés secrètes)
+  apiEndpoint: '/api/cardinity/create-payment'
 };
 
 // Types pour TypeScript

@@ -50,18 +50,20 @@ export default async function handler(
       return res.redirect('/payment/cancel?error=payment_not_approved&status=' + encodeURIComponent(status));
     }
 
-    // Rediriger vers la page de succès avec les paramètres
-    const successUrl = new URL('/payment/success', req.headers.origin || 'https://doctorfollowers.com');
+    // SOLUTION SPA : Rediriger vers la page d'accueil puis naviguer vers success
+    // Cela force le rechargement de l'application React
+    const redirectUrl = new URL('/', req.headers.origin || 'https://doctorfollowers.com');
     
-    // Ajouter les paramètres de succès
-    if (order_id) successUrl.searchParams.set('orderId', order_id);
-    if (amount) successUrl.searchParams.set('amount', amount);
-    if (currency) successUrl.searchParams.set('currency', currency);
-    if (status) successUrl.searchParams.set('status', status);
+    // Ajouter un paramètre spécial pour déclencher la navigation SPA
+    redirectUrl.searchParams.set('payment_success', 'true');
+    if (order_id) redirectUrl.searchParams.set('orderId', order_id);
+    if (amount) redirectUrl.searchParams.set('amount', amount);
+    if (currency) redirectUrl.searchParams.set('currency', currency);
+    if (status) redirectUrl.searchParams.set('status', status);
     
-    console.log('✅ Redirection vers page de succès:', successUrl.toString());
+    console.log('✅ Redirection vers accueil avec paramètres de succès:', redirectUrl.toString());
     
-    return res.redirect(successUrl.toString());
+    return res.redirect(redirectUrl.toString());
 
   } catch (error) {
     console.error('❌ Erreur dans le callback de succès:', error);

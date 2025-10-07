@@ -45,18 +45,20 @@ export default async function handler(
       error
     });
 
-    // Rediriger vers la page d'annulation avec les paramètres
-    const cancelUrl = new URL('/payment/cancel', req.headers.origin || 'https://doctorfollowers.com');
+    // SOLUTION SPA : Rediriger vers la page d'accueil puis naviguer vers cancel
+    // Cela force le rechargement de l'application React
+    const redirectUrl = new URL('/', req.headers.origin || 'https://doctorfollowers.com');
     
-    // Ajouter les paramètres d'annulation
-    if (order_id) cancelUrl.searchParams.set('orderId', order_id);
-    if (error) cancelUrl.searchParams.set('error', error);
-    if (error_description) cancelUrl.searchParams.set('error_description', error_description);
-    if (status) cancelUrl.searchParams.set('status', status);
+    // Ajouter un paramètre spécial pour déclencher la navigation SPA
+    redirectUrl.searchParams.set('payment_cancel', 'true');
+    if (order_id) redirectUrl.searchParams.set('orderId', order_id);
+    if (error) redirectUrl.searchParams.set('error', error);
+    if (error_description) redirectUrl.searchParams.set('error_description', error_description);
+    if (status) redirectUrl.searchParams.set('status', status);
     
-    console.log('🔄 Redirection vers page d\'annulation:', cancelUrl.toString());
+    console.log('🔄 Redirection vers accueil avec paramètres d\'annulation:', redirectUrl.toString());
     
-    return res.redirect(cancelUrl.toString());
+    return res.redirect(redirectUrl.toString());
 
   } catch (error) {
     console.error('❌ Erreur dans le callback d\'annulation:', error);

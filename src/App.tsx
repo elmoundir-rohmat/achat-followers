@@ -37,10 +37,33 @@ function AppContent() {
   useEffect(() => {
     const handleRoute = () => {
       const path = window.location.pathname;
+      const urlParams = new URLSearchParams(window.location.search);
       
       // Debug pour production
       console.log('Current page:', currentPage, 'URL:', path);
       console.log('Routing to:', path);
+      console.log('URL params:', Object.fromEntries(urlParams));
+      
+      // SOLUTION SPA : Gérer les paramètres de paiement depuis l'accueil
+      if (path === '/' && urlParams.has('payment_success')) {
+        console.log('🎯 Paramètre payment_success détecté - Navigation vers page de succès');
+        setCurrentPage('payment-success');
+        // Nettoyer l'URL après navigation
+        setTimeout(() => {
+          window.history.replaceState({}, '', '/');
+        }, 100);
+        return;
+      }
+      
+      if (path === '/' && urlParams.has('payment_cancel')) {
+        console.log('🎯 Paramètre payment_cancel détecté - Navigation vers page d\'annulation');
+        setCurrentPage('payment-cancel');
+        // Nettoyer l'URL après navigation
+        setTimeout(() => {
+          window.history.replaceState({}, '', '/');
+        }, 100);
+        return;
+      }
       
       // SOLUTION IMMÉDIATE : Gérer les routes de paiement même si Netlify ne les reconnaît pas
       if (path === '/payment/success' || path.includes('payment/success') || window.location.href.includes('payment/success')) {

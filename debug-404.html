@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug 404 - Doctor Followers</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e8; color: #2e7d32; }
+        .info { background: #e3f2fd; color: #1565c0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Diagnostic 404 - Doctor Followers</h1>
+    
+    <div class="debug info">
+        <h3>📊 Informations de diagnostic</h3>
+        <p><strong>URL actuelle:</strong> <span id="current-url"></span></p>
+        <p><strong>Pathname:</strong> <span id="pathname"></span></p>
+        <p><strong>Host:</strong> <span id="host"></span></p>
+        <p><strong>User Agent:</strong> <span id="user-agent"></span></p>
+    </div>
+
+    <div class="debug">
+        <h3>🧪 Tests des routes de paiement</h3>
+        <button onclick="testRoute('/payment/success')">Test /payment/success</button>
+        <button onclick="testRoute('/payment/cancel')">Test /payment/cancel</button>
+        <button onclick="testRoute('/pay')">Test /pay</button>
+        <div id="test-results"></div>
+    </div>
+
+    <div class="debug">
+        <h3>📋 Instructions</h3>
+        <ol>
+            <li>Ouvrez la console du navigateur (F12)</li>
+            <li>Cliquez sur les boutons de test ci-dessus</li>
+            <li>Regardez les erreurs dans la console</li>
+            <li>Partagez-moi les résultats</li>
+        </ol>
+    </div>
+
+    <script>
+        // Afficher les informations de diagnostic
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('pathname').textContent = window.location.pathname;
+        document.getElementById('host').textContent = window.location.host;
+        document.getElementById('user-agent').textContent = navigator.userAgent;
+
+        function testRoute(route) {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = `<div class="debug info">Test de ${route}...</div>`;
+            
+            fetch(route)
+                .then(response => {
+                    if (response.ok) {
+                        resultsDiv.innerHTML += `<div class="debug success">✅ ${route} - OK (${response.status})</div>`;
+                    } else {
+                        resultsDiv.innerHTML += `<div class="debug error">❌ ${route} - Erreur ${response.status}</div>`;
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML += `<div class="debug error">❌ ${route} - Erreur: ${error.message}</div>`;
+                });
+        }
+
+        // Test automatique au chargement
+        console.log('🔍 Diagnostic 404 - Doctor Followers');
+        console.log('URL:', window.location.href);
+        console.log('Pathname:', window.location.pathname);
+        console.log('Host:', window.location.host);
+    </script>
+</body>
+</html>

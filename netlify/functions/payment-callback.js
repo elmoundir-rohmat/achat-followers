@@ -15,17 +15,17 @@ exports.handler = async (event, context) => {
       
       // Redirection GET vers la page de succès
       return {
-        statusCode: 303,
+        statusCode: 302,
         headers: {
-          'Location': `/payment/success?payment_id=${paymentId || 'unknown'}&status=${status || 'pending'}`
+          'Location': `https://doctorfollowers.com/payment/success?payment_id=${paymentId || 'unknown'}&status=${status || 'pending'}`
         }
       };
     } catch (error) {
       console.error('Error parsing payment data:', error);
       return {
-        statusCode: 303,
+        statusCode: 302,
         headers: {
-          'Location': '/payment/success'
+          'Location': 'https://doctorfollowers.com/payment/success'
         }
       };
     }
@@ -33,9 +33,9 @@ exports.handler = async (event, context) => {
   
   // Fallback pour GET
   return {
-    statusCode: 303,
+    statusCode: 302,
     headers: {
-      'Location': '/payment/success'
+      'Location': 'https://doctorfollowers.com/payment/success'
     }
   };
 };

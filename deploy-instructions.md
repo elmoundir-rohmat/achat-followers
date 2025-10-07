@@ -1,25 +1,52 @@
-# Instructions de déploiement pour corriger le problème 404
+# Instructions de déploiement - Correction problème 404 sur /payment/success
 
-## Problème identifié
-Les pages de paiement (`/payment/success`, `/payment/cancel`, `/pay`) retournent une erreur 404 car Netlify ne sait pas comment gérer ces routes côté client.
+## 🎯 Problème identifié et résolu
 
-## Solution appliquée
-1. ✅ Ajout de redirections explicites dans `public/_redirects`
-2. ✅ Ajout de redirections explicites dans `netlify.toml`
-3. ✅ Construction de l'application réussie
-4. ✅ Fichier de timestamp créé pour forcer le redéploiement
+Les pages de paiement (`/payment/success`, `/payment/cancel`, `/pay`) retournaient une erreur 404 après paiement Cardinity, mais fonctionnaient après refresh.
 
-## Fichiers modifiés
-- `public/_redirects` - Redirections spécifiques pour les routes de paiement
-- `netlify.toml` - Configuration Netlify avec redirections explicites
-- `DEPLOY_TIMESTAMP.txt` - Fichier pour forcer le redéploiement
+## ✅ Solutions appliquées (7 octobre 2025)
 
-## Prochaines étapes
-1. **Déployer ces modifications sur Netlify**
-2. **Tester les URLs suivantes :**
-   - `https://doctorfollowers.com/payment/success`
-   - `https://doctorfollowers.com/payment/cancel`
-   - `https://doctorfollowers.com/pay`
+### 1. Redirections Netlify (SPA routing)
+- ✅ `public/_redirects` - Redirections pour routes de paiement
+- ✅ `netlify.toml` - Configuration Netlify avec redirections explicites
+
+### 2. Corrections critiques (NOUVELLES)
+- ✅ **`payment-callback.js`** - Changement 303 → 302 + URL absolue
+- ✅ **`index.html`** - Ajout d'un loader avant rendu React
+- ✅ **`cardinity.ts`** - Correction successUrl par défaut
+
+**📄 Voir détails complets dans : `PAYMENT_REDIRECT_FIX.md`**
+
+## 🚀 Prochaines étapes
+
+### 1. **Vérifier les variables d'environnement Netlify**
+```
+Dashboard Netlify → Site Settings → Environment Variables
+```
+Variables requises :
+```env
+VITE_CARDINITY_SUCCESS_URL=https://doctorfollowers.com/payment/success
+VITE_CARDINITY_CANCEL_URL=https://doctorfollowers.com/payment/cancel
+```
+*(Les autres clés Cardinity doivent déjà être configurées)*
+
+### 2. **Déployer sur Netlify**
+```bash
+# Option A : Push vers Git (déploiement automatique)
+git add .
+git commit -m "fix: résolution problème redirection 404 après paiement Cardinity"
+git push origin main
+
+# Option B : Déploiement manuel dans Netlify Dashboard
+# Netlify → Deploys → Trigger deploy → Clear cache and deploy site
+```
+
+### 3. **Tester le flux complet**
+1. Ouvrir en mode incognito : `https://doctorfollowers.com`
+2. Ajouter un produit au panier
+3. Procéder au paiement
+4. Utiliser carte de test : `4111111111111111` (12/25, CVV: 123)
+5. ✅ **Vérifier qu'on arrive sur /payment/success SANS 404**
 
 ## Comment déployer
 Si vous utilisez Netlify :

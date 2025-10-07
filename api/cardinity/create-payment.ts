@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import crypto from 'crypto';
 
 /**
  * API Route Vercel : Création de paiement Cardinity
@@ -75,7 +76,6 @@ export default async function handler(
     };
 
     // Générer la signature HMAC-SHA256
-    const crypto = require('crypto');
     const sortedParams = Object.keys(params)
       .sort()
       .map(key => key + params[key])

@@ -20,6 +20,18 @@
   force = true
 
 [[redirects]]
+  from = "/payment/success"
+  to = "/index.html"
+  status = 200
+  headers = { Cache-Control = "no-cache, no-store, must-revalidate" }
+
+[[redirects]]
+  from = "/payment/cancel"
+  to = "/index.html"
+  status = 200
+  headers = { Cache-Control = "no-cache, no-store, must-revalidate" }
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

@@ -46,7 +46,8 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     setIsModalOpen(false);
     
     // Rediriger vers la page de panier unifiée
-    window.location.href = '/cart';
+    window.history.pushState({}, '', '/cart');
+    window.location.reload();
   };
 
   const handleCheckoutComplete = (orderData: any) => {

@@ -90,7 +90,8 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       
       // Rediriger vers la page de paiement après un court délai
       const timer = setTimeout(() => {
-        window.location.href = '/pay';
+        window.history.pushState({}, '', '/pay');
+        window.location.reload();
       }, 1500);
       
       return () => clearTimeout(timer);

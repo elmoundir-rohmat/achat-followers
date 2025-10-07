@@ -74,7 +74,8 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
     setIsPostsModalOpen(false);
     
     // Rediriger vers le panier
-    window.location.href = '/cart';
+    window.history.pushState({}, '', '/cart');
+    window.location.reload();
   };
 
   const handleCheckoutComplete = (orderData: any) => {

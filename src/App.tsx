@@ -33,6 +33,23 @@ function AppContent() {
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
   
+  // SOLUTION DÉFINITIVE : Écouter les événements de navigation personnalisés
+  useEffect(() => {
+    const handleCustomNavigate = (event: CustomEvent) => {
+      const { page } = event.detail;
+      console.log('🎯 Navigation personnalisée détectée vers:', page);
+      setCurrentPage(page);
+      // Mettre à jour l'URL sans recharger la page
+      window.history.pushState({}, '', `/${page === 'home' ? '' : page}`);
+    };
+
+    window.addEventListener('navigate', handleCustomNavigate as EventListener);
+    
+    return () => {
+      window.removeEventListener('navigate', handleCustomNavigate as EventListener);
+    };
+  }, []);
+
   // Gestion du routage basé sur l'URL
   useEffect(() => {
     const handleRoute = () => {

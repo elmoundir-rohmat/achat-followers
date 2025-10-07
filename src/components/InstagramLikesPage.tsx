@@ -71,9 +71,11 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
     
     setIsPostsModalOpen(false);
     
-    // Rediriger vers le panier
-    window.history.pushState({}, '', '/cart');
-    window.location.reload();
+    // SOLUTION DÉFINITIVE : Utiliser la navigation React
+    setTimeout(() => {
+      const event = new CustomEvent('navigate', { detail: { page: 'cart' } });
+      window.dispatchEvent(event);
+    }, 100);
   };
 
   const handleCheckoutComplete = (orderData: any) => {

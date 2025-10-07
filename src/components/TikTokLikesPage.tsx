@@ -98,9 +98,11 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
       delivery: deliveryOption
     });
     
-    // Rediriger vers la page de panier unifiée
-    window.history.pushState({}, '', '/cart');
-    window.location.reload();
+    // SOLUTION DÉFINITIVE : Utiliser la navigation React
+    setTimeout(() => {
+      const event = new CustomEvent('navigate', { detail: { page: 'cart' } });
+      window.dispatchEvent(event);
+    }, 100);
   };
 
   const handleCheckoutComplete = (orderData: any) => {

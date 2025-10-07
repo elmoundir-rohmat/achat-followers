@@ -1,16 +1,16 @@
-// Configuration Cardinity (côté client - UNIQUEMENT URLs publiques)
+// Configuration Cardinity
 export const CARDINITY_CONFIG = {
-  // URLs de callback pour la production (variables publiques, préfixe VITE_ conservé)
-  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || window.location.origin + '/payment/success',
-  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || window.location.origin + '/payment/cancel',
+  // ⚠️ Les clés Cardinity sont maintenant gérées côté SERVEUR uniquement
+  // Elles ne sont JAMAIS exposées au client pour des raisons de sécurité
+  
+  // URLs de callback (publiques, OK de les exposer)
+  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/success',
+  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel',
   
   // Configuration par défaut
   currency: 'EUR',
   country: 'FR',
   language: 'fr',
-  
-  // API Route interne (appelle le serveur Vercel qui a les clés secrètes)
-  apiEndpoint: '/api/cardinity/create-payment'
 };
 
 // Types pour TypeScript

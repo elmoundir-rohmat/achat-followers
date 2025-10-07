@@ -1,7 +1,10 @@
-// Service Client SMMA - Appelle les API routes Vercel (sécurisé)
-// Les clés API ne sont JAMAIS exposées au client
-
-import { getSMMAServiceId } from '../config/smmaMapping';
+/**
+ * Service Client SMMA - Appelle l'API Route Vercel
+ * 
+ * Ce service côté client appelle l'API route /api/smma/order
+ * au lieu d'appeler directement l'API SMMA.
+ * La clé API reste côté serveur et n'est jamais exposée.
+ */
 
 export interface SMMAOrder {
   username: string;
@@ -26,15 +29,15 @@ export interface SMMAResponse {
   error?: string;
 }
 
-class SMMAServiceClient {
-  private apiEndpoint = '/api/smma/order';
+import { getSMMAServiceId, getServiceDescription } from '../config/smmaMapping';
 
+class SMMAServiceClient {
   /**
-   * Commande des followers sur la plateforme SMMA (via API route serveur)
+   * Commande des followers sur la plateforme SMMA via API Route sécurisée
    */
   async orderFollowers(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA (via API route):', order);
+      console.log('🚀 Envoi de la commande SMMA (client → serveur):', order);
 
       const serviceId = getSMMAServiceId(order.followerType);
       
@@ -45,32 +48,39 @@ class SMMAServiceClient {
         };
       }
 
-      const response = await fetch(this.apiEndpoint, {
+      // Appel à l'API route Vercel (sécurisée)
+      const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceType: 'instagram_followers',
-          serviceId: serviceId,
+          action: 'followers',
+          service_id: serviceId.toString(),
           link: `https://instagram.com/${order.username}`,
           quantity: order.followers,
-          orderId: order.orderId
+          order_id: order.orderId
         })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('❌ Erreur API route:', errorData);
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la commande'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
       const data = await response.json();
       console.log('✅ Réponse API route:', data);
 
-      return data;
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message || `Commande créée avec succès pour @${order.username} (${order.followers} ${getServiceDescription(order.followerType)})`
+      };
 
     } catch (error) {
       console.error('❌ Erreur lors de l\'appel API route:', error);
@@ -82,10 +92,12 @@ class SMMAServiceClient {
   }
 
   /**
-   * Commande des likes (via API route serveur)
+   * Commande des likes
    */
   async orderLikes(order: SMMAOrder): Promise<SMMAResponse> {
     try {
+      console.log('🚀 Envoi de la commande SMMA likes (client → serveur):', order);
+
       const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'likes_french' : 'likes_international');
       
       if (!serviceId) {
@@ -95,17 +107,17 @@ class SMMAServiceClient {
         };
       }
 
-      const response = await fetch(this.apiEndpoint, {
+      const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceType: 'instagram_likes',
-          serviceId: serviceId,
+          action: 'likes',
+          service_id: serviceId.toString(),
           link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username}`,
           quantity: order.likesToAdd || order.followers,
-          orderId: order.orderId
+          order_id: order.orderId
         })
       });
 
@@ -113,14 +125,20 @@ class SMMAServiceClient {
         const errorData = await response.json();
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la commande'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
-      return await response.json();
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (likes):', error);
       return {
         success: false,
         error: 'Erreur de connexion avec le serveur'
@@ -129,10 +147,12 @@ class SMMAServiceClient {
   }
 
   /**
-   * Commande des commentaires (via API route serveur)
+   * Commande des commentaires
    */
   async orderComments(order: SMMAOrder): Promise<SMMAResponse> {
     try {
+      console.log('🚀 Envoi de la commande SMMA commentaires (client → serveur):', order);
+
       const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'comments_french' : 'comments_international');
       
       if (!serviceId) {
@@ -142,17 +162,17 @@ class SMMAServiceClient {
         };
       }
 
-      const response = await fetch(this.apiEndpoint, {
+      const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceType: 'instagram_comments',
-          serviceId: serviceId,
+          action: 'comments',
+          service_id: serviceId.toString(),
           link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username}`,
           quantity: order.commentsToAdd || order.followers,
-          orderId: order.orderId
+          order_id: order.orderId
         })
       });
 
@@ -160,14 +180,20 @@ class SMMAServiceClient {
         const errorData = await response.json();
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la commande'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
-      return await response.json();
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (commentaires):', error);
       return {
         success: false,
         error: 'Erreur de connexion avec le serveur'
@@ -176,10 +202,12 @@ class SMMAServiceClient {
   }
 
   /**
-   * Commande des vues (via API route serveur)
+   * Commande des vues Instagram
    */
   async orderViews(order: SMMAOrder): Promise<SMMAResponse> {
     try {
+      console.log('🚀 Envoi de la commande SMMA vues (client → serveur):', order);
+
       const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'views_french' : 'views_international');
       
       if (!serviceId) {
@@ -189,17 +217,17 @@ class SMMAServiceClient {
         };
       }
 
-      const response = await fetch(this.apiEndpoint, {
+      const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceType: 'instagram_views',
-          serviceId: serviceId,
+          action: 'views',
+          service_id: serviceId.toString(),
           link: order.postId ? `https://instagram.com/reel/${order.postId}` : `https://instagram.com/${order.username}`,
           quantity: order.viewsToAdd || order.followers,
-          orderId: order.orderId
+          order_id: order.orderId
         })
       });
 
@@ -207,14 +235,20 @@ class SMMAServiceClient {
         const errorData = await response.json();
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la commande'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
-      return await response.json();
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (vues):', error);
       return {
         success: false,
         error: 'Erreur de connexion avec le serveur'
@@ -223,28 +257,30 @@ class SMMAServiceClient {
   }
 
   /**
-   * Commander des followers TikTok (via API route serveur)
+   * Commander des followers TikTok
    */
   async orderTikTokFollowers(order: SMMAOrder): Promise<SMMAResponse> {
     try {
+      console.log('🚀 Envoi de la commande SMMA TikTok (client → serveur):', order);
+      
       const serviceId = getSMMAServiceId(order.followerType);
       if (!serviceId) {
         return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
       }
 
-      const response = await fetch(this.apiEndpoint, {
+      const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceType: 'tiktok_followers',
-          serviceId: serviceId,
+          action: 'tiktok_followers',
+          service_id: serviceId.toString(),
           link: order.username,
           quantity: order.followers,
           runs: order.runs,
           interval: order.interval,
-          orderId: order.orderId
+          order_id: order.orderId
         })
       });
 
@@ -252,14 +288,20 @@ class SMMAServiceClient {
         const errorData = await response.json();
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la commande'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
-      return await response.json();
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (TikTok):', error);
       return {
         success: false,
         error: 'Erreur de connexion avec le serveur'
@@ -268,28 +310,30 @@ class SMMAServiceClient {
   }
 
   /**
-   * Commande des likes TikTok (via API route serveur)
+   * Commande des likes TikTok
    */
   async orderTikTokLikes(order: SMMAOrder): Promise<SMMAResponse> {
     try {
+      console.log('🚀 Envoi de la commande SMMA TikTok Likes (client → serveur):', order);
+      
       const serviceId = getSMMAServiceId(order.followerType);
       if (!serviceId) {
         return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
       }
 
-      const response = await fetch(this.apiEndpoint, {
+      const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceType: 'tiktok_likes',
-          serviceId: serviceId,
+          action: 'tiktok_likes',
+          service_id: serviceId.toString(),
           link: order.username,
           quantity: order.followers,
           runs: order.runs,
           interval: order.interval,
-          orderId: order.orderId
+          order_id: order.orderId
         })
       });
 
@@ -297,14 +341,20 @@ class SMMAServiceClient {
         const errorData = await response.json();
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la commande'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
-      return await response.json();
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (TikTok Likes):', error);
       return {
         success: false,
         error: 'Erreur de connexion avec le serveur'
@@ -315,4 +365,3 @@ class SMMAServiceClient {
 
 // Instance singleton
 export const smmaServiceClient = new SMMAServiceClient();
-

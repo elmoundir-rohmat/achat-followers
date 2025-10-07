@@ -1,5 +1,10 @@
-// Service Client Instagram - Appelle les API routes Vercel (sécurisé)
-// Les clés API ne sont JAMAIS exposées au client
+/**
+ * Service Client Instagram - Appelle les API Routes Vercel
+ * 
+ * Ce service côté client appelle les API routes Vercel
+ * au lieu d'appeler directement l'API StarAPI/RapidAPI.
+ * La clé RapidAPI reste côté serveur et n'est jamais exposée.
+ */
 
 export interface InstagramPost {
   id: string;
@@ -24,87 +29,94 @@ export interface InstagramPostsResponse {
 }
 
 class InstagramServiceClient {
-  private postsEndpoint = '/api/instagram/posts';
-  private clipsEndpoint = '/api/instagram/clips';
-
   /**
-   * Récupérer les posts Instagram (via API route serveur)
+   * Récupérer les posts Instagram d'un utilisateur via API Route sécurisée
    */
   async getUserPosts(username: string, cursor?: string): Promise<InstagramPostsResponse> {
     try {
-      console.log('📸 Récupération des posts Instagram (via API route):', username);
+      console.log('📸 Récupération des posts Instagram (client → serveur):', username);
 
-      const params = new URLSearchParams({ username });
-      if (cursor) {
-        params.append('cursor', cursor);
-      }
-
-      const response = await fetch(`${this.postsEndpoint}?${params}`, {
-        method: 'GET',
+      // Appel à l'API route Vercel (sécurisée)
+      const response = await fetch('/api/instagram/posts', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({
+          username,
+          cursor
+        })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('❌ Erreur API route:', errorData);
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la récupération des posts'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
       const data = await response.json();
-      console.log('✅ Posts récupérés:', data.data?.length || 0);
+      console.log('✅ Posts récupérés via API route:', data.data?.length || 0);
 
-      return data;
+      return {
+        success: data.success,
+        data: data.data,
+        next_cursor: data.next_cursor
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (posts):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec le serveur'
+        error: 'Erreur de connexion avec le serveur: ' + (error instanceof Error ? error.message : 'Erreur inconnue')
       };
     }
   }
 
   /**
-   * Récupérer les reels/clips Instagram (via API route serveur)
+   * Récupérer les reels/clips Instagram d'un utilisateur via API Route sécurisée
    */
   async getUserClips(username: string, count: number = 12): Promise<InstagramPostsResponse> {
     try {
-      console.log('🎬 Récupération des reels (via API route):', username);
+      console.log('🎬 Récupération des reels Instagram (client → serveur):', username);
 
-      const params = new URLSearchParams({ 
-        username,
-        count: count.toString()
-      });
-
-      const response = await fetch(`${this.clipsEndpoint}?${params}`, {
-        method: 'GET',
+      // Appel à l'API route Vercel (sécurisée)
+      const response = await fetch('/api/instagram/clips', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({
+          username,
+          count
+        })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('❌ Erreur API route:', errorData);
         return {
           success: false,
-          error: errorData.error || 'Erreur lors de la récupération des reels'
+          error: errorData.error || `HTTP error ${response.status}`
         };
       }
 
       const data = await response.json();
-      console.log('✅ Reels récupérés:', data.data?.length || 0);
+      console.log('✅ Reels récupérés via API route:', data.data?.length || 0);
 
-      return data;
+      return {
+        success: data.success,
+        data: data.data,
+        next_cursor: data.next_cursor
+      };
 
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.error('❌ Erreur lors de l\'appel API route (clips):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec le serveur'
+        error: 'Erreur de connexion avec le serveur: ' + (error instanceof Error ? error.message : 'Erreur inconnue')
       };
     }
   }
@@ -112,4 +124,3 @@ class InstagramServiceClient {
 
 // Instance singleton
 export const instagramServiceClient = new InstagramServiceClient();
-

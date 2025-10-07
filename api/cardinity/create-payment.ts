@@ -1,17 +1,19 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 /**
- * API Route Vercel : Créer un paiement Cardinity
+ * API Route Vercel : Création de paiement Cardinity
  * 
- * Cette route est appelée côté serveur uniquement.
- * Les clés Cardinity ne sont JAMAIS exposées au client.
+ * Cette route est exécutée côté serveur uniquement.
+ * Les clés API Cardinity ne sont jamais exposées au client.
  */
 
 interface PaymentRequest {
   amount: number;
   currency: string;
-  orderId: string;
+  order_id: string;
   description: string;
+  country: string;
+  language: string;
 }
 
 export default async function handler(
@@ -24,51 +26,64 @@ export default async function handler(
   }
 
   try {
-    const { amount, currency, orderId, description } = req.body as PaymentRequest;
+    const {
+      amount,
+      currency,
+      order_id,
+      description,
+      country,
+      language
+    }: PaymentRequest = req.body;
 
-    // Validation
-    if (!amount || !currency || !orderId || !description) {
+    // Validation des paramètres
+    if (!amount || !currency || !order_id || !description) {
       return res.status(400).json({ 
-        error: 'Missing required fields: amount, currency, orderId, description' 
+        error: 'Missing required parameters',
+        required: ['amount', 'currency', 'order_id', 'description']
       });
     }
 
-    // Récupérer les variables d'environnement serveur (SANS préfixe VITE_)
+    // Récupérer les clés Cardinity depuis les variables d'environnement SERVEUR
     const consumerKey = process.env.CARDINITY_CONSUMER_KEY;
     const consumerSecret = process.env.CARDINITY_CONSUMER_SECRET;
     const successUrl = process.env.CARDINITY_SUCCESS_URL;
     const cancelUrl = process.env.CARDINITY_CANCEL_URL;
 
     if (!consumerKey || !consumerSecret || !successUrl || !cancelUrl) {
-      console.error('Missing Cardinity credentials');
+      console.error('Missing Cardinity configuration');
       return res.status(500).json({ 
-        error: 'Server configuration error. Please contact support.' 
+        error: 'Server configuration error',
+        message: 'Cardinity credentials not configured'
       });
     }
 
-    // Créer le paiement avec l'API Cardinity
-    // Note: Cardinity nécessite OAuth 1.0, ce qui est complexe
-    // Pour une implémentation complète, utilisez une bibliothèque OAuth ou le SDK Cardinity
-    
+    // Créer l'authentification Basic pour Cardinity
+    const credentials = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
+
+    // Préparer les données de paiement
     const paymentData = {
-      amount: amount,
+      amount: amount.toString(),
       currency: currency,
       settle: false,
       description: description,
-      order_id: orderId,
-      country: 'FR',
+      order_id: order_id,
+      country: country || 'FR',
       payment_method: 'card',
       payment_instrument: {
-        payment_card: 'card'
+        pan: '', // Sera rempli par le formulaire Cardinity
+        exp_year: 0,
+        exp_month: 0,
+        cvc: '',
+        holder: ''
       },
       threeds2_data: {
-        notification_url: `${successUrl}?order_id=${orderId}`,
+        notification_url: successUrl,
         browser_info: {
-          accept_header: req.headers.accept || '*/*',
-          browser_language: req.headers['accept-language']?.split(',')[0] || 'fr-FR',
+          accept_header: req.headers.accept || 'text/html',
+          browser_language: language || 'fr',
           screen_width: 1920,
           screen_height: 1080,
-          challenge_window_size: '05',
+          challenge_window_size: 'full-screen',
           user_agent: req.headers['user-agent'] || '',
           color_depth: 24,
           time_zone: -60
@@ -76,54 +91,51 @@ export default async function handler(
       }
     };
 
-    console.log('Creating Cardinity payment:', {
+    console.log('🔐 Création de paiement Cardinity (serveur):', {
       amount,
       currency,
-      orderId,
-      consumerKey: consumerKey.substring(0, 10) + '...' // Log partiel pour debug
+      order_id,
+      description
     });
 
-    // Appel à l'API Cardinity
-    const cardinityResponse = await fetch('https://api.cardinity.com/v1/payments', {
+    // Appel API Cardinity
+    const cardinityUrl = process.env.CARDINITY_API_URL || 'https://api.cardinity.com/v1/payments';
+    
+    const response = await fetch(cardinityUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // OAuth 1.0 signature (simplifiée ici, utilisez une lib en production)
-        'Authorization': `OAuth oauth_consumer_key="${consumerKey}", oauth_signature_method="HMAC-SHA1", oauth_timestamp="${Math.floor(Date.now() / 1000)}", oauth_nonce="${Math.random().toString(36)}", oauth_version="1.0"`
+        'Authorization': `Basic ${credentials}`
       },
       body: JSON.stringify(paymentData)
     });
 
-    if (!cardinityResponse.ok) {
-      const errorData = await cardinityResponse.json();
-      console.error('Cardinity API error:', errorData);
-      return res.status(cardinityResponse.status).json({
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Erreur Cardinity:', data);
+      return res.status(response.status).json({
         error: 'Payment creation failed',
-        details: errorData
+        details: data
       });
     }
 
-    const paymentResult = await cardinityResponse.json();
+    console.log('✅ Paiement Cardinity créé:', data.id);
 
-    console.log('Cardinity payment created:', {
-      paymentId: paymentResult.id,
-      status: paymentResult.status
-    });
-
-    // Retourner l'URL de redirection au client
+    // Retourner la réponse au client (sans exposer les clés)
     return res.status(200).json({
       success: true,
-      paymentId: paymentResult.id,
-      redirectUrl: paymentResult.authorization_information?.url || null,
-      status: paymentResult.status
+      payment_id: data.id,
+      status: data.status,
+      authorization_information: data.authorization_information,
+      threeds2_data: data.threeds2_data
     });
 
   } catch (error) {
-    console.error('Error creating payment:', error);
+    console.error('❌ Erreur serveur:', error);
     return res.status(500).json({
       error: 'Internal server error',
       message: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
-

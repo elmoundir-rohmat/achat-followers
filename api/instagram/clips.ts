@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 /**
- * API Route Vercel : Récupérer les reels/clips Instagram
+ * API Route Vercel : Récupération des reels/clips Instagram
  * 
- * Cette route utilise StarAPI (RapidAPI) côté serveur.
- * La clé RapidAPI n'est JAMAIS exposée au client.
+ * Cette route est exécutée côté serveur uniquement.
+ * La clé RapidAPI n'est jamais exposée au client.
  */
 
-interface ClipsRequest {
+interface InstagramClipsRequest {
   username: string;
   count?: number;
 }
@@ -16,7 +16,7 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
-  // Autoriser GET et POST
+  // Autoriser uniquement GET et POST
   if (req.method !== 'GET' && req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -25,146 +25,158 @@ export default async function handler(
     // Récupérer les paramètres
     const username = req.method === 'GET' 
       ? (req.query.username as string)
-      : (req.body as ClipsRequest).username;
-    
+      : (req.body as InstagramClipsRequest).username;
+      
     const count = req.method === 'GET'
-      ? parseInt(req.query.count as string || '12')
-      : ((req.body as ClipsRequest).count || 12);
+      ? parseInt(req.query.count as string) || 12
+      : (req.body as InstagramClipsRequest).count || 12;
 
-    // Validation
     if (!username) {
       return res.status(400).json({ 
-        error: 'Missing required parameter: username' 
+        error: 'Missing required parameter: username'
       });
     }
 
-    // Récupérer les variables d'environnement serveur
-    const starApiUrl = process.env.STARAPI_URL || 'https://starapi1.p.rapidapi.com';
-    const rapidApiKey = process.env.RAPIDAPI_KEY;
+    // Récupérer la configuration StarAPI depuis les variables d'environnement
+    const starapiUrl = process.env.STARAPI_URL;
+    const rapidapiKey = process.env.RAPIDAPI_KEY;
 
-    if (!rapidApiKey) {
-      console.error('Missing RapidAPI key');
+    if (!starapiUrl || !rapidapiKey) {
+      console.error('Missing StarAPI configuration');
       return res.status(500).json({ 
-        error: 'Server configuration error. Please contact support.' 
+        error: 'Server configuration error',
+        message: 'StarAPI credentials not configured'
       });
     }
 
-    console.log('Fetching Instagram reels for:', username);
+    console.log('🎬 Récupération reels Instagram (serveur):', username);
 
     // Étape 1: Récupérer l'ID utilisateur
-    const userIdResponse = await fetch(`${starApiUrl}/instagram/user/get_web_profile_info`, {
+    const userIdResponse = await fetch(`${starapiUrl}/instagram/user/get_web_profile_info`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-rapidapi-host': 'starapi1.p.rapidapi.com',
-        'x-rapidapi-key': rapidApiKey
+        'x-rapidapi-key': rapidapiKey
       },
       body: JSON.stringify({ username })
     });
 
     if (!userIdResponse.ok) {
+      const errorText = await userIdResponse.text();
+      console.error('❌ Erreur récupération ID utilisateur:', errorText);
       return res.status(userIdResponse.status).json({
         success: false,
-        error: 'Failed to fetch user profile'
+        error: `Failed to get user ID: ${errorText}`
       });
     }
 
-    const userIdData = await userIdResponse.json();
-    const userId = userIdData.response?.body?.data?.user?.id;
+    const userData = await userIdResponse.json();
+    const userId = userData.response?.body?.data?.user?.id;
 
     if (!userId) {
       return res.status(404).json({
         success: false,
-        error: `User @${username} not found or profile is private`
+        error: `User not found: @${username}`
       });
     }
 
+    console.log('✅ ID utilisateur trouvé:', userId);
+
     // Étape 2: Récupérer les reels/clips
-    const clipsResponse = await fetch(`${starApiUrl}/instagram/user/get_clips`, {
+    const requestBody = {
+      id: parseInt(userId),
+      count: Math.max(count * 2, 24)
+    };
+
+    const clipsResponse = await fetch(`${starapiUrl}/instagram/user/get_clips`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-rapidapi-host': 'starapi1.p.rapidapi.com',
-        'x-rapidapi-key': rapidApiKey
+        'x-rapidapi-key': rapidapiKey
       },
-      body: JSON.stringify({
-        id: parseInt(userId),
-        count: Math.max(count * 2, 24)
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!clipsResponse.ok) {
+      const errorText = await clipsResponse.text();
+      console.error('❌ Erreur récupération clips:', errorText);
       return res.status(clipsResponse.status).json({
         success: false,
-        error: 'Failed to fetch clips'
+        error: `Failed to get clips: ${errorText}`
       });
     }
 
     const clipsData = await clipsResponse.json();
 
-    // Vérifier la structure de la réponse
-    if (clipsData.status === 'done' && clipsData.response?.body?.items) {
-      const clips = clipsData.response.body.items;
-
-      // Filtrer les reels/vidéos
-      const reelClips = clips.filter((clip: any) => 
-        clip.media_type === 2 || clip.media_type === 8
-      );
-
-      // Transformer les clips
-      const transformedClips = reelClips.map((clip: any) => {
-        let mediaUrl = '';
-        let thumbnailUrl = '';
-
-        if (clip.media_type === 2) {
-          mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
-                    clip.image_versions2?.candidates?.[0]?.url || '';
-          thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url || '';
-        } else if (clip.media_type === 8 && clip.carousel_media) {
-          const firstVideo = clip.carousel_media.find((item: any) => item.media_type === 2);
-          if (firstVideo) {
-            mediaUrl = firstVideo.image_versions2?.additional_candidates?.first_frame?.url || 
-                      firstVideo.image_versions2?.candidates?.[0]?.url || '';
-            thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url || '';
-          }
-        }
-
-        return {
-          id: clip.id,
-          media_url: mediaUrl,
-          thumbnail_url: thumbnailUrl,
-          caption: clip.caption?.text || '',
-          like_count: clip.like_count || 0,
-          comment_count: clip.comment_count || 0,
-          view_count: clip.view_count || 0,
-          media_type: clip.media_type || 2,
-          code: clip.code,
-          is_reel: true
-        };
-      }).filter((clip: any) => {
-        const hasValidId = clip.id && clip.id.length > 0;
-        const hasEngagement = clip.like_count > 0 || clip.comment_count > 0 || clip.view_count > 0;
-        return hasValidId && (hasEngagement || clip.media_url || clip.thumbnail_url);
-      }).slice(0, count);
-
-      return res.status(200).json({
-        success: true,
-        data: transformedClips
+    // Vérifier la structure de réponse
+    if (clipsData.status !== 'done' || !clipsData.response?.body?.items) {
+      console.error('❌ Structure de réponse invalide');
+      return res.status(500).json({
+        success: false,
+        error: 'Invalid response structure from StarAPI'
       });
     }
 
-    return res.status(500).json({
-      success: false,
-      error: 'Unexpected API response structure'
+    const clips = clipsData.response.body.items;
+    console.log('✅ Clips récupérés:', clips.length);
+
+    // Filtrer uniquement les reels/clips (media_type = 2)
+    const reelClips = clips.filter((clip: any) => 
+      clip.media_type === 2 || clip.media_type === 8
+    );
+
+    // Transformer les clips au format attendu
+    const transformedClips = reelClips.map((clip: any) => {
+      let mediaUrl = '';
+      let thumbnailUrl = '';
+      
+      if (clip.media_type === 2) {
+        mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
+                  clip.image_versions2?.candidates?.[0]?.url || '';
+        thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url || '';
+      } else if (clip.media_type === 8 && clip.carousel_media) {
+        const firstVideo = clip.carousel_media.find((item: any) => item.media_type === 2);
+        if (firstVideo) {
+          mediaUrl = firstVideo.image_versions2?.additional_candidates?.first_frame?.url || 
+                    firstVideo.image_versions2?.candidates?.[0]?.url || '';
+          thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url || '';
+        }
+      }
+      
+      return {
+        id: clip.id,
+        media_url: mediaUrl,
+        thumbnail_url: thumbnailUrl,
+        caption: clip.caption?.text || '',
+        like_count: clip.like_count || 0,
+        comment_count: clip.comment_count || 0,
+        view_count: clip.view_count || 0,
+        media_type: clip.media_type || 2,
+        code: clip.code,
+        is_reel: true
+      };
+    }).filter((clip: any) => {
+      const hasValidId = clip.id && clip.id.length > 0;
+      const hasEngagement = (clip.like_count > 0 || clip.comment_count > 0 || clip.view_count > 0);
+      return hasValidId && (hasEngagement || clip.media_url || clip.thumbnail_url);
+    }).slice(0, count);
+
+    console.log(`🎬 Clips finaux: ${transformedClips.length}`);
+
+    // Retourner la réponse
+    return res.status(200).json({
+      success: true,
+      data: transformedClips,
+      next_cursor: null
     });
 
   } catch (error) {
-    console.error('Error fetching Instagram clips:', error);
+    console.error('❌ Erreur serveur Instagram clips:', error);
     return res.status(500).json({
-      success: false,
       error: 'Internal server error',
       message: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
-

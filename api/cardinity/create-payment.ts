@@ -47,23 +47,11 @@ export default async function handler(
       });
     }
 
-    // Récupérer les clés Cardinity depuis les variables d'environnement SERVEUR
-    const consumerKey = process.env.CARDINITY_CONSUMER_KEY;
-    const consumerSecret = process.env.CARDINITY_CONSUMER_SECRET;
-    const successUrl = process.env.CARDINITY_SUCCESS_URL;
-    const cancelUrl = process.env.CARDINITY_CANCEL_URL;
-
-    if (!consumerKey || !consumerSecret || !successUrl || !cancelUrl) {
-      console.error('Missing Cardinity configuration');
-      return res.status(500).json({ 
-        error: 'Server configuration error',
-        message: 'Cardinity credentials not configured'
-      });
-    }
-
     // Configuration pour Hosted Payment Page
     const projectId = process.env.CARDINITY_PROJECT_ID;
     const projectSecret = process.env.CARDINITY_PROJECT_SECRET;
+    const successUrlFinal = returnUrl || process.env.CARDINITY_SUCCESS_URL;
+    const cancelUrlFinal = cancelUrl || process.env.CARDINITY_CANCEL_URL;
 
     if (!projectId || !projectSecret) {
       console.error('Missing Cardinity Hosted Payment Page configuration');
@@ -79,11 +67,11 @@ export default async function handler(
       currency: currency,
       country: country || 'FR',
       language: language || 'fr',
-      order_id: order_id,
+      order_id: orderId,
       description: description,
       project_id: projectId,
-      return_url: successUrl,
-      cancel_url: cancelUrl
+      return_url: successUrlFinal,
+      cancel_url: cancelUrlFinal
     };
 
     // Générer la signature HMAC-SHA256

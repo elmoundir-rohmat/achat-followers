@@ -27,52 +27,30 @@ export default function CardinityHostedPayment({
     setError('');
 
     try {
-      // SOLUTION TEMPORAIRE : Mode test sans signature
-      // En attendant la configuration des variables d'environnement Cardinity
-      const isTestMode = true; // À changer en false une fois les clés configurées
-      
-      let paymentData;
-      
-      if (isTestMode) {
-        // Mode test - utiliser des paramètres factices
-        console.log('🧪 Mode test Cardinity - Pas de signature requise');
-        paymentData = {
-          amount: amount.toFixed(2),
+      // Appeler l'API backend pour créer le paiement Cardinity
+      const response = await fetch('/api/cardinity/create-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: amount,
+          orderId: orderId,
+          description: description,
           currency: CARDINITY_CONFIG.currency,
           country: CARDINITY_CONFIG.country,
           language: CARDINITY_CONFIG.language,
-          order_id: orderId,
-          description: description,
-          project_id: 'test_project_id',
-          return_url: CARDINITY_CONFIG.successUrl,
-          cancel_url: CARDINITY_CONFIG.cancelUrl,
-          signature: 'test_signature'
-        };
-      } else {
-        // Mode production - appeler l'API backend
-        const response = await fetch('/api/cardinity/create-payment', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amount: amount,
-            orderId: orderId,
-            description: description,
-            currency: CARDINITY_CONFIG.currency,
-            country: CARDINITY_CONFIG.country,
-            language: CARDINITY_CONFIG.language,
-            returnUrl: CARDINITY_CONFIG.successUrl,
-            cancelUrl: CARDINITY_CONFIG.cancelUrl
-          })
-        });
+          returnUrl: CARDINITY_CONFIG.successUrl,
+          cancelUrl: CARDINITY_CONFIG.cancelUrl
+        })
+      });
 
-        if (!response.ok) {
-          throw new Error(`Erreur API: ${response.status}`);
-        }
-
-        paymentData = await response.json();
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erreur API: ${response.status} - ${errorData.message || 'Unknown error'}`);
       }
+
+      const paymentData = await response.json();
       
       console.log('💳 Redirection vers Hosted Payment Page Cardinity:', paymentData);
 

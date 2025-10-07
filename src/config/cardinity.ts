@@ -9,8 +9,8 @@ export const CARDINITY_CONFIG = {
   projectSecret: import.meta.env.VITE_CARDINITY_PROJECT_SECRET || 'tms6iehwwaa1vb8y8xlz4ymygyxmp1nyt0apeizog9wuqbwh6p',
   
   // URLs de callback pour la production
-  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/success?t=' + Date.now(),
-  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel?t=' + Date.now(),
+  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/payment/callback',
+  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/payment/cancel',
   
   // Configuration par défaut
   currency: 'EUR',

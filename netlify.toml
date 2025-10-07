@@ -20,12 +20,6 @@
   force = true
 
 [[redirects]]
-  from = "/payment/success"
-  to = "/.netlify/functions/payment-callback"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/payment/cancel"
   to = "/index.html"
   status = 200

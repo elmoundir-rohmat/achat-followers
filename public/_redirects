@@ -1,3 +1,6 @@
 # Netlify redirects for SPA routing
-# La règle /* avec 200 sert SEULEMENT les fichiers qui n'existent pas
-/*    /index.html   200
+# Gestion spécifique des méthodes HTTP
+/payment/success    /index.html    200
+/payment/cancel     /index.html    200
+/pay                /index.html    200
+/*                  /index.html    200

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { CARDINITY_CONFIG } from '../config/cardinity';
-import * as CryptoJS from 'crypto-js';
 
 interface CardinityHostedPaymentProps {
   amount: number;
@@ -22,45 +21,37 @@ export default function CardinityHostedPayment({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const generateSignature = (params: Record<string, string>, secret: string): string => {
-    // Trier les paramètres par clé
-    const sortedParams = Object.keys(params)
-      .sort()
-      .map(key => key + params[key])
-      .join('');
-    
-    // Générer la signature HMAC-SHA256
-    return CryptoJS.HmacSHA256(sortedParams, secret).toString(CryptoJS.enc.Hex);
-  };
 
   const handlePayment = async () => {
     setIsLoading(true);
     setError('');
 
     try {
-      // Paramètres pour la Hosted Payment Page
-      const params = {
-        amount: amount.toFixed(2),
-        currency: CARDINITY_CONFIG.currency,
-        country: CARDINITY_CONFIG.country,
-        language: CARDINITY_CONFIG.language,
-        order_id: orderId,
-        description: description,
-        project_id: CARDINITY_CONFIG.projectId, // Utiliser project_id spécifique
-        return_url: CARDINITY_CONFIG.successUrl,
-        cancel_url: CARDINITY_CONFIG.cancelUrl
-      };
+      // Appeler l'API backend pour créer le paiement Cardinity
+      const response = await fetch('/api/cardinity/create-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: amount,
+          orderId: orderId,
+          description: description,
+          currency: CARDINITY_CONFIG.currency,
+          country: CARDINITY_CONFIG.country,
+          language: CARDINITY_CONFIG.language,
+          returnUrl: CARDINITY_CONFIG.successUrl,
+          cancelUrl: CARDINITY_CONFIG.cancelUrl
+        })
+      });
 
-      // Générer la signature avec project_secret
-      const signature = generateSignature(params, CARDINITY_CONFIG.projectSecret);
+      if (!response.ok) {
+        throw new Error(`Erreur API: ${response.status}`);
+      }
+
+      const paymentData = await response.json();
       
-      // Ajouter la signature aux paramètres
-      const signedParams = {
-        ...params,
-        signature: signature
-      };
-
-      console.log('💳 Redirection vers Hosted Payment Page Cardinity:', signedParams);
+      console.log('💳 Redirection vers Hosted Payment Page Cardinity:', paymentData);
 
       // Sauvegarder les détails de la commande
       const orderDetails = {
@@ -72,8 +63,6 @@ export default function CardinityHostedPayment({
       };
       localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
       
-      // Sauvegarder aussi les détails du panier pour l'intégration SMMA
-      // (Les détails du panier seront récupérés depuis le contexte ou localStorage)
       console.log('💾 Détails de commande sauvegardés pour SMMA');
 
       // Créer un formulaire et le soumettre automatiquement
@@ -83,7 +72,7 @@ export default function CardinityHostedPayment({
       form.style.display = 'none';
 
       // Ajouter tous les paramètres comme champs cachés
-      Object.entries(signedParams).forEach(([key, value]) => {
+      Object.entries(paymentData).forEach(([key, value]) => {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = key;

@@ -9,11 +9,13 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 interface PaymentRequest {
   amount: number;
-  currency: string;
-  order_id: string;
+  orderId: string;
   description: string;
+  currency: string;
   country: string;
   language: string;
+  returnUrl: string;
+  cancelUrl: string;
 }
 
 export default async function handler(
@@ -28,18 +30,20 @@ export default async function handler(
   try {
     const {
       amount,
-      currency,
-      order_id,
+      orderId,
       description,
+      currency,
       country,
-      language
+      language,
+      returnUrl,
+      cancelUrl
     }: PaymentRequest = req.body;
 
     // Validation des paramètres
-    if (!amount || !currency || !order_id || !description) {
+    if (!amount || !currency || !orderId || !description) {
       return res.status(400).json({ 
         error: 'Missing required parameters',
-        required: ['amount', 'currency', 'order_id', 'description']
+        required: ['amount', 'currency', 'orderId', 'description']
       });
     }
 
@@ -57,78 +61,54 @@ export default async function handler(
       });
     }
 
-    // Créer l'authentification Basic pour Cardinity
-    const credentials = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
+    // Configuration pour Hosted Payment Page
+    const projectId = process.env.CARDINITY_PROJECT_ID;
+    const projectSecret = process.env.CARDINITY_PROJECT_SECRET;
 
-    // Préparer les données de paiement
-    const paymentData = {
-      amount: amount.toString(),
+    if (!projectId || !projectSecret) {
+      console.error('Missing Cardinity Hosted Payment Page configuration');
+      return res.status(500).json({ 
+        error: 'Server configuration error',
+        message: 'Cardinity Hosted Payment Page credentials not configured'
+      });
+    }
+
+    // Paramètres pour la Hosted Payment Page
+    const params = {
+      amount: amount.toFixed(2),
       currency: currency,
-      settle: false,
-      description: description,
-      order_id: order_id,
       country: country || 'FR',
-      payment_method: 'card',
-      payment_instrument: {
-        pan: '', // Sera rempli par le formulaire Cardinity
-        exp_year: 0,
-        exp_month: 0,
-        cvc: '',
-        holder: ''
-      },
-      threeds2_data: {
-        notification_url: successUrl,
-        browser_info: {
-          accept_header: req.headers.accept || 'text/html',
-          browser_language: language || 'fr',
-          screen_width: 1920,
-          screen_height: 1080,
-          challenge_window_size: 'full-screen',
-          user_agent: req.headers['user-agent'] || '',
-          color_depth: 24,
-          time_zone: -60
-        }
-      }
+      language: language || 'fr',
+      order_id: order_id,
+      description: description,
+      project_id: projectId,
+      return_url: successUrl,
+      cancel_url: cancelUrl
     };
 
-    console.log('🔐 Création de paiement Cardinity (serveur):', {
+    // Générer la signature HMAC-SHA256
+    const crypto = require('crypto');
+    const sortedParams = Object.keys(params)
+      .sort()
+      .map(key => key + params[key])
+      .join('');
+    
+    const signature = crypto
+      .createHmac('sha256', projectSecret)
+      .update(sortedParams)
+      .digest('hex');
+
+    console.log('🔐 Création de paiement Hosted Payment Page:', {
       amount,
       currency,
       order_id,
       description
     });
 
-    // Appel API Cardinity
-    const cardinityUrl = process.env.CARDINITY_API_URL || 'https://api.cardinity.com/v1/payments';
-    
-    const response = await fetch(cardinityUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${credentials}`
-      },
-      body: JSON.stringify(paymentData)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error('❌ Erreur Cardinity:', data);
-      return res.status(response.status).json({
-        error: 'Payment creation failed',
-        details: data
-      });
-    }
-
-    console.log('✅ Paiement Cardinity créé:', data.id);
-
-    // Retourner la réponse au client (sans exposer les clés)
+    // Retourner les paramètres signés pour le formulaire
     return res.status(200).json({
-      success: true,
-      payment_id: data.id,
-      status: data.status,
-      authorization_information: data.authorization_information,
-      threeds2_data: data.threeds2_data
+      ...params,
+      signature: signature
     });
 
   } catch (error) {

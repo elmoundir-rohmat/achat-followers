@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 /**
- * API Route Vercel : Callback d'annulation de paiement Cardinity
+ * API Route Vercel : Gestion des annulations de paiement Cardinity
  * 
- * Cette route reçoit les données de retour de Cardinity après une annulation
+ * Cette route reçoit les données POST/GET de Cardinity après une annulation
  */
 
 export default async function handler(
@@ -16,28 +16,34 @@ export default async function handler(
   }
 
   try {
-    console.log('❌ Callback d\'annulation de paiement reçu:', {
+    console.log('❌ Annulation de paiement Cardinity reçue:', {
       method: req.method,
-      query: req.query,
       body: req.body,
+      query: req.query,
       headers: req.headers
     });
 
-    // Récupérer les paramètres de retour de Cardinity
+    // Récupérer les données de Cardinity
     const cancelData = req.method === 'POST' ? req.body : req.query;
     
     const {
-      project_id,
-      order_id,
       amount,
+      country,
       currency,
+      description,
+      id,
+      order_id,
+      payment_method,
+      project_id,
+      signature,
       status,
+      type,
       error,
       error_description
     } = cancelData;
 
     console.log('🚫 Données d\'annulation Cardinity:', {
-      project_id,
+      id,
       order_id,
       amount,
       currency,
@@ -45,27 +51,43 @@ export default async function handler(
       error
     });
 
-    // SOLUTION SPA : Rediriger vers la page d'accueil puis naviguer vers cancel
-    // Cela force le rechargement de l'application React
-    const redirectUrl = new URL('/', req.headers.origin || 'https://doctorfollowers.com');
-    
-    // Ajouter un paramètre spécial pour déclencher la navigation SPA
-    redirectUrl.searchParams.set('payment_cancel', 'true');
-    if (order_id) redirectUrl.searchParams.set('orderId', order_id);
-    if (error) redirectUrl.searchParams.set('error', error);
-    if (error_description) redirectUrl.searchParams.set('error_description', error_description);
-    if (status) redirectUrl.searchParams.set('status', status);
-    
-    console.log('🔄 Redirection vers accueil avec paramètres d\'annulation:', redirectUrl.toString());
-    
-    return res.redirect(redirectUrl.toString());
+    // Créer une page HTML qui va rediriger vers la page d'annulation React
+    const cancelInfo = {
+      paymentId: id,
+      orderId: order_id,
+      amount: amount ? parseFloat(amount) : null,
+      currency,
+      status,
+      error,
+      errorDescription: error_description,
+      description
+    };
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redirection...</title>
+</head>
+<body>
+    <script>
+        // Sauvegarder les données d'annulation
+        localStorage.setItem('paymentCancel', JSON.stringify(${JSON.stringify(cancelInfo)}));
+        
+        // Rediriger vers la page d'annulation React
+        window.location.href = '/payment/cancel';
+    </script>
+    <p>Redirection en cours...</p>
+</body>
+</html>`;
+
+    return res.status(200).send(html);
 
   } catch (error) {
-    console.error('❌ Erreur dans le callback d\'annulation:', error);
+    console.error('❌ Erreur dans le traitement de l\'annulation:', error);
     
-    // En cas d'erreur, rediriger vers la page d'annulation avec un message d'erreur générique
-    return res.redirect('/payment/cancel?error=callback_error&message=' + encodeURIComponent(
-      error instanceof Error ? error.message : 'Unknown error'
-    ));
+    // En cas d'erreur, rediriger directement vers la page d'annulation
+    return res.redirect('/payment/cancel?error=processing_error');
   }
 }

@@ -1,5 +1,7 @@
 [build]
   publish = "dist"
+  command = "npm run build"
+  functions = "netlify/functions"
 
 [[headers]]
   for = "/sitemap.xml"
@@ -35,6 +37,12 @@
   from = "/pay"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/payment/callback"
+  to = "/.netlify/functions/payment-callback"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/*"

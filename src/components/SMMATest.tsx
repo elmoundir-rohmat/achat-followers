@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { smmaService } from '../services/smmaService';
+import { smmaServiceClient } from '../services/smmaServiceClient';
 
 export default function SMMATest() {
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function SMMATest() {
 
       console.log('🧪 Test avec service ID 720:', testOrder);
       
-      const response = await smmaService.orderFollowers(testOrder);
+      const response = await smmaServiceClient.orderFollowers(testOrder);
       
       setResult(response);
       
@@ -61,7 +61,7 @@ export default function SMMATest() {
 
       console.log('🧪 Test avec service ID 4343:', testOrder);
       
-      const response = await smmaService.orderLikes(testOrder);
+      const response = await smmaServiceClient.orderLikes(testOrder);
       
       setResult(response);
       

@@ -5,7 +5,7 @@ import CardinityPayment from './CardinityPayment';
 import MockPayment from './MockPayment';
 import ConfirmDialog from './ConfirmDialog';
 import Toast, { ToastProps } from './Toast';
-import { smmaService, SMMAOrder } from '../services/smmaService';
+import { smmaServiceClient, SMMAOrder } from '../services/smmaServiceClient';
 
 interface TikTokCheckoutPageProps {
   onBack: () => void;
@@ -96,7 +96,7 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
 
       // Traiter chaque commande SMMA TikTok
       const smmaResults = await Promise.all(
-        smmaOrders.map(order => smmaService.orderTikTokFollowers(order))
+        smmaOrders.map(order => smmaServiceClient.orderTikTokFollowers(order))
       );
 
       console.log('📊 Résultats SMMA TikTok:', smmaResults);

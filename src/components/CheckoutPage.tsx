@@ -6,7 +6,7 @@ import MockPayment from './MockPayment';
 import SMMATest from './SMMATest';
 import ConfirmDialog from './ConfirmDialog';
 import Toast, { ToastProps } from './Toast';
-import { smmaService, SMMAOrder } from '../services/smmaService';
+import { smmaServiceClient, SMMAOrder } from '../services/smmaServiceClient';
 
 interface CheckoutPageProps {
   onBack: () => void;
@@ -140,7 +140,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
 
       // Traiter chaque commande SMMA
       const smmaResults = await Promise.all(
-        smmaOrders.map(order => smmaService.orderFollowers(order))
+        smmaOrders.map(order => smmaServiceClient.orderFollowers(order))
       );
 
       console.log('📊 Résultats SMMA:', smmaResults);

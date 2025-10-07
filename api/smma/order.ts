@@ -1,0 +1,139 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+/**
+ * API Route Vercel : Commande SMMA (Followers, Likes, Comments, Views)
+ * 
+ * Cette route est exécutée côté serveur uniquement.
+ * La clé API SMMA n'est jamais exposée au client.
+ */
+
+interface SMMAOrderRequest {
+  action: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes';
+  service_id: string;
+  link: string;
+  quantity: number;
+  runs?: number;
+  interval?: number;
+  order_id: string;
+}
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
+  // Autoriser uniquement POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const {
+      action,
+      service_id,
+      link,
+      quantity,
+      runs,
+      interval,
+      order_id
+    }: SMMAOrderRequest = req.body;
+
+    // Validation des paramètres
+    if (!action || !service_id || !link || !quantity || !order_id) {
+      return res.status(400).json({ 
+        error: 'Missing required parameters',
+        required: ['action', 'service_id', 'link', 'quantity', 'order_id']
+      });
+    }
+
+    // Récupérer la configuration SMMA depuis les variables d'environnement
+    const smmaApiUrl = process.env.SMMA_API_URL;
+    const smmaApiKey = process.env.SMMA_API_KEY;
+
+    if (!smmaApiUrl || !smmaApiKey) {
+      console.error('Missing SMMA configuration');
+      return res.status(500).json({ 
+        error: 'Server configuration error',
+        message: 'SMMA credentials not configured'
+      });
+    }
+
+    console.log(`🚀 Commande SMMA (${action}) serveur:`, {
+      service_id,
+      quantity,
+      link: link.substring(0, 50) + '...',
+      order_id
+    });
+
+    // Préparer les paramètres de la requête SMMA
+    const params: Record<string, string> = {
+      key: smmaApiKey,
+      action: 'add',
+      service: service_id,
+      link: link,
+      quantity: quantity.toString()
+    };
+
+    // Ajouter les paramètres optionnels (drip feed pour TikTok)
+    if (runs && runs > 1) {
+      params.runs = runs.toString();
+      if (interval) {
+        params.interval = interval.toString();
+      }
+    }
+
+    // Appel API SMMA
+    const response = await fetch(smmaApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams(params)
+    });
+
+    if (!response.ok) {
+      console.error('❌ Erreur HTTP SMMA:', response.status);
+      return res.status(response.status).json({
+        error: 'SMMA API request failed',
+        status: response.status
+      });
+    }
+
+    const data = await response.json();
+    console.log('📊 Réponse SMMA:', data);
+
+    // Vérifier les erreurs dans la réponse
+    if (data.error) {
+      console.error('❌ Erreur SMMA:', data.error);
+      return res.status(400).json({
+        success: false,
+        error: data.error
+      });
+    }
+
+    // Vérifier que la commande a bien été créée
+    if (!data.order) {
+      console.error('❌ Pas de numéro de commande SMMA');
+      return res.status(400).json({
+        success: false,
+        error: 'No order ID returned from SMMA'
+      });
+    }
+
+    console.log(`✅ Commande SMMA créée: #${data.order}`);
+
+    // Retourner la réponse au client
+    return res.status(200).json({
+      success: true,
+      order_id: order_id,
+      smma_order_id: data.order.toString(),
+      message: `Order created successfully (SMMA ID: ${data.order})`
+    });
+
+  } catch (error) {
+    console.error('❌ Erreur serveur SMMA:', error);
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+}

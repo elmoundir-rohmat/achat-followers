@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Heart, MessageCircle, MoreHorizontal, Loader2 } from 'lucide-react';
-import { InstagramPost, instagramService } from '../services/instagramService';
+import { InstagramPost, instagramServiceClient } from '../services/instagramServiceClient';
 
 interface InstagramPostsGridProps {
   username: string;
@@ -40,8 +40,8 @@ export default function InstagramPostsGrid({ username, onPostsSelect, totalLikes
 
       // Utiliser getUserClips pour les vues (reels), sinon getUserPosts
       const response = isViews 
-        ? await instagramService.getUserClips(username, 12) 
-        : await instagramService.getUserPosts(username, cursor);
+        ? await instagramServiceClient.getUserClips(username, 12) 
+        : await instagramServiceClient.getUserPosts(username, cursor);
       
       if (response.success && response.data) {
         if (cursor) {

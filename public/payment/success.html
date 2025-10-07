@@ -5,15 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement réussi - Doctor Followers</title>
     <script>
-        // Redirection immédiate vers l'application React
-        window.location.href = '/payment/success';
+        // Récupérer les paramètres de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('payment_id') || urlParams.get('id');
+        const status = urlParams.get('status');
+        const orderId = urlParams.get('order_id');
+        const amount = urlParams.get('amount');
+        
+        // Construire l'URL de redirection avec les paramètres
+        let redirectUrl = '/payment/success';
+        if (paymentId || status || orderId || amount) {
+            const params = new URLSearchParams();
+            if (paymentId) params.set('payment_id', paymentId);
+            if (status) params.set('status', status);
+            if (orderId) params.set('order_id', orderId);
+            if (amount) params.set('amount', amount);
+            redirectUrl += '?' + params.toString();
+        }
+        
+        // Redirection vers l'application React
+        window.location.href = redirectUrl;
     </script>
 </head>
 <body>
     <div style="display:flex;align-items:center;justify-content:center;height:100vh;background:linear-gradient(to bottom right, #0f172a, #1e3a8a);color:white;font-family:system-ui,-apple-system,sans-serif;">
         <div style="text-align:center;">
             <div style="width:50px;height:50px;border:4px solid rgba(255,255,255,0.3);border-top-color:#10b981;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px;"></div>
-            <p style="font-size:18px;font-weight:600;">Redirection vers la page de succès...</p>
+            <p style="font-size:18px;font-weight:600;">Paiement confirmé ! Redirection...</p>
+            <p style="font-size:14px;opacity:0.8;margin-top:10px;">Si la redirection ne fonctionne pas, <a href="/payment/success" style="color:#10b981;">cliquez ici</a></p>
         </div>
     </div>
     <style>

@@ -14,31 +14,6 @@
     Content-Type = "text/plain"
 
 [[redirects]]
-  from = "/sitemap.xml"
-  to = "/sitemap.xml"
-  status = 200
-
-[[redirects]]
-  from = "/robots.txt"
-  to = "/robots.txt"
-  status = 200
-
-[[redirects]]
-  from = "/payment/success"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/payment/cancel"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/pay"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
   from = "/payment/callback"
   to = "/.netlify/functions/payment-callback"
   status = 200

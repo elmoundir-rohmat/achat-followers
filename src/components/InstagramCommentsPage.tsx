@@ -73,11 +73,8 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
     
     setIsPostsModalOpen(false);
     
-    // SOLUTION DÉFINITIVE : Utiliser la navigation React
-    setTimeout(() => {
-      const event = new CustomEvent('navigate', { detail: { page: 'cart' } });
-      window.dispatchEvent(event);
-    }, 100);
+    // Redirection simple vers le panier - Vercel SPA routing va gérer
+    window.location.href = '/cart';
   };
 
   const handleCheckoutComplete = (orderData: any) => {

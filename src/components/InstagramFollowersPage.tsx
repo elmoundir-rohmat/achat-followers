@@ -45,13 +45,8 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     updateLastItemUsername(username);
     setIsModalOpen(false);
     
-    // SOLUTION DÉFINITIVE : Utiliser la navigation React au lieu de window.location
-    // Forcer le changement de page directement dans l'application
-    setTimeout(() => {
-      // Déclencher la navigation via l'App.tsx
-      const event = new CustomEvent('navigate', { detail: { page: 'cart' } });
-      window.dispatchEvent(event);
-    }, 100);
+    // Redirection simple vers le panier - Vercel SPA routing va gérer
+    window.location.href = '/cart';
   };
 
   const handleCheckoutComplete = (orderData: any) => {

@@ -90,9 +90,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       
       // Rediriger vers la page de paiement après un court délai
       const timer = setTimeout(() => {
-        // SOLUTION DÉFINITIVE : Utiliser la navigation React
-        const event = new CustomEvent('navigate', { detail: { page: 'payment' } });
-        window.dispatchEvent(event);
+        window.location.href = '/pay';
       }, 1500);
       
       return () => clearTimeout(timer);

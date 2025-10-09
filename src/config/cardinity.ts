@@ -5,8 +5,8 @@ export const CARDINITY_CONFIG = {
   
   // URLs de callback (publiques, OK de les exposer)
   // SOLUTION: Routes API spécifiques avec logging détaillé
-  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://doctorfollowers.com/api/payment/success',
-  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://doctorfollowers.com/api/payment/cancel',
+  successUrl: import.meta.env.VITE_CARDINITY_SUCCESS_URL || 'https://www.doctorfollowers.com/api/payment/success',
+  cancelUrl: import.meta.env.VITE_CARDINITY_CANCEL_URL || 'https://www.doctorfollowers.com/api/payment/cancel',
   
   // Configuration par défaut
   currency: 'EUR',

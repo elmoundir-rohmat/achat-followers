@@ -6,14 +6,12 @@
  */
 
 export default async function handler(req, res) {
-  // Si GET avec params, c'est déjà une redirection - servir le HTML
-  if (req.method === 'GET' && Object.keys(req.query).length > 0) {
-    const fs = require('fs');
-    const path = require('path');
-    const filePath = path.join(process.cwd(), 'dist', 'index.html');
-    const html = fs.readFileSync(filePath, 'utf8');
-    res.setHeader('Content-Type', 'text/html');
-    return res.status(200).send(html);
+  // Si GET, rediriger vers la page React normale
+  if (req.method === 'GET') {
+    console.log('📄 GET request reçu avec params:', req.query);
+    
+    // Rediriger vers la page React (qui gérera les paramètres)
+    return res.redirect(302, '/payment/cancel');
   }
 
   // Accepter POST et GET (Cardinity peut utiliser les deux)

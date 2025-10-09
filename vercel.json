@@ -9,6 +9,19 @@
       "source": "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.).*)",
       "destination": "/index.html"
     }
+  ],
+  
+  "routes": [
+    {
+      "src": "/payment/success",
+      "methods": ["POST"],
+      "dest": "/api/payment/success"
+    },
+    {
+      "src": "/payment/cancel",
+      "methods": ["POST"],
+      "dest": "/api/payment/cancel"
+    }
   ]
 }
 

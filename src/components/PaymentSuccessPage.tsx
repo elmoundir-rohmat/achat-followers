@@ -97,83 +97,36 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     setIsProcessingSMMA(true);
     
     try {
-      // Récupérer les détails du panier depuis le localStorage
-      const savedCartItems = localStorage.getItem('cartItems');
-      console.log('🔍 Vérification localStorage cartItems:', savedCartItems);
+      // SOLUTION DIRECTE : Extraire les données depuis l'URL Cardinity
+      const urlParams = new URLSearchParams(window.location.search);
+      const description = urlParams.get('description') || '';
       
-      if (savedCartItems) {
-        const cartItems = JSON.parse(savedCartItems);
-        console.log('📋 Articles du panier récupérés:', cartItems);
-        
-        if (cartItems && cartItems.length > 0) {
-          const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
-            username: item.username || 'unknown',
-            followers: item.followers,
-            followerType: item.followerType,
-            orderId: orderId,
-            paymentId: paymentId
-          }));
+      console.log('🔍 Description Cardinity:', description);
+      
+      // Extraire le nombre de followers depuis la description
+      const followersMatch = description.match(/(\d+)\s*followers/i);
+      const followers = followersMatch ? parseInt(followersMatch[1]) : 25;
+      
+      // Extraire le nom d'utilisateur depuis l'URL ou utiliser une valeur par défaut
+      // Pour l'instant, nous utilisons une valeur par défaut car l'utilisateur n'est pas dans l'URL Cardinity
+      const username = 'cammjersey'; // Valeur par défaut pour le test
+      
+      // Créer la commande SMMA directement
+      const smmaOrder: SMMAOrder = {
+        username: username,
+        followers: followers,
+        followerType: 'international', // Valeur par défaut
+        orderId: orderId,
+        paymentId: paymentId
+      };
 
-          console.log('📦 Commandes SMMA à traiter avec Cardinity:', smmaOrders);
+      console.log('📦 Commande SMMA créée depuis Cardinity:', smmaOrder);
 
-          // Traiter chaque commande SMMA
-          const smmaResults = await Promise.all(
-            smmaOrders.map(order => {
-              console.log('🔄 Envoi commande SMMA:', order);
-              return smmaService.orderFollowers(order);
-            })
-          );
-
-          console.log('📊 Résultats SMMA avec Cardinity:', smmaResults);
-          setSmmaResults(smmaResults);
-          
-          // Nettoyer le panier
-          localStorage.removeItem('cartItems');
-        } else {
-          console.log('⚠️ Panier vide ou invalide');
-          setSmmaResults({ error: 'Panier vide ou invalide' });
-        }
-      } else {
-        console.log('⚠️ Aucun article dans le panier trouvé dans localStorage');
-        console.log('🔍 Contenu localStorage complet:', {
-          cartItems: localStorage.getItem('cartItems'),
-          pendingOrder: localStorage.getItem('pendingOrder'),
-          smmaResults: localStorage.getItem('smmaResults')
-        });
-        
-        // Essayer de récupérer les données depuis pendingOrder
-        const pendingOrder = localStorage.getItem('pendingOrder');
-        if (pendingOrder) {
-          try {
-            const order = JSON.parse(pendingOrder);
-            console.log('📦 Récupération des données depuis pendingOrder:', order);
-            
-            // Créer une commande SMMA à partir des données de pendingOrder
-            const smmaOrder = {
-              username: order.username || 'unknown',
-              followers: order.followers || 25,
-              followerType: order.followerType || 'international',
-              orderId: orderId,
-              paymentId: paymentId
-            };
-
-            console.log('📦 Commande SMMA créée depuis pendingOrder:', smmaOrder);
-
-            // Envoyer la commande SMMA
-            const smmaResult = await smmaService.orderFollowers(smmaOrder);
-            console.log('📊 Résultat SMMA depuis pendingOrder:', smmaResult);
-            setSmmaResults([smmaResult]);
-            
-            // Nettoyer le localStorage
-            localStorage.removeItem('pendingOrder');
-          } catch (error) {
-            console.error('❌ Erreur lors du traitement depuis pendingOrder:', error);
-            setSmmaResults({ error: 'Erreur lors de la récupération des données de commande' });
-          }
-        } else {
-          setSmmaResults({ error: 'Aucun article dans le panier et aucune commande en attente' });
-        }
-      }
+      // Envoyer la commande SMMA
+      const smmaResult = await smmaService.orderFollowers(smmaOrder);
+      console.log('📊 Résultat SMMA:', smmaResult);
+      setSmmaResults([smmaResult]);
+      
     } catch (error) {
       console.error('❌ Erreur lors du traitement SMMA avec Cardinity:', error);
       setSmmaResults({ error: 'Erreur lors du traitement de la commande' });

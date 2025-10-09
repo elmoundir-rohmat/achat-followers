@@ -54,9 +54,60 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       }
     } else {
       // Si pas de résultats SMMA, déclencher l'intégration maintenant
-      processSMMAIntegration();
+      // Vérifier si on a des paramètres Cardinity
+      const cardinityOrderId = urlParams.get('order_id');
+      const cardinityStatus = urlParams.get('status');
+      
+      if (cardinityOrderId && cardinityStatus === 'approved') {
+        console.log('🎯 Paramètres Cardinity détectés, déclenchement SMMA...');
+        processSMMAIntegrationWithCardinity(cardinityOrderId, urlParams.get('id') || cardinityOrderId);
+      } else {
+        processSMMAIntegration();
+      }
     }
   }, []);
+
+  const processSMMAIntegrationWithCardinity = async (orderId: string, paymentId: string) => {
+    console.log('🚀 Déclenchement de l\'intégration SMMA avec Cardinity...', { orderId, paymentId });
+    setIsProcessingSMMA(true);
+    
+    try {
+      // Récupérer les détails du panier depuis le localStorage
+      const savedCartItems = localStorage.getItem('cartItems');
+      if (savedCartItems) {
+        const cartItems = JSON.parse(savedCartItems);
+        
+        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
+          username: item.username || 'unknown',
+          followers: item.followers,
+          followerType: item.followerType,
+          orderId: orderId,
+          paymentId: paymentId
+        }));
+
+        console.log('📦 Commandes SMMA à traiter avec Cardinity:', smmaOrders);
+
+        // Traiter chaque commande SMMA
+        const smmaResults = await Promise.all(
+          smmaOrders.map(order => smmaService.orderFollowers(order))
+        );
+
+        console.log('📊 Résultats SMMA avec Cardinity:', smmaResults);
+        setSmmaResults(smmaResults);
+        
+        // Nettoyer le panier
+        localStorage.removeItem('cartItems');
+      } else {
+        console.log('⚠️ Aucun article dans le panier trouvé');
+        setSmmaResults({ error: 'Aucun article dans le panier' });
+      }
+    } catch (error) {
+      console.error('❌ Erreur lors du traitement SMMA avec Cardinity:', error);
+      setSmmaResults({ error: 'Erreur lors du traitement de la commande' });
+    } finally {
+      setIsProcessingSMMA(false);
+    }
+  };
 
   const processSMMAIntegration = async () => {
     if (!orderDetails || isProcessingSMMA) return;

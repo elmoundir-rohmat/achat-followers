@@ -6,6 +6,16 @@
  */
 
 export default async function handler(req, res) {
+  // Si GET avec params, c'est déjà une redirection - servir le HTML
+  if (req.method === 'GET' && Object.keys(req.query).length > 0) {
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(process.cwd(), 'dist', 'index.html');
+    const html = fs.readFileSync(filePath, 'utf8');
+    res.setHeader('Content-Type', 'text/html');
+    return res.status(200).send(html);
+  }
+
   // Accepter POST et GET (Cardinity peut utiliser les deux)
   if (req.method !== 'POST' && req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });

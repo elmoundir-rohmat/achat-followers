@@ -6,7 +6,17 @@
  */
 
 export default async function handler(req, res) {
-  // Accepter uniquement POST (Cardinity utilise POST)
+  // Si GET, servir le fichier HTML pour que React prenne le relais
+  if (req.method === 'GET') {
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(process.cwd(), 'dist', 'index.html');
+    const html = fs.readFileSync(filePath, 'utf8');
+    res.setHeader('Content-Type', 'text/html');
+    return res.status(200).send(html);
+  }
+
+  // Accepter POST (Cardinity utilise POST)
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

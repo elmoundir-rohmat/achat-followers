@@ -6,21 +6,16 @@
   
   "rewrites": [
     {
-      "source": "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.).*)",
-      "destination": "/index.html"
-    }
-  ],
-  
-  "routes": [
-    {
-      "src": "/payment/success",
-      "methods": ["POST"],
-      "dest": "/api/payment/success"
+      "source": "/payment/success",
+      "destination": "/api/payment/success"
     },
     {
-      "src": "/payment/cancel",
-      "methods": ["POST"],
-      "dest": "/api/payment/cancel"
+      "source": "/payment/cancel",
+      "destination": "/api/payment/cancel"
+    },
+    {
+      "source": "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.).*)",
+      "destination": "/index.html"
     }
   ]
 }

@@ -6,13 +6,21 @@
  */
 
 export default async function handler(req, res) {
-  console.log('🚨 INTERCEPTION: POST reçu vers /payment/success au lieu de /api/payment/success');
+  console.log('🚨 INTERCEPTION: Requête reçue vers /payment/success');
   console.log('📋 Method:', req.method);
   console.log('📦 Body:', JSON.stringify(req.body, null, 2));
   console.log('🔍 Query:', req.query);
 
-  // Si ce n'est pas un POST, rediriger vers la page React
-  if (req.method !== 'POST') {
+  // Si GET avec des paramètres, c'est une redirection réussie - servir la page React
+  if (req.method === 'GET' && Object.keys(req.query).length > 0) {
+    console.log('📄 GET avec params - Redirection réussie, servir page React');
+    // Servir directement le contenu HTML de la page React
+    return res.redirect(302, '/');
+  }
+
+  // Si GET sans paramètres, rediriger vers la page React
+  if (req.method === 'GET') {
+    console.log('📄 GET sans params - Rediriger vers page React');
     return res.redirect(302, '/payment/success');
   }
 

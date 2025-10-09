@@ -8,8 +8,15 @@ export default async function handler(req, res) {
   console.log('📦 Body:', JSON.stringify(req.body, null, 2));
   console.log('🔍 Query:', req.query);
 
-  // Si GET, rediriger vers la page React normale
+  // Si GET avec des paramètres, c'est une redirection réussie - servir la page React
+  if (req.method === 'GET' && Object.keys(req.query).length > 0) {
+    console.log('📄 GET avec params - Redirection réussie, servir page React');
+    return res.redirect(302, '/');
+  }
+
+  // Si GET sans paramètres, rediriger vers la page React
   if (req.method === 'GET') {
+    console.log('📄 GET sans params - Rediriger vers page React');
     return res.redirect(302, '/payment/cancel');
   }
 

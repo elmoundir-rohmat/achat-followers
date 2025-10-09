@@ -17,9 +17,12 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
   useEffect(() => {
     // Récupérer les détails de la commande depuis le localStorage ou les props
     const savedOrder = localStorage.getItem('pendingOrder');
+    console.log('🔍 PaymentPage: pendingOrder récupéré:', savedOrder);
+    
     if (savedOrder) {
       try {
         const order = JSON.parse(savedOrder);
+        console.log('📋 PaymentPage: pendingOrder parsé:', order);
         setOrderDetails(order);
       } catch (error) {
         console.error('Erreur lors de la récupération des détails de commande:', error);
@@ -45,9 +48,11 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
       
       setOrderDetails(newOrder);
       localStorage.setItem('pendingOrder', JSON.stringify(newOrder));
+      console.log('💾 PaymentPage: pendingOrder sauvegardé:', newOrder);
       
       // Sauvegarder aussi les détails du panier pour l'intégration SMMA
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      console.log('💾 PaymentPage: cartItems sauvegardé:', cartItems);
     }
   }, [cartItems]);
 

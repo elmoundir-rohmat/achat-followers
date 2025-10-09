@@ -12,11 +12,16 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
 
   useEffect(() => {
+    console.log('🎉 PaymentSuccessPage chargée !');
+    
     // Récupérer les détails de la commande depuis l'URL ou le localStorage
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get('order_id');
     const amount = urlParams.get('amount');
     const currency = urlParams.get('currency');
+    
+    console.log('🔍 URL actuelle:', window.location.href);
+    console.log('🔍 Paramètres URL:', Object.fromEntries(urlParams));
     
     // Récupérer les détails depuis le localStorage si disponibles
     const savedOrder = localStorage.getItem('pendingOrder');

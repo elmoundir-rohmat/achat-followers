@@ -68,14 +68,26 @@ function AppContent() {
       // DÉTECTION CARDINITY : Si on a des paramètres Cardinity sur la page d'accueil
       if (path === '/' && (urlParams.has('order_id') || urlParams.has('status'))) {
         const status = urlParams.get('status');
+        const orderId = urlParams.get('order_id');
+        const paymentId = urlParams.get('id');
+        
         console.log('🎯 Paramètres Cardinity détectés sur l\'accueil:', {
-          order_id: urlParams.get('order_id'),
+          order_id: orderId,
           status: status,
-          amount: urlParams.get('amount')
+          amount: urlParams.get('amount'),
+          payment_id: paymentId,
+          allParams: Object.fromEntries(urlParams)
         });
         
         if (status === 'approved') {
           console.log('✅ Paiement Cardinity approuvé - Navigation vers page de succès');
+          console.log('📋 Données pour SMMA:', {
+            orderId,
+            paymentId,
+            status,
+            amount: urlParams.get('amount'),
+            description: urlParams.get('description')
+          });
           setCurrentPage('payment-success');
           return;
         } else {

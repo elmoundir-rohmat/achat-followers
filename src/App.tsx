@@ -64,6 +64,26 @@ function AppContent() {
         }, 100);
         return;
       }
+
+      // DÉTECTION CARDINITY : Si on a des paramètres Cardinity sur la page d'accueil
+      if (path === '/' && (urlParams.has('order_id') || urlParams.has('status'))) {
+        const status = urlParams.get('status');
+        console.log('🎯 Paramètres Cardinity détectés sur l\'accueil:', {
+          order_id: urlParams.get('order_id'),
+          status: status,
+          amount: urlParams.get('amount')
+        });
+        
+        if (status === 'approved') {
+          console.log('✅ Paiement Cardinity approuvé - Navigation vers page de succès');
+          setCurrentPage('payment-success');
+          return;
+        } else {
+          console.log('❌ Paiement Cardinity non approuvé - Navigation vers page d\'annulation');
+          setCurrentPage('payment-cancel');
+          return;
+        }
+      }
       
       // SOLUTION PROPRE : Gérer les routes de paiement avec redirection 302
       if (path === '/payment/success' || path.includes('payment/success') || window.location.href.includes('payment/success')) {

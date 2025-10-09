@@ -11,11 +11,14 @@ export default async function handler(req, res) {
   console.log('📦 Body:', JSON.stringify(req.body, null, 2));
   console.log('🔍 Query:', req.query);
 
-  // Si GET avec des paramètres, c'est une redirection réussie - servir la page React
+  // Si GET avec des paramètres, c'est une redirection réussie - aller vers la page de succès
   if (req.method === 'GET' && Object.keys(req.query).length > 0) {
-    console.log('📄 GET avec params - Redirection réussie, servir page React');
-    // Servir directement le contenu HTML de la page React
-    return res.redirect(302, '/');
+    console.log('📄 GET avec params - Redirection réussie, aller vers page de succès');
+    // Construire l'URL avec tous les paramètres pour la page de succès
+    const params = new URLSearchParams(req.query);
+    const successUrl = `/payment/success?${params.toString()}`;
+    console.log('🎯 Redirection vers:', successUrl);
+    return res.redirect(302, successUrl);
   }
 
   // Si GET sans paramètres, rediriger vers la page React

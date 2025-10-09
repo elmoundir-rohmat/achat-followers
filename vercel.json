@@ -6,6 +6,10 @@
   
   "rewrites": [
     {
+      "source": "/payment/success",
+      "destination": "/api/payment-success"
+    },
+    {
       "source": "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.).*)",
       "destination": "/index.html"
     }

@@ -13,6 +13,8 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
 
   useEffect(() => {
     console.log('🎉 PaymentSuccessPage chargée !');
+    console.log('🔍 window.location.href:', window.location.href);
+    console.log('🔍 window.location.search:', window.location.search);
     
     // Récupérer les détails de la commande depuis l'URL ou le localStorage
     const urlParams = new URLSearchParams(window.location.search);
@@ -20,8 +22,12 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     const amount = urlParams.get('amount');
     const currency = urlParams.get('currency');
     
-    console.log('🔍 URL actuelle:', window.location.href);
-    console.log('🔍 Paramètres URL:', Object.fromEntries(urlParams));
+    console.log('🔍 Paramètres URL extraits:', {
+      orderId,
+      amount,
+      currency,
+      allParams: Object.fromEntries(urlParams)
+    });
     
     // Récupérer les détails depuis le localStorage si disponibles
     const savedOrder = localStorage.getItem('pendingOrder');

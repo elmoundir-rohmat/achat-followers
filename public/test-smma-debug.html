@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test SMMA Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 3px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e8; color: #2e7d32; }
+        input, select { padding: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test SMMA Debug</h1>
+    
+    <div class="section">
+        <h2>1. Tester les services disponibles</h2>
+        <button onclick="testServices()">🔍 Récupérer les services JustAnotherPanel</button>
+        <div id="servicesResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>2. Tester une commande avec différents formats</h2>
+        <input type="text" id="testUsername" placeholder="Nom d'utilisateur Instagram" value="test_user">
+        <select id="testServiceId">
+            <option value="720">720 - Instagram Followers (International)</option>
+            <option value="4343">4343 - Instagram Likes (International)</option>
+            <option value="9564">9564 - Instagram Comments</option>
+            <option value="519">519 - Instagram Views</option>
+        </select>
+        <input type="number" id="testQuantity" placeholder="Quantité" value="25">
+        <select id="linkFormat">
+            <option value="instagram">https://instagram.com/username</option>
+            <option value="www_instagram">https://www.instagram.com/username</option>
+            <option value="instagram_com">https://instagram.com/username/</option>
+            <option value="www_instagram_com">https://www.instagram.com/username/</option>
+        </select>
+        <button onclick="testOrder()">🚀 Tester la commande</button>
+        <div id="orderResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>3. Tester avec nos services configurés</h2>
+        <button onclick="testOurServices()">🎯 Tester nos services configurés</button>
+        <div id="ourServicesResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testServices() {
+            const resultDiv = document.getElementById('servicesResult');
+            resultDiv.innerHTML = '🔄 Récupération des services...';
+            
+            try {
+                const response = await fetch('/api/test-smma-services');
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Services récupérés avec succès !</h3>
+                        <p><strong>Total services:</strong> ${data.totalServices}</p>
+                        <p><strong>Services Instagram:</strong> ${data.instagramServices.length}</p>
+                        <p><strong>Services TikTok:</strong> ${data.tiktokServices.length}</p>
+                        <details>
+                            <summary>Voir les services Instagram</summary>
+                            <pre>${JSON.stringify(data.instagramServices, null, 2)}</pre>
+                        </details>
+                        <details>
+                            <summary>Voir les services TikTok</summary>
+                            <pre>${JSON.stringify(data.tiktokServices, null, 2)}</pre>
+                        </details>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h3>❌ Erreur:</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h3>❌ Erreur réseau:</h3><pre>${error.message}</pre>`;
+            }
+        }
+
+        async function testOrder() {
+            const resultDiv = document.getElementById('orderResult');
+            const username = document.getElementById('testUsername').value;
+            const serviceId = document.getElementById('testServiceId').value;
+            const quantity = document.getElementById('testQuantity').value;
+            const linkFormat = document.getElementById('linkFormat').value;
+            
+            if (!username || !serviceId || !quantity) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '❌ Veuillez remplir tous les champs';
+                return;
+            }
+            
+            resultDiv.innerHTML = '🔄 Test de la commande...';
+            
+            try {
+                const response = await fetch('/api/test-smma-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username,
+                        serviceId: parseInt(serviceId),
+                        quantity: parseInt(quantity),
+                        linkFormat
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Commande créée avec succès !</h3>
+                        <p><strong>Order ID:</strong> ${data.order_id}</p>
+                        <p><strong>Message:</strong> ${data.message}</p>
+                        <details>
+                            <summary>Voir les paramètres envoyés</summary>
+                            <pre>${JSON.stringify(data.params, null, 2)}</pre>
+                        </details>
+                        <details>
+                            <summary>Voir la réponse complète</summary>
+                            <pre>${JSON.stringify(data.response, null, 2)}</pre>
+                        </details>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Erreur de commande:</h3>
+                        <p><strong>Erreur:</strong> ${data.error}</p>
+                        <details>
+                            <summary>Voir les détails</summary>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </details>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h3>❌ Erreur réseau:</h3><pre>${error.message}</pre>`;
+            }
+        }
+
+        async function testOurServices() {
+            const resultDiv = document.getElementById('ourServicesResult');
+            resultDiv.innerHTML = '🔄 Test de nos services configurés...';
+            
+            const testCases = [
+                { username: 'test_user', serviceId: 720, quantity: 25, followerType: 'international' },
+                { username: 'test_user', serviceId: 4343, quantity: 50, followerType: 'likes_international' },
+                { username: 'test_user', serviceId: 9564, quantity: 10, followerType: 'comments_international' }
+            ];
+            
+            let results = [];
+            
+            for (const testCase of testCases) {
+                try {
+                    const response = await fetch('/api/test-smma-order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            username: testCase.username,
+                            serviceId: testCase.serviceId,
+                            quantity: testCase.quantity,
+                            linkFormat: 'instagram'
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    results.push({
+                        testCase,
+                        success: data.success,
+                        error: data.error,
+                        orderId: data.order_id
+                    });
+                } catch (error) {
+                    results.push({
+                        testCase,
+                        success: false,
+                        error: error.message
+                    });
+                }
+            }
+            
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `
+                <h3>🎯 Résultats des tests de nos services:</h3>
+                <pre>${JSON.stringify(results, null, 2)}</pre>
+            `;
+        }
+    </script>
+</body>
+</html>

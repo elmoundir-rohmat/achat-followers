@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Users, Clock, Mail, ArrowLeft } from 'lucide-react';
-import { smmaService, SMMAOrder } from '../services/smmaService';
+import { smmaServiceClient, SMMAOrder } from '../services/smmaServiceClient';
 
 interface PaymentSuccessPageProps {
   onBack?: () => void;
@@ -123,7 +123,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       console.log('📦 Commande SMMA créée depuis Cardinity:', smmaOrder);
 
       // Envoyer la commande SMMA
-      const smmaResult = await smmaService.orderFollowers(smmaOrder);
+      const smmaResult = await smmaServiceClient.orderFollowers(smmaOrder);
       console.log('📊 Résultat SMMA:', smmaResult);
       setSmmaResults([smmaResult]);
       
@@ -160,10 +160,10 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
 
         console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
-        // Traiter chaque commande SMMA
-        const smmaResults = await Promise.all(
-          smmaOrders.map(order => smmaService.orderFollowers(order))
-        );
+                // Traiter chaque commande SMMA
+                const smmaResults = await Promise.all(
+                  smmaOrders.map(order => smmaServiceClient.orderFollowers(order))
+                );
 
         console.log('📊 Résultats SMMA:', smmaResults);
         setSmmaResults(smmaResults);
@@ -200,7 +200,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     };
 
     try {
-      const result = await smmaService.orderFollowers(testOrder);
+            const result = await smmaServiceClient.orderFollowers(testOrder);
       console.log('🧪 Résultat du test SMMA:', result);
       setSmmaResults([result]);
     } catch (error) {

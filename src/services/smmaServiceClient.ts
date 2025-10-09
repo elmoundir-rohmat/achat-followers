@@ -48,13 +48,16 @@ class SMMAServiceClient {
         };
       }
 
-      const requestData = {
-        action: 'followers',
-        service_id: serviceId.toString(),
-        link: `https://instagram.com/${order.username}`,
-        quantity: order.followers,
-        order_id: order.orderId
-      };
+        // Nettoyer le username (enlever le @ s'il est présent)
+        const cleanUsername = order.username.replace('@', '');
+        
+        const requestData = {
+          action: 'followers',
+          service_id: serviceId.toString(),
+          link: `https://instagram.com/${cleanUsername}`,
+          quantity: order.followers,
+          order_id: order.orderId
+        };
 
       console.log('📤 Données envoyées à l\'API route:', requestData);
 
@@ -119,7 +122,7 @@ class SMMAServiceClient {
         body: JSON.stringify({
           action: 'likes',
           service_id: serviceId.toString(),
-          link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username}`,
+          link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username.replace('@', '')}`,
           quantity: order.likesToAdd || order.followers,
           order_id: order.orderId
         })
@@ -174,7 +177,7 @@ class SMMAServiceClient {
         body: JSON.stringify({
           action: 'comments',
           service_id: serviceId.toString(),
-          link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username}`,
+          link: order.postId ? `https://instagram.com/p/${order.postId}` : `https://instagram.com/${order.username.replace('@', '')}`,
           quantity: order.commentsToAdd || order.followers,
           order_id: order.orderId
         })
@@ -229,7 +232,7 @@ class SMMAServiceClient {
         body: JSON.stringify({
           action: 'views',
           service_id: serviceId.toString(),
-          link: order.postId ? `https://instagram.com/reel/${order.postId}` : `https://instagram.com/${order.username}`,
+          link: order.postId ? `https://instagram.com/reel/${order.postId}` : `https://instagram.com/${order.username.replace('@', '')}`,
           quantity: order.viewsToAdd || order.followers,
           order_id: order.orderId
         })

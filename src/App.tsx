@@ -679,7 +679,7 @@ function AppContent() {
   // Page de succès de paiement
   if (currentPage === 'payment-success') {
     return (
-      <PaymentSuccessPageFixed onBack={() => handleNavigate('home')} />
+      <PaymentSuccessPage onBack={() => handleNavigate('home')} />
     );
   }
 

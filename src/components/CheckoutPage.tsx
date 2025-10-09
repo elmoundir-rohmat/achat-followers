@@ -76,6 +76,15 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
   useEffect(() => {
     if (showPayment) {
       // Sauvegarder les détails de la commande
+      console.log('📋 Articles du panier avant sauvegarde:', items);
+      console.log('📊 Détails de la commande à sauvegarder:', {
+        orderId,
+        amount: getTotalPrice(),
+        followers: getTotalFollowers(),
+        followerType: items[0]?.followerType,
+        username: items[0]?.username
+      });
+      
       const orderDetails = {
         orderId,
         amount: getTotalPrice(),
@@ -87,6 +96,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         timestamp: new Date().toISOString()
       };
       localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+      console.log('💾 pendingOrder sauvegardé dans localStorage:', orderDetails);
       
       // Rediriger vers la page de paiement après un court délai
       const timer = setTimeout(() => {

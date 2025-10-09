@@ -73,6 +73,12 @@ export default async function handler(req, res) {
       const redirectUrl = `/?${successParams.toString()}`;
       
       console.log('🔄 Redirection vers page d\'accueil avec paramètres:', redirectUrl);
+      console.log('💾 Sauvegarde des données de paiement pour SMMA:', {
+        order_id: order_id,
+        payment_id: id,
+        amount: amount,
+        description: description
+      });
 
       // Redirection vers la page d'accueil avec tous les paramètres
       res.writeHead(302, {

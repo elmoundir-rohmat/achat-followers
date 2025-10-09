@@ -6,6 +6,14 @@
   
   "rewrites": [
     {
+      "source": "/payment/success",
+      "destination": "/api/payment-success-intercept"
+    },
+    {
+      "source": "/payment/cancel",
+      "destination": "/api/payment-cancel-intercept"
+    },
+    {
       "source": "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.).*)",
       "destination": "/index.html"
     }

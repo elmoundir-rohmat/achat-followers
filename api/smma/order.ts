@@ -58,10 +58,13 @@ export default async function handler(
     }
 
     console.log(`🚀 Commande SMMA (${action}) serveur:`, {
+      action,
       service_id,
       quantity,
       link: link.substring(0, 50) + '...',
-      order_id
+      order_id,
+      runs,
+      interval
     });
 
     // Préparer les paramètres de la requête SMMA
@@ -81,7 +84,15 @@ export default async function handler(
       }
     }
 
+    console.log('📦 Paramètres finaux envoyés à JustAnotherPanel:', {
+      ...params,
+      key: smmaApiKey ? `${smmaApiKey.substring(0, 10)}...` : 'NOT_SET'
+    });
+
     // Appel API SMMA
+    console.log('🌐 URL JustAnotherPanel:', smmaApiUrl);
+    console.log('📤 Body envoyé à JustAnotherPanel:', new URLSearchParams(params).toString());
+    
     const response = await fetch(smmaApiUrl, {
       method: 'POST',
       headers: {

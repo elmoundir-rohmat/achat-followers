@@ -48,19 +48,23 @@ class SMMAServiceClient {
         };
       }
 
+      const requestData = {
+        action: 'followers',
+        service_id: serviceId.toString(),
+        link: `https://instagram.com/${order.username}`,
+        quantity: order.followers,
+        order_id: order.orderId
+      };
+
+      console.log('📤 Données envoyées à l\'API route:', requestData);
+
       // Appel à l'API route Vercel (sécurisée)
       const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          action: 'followers',
-          service_id: serviceId.toString(),
-          link: `https://instagram.com/${order.username}`,
-          quantity: order.followers,
-          order_id: order.orderId
-        })
+        body: JSON.stringify(requestData)
       });
 
       if (!response.ok) {

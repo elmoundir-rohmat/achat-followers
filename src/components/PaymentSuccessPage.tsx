@@ -46,9 +46,22 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     
     if (cardinityOrderId && cardinityStatus === 'approved') {
       console.log('🎯 Paramètres Cardinity détectés, déclenchement SMMA immédiat...');
+      console.log('🔍 Paramètres détectés:', {
+        cardinityOrderId,
+        cardinityStatus,
+        paymentId: urlParams.get('id'),
+        allParams: Object.fromEntries(urlParams)
+      });
       // Déclencher SMMA immédiatement pour les paiements Cardinity
       processSMMAIntegrationWithCardinity(cardinityOrderId, urlParams.get('id') || cardinityOrderId);
     } else {
+      console.log('❌ Paramètres Cardinity non détectés:', {
+        cardinityOrderId,
+        cardinityStatus,
+        hasOrderId: urlParams.has('order_id'),
+        hasStatus: urlParams.has('status'),
+        allParams: Object.fromEntries(urlParams)
+      });
       // Récupérer les résultats SMMA pour les autres cas
       const savedSmmaResults = localStorage.getItem('smmaResults');
       if (savedSmmaResults) {
@@ -207,6 +220,28 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       onBack();
     } else {
       window.location.href = '/';
+    }
+  };
+
+  // Fonction de test pour déclencher manuellement l'intégration SMMA
+  const testSMMAIntegration = async () => {
+    console.log('🧪 Test manuel de l\'intégration SMMA...');
+    
+    const testOrder = {
+      username: 'test_user',
+      followers: 25,
+      followerType: 'international' as const,
+      orderId: `TEST-${Date.now()}`,
+      paymentId: `PAY-${Date.now()}`
+    };
+
+    try {
+      const result = await smmaService.orderFollowers(testOrder);
+      console.log('🧪 Résultat du test SMMA:', result);
+      setSmmaResults([result]);
+    } catch (error) {
+      console.error('🧪 Erreur test SMMA:', error);
+      setSmmaResults({ error: 'Erreur lors du test SMMA' });
     }
   };
 

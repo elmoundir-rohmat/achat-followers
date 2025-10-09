@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test SMMA Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .info { border-left: 4px solid #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test d'intégration SMMA</h1>
+        <p>Cette page permet de tester l'intégration avec JustAnotherPanel.</p>
+        
+        <button onclick="testSMMAIntegration()">Tester l'intégration SMMA</button>
+        <button onclick="clearLogs()">Effacer les logs</button>
+        
+        <h3>Logs :</h3>
+        <div id="logs" class="log"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `log ${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        async function testSMMAIntegration() {
+            log('🚀 Début du test SMMA...', 'info');
+            
+            const testOrder = {
+                username: 'test_user_' + Date.now(),
+                followers: 25,
+                followerType: 'international',
+                orderId: `TEST-${Date.now()}`,
+                paymentId: `PAY-${Date.now()}`
+            };
+
+            log(`📦 Commande de test: ${JSON.stringify(testOrder, null, 2)}`, 'info');
+
+            try {
+                log('📤 Envoi vers /api/smma/order...', 'info');
+                
+                const response = await fetch('/api/smma/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'followers',
+                        service_id: '720',
+                        link: `https://instagram.com/${testOrder.username}`,
+                        quantity: testOrder.followers,
+                        order_id: testOrder.orderId
+                    })
+                });
+
+                log(`📡 Réponse HTTP: ${response.status} ${response.statusText}`, 'info');
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    log(`✅ Succès! Commande créée sur JustAnotherPanel:`, 'success');
+                    log(`   - Order ID: ${result.order_id}`, 'success');
+                    log(`   - SMMA Order ID: ${result.smma_order_id}`, 'success');
+                    log(`   - Message: ${result.message}`, 'success');
+                } else {
+                    log(`❌ Erreur: ${result.error}`, 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+
+        // Test automatique au chargement de la page
+        window.addEventListener('load', () => {
+            log('📄 Page de test chargée', 'info');
+            log('Cliquez sur "Tester l\'intégration SMMA" pour commencer', 'info');
+        });
+    </script>
+</body>
+</html>

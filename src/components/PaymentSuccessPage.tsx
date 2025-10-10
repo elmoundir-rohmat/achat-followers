@@ -103,18 +103,37 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       
       console.log('🔍 Description Cardinity:', description);
       
-      // Extraire le nombre de followers depuis la description
-      const followersMatch = description.match(/(\d+)\s*followers/i);
-      const followers = followersMatch ? parseInt(followersMatch[1]) : 25;
+      // Détecter le type de service et extraire la quantité
+      let serviceType = 'followers';
+      let quantity = 25; // Valeur par défaut
+      
+      if (description.toLowerCase().includes('likes')) {
+        serviceType = 'likes';
+        const likesMatch = description.match(/(\d+)\s*likes/i);
+        quantity = likesMatch ? parseInt(likesMatch[1]) : 50;
+      } else if (description.toLowerCase().includes('comments')) {
+        serviceType = 'comments';
+        const commentsMatch = description.match(/(\d+)\s*comments/i);
+        quantity = commentsMatch ? parseInt(commentsMatch[1]) : 10;
+      } else if (description.toLowerCase().includes('views')) {
+        serviceType = 'views';
+        const viewsMatch = description.match(/(\d+)\s*views/i);
+        quantity = viewsMatch ? parseInt(viewsMatch[1]) : 100;
+      } else {
+        // Par défaut, followers
+        const followersMatch = description.match(/(\d+)\s*followers/i);
+        quantity = followersMatch ? parseInt(followersMatch[1]) : 25;
+      }
+      
+      console.log('🎯 Service détecté:', { serviceType, quantity });
       
       // Extraire le nom d'utilisateur depuis l'URL ou utiliser une valeur par défaut
-      // Pour l'instant, nous utilisons une valeur par défaut car l'utilisateur n'est pas dans l'URL Cardinity
       const username = 'cammjersey'; // Valeur par défaut pour le test
       
       // Créer la commande SMMA directement
       const smmaOrder: SMMAOrder = {
         username: username,
-        followers: followers,
+        followers: quantity, // Utiliser la quantité détectée
         followerType: 'international', // Valeur par défaut
         orderId: orderId,
         paymentId: paymentId
@@ -122,8 +141,22 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
 
       console.log('📦 Commande SMMA créée depuis Cardinity:', smmaOrder);
 
-      // Envoyer la commande SMMA
-      const smmaResult = await smmaServiceClient.orderFollowers(smmaOrder);
+      // Envoyer la commande SMMA selon le type de service
+      let smmaResult;
+      switch (serviceType) {
+        case 'likes':
+          smmaResult = await smmaServiceClient.orderLikes(smmaOrder);
+          break;
+        case 'comments':
+          smmaResult = await smmaServiceClient.orderComments(smmaOrder);
+          break;
+        case 'views':
+          smmaResult = await smmaServiceClient.orderViews(smmaOrder);
+          break;
+        default:
+          smmaResult = await smmaServiceClient.orderFollowers(smmaOrder);
+      }
+      
       console.log('📊 Résultat SMMA:', smmaResult);
       setSmmaResults([smmaResult]);
       

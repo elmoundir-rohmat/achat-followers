@@ -85,14 +85,45 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         username: items[0]?.username
       });
       
+      // Détecter le type de service et créer la bonne description
+      const totalLikes = getTotalLikes();
+      const totalComments = getTotalComments();
+      const totalViews = getTotalViews();
+      const totalFollowers = getTotalFollowers();
+      
+      let description = '';
+      let serviceQuantity = 0;
+      
+      if (totalLikes > 0) {
+        description = `${totalLikes} likes Instagram`;
+        serviceQuantity = totalLikes;
+      } else if (totalComments > 0) {
+        description = `${totalComments} commentaires Instagram`;
+        serviceQuantity = totalComments;
+      } else if (totalViews > 0) {
+        description = `${totalViews} vues Instagram`;
+        serviceQuantity = totalViews;
+      } else {
+        description = `${totalFollowers} followers Instagram`;
+        serviceQuantity = totalFollowers;
+      }
+      
+      // Récupérer les posts sélectionnés si disponibles
+      const selectedPosts = items[0]?.selectedPosts || [];
+      
       const orderDetails = {
         orderId,
         amount: getTotalPrice(),
         currency: 'EUR',
-        description: `${getTotalFollowers()} followers Instagram`,
-        followers: getTotalFollowers(),
+        description: description,
+        followers: totalFollowers, // Garder pour compatibilité
+        likes: totalLikes,
+        comments: totalComments,
+        views: totalViews,
+        serviceQuantity: serviceQuantity, // Nouveau champ pour la quantité du service principal
         followerType: items[0]?.followerType || 'international',
         username: items[0]?.username || 'Non spécifié',
+        selectedPosts: selectedPosts, // Posts sélectionnés pour likes/comments/views
         timestamp: new Date().toISOString()
       };
       localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));

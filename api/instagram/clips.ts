@@ -41,11 +41,22 @@ export default async function handler(
     const starapiUrl = process.env.VITE_STARAPI_URL || process.env.STARAPI_URL;
     const rapidapiKey = process.env.VITE_RAPIDAPI_KEY || process.env.RAPIDAPI_KEY;
 
+    console.log('🔍 Variables d\'environnement StarAPI:', {
+      hasStarapiUrl: !!starapiUrl,
+      hasRapidapiKey: !!rapidapiKey,
+      starapiUrl: starapiUrl ? starapiUrl.substring(0, 30) + '...' : 'NOT_SET',
+      rapidapiKey: rapidapiKey ? rapidapiKey.substring(0, 10) + '...' : 'NOT_SET'
+    });
+
     if (!starapiUrl || !rapidapiKey) {
       console.error('Missing StarAPI configuration');
       return res.status(500).json({ 
         error: 'Server configuration error',
-        message: 'StarAPI credentials not configured'
+        message: 'StarAPI credentials not configured',
+        debug: {
+          hasStarapiUrl: !!starapiUrl,
+          hasRapidapiKey: !!rapidapiKey
+        }
       });
     }
 

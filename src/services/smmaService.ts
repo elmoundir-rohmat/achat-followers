@@ -4,7 +4,8 @@ import { getSMMAServiceId, getServiceDescription } from '../config/smmaMapping';
 export interface SMMAOrder {
   username: string;
   followers: number;
-  followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international';
+  followerType: 'french' | 'international'; // SEULEMENT pour les followers
+  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes'; // Type de service
   orderId: string;
   paymentId: string;
   postId?: string; // Pour les likes/commentaires/vues sur des posts spécifiques

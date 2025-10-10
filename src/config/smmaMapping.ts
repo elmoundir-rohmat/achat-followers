@@ -72,11 +72,41 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
 ];
 
 /**
- * Obtenir l'ID du service SMMA pour un type de followers donné
+ * Obtenir l'ID du service SMMA pour un type de followers donné (ancienne méthode)
  */
 export function getSMMAServiceId(followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international'): number | null {
   const mapping = SMMA_SERVICE_MAPPING.find(
     service => service.followerType === followerType
+  );
+  
+  return mapping ? mapping.smmaServiceId : null;
+}
+
+/**
+ * NOUVELLE MÉTHODE : Obtenir l'ID du service SMMA selon le type de service et le type de followers
+ */
+export function getServiceId(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes', followerType: 'french' | 'international'): number | null {
+  // Construire la clé de mapping
+  let mappingKey: string;
+  
+  if (serviceType === 'followers') {
+    mappingKey = followerType; // 'french' ou 'international'
+  } else if (serviceType === 'likes') {
+    mappingKey = `likes_${followerType}`; // 'likes_french' ou 'likes_international'
+  } else if (serviceType === 'comments') {
+    mappingKey = `comments_${followerType}`; // 'comments_french' ou 'comments_international'
+  } else if (serviceType === 'views') {
+    mappingKey = `views_${followerType}`; // 'views_french' ou 'views_international'
+  } else if (serviceType === 'tiktok_followers') {
+    mappingKey = `tiktok_${followerType}`; // 'tiktok_french' ou 'tiktok_international'
+  } else if (serviceType === 'tiktok_likes') {
+    mappingKey = `tiktok_likes_${followerType}`; // 'tiktok_likes_french' ou 'tiktok_likes_international'
+  } else {
+    return null;
+  }
+  
+  const mapping = SMMA_SERVICE_MAPPING.find(
+    service => service.followerType === mappingKey as any
   );
   
   return mapping ? mapping.smmaServiceId : null;

@@ -114,6 +114,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           // Extraire les données du panier sauvegardé
           username = pendingOrder.username || 'cammjersey';
           selectedPosts = pendingOrder.selectedPosts || [];
+          const originalFollowerType = pendingOrder.followerType || 'international';
           
           // Détecter le type de service depuis la description
           const description = pendingOrder.description || '';
@@ -154,16 +155,17 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       
       switch (serviceType) {
         case 'likes':
-          // Utiliser le premier post sélectionné ou un post par défaut
+          // Utiliser le premier post sélectionné ou un vrai post ID d'Instagram
           const firstPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
-          const postId = firstPost?.postId || 'default_post_id';
+          const postId = firstPost?.postId || '2978530692267465492_56727260991'; // Vrai post ID d'Instagram
           
           smmaOrder = {
             username: username,
             followers: 0, // Pas utilisé pour les likes
             likesToAdd: quantity, // Quantité pour les likes
             postId: postId, // Vrai ID du post sélectionné
-            followerType: 'likes_international', // CORRECT pour les likes !
+            followerType: originalFollowerType, // 'french' ou 'international' SEULEMENT pour les followers
+            serviceType: 'likes', // Type de service : likes
             orderId: orderId,
             paymentId: paymentId
           };
@@ -175,16 +177,17 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           });
           break;
         case 'comments':
-          // Utiliser le premier post sélectionné ou un post par défaut
+          // Utiliser le premier post sélectionné ou un vrai post ID d'Instagram
           const firstCommentPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
-          const commentPostId = firstCommentPost?.postId || 'default_post_id';
+          const commentPostId = firstCommentPost?.postId || '2978530692267465492_56727260991'; // Vrai post ID d'Instagram
           
           smmaOrder = {
             username: username,
             followers: 0, // Pas utilisé pour les comments
             commentsToAdd: quantity, // Quantité pour les comments
             postId: commentPostId, // Vrai ID du post sélectionné
-            followerType: 'comments_international', // CORRECT pour les comments !
+            followerType: originalFollowerType, // 'french' ou 'international' SEULEMENT pour les followers
+            serviceType: 'comments', // Type de service : comments
             orderId: orderId,
             paymentId: paymentId
           };
@@ -195,16 +198,17 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           });
           break;
         case 'views':
-          // Utiliser le premier post sélectionné ou un post par défaut
+          // Utiliser le premier post sélectionné ou un vrai post ID d'Instagram
           const firstViewPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
-          const viewPostId = firstViewPost?.postId || 'default_post_id';
+          const viewPostId = firstViewPost?.postId || '2978530692267465492_56727260991'; // Vrai post ID d'Instagram
           
           smmaOrder = {
             username: username,
             followers: 0, // Pas utilisé pour les views
             viewsToAdd: quantity, // Quantité pour les views
             postId: viewPostId, // Vrai ID du post sélectionné
-            followerType: 'views_international', // CORRECT pour les views !
+            followerType: originalFollowerType, // 'french' ou 'international' SEULEMENT pour les followers
+            serviceType: 'views', // Type de service : views
             orderId: orderId,
             paymentId: paymentId
           };
@@ -218,7 +222,8 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           smmaOrder = {
             username: username,
             followers: quantity, // Quantité pour les followers
-            followerType: 'international',
+            followerType: originalFollowerType, // 'french' ou 'international' pour les followers
+            serviceType: 'followers', // Type de service : followers
             orderId: orderId,
             paymentId: paymentId
           };

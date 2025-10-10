@@ -139,6 +139,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             username: username,
             followers: 0, // Pas utilisé pour les likes
             likesToAdd: quantity, // Quantité pour les likes
+            postId: 'test_post_id', // ID de post par défaut pour les tests
             followerType: 'international',
             orderId: orderId,
             paymentId: paymentId

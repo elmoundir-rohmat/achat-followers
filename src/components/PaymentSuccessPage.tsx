@@ -105,6 +105,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       let quantity = 25;
       let username = 'cammjersey';
       let selectedPosts: any[] = [];
+      let originalFollowerType = 'international'; // Déclarer en dehors du bloc if
       
       if (savedPendingOrder) {
         try {
@@ -114,7 +115,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           // Extraire les données du panier sauvegardé
           username = pendingOrder.username || 'cammjersey';
           selectedPosts = pendingOrder.selectedPosts || [];
-          const originalFollowerType = pendingOrder.followerType || 'international';
+          originalFollowerType = pendingOrder.followerType || 'international';
           
           // Détecter le type de service depuis la description
           const description = pendingOrder.description || '';

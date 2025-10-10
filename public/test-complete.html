@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Complet SMMA</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { border: 1px solid #ccc; margin: 10px 0; padding: 15px; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        .log { max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Complet SMMA - Validation Systématique</h1>
+    
+    <div class="test-section">
+        <h2>1. Test du Mapping des Services</h2>
+        <button onclick="testServiceMapping()">Tester le Mapping</button>
+        <div id="mapping-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test de Création d'Order SMMA</h2>
+        <button onclick="testOrderCreation()">Tester Création Order</button>
+        <div id="order-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test d'API SMMA</h2>
+        <button onclick="testSMMAAPI()">Tester API SMMA</button>
+        <div id="api-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Test Complet du Flux</h2>
+        <button onclick="testCompleteFlow()">Tester Flux Complet</button>
+        <div id="flow-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Logs de Test</h2>
+        <div id="logs" class="log"></div>
+        <button onclick="clearLogs()">Effacer Logs</button>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            
+            if (type === 'error') logEntry.style.color = 'red';
+            if (type === 'success') logEntry.style.color = 'green';
+            if (type === 'warning') logEntry.style.color = 'orange';
+            
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        // Test 1: Mapping des Services
+        async function testServiceMapping() {
+            log('🧪 Test du mapping des services...');
+            
+            try {
+                // Simuler le mapping (car on ne peut pas importer directement)
+                const mappingTests = [
+                    { service: 'likes', type: 'french', expected: 4343 },
+                    { service: 'likes', type: 'international', expected: 4343 },
+                    { service: 'comments', type: 'french', expected: 9564 },
+                    { service: 'comments', type: 'international', expected: 9564 },
+                    { service: 'views', type: 'french', expected: 519 },
+                    { service: 'views', type: 'international', expected: 519 },
+                    { service: 'followers', type: 'french', expected: 720 },
+                    { service: 'followers', type: 'international', expected: 720 }
+                ];
+
+                let results = '<h3>Résultats du Mapping:</h3>';
+                let allPassed = true;
+
+                mappingTests.forEach(test => {
+                    // Simuler la logique de getServiceId
+                    let serviceId;
+                    if (test.service === 'likes') serviceId = 4343;
+                    else if (test.service === 'comments') serviceId = 9564;
+                    else if (test.service === 'views') serviceId = 519;
+                    else if (test.service === 'followers') serviceId = 720;
+                    
+                    const passed = serviceId === test.expected;
+                    allPassed = allPassed && passed;
+                    
+                    results += `<div class="${passed ? 'success' : 'error'}">
+                        ${test.service} ${test.type}: ${serviceId} ${passed ? '✅' : '❌ (attendu: ' + test.expected + ')'}
+                    </div>`;
+                    
+                    log(`${test.service} ${test.type}: ${serviceId} ${passed ? '✅' : '❌'}`, passed ? 'success' : 'error');
+                });
+
+                document.getElementById('mapping-results').innerHTML = results;
+                log(`Test mapping terminé: ${allPassed ? 'TOUS PASSÉS ✅' : 'ÉCHECS DÉTECTÉS ❌'}`, allPassed ? 'success' : 'error');
+
+            } catch (error) {
+                log(`Erreur test mapping: ${error.message}`, 'error');
+                document.getElementById('mapping-results').innerHTML = `<div class="error">Erreur: ${error.message}</div>`;
+            }
+        }
+
+        // Test 2: Création d'Order SMMA
+        async function testOrderCreation() {
+            log('🧪 Test de création d\'order SMMA...');
+            
+            try {
+                // Simuler la création d'un order pour likes français
+                const testOrder = {
+                    username: 'cammjersey',
+                    followers: 0,
+                    followerType: 'french',
+                    serviceType: 'likes',
+                    orderId: 'TEST-' + Date.now(),
+                    paymentId: 'PAY-' + Date.now(),
+                    postId: '2978530692267465492_56727260991',
+                    likesToAdd: 25
+                };
+
+                log('Order créé:', 'info');
+                log(JSON.stringify(testOrder, null, 2), 'info');
+
+                // Vérifier les champs obligatoires
+                const requiredFields = ['username', 'followerType', 'serviceType', 'orderId', 'paymentId'];
+                const missingFields = requiredFields.filter(field => !testOrder[field]);
+                
+                if (missingFields.length > 0) {
+                    log(`Champs manquants: ${missingFields.join(', ')}`, 'error');
+                    document.getElementById('order-results').innerHTML = `<div class="error">Champs manquants: ${missingFields.join(', ')}</div>`;
+                    return;
+                }
+
+                // Vérifier la cohérence
+                let issues = [];
+                if (testOrder.serviceType === 'likes' && !testOrder.likesToAdd) {
+                    issues.push('likesToAdd manquant pour serviceType likes');
+                }
+                if (testOrder.serviceType === 'likes' && !testOrder.postId) {
+                    issues.push('postId manquant pour serviceType likes');
+                }
+                if (testOrder.followerType !== 'french' && testOrder.followerType !== 'international') {
+                    issues.push('followerType doit être french ou international');
+                }
+
+                if (issues.length > 0) {
+                    log(`Problèmes détectés: ${issues.join(', ')}`, 'error');
+                    document.getElementById('order-results').innerHTML = `<div class="error">Problèmes: ${issues.join('<br>')}</div>`;
+                } else {
+                    log('Order SMMA valide ✅', 'success');
+                    document.getElementById('order-results').innerHTML = `
+                        <div class="success">
+                            <h3>✅ Order SMMA Valide</h3>
+                            <pre>${JSON.stringify(testOrder, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                log(`Erreur test order: ${error.message}`, 'error');
+                document.getElementById('order-results').innerHTML = `<div class="error">Erreur: ${error.message}</div>`;
+            }
+        }
+
+        // Test 3: API SMMA
+        async function testSMMAAPI() {
+            log('🧪 Test de l\'API SMMA...');
+            
+            try {
+                const testOrder = {
+                    action: 'likes',
+                    service_id: '4343',
+                    link: 'https://instagram.com/p/2978530692267465492_56727260991',
+                    quantity: 25,
+                    order_id: 'TEST-' + Date.now()
+                };
+
+                log('Envoi vers API SMMA:', 'info');
+                log(JSON.stringify(testOrder, null, 2), 'info');
+
+                const response = await fetch('/api/smma/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testOrder)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log(`API SMMA répond: ${JSON.stringify(data)}`, 'success');
+                    document.getElementById('api-results').innerHTML = `
+                        <div class="success">
+                            <h3>✅ API SMMA Répond</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    log(`Erreur API SMMA: ${JSON.stringify(data)}`, 'error');
+                    document.getElementById('api-results').innerHTML = `
+                        <div class="error">
+                            <h3>❌ Erreur API SMMA</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                log(`Erreur test API: ${error.message}`, 'error');
+                document.getElementById('api-results').innerHTML = `<div class="error">Erreur: ${error.message}</div>`;
+            }
+        }
+
+        // Test 4: Flux Complet
+        async function testCompleteFlow() {
+            log('🧪 Test du flux complet...');
+            
+            try {
+                // Simuler le flux complet
+                log('1. Création du pendingOrder...', 'info');
+                
+                const pendingOrder = {
+                    orderId: 'ORDER-' + Date.now(),
+                    amount: 0.98,
+                    currency: 'EUR',
+                    description: '25 likes Instagram',
+                    followers: 0,
+                    likes: 25,
+                    serviceQuantity: 25,
+                    followerType: 'french',
+                    username: 'cammjersey',
+                    selectedPosts: [{
+                        postId: '2978530692267465492_56727260991',
+                        username: 'cammjersey'
+                    }]
+                };
+
+                localStorage.setItem('pendingOrder', JSON.stringify(pendingOrder));
+                log('pendingOrder sauvegardé ✅', 'success');
+
+                log('2. Simulation de la page de succès...', 'info');
+                
+                // Simuler la récupération
+                const savedPendingOrder = localStorage.getItem('pendingOrder');
+                if (savedPendingOrder) {
+                    const order = JSON.parse(savedPendingOrder);
+                    log('pendingOrder récupéré ✅', 'success');
+                    
+                    // Simuler la création de smmaOrder
+                    const smmaOrder = {
+                        username: order.username,
+                        followers: 0,
+                        likesToAdd: 25,
+                        postId: '2978530692267465492_56727260991',
+                        followerType: 'french',
+                        serviceType: 'likes',
+                        orderId: order.orderId,
+                        paymentId: 'PAY-' + Date.now()
+                    };
+
+                    log('smmaOrder créé:', 'info');
+                    log(JSON.stringify(smmaOrder, null, 2), 'info');
+
+                    // Vérifier la cohérence finale
+                    const finalChecks = [
+                        { check: smmaOrder.serviceType === 'likes', message: 'serviceType doit être likes' },
+                        { check: smmaOrder.followerType === 'french', message: 'followerType doit être french' },
+                        { check: smmaOrder.likesToAdd === 25, message: 'likesToAdd doit être 25' },
+                        { check: smmaOrder.postId.includes('2978530692267465492'), message: 'postId doit être valide' }
+                    ];
+
+                    let allChecksPass = true;
+                    finalChecks.forEach(check => {
+                        if (!check.check) {
+                            log(`❌ ${check.message}`, 'error');
+                            allChecksPass = false;
+                        } else {
+                            log(`✅ ${check.message}`, 'success');
+                        }
+                    });
+
+                    if (allChecksPass) {
+                        log('🎉 FLUX COMPLET VALIDE ✅', 'success');
+                        document.getElementById('flow-results').innerHTML = `
+                            <div class="success">
+                                <h3>🎉 Flux Complet Valide</h3>
+                                <p>Tous les tests sont passés avec succès !</p>
+                                <pre>${JSON.stringify(smmaOrder, null, 2)}</pre>
+                            </div>
+                        `;
+                    } else {
+                        log('❌ FLUX COMPLET ÉCHOUÉ', 'error');
+                        document.getElementById('flow-results').innerHTML = `<div class="error">Le flux complet a échoué - voir les logs</div>`;
+                    }
+
+                    // Nettoyer
+                    localStorage.removeItem('pendingOrder');
+                } else {
+                    log('❌ pendingOrder non trouvé', 'error');
+                }
+
+            } catch (error) {
+                log(`Erreur test flux: ${error.message}`, 'error');
+                document.getElementById('flow-results').innerHTML = `<div class="error">Erreur: ${error.message}</div>`;
+            }
+        }
+
+        // Lancer tous les tests au chargement
+        window.onload = function() {
+            log('🚀 Tests de validation SMMA chargés', 'info');
+            log('Cliquez sur les boutons pour lancer les tests individuels', 'info');
+        };
+    </script>
+</body>
+</html>

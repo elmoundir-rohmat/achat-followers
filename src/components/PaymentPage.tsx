@@ -33,16 +33,23 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
     if (!savedOrder && cartItems.length > 0) {
       const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
       const totalFollowers = cartItems.reduce((sum, item) => sum + item.followers, 0);
+      const totalLikes = cartItems.reduce((sum, item) => sum + (item.likes || 0), 0);
+      const totalComments = cartItems.reduce((sum, item) => sum + (item.comments || 0), 0);
+      const totalViews = cartItems.reduce((sum, item) => sum + (item.views || 0), 0);
       const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
       // Créer une description détaillée basée sur le contenu du panier
       let description = '';
       const firstItem = cartItems[0];
       
-      if (firstItem?.likes > 0) {
-        description = `${firstItem.likes} likes Instagram`;
-      } else if (firstItem?.followers > 0) {
-        description = `${firstItem.followers} followers Instagram`;
+      if (totalLikes > 0) {
+        description = `${totalLikes} likes Instagram`;
+      } else if (totalComments > 0) {
+        description = `${totalComments} comments Instagram`;
+      } else if (totalViews > 0) {
+        description = `${totalViews} views Instagram`;
+      } else if (totalFollowers > 0) {
+        description = `${totalFollowers} followers Instagram`;
       } else {
         description = `${totalFollowers} followers Instagram`;
       }
@@ -64,6 +71,14 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
       setOrderDetails(newOrder);
       localStorage.setItem('pendingOrder', JSON.stringify(newOrder));
       console.log('💾 PaymentPage: pendingOrder sauvegardé:', newOrder);
+      console.log('🔍 Détails du panier pour description:', {
+        totalFollowers,
+        totalLikes,
+        totalComments,
+        totalViews,
+        firstItem: firstItem,
+        description
+      });
       
       // Sauvegarder aussi les détails du panier pour l'intégration SMMA
       localStorage.setItem('cartItems', JSON.stringify(cartItems));

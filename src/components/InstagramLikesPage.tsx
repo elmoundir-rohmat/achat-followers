@@ -22,7 +22,9 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
   const { addToCart, updateLastItemUsername, updateLastItemPosts } = useCart();
 
   const getPackagePriceLocal = (packageId: string) => {
-    return getPackagePrice(packageId, 'likes', followerType as 'french' | 'international');
+    const price = getPackagePrice(packageId, 'likes', followerType as 'french' | 'international');
+    console.log('🔍 getPackagePriceLocal:', { packageId, serviceType: 'likes', followerType, price });
+    return price;
   };
 
   const getPackageLikes = (packageId: string) => {
@@ -56,7 +58,16 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
     }));
     
     // Calculer le prix total (prix par post × nombre de posts)
-    const totalPrice = getPackagePriceLocal(selectedPackage) * posts.length;
+    const pricePerPost = getPackagePriceLocal(selectedPackage);
+    const totalPrice = pricePerPost * posts.length;
+    
+    console.log('💰 Calcul du prix pour les likes:', {
+      selectedPackage,
+      pricePerPost,
+      postsLength: posts.length,
+      totalPrice,
+      followerType
+    });
     
     // Ajouter au panier SEULEMENT après la sélection des posts
     addToCart({

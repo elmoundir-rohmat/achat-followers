@@ -38,8 +38,8 @@ export default async function handler(
     }
 
     // Récupérer la configuration StarAPI depuis les variables d'environnement
-    const starapiUrl = process.env.STARAPI_URL;
-    const rapidapiKey = process.env.RAPIDAPI_KEY;
+    const starapiUrl = process.env.VITE_STARAPI_URL || process.env.STARAPI_URL;
+    const rapidapiKey = process.env.VITE_RAPIDAPI_KEY || process.env.RAPIDAPI_KEY;
 
     if (!starapiUrl || !rapidapiKey) {
       console.error('Missing StarAPI configuration');

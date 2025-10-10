@@ -163,7 +163,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             followers: 0, // Pas utilisé pour les likes
             likesToAdd: quantity, // Quantité pour les likes
             postId: postId, // Vrai ID du post sélectionné
-            followerType: 'international',
+            followerType: 'likes_international', // CORRECT pour les likes !
             orderId: orderId,
             paymentId: paymentId
           };
@@ -184,7 +184,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             followers: 0, // Pas utilisé pour les comments
             commentsToAdd: quantity, // Quantité pour les comments
             postId: commentPostId, // Vrai ID du post sélectionné
-            followerType: 'international',
+            followerType: 'comments_international', // CORRECT pour les comments !
             orderId: orderId,
             paymentId: paymentId
           };
@@ -204,7 +204,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             followers: 0, // Pas utilisé pour les views
             viewsToAdd: quantity, // Quantité pour les views
             postId: viewPostId, // Vrai ID du post sélectionné
-            followerType: 'international',
+            followerType: 'views_international', // CORRECT pour les views !
             orderId: orderId,
             paymentId: paymentId
           };

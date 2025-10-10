@@ -105,7 +105,15 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande SMMA likes (client → serveur):', order);
 
-      const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'likes_french' : 'likes_international');
+      // Déterminer le bon service ID selon le followerType
+      let serviceType = 'likes_international';
+      if (order.followerType === 'french' || order.followerType === 'likes_french') {
+        serviceType = 'likes_french';
+      } else if (order.followerType === 'likes_international') {
+        serviceType = 'likes_international';
+      }
+      
+      const serviceId = getSMMAServiceId(serviceType as any);
       
       if (!serviceId) {
         return {
@@ -160,7 +168,15 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande SMMA commentaires (client → serveur):', order);
 
-      const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'comments_french' : 'comments_international');
+      // Déterminer le bon service ID selon le followerType
+      let serviceType = 'comments_international';
+      if (order.followerType === 'french' || order.followerType === 'comments_french') {
+        serviceType = 'comments_french';
+      } else if (order.followerType === 'comments_international') {
+        serviceType = 'comments_international';
+      }
+      
+      const serviceId = getSMMAServiceId(serviceType as any);
       
       if (!serviceId) {
         return {
@@ -215,7 +231,15 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande SMMA vues (client → serveur):', order);
 
-      const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'views_french' : 'views_international');
+      // Déterminer le bon service ID selon le followerType
+      let serviceType = 'views_international';
+      if (order.followerType === 'french' || order.followerType === 'views_french') {
+        serviceType = 'views_french';
+      } else if (order.followerType === 'views_international') {
+        serviceType = 'views_international';
+      }
+      
+      const serviceId = getSMMAServiceId(serviceType as any);
       
       if (!serviceId) {
         return {

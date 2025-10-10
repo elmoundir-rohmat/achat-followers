@@ -297,11 +297,26 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
  */
 export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views', followerType: 'french' | 'international'): number {
   const packages = getPackagesForService(serviceType);
+  console.log('🔍 getPackagePrice debug:', {
+    packageId,
+    serviceType,
+    followerType,
+    packagesLength: packages.length,
+    packages: packages.slice(0, 3) // Afficher les 3 premiers packages
+  });
+  
   const pkg = packages.find(p => p.id === packageId);
+  console.log('🔍 Package trouvé:', pkg);
   
-  if (!pkg) return 0;
+  if (!pkg) {
+    console.log('❌ Package non trouvé pour ID:', packageId);
+    return 0;
+  }
   
-  return followerType === 'french' ? pkg.priceFrench : pkg.priceInternational;
+  const price = followerType === 'french' ? pkg.priceFrench : pkg.priceInternational;
+  console.log('💰 Prix calculé:', { price, followerType, priceFrench: pkg.priceFrench, priceInternational: pkg.priceInternational });
+  
+  return price;
 }
 
 /**

@@ -61,6 +61,7 @@ export default async function handler(
     }
 
     console.log('🎬 Récupération reels Instagram (serveur):', username);
+    console.log('🔍 URL de l\'appel StarAPI:', `${starapiUrl}/instagram/user/get_web_profile_info`);
 
     // Étape 1: Récupérer l'ID utilisateur
     const userIdResponse = await fetch(`${starapiUrl}/instagram/user/get_web_profile_info`, {
@@ -73,6 +74,12 @@ export default async function handler(
       body: JSON.stringify({ username })
     });
 
+    console.log('📡 Réponse get_web_profile_info:', {
+      status: userIdResponse.status,
+      statusText: userIdResponse.statusText,
+      ok: userIdResponse.ok
+    });
+
     if (!userIdResponse.ok) {
       const errorText = await userIdResponse.text();
       console.error('❌ Erreur récupération ID utilisateur:', errorText);
@@ -83,12 +90,22 @@ export default async function handler(
     }
 
     const userData = await userIdResponse.json();
+    console.log('📦 Données utilisateur reçues:', {
+      status: userData.status,
+      hasResponse: !!userData.response,
+      hasBody: !!userData.response?.body,
+      hasData: !!userData.response?.body?.data,
+      hasUser: !!userData.response?.body?.data?.user,
+      userId: userData.response?.body?.data?.user?.id
+    });
+
     const userId = userData.response?.body?.data?.user?.id;
 
     if (!userId) {
       return res.status(404).json({
         success: false,
-        error: `User not found: @${username}`
+        error: `User not found: @${username}`,
+        debug: userData
       });
     }
 

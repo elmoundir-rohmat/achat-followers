@@ -97,73 +97,122 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     setIsProcessingSMMA(true);
     
     try {
-      // SOLUTION DIRECTE : Extraire les données depuis l'URL Cardinity
-      const urlParams = new URLSearchParams(window.location.search);
-      const description = urlParams.get('description') || '';
+      // RÉCUPÉRER LES DONNÉES SAUVEGARDÉES AVANT LE PAIEMENT
+      const savedPendingOrder = localStorage.getItem('pendingOrder');
+      console.log('🔍 pendingOrder récupéré:', savedPendingOrder);
       
-      console.log('🔍 Description Cardinity:', description);
-      
-      // Détecter le type de service et extraire la quantité
       let serviceType = 'followers';
-      let quantity = 25; // Valeur par défaut
+      let quantity = 25;
+      let username = 'cammjersey';
+      let selectedPosts: any[] = [];
       
-      if (description.toLowerCase().includes('likes')) {
-        serviceType = 'likes';
-        const likesMatch = description.match(/(\d+)\s*likes/i);
-        quantity = likesMatch ? parseInt(likesMatch[1]) : 50;
-      } else if (description.toLowerCase().includes('comments')) {
-        serviceType = 'comments';
-        const commentsMatch = description.match(/(\d+)\s*comments/i);
-        quantity = commentsMatch ? parseInt(commentsMatch[1]) : 10;
-      } else if (description.toLowerCase().includes('views')) {
-        serviceType = 'views';
-        const viewsMatch = description.match(/(\d+)\s*views/i);
-        quantity = viewsMatch ? parseInt(viewsMatch[1]) : 100;
+      if (savedPendingOrder) {
+        try {
+          const pendingOrder = JSON.parse(savedPendingOrder);
+          console.log('📦 pendingOrder parsé:', pendingOrder);
+          
+          // Extraire les données du panier sauvegardé
+          username = pendingOrder.username || 'cammjersey';
+          selectedPosts = pendingOrder.selectedPosts || [];
+          
+          // Détecter le type de service depuis la description
+          const description = pendingOrder.description || '';
+          if (description.toLowerCase().includes('likes')) {
+            serviceType = 'likes';
+            const likesMatch = description.match(/(\d+)\s*likes/i);
+            quantity = likesMatch ? parseInt(likesMatch[1]) : 50;
+          } else if (description.toLowerCase().includes('comments')) {
+            serviceType = 'comments';
+            const commentsMatch = description.match(/(\d+)\s*comments/i);
+            quantity = commentsMatch ? parseInt(commentsMatch[1]) : 10;
+          } else if (description.toLowerCase().includes('views')) {
+            serviceType = 'views';
+            const viewsMatch = description.match(/(\d+)\s*views/i);
+            quantity = viewsMatch ? parseInt(viewsMatch[1]) : 100;
+          } else {
+            serviceType = 'followers';
+            const followersMatch = description.match(/(\d+)\s*followers/i);
+            quantity = followersMatch ? parseInt(followersMatch[1]) : 25;
+          }
+          
+          console.log('🎯 Données récupérées du panier:', {
+            serviceType,
+            quantity,
+            username,
+            selectedPosts: selectedPosts.length
+          });
+          
+        } catch (error) {
+          console.error('❌ Erreur parsing pendingOrder:', error);
+        }
       } else {
-        // Par défaut, followers
-        const followersMatch = description.match(/(\d+)\s*followers/i);
-        quantity = followersMatch ? parseInt(followersMatch[1]) : 25;
+        console.log('⚠️ Aucun pendingOrder trouvé, utilisation des valeurs par défaut');
       }
-      
-      console.log('🎯 Service détecté:', { serviceType, quantity });
-      
-      // Extraire le nom d'utilisateur depuis l'URL ou utiliser une valeur par défaut
-      const username = 'cammjersey'; // Valeur par défaut pour le test
       
       // Créer la commande SMMA directement selon le type de service
       let smmaOrder: SMMAOrder;
       
       switch (serviceType) {
         case 'likes':
+          // Utiliser le premier post sélectionné ou un post par défaut
+          const firstPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
+          const postId = firstPost?.postId || 'default_post_id';
+          
           smmaOrder = {
             username: username,
             followers: 0, // Pas utilisé pour les likes
             likesToAdd: quantity, // Quantité pour les likes
-            postId: 'test_post_id', // ID de post par défaut pour les tests
+            postId: postId, // Vrai ID du post sélectionné
             followerType: 'international',
             orderId: orderId,
             paymentId: paymentId
           };
+          
+          console.log('📸 Post sélectionné pour les likes:', {
+            postId,
+            totalPosts: selectedPosts.length,
+            firstPost: firstPost
+          });
           break;
         case 'comments':
+          // Utiliser le premier post sélectionné ou un post par défaut
+          const firstCommentPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
+          const commentPostId = firstCommentPost?.postId || 'default_post_id';
+          
           smmaOrder = {
             username: username,
             followers: 0, // Pas utilisé pour les comments
             commentsToAdd: quantity, // Quantité pour les comments
+            postId: commentPostId, // Vrai ID du post sélectionné
             followerType: 'international',
             orderId: orderId,
             paymentId: paymentId
           };
+          
+          console.log('💬 Post sélectionné pour les comments:', {
+            postId: commentPostId,
+            totalPosts: selectedPosts.length
+          });
           break;
         case 'views':
+          // Utiliser le premier post sélectionné ou un post par défaut
+          const firstViewPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
+          const viewPostId = firstViewPost?.postId || 'default_post_id';
+          
           smmaOrder = {
             username: username,
             followers: 0, // Pas utilisé pour les views
             viewsToAdd: quantity, // Quantité pour les views
+            postId: viewPostId, // Vrai ID du post sélectionné
             followerType: 'international',
             orderId: orderId,
             paymentId: paymentId
           };
+          
+          console.log('👀 Post sélectionné pour les views:', {
+            postId: viewPostId,
+            totalPosts: selectedPosts.length
+          });
           break;
         default:
           smmaOrder = {
@@ -195,6 +244,10 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       
       console.log('📊 Résultat SMMA:', smmaResult);
       setSmmaResults([smmaResult]);
+      
+      // Nettoyer le localStorage après succès
+      localStorage.removeItem('pendingOrder');
+      localStorage.removeItem('cartItems');
       
     } catch (error) {
       console.error('❌ Erreur lors du traitement SMMA avec Cardinity:', error);

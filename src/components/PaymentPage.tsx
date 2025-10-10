@@ -35,14 +35,29 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
       const totalFollowers = cartItems.reduce((sum, item) => sum + item.followers, 0);
       const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
+      // Créer une description détaillée basée sur le contenu du panier
+      let description = '';
+      const firstItem = cartItems[0];
+      
+      if (firstItem?.likes > 0) {
+        description = `${firstItem.likes} likes Instagram`;
+      } else if (firstItem?.followers > 0) {
+        description = `${firstItem.followers} followers Instagram`;
+      } else {
+        description = `${totalFollowers} followers Instagram`;
+      }
+      
       const newOrder = {
         orderId,
         amount: totalAmount,
         currency: 'EUR',
-        description: `${totalFollowers} followers Instagram`,
+        description: description,
         followers: totalFollowers,
         followerType: cartItems[0]?.followerType || 'international',
         username: cartItems[0]?.username || 'Non spécifié',
+        // SAUVEGARDER TOUTES LES DONNÉES DU PANIER
+        cartItems: cartItems, // Sauvegarder les articles complets
+        selectedPosts: cartItems[0]?.selectedPosts || [], // Sauvegarder les posts sélectionnés
         timestamp: new Date().toISOString()
       };
       

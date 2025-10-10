@@ -147,6 +147,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
         <FollowerTypeSelector
           selectedType={followerType}
           onTypeChange={setFollowerType}
+          title="Type de vues"
         />
 
         <PackageSelector

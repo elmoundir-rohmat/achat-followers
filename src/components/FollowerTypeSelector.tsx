@@ -12,9 +12,10 @@ interface FollowerType {
 interface Props {
   selectedType: string;
   onTypeChange: (type: string) => void;
+  title?: string; // Titre personnalisé
 }
 
-export default function FollowerTypeSelector({ selectedType, onTypeChange }: Props) {
+export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Type de followers" }: Props) {
   const followerTypes: FollowerType[] = [
     {
       id: 'international',
@@ -45,7 +46,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange }: Pro
   return (
     <div className="mb-6">
       <h2 className="text-lg font-semibold text-black mb-3 text-center">
-        Type de followers
+        {title}
       </h2>
       <div className="flex gap-3 justify-center max-w-md mx-auto">
         {followerTypes.map((type) => (

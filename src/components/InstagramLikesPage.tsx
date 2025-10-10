@@ -145,6 +145,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
         <FollowerTypeSelector
           selectedType={followerType}
           onTypeChange={setFollowerType}
+          title="Type de likes"
         />
 
         <PackageSelector

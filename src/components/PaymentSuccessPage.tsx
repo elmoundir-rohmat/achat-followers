@@ -130,14 +130,49 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       // Extraire le nom d'utilisateur depuis l'URL ou utiliser une valeur par défaut
       const username = 'cammjersey'; // Valeur par défaut pour le test
       
-      // Créer la commande SMMA directement
-      const smmaOrder: SMMAOrder = {
-        username: username,
-        followers: quantity, // Utiliser la quantité détectée
-        followerType: 'international', // Valeur par défaut
-        orderId: orderId,
-        paymentId: paymentId
-      };
+      // Créer la commande SMMA directement selon le type de service
+      let smmaOrder: SMMAOrder;
+      
+      switch (serviceType) {
+        case 'likes':
+          smmaOrder = {
+            username: username,
+            followers: 0, // Pas utilisé pour les likes
+            likesToAdd: quantity, // Quantité pour les likes
+            followerType: 'international',
+            orderId: orderId,
+            paymentId: paymentId
+          };
+          break;
+        case 'comments':
+          smmaOrder = {
+            username: username,
+            followers: 0, // Pas utilisé pour les comments
+            commentsToAdd: quantity, // Quantité pour les comments
+            followerType: 'international',
+            orderId: orderId,
+            paymentId: paymentId
+          };
+          break;
+        case 'views':
+          smmaOrder = {
+            username: username,
+            followers: 0, // Pas utilisé pour les views
+            viewsToAdd: quantity, // Quantité pour les views
+            followerType: 'international',
+            orderId: orderId,
+            paymentId: paymentId
+          };
+          break;
+        default:
+          smmaOrder = {
+            username: username,
+            followers: quantity, // Quantité pour les followers
+            followerType: 'international',
+            orderId: orderId,
+            paymentId: paymentId
+          };
+      }
 
       console.log('📦 Commande SMMA créée depuis Cardinity:', smmaOrder);
 

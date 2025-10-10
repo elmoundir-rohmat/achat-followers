@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CreditCard, Lock, Shield, ArrowLeft, Users, Clock } from 'lucide-react';
+import { CreditCard, Lock, Shield, ArrowLeft, Users, Clock, Heart, MessageCircle, Eye } from 'lucide-react';
 import CardinityHostedPayment from './CardinityHostedPayment';
 import { useCart } from '../contexts/CartContext';
 import { CARDINITY_CONFIG } from '../config/cardinity';
@@ -198,10 +198,37 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
                 <div className="flex items-center">
-                  <Users className="w-6 h-6 text-blue-600 mr-3" />
+                  {(() => {
+                    // Choisir l'icône selon le type de service
+                    const description = orderDetails.description || '';
+                    if (description.includes('likes')) {
+                      return <Heart className="w-6 h-6 text-pink-600 mr-3" />;
+                    } else if (description.includes('comments')) {
+                      return <MessageCircle className="w-6 h-6 text-green-600 mr-3" />;
+                    } else if (description.includes('views')) {
+                      return <Eye className="w-6 h-6 text-purple-600 mr-3" />;
+                    } else {
+                      return <Users className="w-6 h-6 text-blue-600 mr-3" />;
+                    }
+                  })()}
                   <div>
                     <p className="font-semibold text-gray-900">
-                      {orderDetails.followers?.toLocaleString()} followers
+                      {(() => {
+                        // Détecter le type de service depuis la description
+                        const description = orderDetails.description || '';
+                        if (description.includes('likes')) {
+                          const likesMatch = description.match(/(\d+)\s*likes/i);
+                          return `${likesMatch ? likesMatch[1] : '0'} likes`;
+                        } else if (description.includes('comments')) {
+                          const commentsMatch = description.match(/(\d+)\s*comments/i);
+                          return `${commentsMatch ? commentsMatch[1] : '0'} commentaires`;
+                        } else if (description.includes('views')) {
+                          const viewsMatch = description.match(/(\d+)\s*views/i);
+                          return `${viewsMatch ? viewsMatch[1] : '0'} vues`;
+                        } else {
+                          return `${orderDetails.followers?.toLocaleString() || '0'} followers`;
+                        }
+                      })()}
                     </p>
                     <p className="text-sm text-gray-600">
                       {orderDetails.followerType === 'french' ? 'Français' : 'Internationaux'}

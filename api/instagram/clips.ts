@@ -121,11 +121,18 @@ export default async function handler(
 
     const clips = clipsData.response.body.items;
     console.log('✅ Clips récupérés:', clips.length);
+    console.log('🔍 Types de médias trouvés:', clips.map((c: any) => c.media_type).filter((v: any, i: any, a: any) => a.indexOf(v) === i));
 
-    // Filtrer uniquement les reels/clips (media_type = 2)
-    const reelClips = clips.filter((clip: any) => 
-      clip.media_type === 2 || clip.media_type === 8
-    );
+    // Filtrer uniquement les reels/clips (media_type = 2 ou 8)
+    const reelClips = clips.filter((clip: any) => {
+      const isReel = clip.media_type === 2 || clip.media_type === 8;
+      if (!isReel) {
+        console.log(`❌ Clip filtré (media_type: ${clip.media_type}):`, clip.id);
+      }
+      return isReel;
+    });
+    
+    console.log('🎬 Reels après filtrage media_type:', reelClips.length);
 
     // Transformer les clips au format attendu
     const transformedClips = reelClips.map((clip: any) => {
@@ -159,8 +166,8 @@ export default async function handler(
       };
     }).filter((clip: any) => {
       const hasValidId = clip.id && clip.id.length > 0;
-      const hasEngagement = (clip.like_count > 0 || clip.comment_count > 0 || clip.view_count > 0);
-      return hasValidId && (hasEngagement || clip.media_url || clip.thumbnail_url);
+      // Assouplir le filtrage : accepter tous les reels avec un ID valide
+      return hasValidId;
     }).slice(0, count);
 
     console.log(`🎬 Clips finaux: ${transformedClips.length}`);

@@ -44,8 +44,8 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           timestamp: new Date().toLocaleString('fr-FR')
         });
         
-        // Nettoyer le localStorage
-        localStorage.removeItem('pendingOrder');
+        // NE PAS nettoyer le localStorage ici, on en a besoin pour SMMA
+        // localStorage.removeItem('pendingOrder');
       } catch (error) {
         console.error('Erreur lors de la récupération des détails de commande:', error);
       }

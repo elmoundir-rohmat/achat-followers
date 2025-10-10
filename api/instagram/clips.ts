@@ -122,27 +122,18 @@ export default async function handler(
     const clipsData = await clipsResponse.json();
     console.log('📦 Réponse StarAPI complète:', JSON.stringify(clipsData, null, 2));
 
-    // Vérifier la structure de réponse
-    if (clipsData.status !== 'ok') {
-      console.error('❌ Status incorrect:', clipsData.status);
-      return res.status(500).json({
-        success: false,
-        error: `Invalid status from StarAPI: ${clipsData.status}`
-      });
-    }
-
-    if (!clipsData.response?.body?.items) {
-      console.error('❌ Pas d\'items dans la réponse:', {
+    // TEMPORAIRE: Retourner la réponse brute pour déboguer
+    return res.status(200).json({
+      success: true,
+      debug: {
+        status: clipsData.status,
         hasResponse: !!clipsData.response,
         hasBody: !!clipsData.response?.body,
         hasItems: !!clipsData.response?.body?.items,
-        response: clipsData
-      });
-      return res.status(500).json({
-        success: false,
-        error: 'No items found in StarAPI response'
-      });
-    }
+        itemsLength: clipsData.response?.body?.items?.length || 0,
+        rawResponse: clipsData
+      }
+    });
 
     const clips = clipsData.response.body.items;
     console.log('✅ Clips récupérés:', clips.length);

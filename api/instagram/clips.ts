@@ -111,8 +111,12 @@ export default async function handler(
     const clipsData = await clipsResponse.json();
 
     // Vérifier la structure de réponse
-    if (clipsData.status !== 'done' || !clipsData.response?.body?.items) {
-      console.error('❌ Structure de réponse invalide');
+    if (clipsData.status !== 'ok' || !clipsData.response?.body?.items) {
+      console.error('❌ Structure de réponse invalide:', {
+        status: clipsData.status,
+        hasItems: !!clipsData.response?.body?.items,
+        response: clipsData
+      });
       return res.status(500).json({
         success: false,
         error: 'Invalid response structure from StarAPI'

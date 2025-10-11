@@ -139,20 +139,24 @@ export default async function handler(
     const clipsData = await clipsResponse.json();
     console.log('📦 Réponse StarAPI complète:', JSON.stringify(clipsData, null, 2));
 
-    // TEMPORAIRE: Retourner la réponse brute pour déboguer
-    return res.status(200).json({
-      success: true,
-      debug: {
-        status: clipsData.status,
-        hasResponse: !!clipsData.response,
-        hasBody: !!clipsData.response?.body,
-        hasItems: !!clipsData.response?.body?.items,
-        itemsLength: clipsData.response?.body?.items?.length || 0,
-        rawResponse: clipsData
-      }
-    });
+    // FIX TEMPORAIRE: Contourner la vérification de structure et traiter directement
+    const clips = clipsData.response?.body?.items || [];
+    console.log('✅ Clips récupérés (fix temporaire):', clips.length);
 
-    const clips = clipsData.response.body.items;
+    if (clips.length === 0) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+        next_cursor: null,
+        debug: {
+          status: clipsData.status,
+          hasResponse: !!clipsData.response,
+          hasBody: !!clipsData.response?.body,
+          hasItems: !!clipsData.response?.body?.items,
+          message: 'Aucun clip trouvé - structure de réponse inattendue'
+        }
+      });
+    }
     console.log('✅ Clips récupérés:', clips.length);
     console.log('🔍 Types de médias trouvés:', clips.map((c: any) => c.media_type).filter((v: any, i: any, a: any) => a.indexOf(v) === i));
 

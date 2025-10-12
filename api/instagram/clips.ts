@@ -3,8 +3,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 /**
  * API Route Vercel : Récupération des reels/clips Instagram
  * 
- * CORRECTION: Utilise get_media au lieu de get_clips pour obtenir
- * les reels avec le bon media_type = 2
+ * CORRECTION: Utilise get_clips (endpoint original) avec la bonne structure
+ * Les données sont dans items[].media.media_type (et non items[].media_type)
  */
 
 interface InstagramClipsRequest {
@@ -45,7 +45,7 @@ export default async function handler(
       });
     }
 
-    console.log('🎬 Récupération reels Instagram via get_media:', username);
+    console.log('🎬 Récupération reels Instagram via get_clips:', username);
 
     // Étape 1: Récupérer l'ID utilisateur
     const userIdResponse = await fetch(`${starapiUrl}/instagram/user/get_web_profile_info`, {
@@ -78,13 +78,13 @@ export default async function handler(
 
     console.log('✅ ID utilisateur trouvé:', userId);
 
-    // Étape 2: Récupérer TOUS les médias via get_media (même endpoint que les posts)
+    // Étape 2: Récupérer les CLIPS via get_clips (endpoint dédié aux reels)
     const requestBody = {
-      id: userId, // STRING comme pour les posts, pas parseInt()
-      count: Math.max(count * 3, 50) // Demander plus pour compenser le filtrage
+      id: parseInt(userId), // get_clips attend un nombre
+      count: count
     };
 
-    const mediaResponse = await fetch(`${starapiUrl}/instagram/user/get_media`, {
+    const clipsResponse = await fetch(`${starapiUrl}/instagram/user/get_clips`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -94,18 +94,18 @@ export default async function handler(
       body: JSON.stringify(requestBody)
     });
 
-    if (!mediaResponse.ok) {
-      const errorText = await mediaResponse.text();
-      console.error('❌ Erreur récupération media:', errorText);
-      return res.status(mediaResponse.status).json({
+    if (!clipsResponse.ok) {
+      const errorText = await clipsResponse.text();
+      console.error('❌ Erreur récupération clips:', errorText);
+      return res.status(clipsResponse.status).json({
         success: false,
-        error: `Failed to get media: ${errorText}`
+        error: `Failed to get clips: ${errorText}`
       });
     }
 
-    const mediaData = await mediaResponse.json();
+    const clipsData = await clipsResponse.json();
 
-    if (mediaData.status !== 'done' || !mediaData.response?.body?.items) {
+    if (clipsData.status !== 'done' || !clipsData.response?.body?.items) {
       console.error('❌ Structure de réponse invalide');
       return res.status(500).json({
         success: false,
@@ -113,72 +113,84 @@ export default async function handler(
       });
     }
 
-    const allMedia = mediaData.response.body.items;
-    console.log('✅ Médias récupérés:', allMedia.length);
+    const items = clipsData.response.body.items;
+    console.log('✅ Items récupérés:', items.length);
 
-    // Filtrer UNIQUEMENT les reels/vidéos (media_type = 2)
-    const reels = allMedia.filter((media: any) => media.media_type === 2);
-    console.log('🎬 Reels filtrés (media_type = 2):', reels.length);
+    // IMPORTANT: La structure est items[].media (et non items[] directement)
+    const transformedReels = items
+      .map((item: any) => {
+        const clip = item.media; // Les données sont dans .media !
+        
+        if (!clip) {
+          console.log('❌ Item sans media');
+          return null;
+        }
 
-    // Transformer les reels au format attendu
-    const transformedReels = reels.map((reel: any) => {
-      let mediaUrl = '';
-      let thumbnailUrl = '';
-      
-      // Pour les vidéos/reels (media_type = 2)
-      if (reel.image_versions2) {
-        // Essayer d'abord les candidates (le plus fiable)
-        if (reel.image_versions2.candidates && reel.image_versions2.candidates.length > 0) {
-          mediaUrl = reel.image_versions2.candidates[0]?.url || '';
-          thumbnailUrl = reel.image_versions2.candidates[0]?.url || 
-                        reel.image_versions2.candidates[1]?.url || '';
+        // Vérifier que c'est bien un reel (media_type = 2)
+        if (clip.media_type !== 2) {
+          console.log(`⚠️ Media type incorrect: ${clip.media_type} (attendu: 2)`);
+          return null;
+        }
+
+        let mediaUrl = '';
+        let thumbnailUrl = '';
+        
+        // Extraire les URLs des images (thumbnail du reel)
+        if (clip.image_versions2) {
+          if (clip.image_versions2.candidates && clip.image_versions2.candidates.length > 0) {
+            mediaUrl = clip.image_versions2.candidates[0]?.url || '';
+            thumbnailUrl = clip.image_versions2.candidates[0]?.url || 
+                          clip.image_versions2.candidates[1]?.url || '';
+          }
+          
+          if (!mediaUrl && clip.image_versions2.additional_candidates?.first_frame?.url) {
+            mediaUrl = clip.image_versions2.additional_candidates.first_frame.url;
+            thumbnailUrl = clip.image_versions2.additional_candidates.first_frame.url;
+          }
         }
         
-        // Si pas de candidates, essayer first_frame
-        if (!mediaUrl && reel.image_versions2.additional_candidates?.first_frame?.url) {
-          mediaUrl = reel.image_versions2.additional_candidates.first_frame.url;
-          thumbnailUrl = reel.image_versions2.additional_candidates.first_frame.url;
+        return {
+          id: clip.id,
+          media_url: mediaUrl,
+          thumbnail_url: thumbnailUrl,
+          caption: clip.caption?.text || '',
+          like_count: clip.like_count || 0,
+          comment_count: clip.comment_count || 0,
+          view_count: clip.view_count || clip.play_count || 0,
+          media_type: clip.media_type, // Devrait être 2
+          code: clip.code,
+          is_reel: true
+        };
+      })
+      .filter((reel: any) => {
+        if (!reel) return false;
+        
+        // Accepter uniquement les reels avec ID valide ET au moins une URL
+        const hasValidId = reel.id && reel.id.length > 0;
+        const hasValidUrl = (reel.media_url && reel.media_url.length > 0) || 
+                           (reel.thumbnail_url && reel.thumbnail_url.length > 0);
+        
+        if (!hasValidId) {
+          console.log(`❌ Reel rejeté (pas d'ID):`, reel.id);
+          return false;
         }
-      }
-      
-      return {
-        id: reel.id,
-        media_url: mediaUrl,
-        thumbnail_url: thumbnailUrl,
-        caption: reel.caption?.text || '',
-        like_count: reel.like_count || 0,
-        comment_count: reel.comment_count || 0,
-        view_count: reel.view_count || 0,
-        media_type: 2, // Toujours 2 pour les reels
-        code: reel.code,
-        is_reel: true
-      };
-    }).filter((reel: any) => {
-      // Accepter uniquement les reels avec ID valide ET au moins une URL
-      const hasValidId = reel.id && reel.id.length > 0;
-      const hasValidUrl = (reel.media_url && reel.media_url.length > 0) || 
-                         (reel.thumbnail_url && reel.thumbnail_url.length > 0);
-      
-      if (!hasValidId) {
-        console.log(`❌ Reel rejeté (pas d'ID):`, reel.id);
-        return false;
-      }
-      
-      if (!hasValidUrl) {
-        console.log(`❌ Reel rejeté (pas d'URL):`, reel.id);
-        return false;
-      }
-      
-      console.log(`✅ Reel accepté:`, reel.id);
-      return true;
-    }).slice(0, count); // Limiter au nombre demandé
+        
+        if (!hasValidUrl) {
+          console.log(`❌ Reel rejeté (pas d'URL):`, reel.id);
+          return false;
+        }
+        
+        console.log(`✅ Reel accepté: ${reel.id} (media_type: ${reel.media_type})`);
+        return true;
+      })
+      .slice(0, count);
 
     console.log(`🎬 Reels finaux: ${transformedReels.length}`);
 
     return res.status(200).json({
       success: true,
       data: transformedReels,
-      next_cursor: null
+      next_cursor: clipsData.response?.body?.paging_info?.max_id || null
     });
 
   } catch (error) {

@@ -112,9 +112,10 @@ export default async function handler(
     console.log('✅ ID utilisateur trouvé:', userId);
 
     // Étape 2: Récupérer les reels/clips
+    // Demander plus de clips pour compenser le filtrage (certains n'ont pas d'URLs valides)
     const requestBody = {
       id: parseInt(userId),
-      count: Math.max(count * 2, 24)
+      count: Math.max(count * 3, 50) // Demander 3x plus pour avoir assez de reels valides
     };
 
     const clipsResponse = await fetch(`${starapiUrl}/instagram/user/get_clips`, {
@@ -177,15 +178,32 @@ export default async function handler(
       let thumbnailUrl = '';
       
       if (clip.media_type === 2) {
+        // Pour les vidéos/reels, essayer plusieurs sources d'images
         mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
-                  clip.image_versions2?.candidates?.[0]?.url || '';
-        thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url || '';
+                  clip.image_versions2?.candidates?.[0]?.url ||
+                  clip.image_versions2?.candidates?.[1]?.url || '';
+        thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url || 
+                      clip.image_versions2?.candidates?.[1]?.url ||
+                      clip.image_versions2?.additional_candidates?.first_frame?.url || '';
       } else if (clip.media_type === 8 && clip.carousel_media) {
+        // Pour les carousels, chercher la première vidéo
         const firstVideo = clip.carousel_media.find((item: any) => item.media_type === 2);
         if (firstVideo) {
           mediaUrl = firstVideo.image_versions2?.additional_candidates?.first_frame?.url || 
-                    firstVideo.image_versions2?.candidates?.[0]?.url || '';
-          thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url || '';
+                    firstVideo.image_versions2?.candidates?.[0]?.url ||
+                    firstVideo.image_versions2?.candidates?.[1]?.url || '';
+          thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url ||
+                        firstVideo.image_versions2?.candidates?.[1]?.url ||
+                        firstVideo.image_versions2?.additional_candidates?.first_frame?.url || '';
+        } else {
+          // Si pas de vidéo, prendre le premier élément du carousel
+          const firstItem = clip.carousel_media[0];
+          if (firstItem) {
+            mediaUrl = firstItem.image_versions2?.candidates?.[0]?.url ||
+                      firstItem.image_versions2?.candidates?.[1]?.url || '';
+            thumbnailUrl = firstItem.image_versions2?.candidates?.[0]?.url ||
+                          firstItem.image_versions2?.candidates?.[1]?.url || '';
+          }
         }
       }
       
@@ -203,8 +221,15 @@ export default async function handler(
       };
     }).filter((clip: any) => {
       const hasValidId = clip.id && clip.id.length > 0;
-      // Assouplir le filtrage : accepter tous les reels avec un ID valide
-      return hasValidId;
+      const hasValidUrl = (clip.media_url && clip.media_url.length > 0) || 
+                         (clip.thumbnail_url && clip.thumbnail_url.length > 0);
+      
+      if (!hasValidUrl) {
+        console.log(`⚠️ Clip filtré (pas d'URL valide):`, clip.id);
+      }
+      
+      // Accepter uniquement les reels avec un ID valide ET au moins une URL
+      return hasValidId && hasValidUrl;
     }).slice(0, count);
 
     console.log(`🎬 Clips finaux: ${transformedClips.length}`);

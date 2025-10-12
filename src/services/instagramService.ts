@@ -286,7 +286,7 @@ class InstagramService {
       
       const requestBody = {
         id: parseInt(userId), // L'endpoint get_clips attend un number
-        count: Math.max(count * 2, 24) // Demander plus de clips pour compenser le filtrage
+        count: Math.max(count * 3, 50) // Demander 3x plus pour compenser le filtrage (certains n'ont pas d'URLs valides)
       };
       
       console.log('📤 Requête StarAPI get_clips:', {
@@ -335,7 +335,8 @@ class InstagramService {
                         clip.image_versions2?.candidates?.[0]?.url ||
                         clip.image_versions2?.candidates?.[1]?.url || '';
               thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url ||
-                           clip.image_versions2?.candidates?.[1]?.url || '';
+                           clip.image_versions2?.candidates?.[1]?.url ||
+                           clip.image_versions2?.additional_candidates?.first_frame?.url || '';
             } else if (clip.media_type === 8 && clip.carousel_media) {
               // Carousel avec vidéos - prendre la première vidéo
               const firstVideo = clip.carousel_media.find((item: any) => item.media_type === 2);
@@ -344,7 +345,17 @@ class InstagramService {
                           firstVideo.image_versions2?.candidates?.[0]?.url ||
                           firstVideo.image_versions2?.candidates?.[1]?.url || '';
                 thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url ||
-                             firstVideo.image_versions2?.candidates?.[1]?.url || '';
+                             firstVideo.image_versions2?.candidates?.[1]?.url ||
+                             firstVideo.image_versions2?.additional_candidates?.first_frame?.url || '';
+              } else {
+                // Si pas de vidéo, prendre le premier élément du carousel
+                const firstItem = clip.carousel_media[0];
+                if (firstItem) {
+                  mediaUrl = firstItem.image_versions2?.candidates?.[0]?.url ||
+                            firstItem.image_versions2?.candidates?.[1]?.url || '';
+                  thumbnailUrl = firstItem.image_versions2?.candidates?.[0]?.url ||
+                                firstItem.image_versions2?.candidates?.[1]?.url || '';
+                }
               }
             }
             
@@ -361,12 +372,17 @@ class InstagramService {
               is_reel: true // Marquer comme reel pour le filtrage
             };
           }).filter((clip: any) => {
-            // Filtrer seulement les clips qui ont un ID valide et au moins une donnée utile
+            // Filtrer seulement les clips qui ont un ID valide et au moins une URL valide
             const hasValidId = clip.id && clip.id.length > 0;
-            const hasEngagement = (clip.like_count > 0 || clip.comment_count > 0 || clip.view_count > 0);
+            const hasValidUrl = (clip.media_url && clip.media_url.length > 0) || 
+                               (clip.thumbnail_url && clip.thumbnail_url.length > 0);
             
-            // Garder les clips avec un ID valide et au moins un engagement ou une URL
-            return hasValidId && (hasEngagement || clip.media_url || clip.thumbnail_url);
+            if (!hasValidUrl && hasValidId) {
+              console.log(`⚠️ Clip filtré (pas d'URL valide):`, clip.id);
+            }
+            
+            // Garder uniquement les clips avec un ID valide ET au moins une URL
+            return hasValidId && hasValidUrl;
           }).slice(0, count); // Limiter au nombre demandé
           
           console.log(`🎬 Clips finaux après filtrage: ${transformedClips.length} sur ${count} demandés`);

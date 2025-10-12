@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Reels Instagram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #e1306c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #c13584;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Diagnostic Reels Instagram</h1>
+        <p>Cet outil permet de diagnostiquer pourquoi les reels ne sont pas récupérés.</p>
+        
+        <div class="input-group">
+            <label for="username">Username Instagram (sans @):</label>
+            <input type="text" id="username" value="therock" placeholder="therock">
+        </div>
+        
+        <div class="input-group">
+            <label>
+                <input type="checkbox" id="testMode"> Mode test complet (inclut les données brutes)
+            </label>
+        </div>
+        
+        <button onclick="runDiagnostic()" id="diagnosticBtn">Lancer le diagnostic</button>
+        
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        async function runDiagnostic() {
+            const username = document.getElementById('username').value.trim();
+            const testMode = document.getElementById('testMode').checked;
+            const resultDiv = document.getElementById('result');
+            const btn = document.getElementById('diagnosticBtn');
+            
+            if (!username) {
+                alert('Veuillez entrer un username Instagram');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = 'Diagnostic en cours...';
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result loading';
+            resultDiv.textContent = '🔍 Lancement du diagnostic...\n\n';
+            
+            try {
+                // Test 1: Configuration
+                resultDiv.textContent += '📋 ÉTAPE 1: Vérification de la configuration...\n';
+                
+                // Test 2: Appel API de diagnostic
+                resultDiv.textContent += '🔍 ÉTAPE 2: Appel de l\'API de diagnostic...\n';
+                
+                const response = await fetch('/api/instagram/debug-clips', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username,
+                        test_mode: testMode
+                    })
+                });
+                
+                resultDiv.textContent += `📡 Réponse HTTP: ${response.status} ${response.statusText}\n\n`;
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${JSON.stringify(errorData, null, 2)}`);
+                }
+                
+                const data = await response.json();
+                
+                // Afficher les résultats
+                resultDiv.textContent += '✅ DIAGNOSTIC TERMINÉ\n';
+                resultDiv.textContent += '================================\n\n';
+                
+                resultDiv.textContent += `👤 Username: @${data.diagnostic.username}\n`;
+                resultDiv.textContent += `🆔 User ID: ${data.diagnostic.userId}\n`;
+                resultDiv.textContent += `📊 Total clips récupérés: ${data.diagnostic.totalClips}\n`;
+                resultDiv.textContent += `🎬 Reels filtrés (media_type 2 ou 8): ${data.diagnostic.reelClips}\n`;
+                resultDiv.textContent += `🖼️ Reels avec URLs valides: ${data.diagnostic.reelsWithUrls}\n`;
+                resultDiv.textContent += `📱 Types de médias trouvés: ${data.diagnostic.mediaTypes.join(', ')}\n\n`;
+                
+                if (data.diagnostic.sampleReel) {
+                    resultDiv.textContent += `📝 Exemple de reel valide:\n`;
+                    resultDiv.textContent += `   ID: ${data.diagnostic.sampleReel.id}\n`;
+                    resultDiv.textContent += `   Type: ${data.diagnostic.sampleReel.media_type}\n`;
+                    resultDiv.textContent += `   A une image: ${data.diagnostic.sampleReel.hasImage}\n\n`;
+                }
+                
+                // Analyse des résultats
+                resultDiv.textContent += '🔍 ANALYSE:\n';
+                resultDiv.textContent += '================================\n';
+                
+                if (data.diagnostic.reelsWithUrls === 0) {
+                    resultDiv.textContent += '❌ PROBLÈME IDENTIFIÉ: Aucun reel avec URL valide\n';
+                    resultDiv.textContent += '   Causes possibles:\n';
+                    resultDiv.textContent += '   - Le compte n\'a pas de reels\n';
+                    resultDiv.textContent += '   - Les reels n\'ont pas d\'images dans l\'API\n';
+                    resultDiv.textContent += '   - Problème avec l\'API StarAPI\n';
+                    resultDiv.textContent += '   - Structure de données changée\n\n';
+                } else {
+                    resultDiv.textContent += `✅ ${data.diagnostic.reelsWithUrls} reels valides trouvés!\n`;
+                    resultDiv.textContent += '   Le problème pourrait être:\n';
+                    resultDiv.textContent += '   - Filtrage trop strict dans le code\n';
+                    resultDiv.textContent += '   - Problème de transformation des données\n\n';
+                }
+                
+                if (testMode && data.diagnostic.rawData) {
+                    resultDiv.textContent += '📋 DONNÉES BRUTES (mode test):\n';
+                    resultDiv.textContent += '================================\n';
+                    resultDiv.textContent += JSON.stringify(data.diagnostic.rawData, null, 2);
+                }
+                
+                resultDiv.className = data.diagnostic.reelsWithUrls > 0 ? 'result success' : 'result error';
+                
+            } catch (error) {
+                resultDiv.textContent += `❌ ERREUR: ${error.message}\n\n`;
+                resultDiv.textContent += '🔍 CAUSES POSSIBLES:\n';
+                resultDiv.textContent += '- Variables d\'environnement manquantes sur Vercel\n';
+                resultDiv.textContent += '- API StarAPI temporairement indisponible\n';
+                resultDiv.textContent += '- Clé API RapidAPI invalide ou expirée\n';
+                resultDiv.textContent += '- Problème de réseau\n';
+                resultDiv.className = 'result error';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Relancer le diagnostic';
+            }
+        }
+        
+        // Auto-test au chargement
+        window.onload = function() {
+            console.log('🔍 Page de diagnostic chargée');
+            console.log('📝 Utilisez cet outil pour diagnostiquer les problèmes de reels');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparaison Media Types - Diagnostic Instagram Reels</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #E4405F;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #E4405F;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #C13584;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        .stats {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            color: #004085;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .clip-detail {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .media-type {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 3px;
+            color: white;
+        }
+        .media-type.null { background-color: #dc3545; }
+        .media-type.undefined { background-color: #6c757d; }
+        .media-type.video-reel { background-color: #28a745; }
+        .media-type.photo { background-color: #007bff; }
+        .media-type.carousel { background-color: #ffc107; color: #000; }
+        .media-type.unknown { background-color: #6f42c1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Comparaison Media Types - Diagnostic Instagram Reels</h1>
+        
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur Instagram (sans @):</label>
+            <input type="text" id="username" placeholder="therock" value="therock">
+        </div>
+        
+        <button onclick="compareMediaTypes()" id="testBtn">Comparer Media Types</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function compareMediaTypes() {
+            const username = document.getElementById('username').value.trim();
+            const resultDiv = document.getElementById('result');
+            const testBtn = document.getElementById('testBtn');
+            
+            if (!username) {
+                resultDiv.innerHTML = '<div class="result error">❌ Veuillez entrer un nom d\'utilisateur</div>';
+                return;
+            }
+            
+            testBtn.disabled = true;
+            testBtn.textContent = 'Analyse en cours...';
+            resultDiv.innerHTML = '<div class="result loading">🔄 Analyse des media types en cours...</div>';
+            
+            try {
+                const response = await fetch('/api/instagram/compare-media-types', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    let html = '<div class="result success">';
+                    html += '✅ ANALYSE COMPLÈTE\n\n';
+                    html += `👤 Utilisateur: @${data.username}\n`;
+                    html += `🆔 User ID: ${data.userId}\n\n`;
+                    
+                    // Statistiques
+                    html += '<div class="stats">';
+                    html += '<h3>📊 STATISTIQUES</h3>';
+                    html += `📦 Total clips: ${data.stats.total_clips}\n`;
+                    html += `🎬 Potentiels reels: ${data.stats.potential_reels}\n`;
+                    html += `🖼️ Clips avec URLs: ${data.stats.clips_with_urls}\n\n`;
+                    
+                    html += '<h4>📈 Distribution des Media Types:</h4>';
+                    for (const [type, count] of Object.entries(data.stats.media_type_distribution)) {
+                        const typeString = type === 'null' ? 'null' : 
+                                         type === 'undefined' ? 'undefined' : 
+                                         type === '1' ? 'photo' :
+                                         type === '2' ? 'video/reel' :
+                                         type === '8' ? 'carousel' :
+                                         `unknown(${type})`;
+                        html += `• ${typeString}: ${count}\n`;
+                    }
+                    html += '</div>\n\n';
+                    
+                    // Analyse détaillée
+                    html += '<h3>🔍 ANALYSE DÉTAILLÉE</h3>\n';
+                    data.detailed_analysis.forEach((clip, index) => {
+                        html += `<div class="clip-detail">`;
+                        html += `<strong>Clip ${index + 1}:</strong>\n`;
+                        html += `• ID: ${clip.id}\n`;
+                        html += `• Media Type: <span class="media-type ${clip.media_type_string.replace('/', '-')}">${clip.media_type_string}</span>\n`;
+                        html += `• Est un reel: ${clip.is_reel ? '✅ OUI' : '❌ NON'}\n`;
+                        html += `• Image versions: ${clip.has_image_versions2 ? '✅' : '❌'}\n`;
+                        html += `• Candidates: ${clip.candidates_count}\n`;
+                        html += `• First frame: ${clip.has_first_frame ? '✅' : '❌'}\n`;
+                        html += `• Caption: ${clip.caption_preview}\n`;
+                        html += `• Likes: ${clip.like_count}, Comments: ${clip.comment_count}, Views: ${clip.view_count}\n`;
+                        html += '</div>';
+                    });
+                    
+                    // Premier clip brut
+                    html += '\n<h3>🔬 PREMIER CLIP BRUT</h3>\n';
+                    html += '<pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto;">';
+                    html += JSON.stringify(data.raw_first_clip, null, 2);
+                    html += '</pre>';
+                    
+                    // Environnement
+                    html += '\n<h3>🌍 ENVIRONNEMENT</h3>\n';
+                    html += `• StarAPI URL: ${data.environment.starapi_url}\n`;
+                    html += `• RapidAPI Key: ${data.environment.has_rapidapi_key ? '✅ Présent' : '❌ Manquant'}\n`;
+                    html += `• Node Version: ${data.environment.node_version}\n`;
+                    html += `• Platform: ${data.environment.platform}\n`;
+                    
+                    html += '</div>';
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">❌ Erreur: ${data.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ Erreur réseau: ${error.message}</div>`;
+            } finally {
+                testBtn.disabled = false;
+                testBtn.textContent = 'Comparer Media Types';
+            }
+        }
+    </script>
+</body>
+</html>

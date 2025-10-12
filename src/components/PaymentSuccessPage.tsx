@@ -123,13 +123,13 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             serviceType = 'likes';
             const likesMatch = description.match(/(\d+)\s*likes/i);
             quantity = likesMatch ? parseInt(likesMatch[1]) : 50;
-          } else if (description.toLowerCase().includes('comments')) {
+          } else if (description.toLowerCase().includes('commentaires') || description.toLowerCase().includes('comments')) {
             serviceType = 'comments';
-            const commentsMatch = description.match(/(\d+)\s*comments/i);
+            const commentsMatch = description.match(/(\d+)\s*(commentaires|comments)/i);
             quantity = commentsMatch ? parseInt(commentsMatch[1]) : 10;
-          } else if (description.toLowerCase().includes('views')) {
+          } else if (description.toLowerCase().includes('vues') || description.toLowerCase().includes('views')) {
             serviceType = 'views';
-            const viewsMatch = description.match(/(\d+)\s*views/i);
+            const viewsMatch = description.match(/(\d+)\s*(vues|views)/i);
             quantity = viewsMatch ? parseInt(viewsMatch[1]) : 100;
           } else {
             serviceType = 'followers';

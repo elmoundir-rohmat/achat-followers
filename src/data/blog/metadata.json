@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "boostez-votre-popularite-instagram-rockstar-club",
+      "slug": "boostez-votre-popularite-instagram-rockstar-club",
+      "title": "Boostez votre popularité sur Instagram avec Rockstar-club",
+      "excerpt": "Découvrez Rockstar-club, la startup française qui révolutionne la croissance Instagram. Services personnalisés, followers français authentiques et accompagnement expert pour développer votre audience.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Rockstar-club", "Followers", "Marketing", "Startup française"],
+      "publishedAt": "2025-01-27T00:00:00Z",
+      "readTime": 6,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "achat-followers-instagram-ca-vaut-le-coup",
       "slug": "achat-followers-instagram-ca-vaut-le-coup",
       "title": "Achat followers Instagram, ça vaut le coup ?",
@@ -33,8 +49,8 @@
       "likes": 32
     }
   ],
-  "lastUpdated": "2025-01-26T10:30:00Z",
-  "totalArticles": 2,
+  "lastUpdated": "2025-01-27T10:30:00Z",
+  "totalArticles": 3,
   "categories": [
     {
       "id": "instagram",
@@ -43,7 +59,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 2
+      "articleCount": 3
     },
     {
       "id": "tiktok",
@@ -93,12 +109,12 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 2
+      "articleCount": 3
     }
   ],
   "stats": {
-    "totalArticles": 2,
-    "publishedArticles": 2,
+    "totalArticles": 3,
+    "publishedArticles": 3,
     "draftArticles": 0,
     "totalViews": 2140,
     "totalLikes": 77,

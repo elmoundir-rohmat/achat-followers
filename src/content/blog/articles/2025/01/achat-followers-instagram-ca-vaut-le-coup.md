@@ -58,8 +58,8 @@ schema:
     logo: "https://doctorfollowers.com/logo.png"
 
 # Relations
-relatedPosts: ["6-conseils-pour-augmenter-les-abonnes-instagram"]
-nextPost: "6-conseils-pour-augmenter-les-abonnes-instagram"
+relatedPosts: ["6-conseils-pour-augmenter-les-abonnes-instagram", "boostez-votre-popularite-instagram-rockstar-club"]
+nextPost: "boostez-votre-popularite-instagram-rockstar-club"
 previousPost: null
 ---
 

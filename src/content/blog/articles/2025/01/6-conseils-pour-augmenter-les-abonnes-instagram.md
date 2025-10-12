@@ -58,9 +58,9 @@ schema:
     logo: "https://doctorfollowers.com/logo.png"
 
 # Relations
-relatedPosts: ["achat-followers-instagram-ca-vaut-le-coup"]
+relatedPosts: ["achat-followers-instagram-ca-vaut-le-coup", "boostez-votre-popularite-instagram-rockstar-club"]
 nextPost: null
-previousPost: "achat-followers-instagram-ca-vaut-le-coup"
+previousPost: "boostez-votre-popularite-instagram-rockstar-club"
 ---
 
 # 6 conseils pratiques pour augmenter le nombre d'abonnés Instagram

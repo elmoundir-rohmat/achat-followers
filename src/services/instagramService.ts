@@ -315,10 +315,9 @@ class InstagramService {
           const clips = data.response.body.items;
           console.log('✅ Reels/clips Instagram récupérés (StarAPI):', clips.length);
           
-          // Filtrer uniquement les reels/clips (media_type = 2) et les vidéos
+          // Filtrer les reels/clips - accepter media_type = 2, 8, ou null (car l'API StarAPI retourne null)
           const reelClips = clips.filter((clip: any) => 
-            clip.media_type === 2 || clip.media_type === 8 // 2 = video/reel, 8 = carousel avec vidéos
-            // Assouplir les critères - garder tous les clips de type vidéo même s'ils n'ont pas d'images parfaites
+            clip.media_type === 2 || clip.media_type === 8 || clip.media_type === null || clip.media_type === undefined
           );
           
           console.log(`🎬 Reels/clips filtrés (media_type 2 ou 8 avec URLs valides): ${reelClips.length} sur ${clips.length} total`);
@@ -329,8 +328,8 @@ class InstagramService {
             let mediaUrl = '';
             let thumbnailUrl = '';
             
-            if (clip.media_type === 2) {
-              // Reel/Clip - essayer différentes sources d'images
+            if (clip.media_type === 2 || clip.media_type === null || clip.media_type === undefined) {
+              // Reel/Clip - essayer différentes sources d'images (media_type = 2 ou null)
               mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
                         clip.image_versions2?.candidates?.[0]?.url ||
                         clip.image_versions2?.candidates?.[1]?.url || '';

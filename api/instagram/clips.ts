@@ -148,11 +148,13 @@ export default async function handler(
     // car même avec 0 clips, on doit essayer de les transformer
     console.log('🔍 Types de médias trouvés:', clips.map((c: any) => c.media_type).filter((v: any, i: any, a: any) => a.indexOf(v) === i));
 
-    // Filtrer uniquement les reels/clips (media_type = 2 ou 8)
+    // Filtrer les reels/clips - accepter media_type = 2, 8, ou null (car l'API StarAPI retourne null)
     const reelClips = clips.filter((clip: any) => {
-      const isReel = clip.media_type === 2 || clip.media_type === 8;
+      const isReel = clip.media_type === 2 || clip.media_type === 8 || clip.media_type === null || clip.media_type === undefined;
       if (!isReel) {
         console.log(`❌ Clip filtré (media_type: ${clip.media_type}):`, clip.id);
+      } else {
+        console.log(`✅ Clip accepté (media_type: ${clip.media_type}):`, clip.id);
       }
       return isReel;
     });
@@ -169,8 +171,8 @@ export default async function handler(
       let mediaUrl = '';
       let thumbnailUrl = '';
       
-      if (clip.media_type === 2) {
-        // Pour les vidéos/reels, essayer plusieurs sources d'images
+      if (clip.media_type === 2 || clip.media_type === null || clip.media_type === undefined) {
+        // Pour les vidéos/reels (media_type = 2) ou clips sans type (null), essayer plusieurs sources d'images
         mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
                   clip.image_versions2?.candidates?.[0]?.url ||
                   clip.image_versions2?.candidates?.[1]?.url || '';

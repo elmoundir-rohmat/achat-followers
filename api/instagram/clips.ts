@@ -144,21 +144,8 @@ export default async function handler(
     const clips = clipsData.response?.body?.items || [];
     console.log('✅ Clips récupérés (fix temporaire):', clips.length);
 
-    if (clips.length === 0) {
-      return res.status(200).json({
-        success: true,
-        data: [],
-        next_cursor: null,
-        debug: {
-          status: clipsData.status,
-          hasResponse: !!clipsData.response,
-          hasBody: !!clipsData.response?.body,
-          hasItems: !!clipsData.response?.body?.items,
-          message: 'Aucun clip trouvé - structure de réponse inattendue'
-        }
-      });
-    }
-    console.log('✅ Clips récupérés:', clips.length);
+    // NE PAS retourner si clips.length === 0, continuer le traitement
+    // car même avec 0 clips, on doit essayer de les transformer
     console.log('🔍 Types de médias trouvés:', clips.map((c: any) => c.media_type).filter((v: any, i: any, a: any) => a.indexOf(v) === i));
 
     // Filtrer uniquement les reels/clips (media_type = 2 ou 8)
@@ -171,6 +158,11 @@ export default async function handler(
     });
     
     console.log('🎬 Reels après filtrage media_type:', reelClips.length);
+    console.log('🔍 Exemple de reel:', reelClips[0] ? {
+      id: reelClips[0].id,
+      media_type: reelClips[0].media_type,
+      hasImageVersions: !!reelClips[0].image_versions2
+    } : 'Aucun reel trouvé');
 
     // Transformer les clips au format attendu
     const transformedClips = reelClips.map((clip: any) => {

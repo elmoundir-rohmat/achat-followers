@@ -114,7 +114,7 @@ export default async function handler(
     // Étape 2: Récupérer les reels/clips
     // Demander plus de clips pour compenser le filtrage (certains n'ont pas d'URLs valides)
     const requestBody = {
-      id: parseInt(userId),
+      id: parseInt(userId), // L'API attend un number, pas une string
       count: Math.max(count * 3, 50) // Demander 3x plus pour avoir assez de reels valides
     };
 
@@ -221,15 +221,16 @@ export default async function handler(
       };
     }).filter((clip: any) => {
       const hasValidId = clip.id && clip.id.length > 0;
-      const hasValidUrl = (clip.media_url && clip.media_url.length > 0) || 
-                         (clip.thumbnail_url && clip.thumbnail_url.length > 0);
       
-      if (!hasValidUrl) {
-        console.log(`⚠️ Clip filtré (pas d'URL valide):`, clip.id);
+      // TEMPORAIRE: Accepter tous les reels avec un ID valide, même sans URL
+      // pour diagnostiquer le problème
+      if (!hasValidId) {
+        console.log(`⚠️ Clip filtré (pas d'ID valide):`, clip.id);
+        return false;
       }
       
-      // Accepter uniquement les reels avec un ID valide ET au moins une URL
-      return hasValidId && hasValidUrl;
+      console.log(`✅ Reel accepté:`, clip.id, 'media_url:', !!clip.media_url, 'thumbnail_url:', !!clip.thumbnail_url);
+      return true; // Accepter tous les reels avec un ID valide
     }).slice(0, count);
 
     console.log(`🎬 Clips finaux: ${transformedClips.length}`);

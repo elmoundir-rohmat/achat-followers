@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Structure API</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; }
+        pre { white-space: pre-wrap; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Structure API</h1>
+    <button onclick="debugStructure()">Déboguer la structure de l'API</button>
+    <div id="result"></div>
+
+    <script>
+        async function debugStructure() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="info">🔍 Analyse de la structure...</div>';
+            
+            try {
+                console.log('🔍 Debug structure API...');
+                
+                const response = await fetch('/api/instagram/debug-structure', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: 'therock'
+                    })
+                });
+                
+                console.log('📡 Réponse debug structure:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`);
+                }
+                
+                const data = await response.json();
+                console.log('📊 Données debug structure:', data);
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h3>🔍 Structure API Analysée</h3>
+                        <p><strong>Username:</strong> ${data.username}</p>
+                        <p><strong>User ID:</strong> ${data.userId}</p>
+                        <p><strong>Has Response:</strong> ${data.clipsStructure.hasResponse}</p>
+                        <p><strong>Has Body:</strong> ${data.clipsStructure.hasBody}</p>
+                        <p><strong>Has Items:</strong> ${data.clipsStructure.hasItems}</p>
+                        <p><strong>Items Length:</strong> ${data.clipsStructure.itemsLength}</p>
+                        <details>
+                            <summary>Premier Item</summary>
+                            <pre>${JSON.stringify(data.clipsStructure.firstItem, null, 2)}</pre>
+                        </details>
+                        <details>
+                            <summary>Structure complète (rawResponse)</summary>
+                            <pre>${JSON.stringify(data.rawResponse, null, 2)}</pre>
+                        </details>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('❌ Erreur:', error);
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Erreur Debug Structure</h3>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Test automatique au chargement
+        window.onload = function() {
+            console.log('🔍 Page debug structure chargée');
+            setTimeout(debugStructure, 1000);
+        };
+    </script>
+</body>
+</html>

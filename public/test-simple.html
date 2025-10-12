@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Simple</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; }
+        pre { white-space: pre-wrap; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test API Simple</h1>
+    <button onclick="testSimpleAPI()">Tester l'API /api/instagram/test-simple</button>
+    <div id="result"></div>
+
+    <script>
+        async function testSimpleAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="info">🔍 Test en cours...</div>';
+            
+            try {
+                console.log('🧪 Test API simple...');
+                
+                const response = await fetch('/api/instagram/test-simple', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: 'therock'
+                    })
+                });
+                
+                console.log('📡 Réponse API simple:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`);
+                }
+                
+                const data = await response.json();
+                console.log('📊 Données API simple:', data);
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h3>✅ Test Simple Réussi !</h3>
+                        <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                        <p><strong>Username:</strong> ${data.debug?.username}</p>
+                        <p><strong>User ID:</strong> ${data.debug?.userId}</p>
+                        <p><strong>Total clips:</strong> ${data.debug?.totalClips}</p>
+                        <p><strong>Reels filtrés:</strong> ${data.debug?.reelClips}</p>
+                        <p><strong>Reels transformés:</strong> ${data.debug?.transformedClips}</p>
+                        <p><strong>Reels finaux:</strong> ${data.data?.length || 0}</p>
+                        <p><strong>Configuration:</strong> StarAPI: ${data.debug?.configuration?.hasStarapiUrl ? '✅' : '❌'}, RapidAPI: ${data.debug?.configuration?.hasRapidapiKey ? '✅' : '❌'}</p>
+                        <details>
+                            <summary>Données complètes</summary>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </details>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('❌ Erreur:', error);
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Erreur API Simple</h3>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                        <p><strong>Type:</strong> ${error.name}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Test automatique au chargement
+        window.onload = function() {
+            console.log('🧪 Page de test simple chargée');
+            setTimeout(testSimpleAPI, 1000);
+        };
+    </script>
+</body>
+</html>

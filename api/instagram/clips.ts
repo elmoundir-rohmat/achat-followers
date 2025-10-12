@@ -166,38 +166,34 @@ export default async function handler(
       hasImageVersions: !!reelClips[0].image_versions2
     } : 'Aucun reel trouvé');
 
-    // Transformer les clips au format attendu
+    // Transformer les clips au format attendu avec extraction robuste des URLs
     const transformedClips = reelClips.map((clip: any) => {
       let mediaUrl = '';
       let thumbnailUrl = '';
       
-      if (clip.media_type === 2 || clip.media_type === null || clip.media_type === undefined) {
-        // Pour les vidéos/reels (media_type = 2) ou clips sans type (null), essayer plusieurs sources d'images
-        mediaUrl = clip.image_versions2?.additional_candidates?.first_frame?.url || 
-                  clip.image_versions2?.candidates?.[0]?.url ||
-                  clip.image_versions2?.candidates?.[1]?.url || '';
-        thumbnailUrl = clip.image_versions2?.candidates?.[0]?.url || 
-                      clip.image_versions2?.candidates?.[1]?.url ||
-                      clip.image_versions2?.additional_candidates?.first_frame?.url || '';
-      } else if (clip.media_type === 8 && clip.carousel_media) {
-        // Pour les carousels, chercher la première vidéo
-        const firstVideo = clip.carousel_media.find((item: any) => item.media_type === 2);
-        if (firstVideo) {
-          mediaUrl = firstVideo.image_versions2?.additional_candidates?.first_frame?.url || 
-                    firstVideo.image_versions2?.candidates?.[0]?.url ||
-                    firstVideo.image_versions2?.candidates?.[1]?.url || '';
-          thumbnailUrl = firstVideo.image_versions2?.candidates?.[0]?.url ||
-                        firstVideo.image_versions2?.candidates?.[1]?.url ||
-                        firstVideo.image_versions2?.additional_candidates?.first_frame?.url || '';
-        } else {
-          // Si pas de vidéo, prendre le premier élément du carousel
-          const firstItem = clip.carousel_media[0];
-          if (firstItem) {
-            mediaUrl = firstItem.image_versions2?.candidates?.[0]?.url ||
-                      firstItem.image_versions2?.candidates?.[1]?.url || '';
-            thumbnailUrl = firstItem.image_versions2?.candidates?.[0]?.url ||
-                          firstItem.image_versions2?.candidates?.[1]?.url || '';
-          }
+      // Pour TOUS les types (2, 8, null, undefined), essayer TOUTES les sources possibles
+      // Prioriser les candidats standards car ils fonctionnent mieux
+      if (clip.image_versions2) {
+        // Essayer d'abord les candidates (le plus fiable)
+        if (clip.image_versions2.candidates && clip.image_versions2.candidates.length > 0) {
+          mediaUrl = clip.image_versions2.candidates[0]?.url || '';
+          thumbnailUrl = clip.image_versions2.candidates[0]?.url || 
+                        clip.image_versions2.candidates[1]?.url || '';
+        }
+        
+        // Si pas de candidates, essayer first_frame
+        if (!mediaUrl && clip.image_versions2.additional_candidates?.first_frame?.url) {
+          mediaUrl = clip.image_versions2.additional_candidates.first_frame.url;
+          thumbnailUrl = clip.image_versions2.additional_candidates.first_frame.url;
+        }
+      }
+      
+      // Pour les carousels (media_type = 8), essayer aussi carousel_media
+      if (!mediaUrl && clip.media_type === 8 && clip.carousel_media && clip.carousel_media.length > 0) {
+        const firstItem = clip.carousel_media[0];
+        if (firstItem?.image_versions2?.candidates?.[0]?.url) {
+          mediaUrl = firstItem.image_versions2.candidates[0].url;
+          thumbnailUrl = firstItem.image_versions2.candidates[0].url;
         }
       }
       
@@ -209,22 +205,28 @@ export default async function handler(
         like_count: clip.like_count || 0,
         comment_count: clip.comment_count || 0,
         view_count: clip.view_count || 0,
-        media_type: clip.media_type || 2,
+        media_type: clip.media_type !== null && clip.media_type !== undefined ? clip.media_type : 2,
         code: clip.code,
         is_reel: true
       };
     }).filter((clip: any) => {
+      // Accepter uniquement les clips avec ID valide ET au moins une URL
       const hasValidId = clip.id && clip.id.length > 0;
+      const hasValidUrl = (clip.media_url && clip.media_url.length > 0) || 
+                         (clip.thumbnail_url && clip.thumbnail_url.length > 0);
       
-      // TEMPORAIRE: Accepter tous les reels avec un ID valide, même sans URL
-      // pour diagnostiquer le problème
       if (!hasValidId) {
-        console.log(`⚠️ Clip filtré (pas d'ID valide):`, clip.id);
+        console.log(`❌ Clip rejeté (pas d'ID):`, clip.id);
         return false;
       }
       
-      console.log(`✅ Reel accepté:`, clip.id, 'media_url:', !!clip.media_url, 'thumbnail_url:', !!clip.thumbnail_url);
-      return true; // Accepter tous les reels avec un ID valide
+      if (!hasValidUrl) {
+        console.log(`❌ Clip rejeté (pas d'URL):`, clip.id);
+        return false;
+      }
+      
+      console.log(`✅ Reel accepté:`, clip.id);
+      return true;
     }).slice(0, count);
 
     console.log(`🎬 Clips finaux: ${transformedClips.length}`);

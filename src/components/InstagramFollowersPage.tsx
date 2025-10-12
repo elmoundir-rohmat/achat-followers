@@ -147,7 +147,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                     {getPackageFollowers(selectedPackage).toLocaleString()} followers {followerType === 'french' ? 'français' : 'internationaux'}
                   </span>
                   <span className="text-3xl font-bold text-blue-600">
-                    {getPackagePrice(selectedPackage).toFixed(2)}€
+                    {getPackagePriceLocal(selectedPackage)?.toFixed(2)}€
                   </span>
                 </div>
                 

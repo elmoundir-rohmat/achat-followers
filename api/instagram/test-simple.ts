@@ -119,6 +119,7 @@ export default async function handler(
 
     console.log('🔍 TEST SIMPLE - Clips bruts:', {
       totalClips: clips.length,
+      mediaTypes: clips.map((c: any) => c.media_type).filter((v: any, i: any, a: any) => a.indexOf(v) === i),
       firstClip: clips[0] ? {
         id: clips[0].id,
         media_type: clips[0].media_type,
@@ -169,6 +170,7 @@ export default async function handler(
         username,
         userId,
         totalClips: clips.length,
+        mediaTypes: clips.map((c: any) => c.media_type).filter((v: any, i: any, a: any) => a.indexOf(v) === i),
         reelClips: reelClips.length,
         transformedClips: transformedClips.length,
         configuration: {

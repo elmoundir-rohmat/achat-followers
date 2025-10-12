@@ -216,14 +216,14 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
                       {(() => {
                         // Détecter le type de service depuis la description
                         const description = orderDetails.description || '';
-                        if (description.includes('likes')) {
+                        if (description.toLowerCase().includes('likes')) {
                           const likesMatch = description.match(/(\d+)\s*likes/i);
                           return `${likesMatch ? likesMatch[1] : '0'} likes`;
-                        } else if (description.includes('comments')) {
-                          const commentsMatch = description.match(/(\d+)\s*comments/i);
+                        } else if (description.toLowerCase().includes('commentaires') || description.toLowerCase().includes('comments')) {
+                          const commentsMatch = description.match(/(\d+)\s*(commentaires|comments)/i);
                           return `${commentsMatch ? commentsMatch[1] : '0'} commentaires`;
-                        } else if (description.includes('views')) {
-                          const viewsMatch = description.match(/(\d+)\s*views/i);
+                        } else if (description.toLowerCase().includes('vues') || description.toLowerCase().includes('views')) {
+                          const viewsMatch = description.match(/(\d+)\s*(vues|views)/i);
                           return `${viewsMatch ? viewsMatch[1] : '0'} vues`;
                         } else {
                           return `${orderDetails.followers?.toLocaleString() || '0'} followers`;

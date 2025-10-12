@@ -1,20 +1,52 @@
 {
   "articles": [
     {
-      "id": "boostez-votre-popularite-instagram-rockstar-club",
-      "slug": "boostez-votre-popularite-instagram-rockstar-club",
-      "title": "Boostez votre popularité sur Instagram avec Rockstar-club",
-      "excerpt": "Découvrez Rockstar-club, la startup française qui révolutionne la croissance Instagram. Services personnalisés, followers français authentiques et accompagnement expert pour développer votre audience.",
+      "id": "sora-chatgpt-ia-video-revolutionnaire-openai",
+      "slug": "sora-chatgpt-ia-video-revolutionnaire-openai",
+      "title": "Sora ChatGPT c'est quoi ? L'IA vidéo révolutionnaire d'OpenAI",
+      "excerpt": "Découvrez Sora ChatGPT, la nouvelle IA d'OpenAI qui crée des vidéos réalistes à partir de texte. Fonctionnement, usages et lien avec ChatGPT.",
+      "author": "equipe-ia-innovation",
+      "category": "Conseils",
+      "tags": ["IA", "Sora", "ChatGPT", "OpenAI", "Vidéo", "Intelligence Artificielle"],
+      "publishedAt": "2024-10-12",
+      "readTime": 7,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
+      "views": 1850,
+      "likes": 92
+    },
+    {
+      "id": "algorithme-instagram-nouveautes-fonctionnalites-2025",
+      "slug": "algorithme-instagram-nouveautes-fonctionnalites-2025",
+      "title": "Algorithme Instagram : Nouveautés et Fonctionnalités de 2025",
+      "excerpt": "Découvrez les changements majeurs de l'algorithme Instagram en 2025. Plus de recommandations, priorité aux Reels, et stratégies pour adapter votre contenu et maximiser votre visibilité sur le réseau social.",
       "author": "moundir-rohmat",
       "category": "Instagram",
-      "tags": ["Instagram", "Rockstar-club", "Followers", "Marketing", "Startup française"],
-      "publishedAt": "2025-01-27T00:00:00Z",
+      "tags": ["Instagram", "Algorithme", "Reels", "Recommandations", "Stratégie", "2025"],
+      "publishedAt": "2025-01-28",
+      "readTime": 8,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop",
+      "views": 2150,
+      "likes": 78
+    },
+    {
+      "id": "boostez-votre-popularite-instagram-avec-doctorfollowers",
+      "slug": "boostez-votre-popularite-instagram-avec-doctorfollowers",
+      "title": "Boostez votre popularité sur Instagram avec DoctorFollowers",
+      "excerpt": "Découvrez DoctorFollowers, la startup française spécialisée dans la promotion de comptes Instagram. Services personnalisés, followers réels français et stratégies marketing pour développer votre présence sur les réseaux sociaux.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "DoctorFollowers", "Followers", "Marketing Digital", "Startup Française"],
+      "publishedAt": "2025-01-27",
       "readTime": 6,
       "featured": true,
       "published": true,
-      "image": "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop",
-      "views": 0,
-      "likes": 0
+      "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=400&fit=crop",
+      "views": 650,
+      "likes": 28
     },
     {
       "id": "achat-followers-instagram-ca-vaut-le-coup",
@@ -24,7 +56,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Followers", "Achat", "Influenceurs", "Éthique"],
-      "publishedAt": "2025-01-26T00:00:00Z",
+      "publishedAt": "2025-01-26",
       "readTime": 5,
       "featured": true,
       "published": true,
@@ -40,7 +72,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Abonnés", "Conseils", "Growth", "Engagement"],
-      "publishedAt": "2025-01-25T00:00:00Z",
+      "publishedAt": "2025-01-25",
       "readTime": 3,
       "featured": true,
       "published": true,
@@ -49,8 +81,8 @@
       "likes": 32
     }
   ],
-  "lastUpdated": "2025-01-27T10:30:00Z",
-  "totalArticles": 3,
+  "lastUpdated": "2024-10-12",
+  "totalArticles": 5,
   "categories": [
     {
       "id": "instagram",
@@ -59,7 +91,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 3
+      "articleCount": 4
     },
     {
       "id": "tiktok",
@@ -95,7 +127,7 @@
       "description": "Conseils généraux pour les réseaux sociaux",
       "color": "#6366F1",
       "icon": "lightbulb",
-      "articleCount": 0
+      "articleCount": 1
     }
   ],
   "authors": [
@@ -109,17 +141,29 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 3
+      "articleCount": 4
+    },
+    {
+      "id": "equipe-ia-innovation",
+      "name": "Équipe IA & Innovation",
+      "email": "ia@doctorfollowers.com",
+      "bio": "Équipe spécialisée dans l'intelligence artificielle et les innovations technologiques",
+      "avatar": "/blog/assets/images/authors/equipe-ia-innovation.jpg",
+      "social": {
+        "twitter": "@doctorfollowers",
+        "linkedin": "doctorfollowers"
+      },
+      "articleCount": 1
     }
   ],
   "stats": {
-    "totalArticles": 3,
-    "publishedArticles": 3,
+    "totalArticles": 5,
+    "publishedArticles": 5,
     "draftArticles": 0,
-    "totalViews": 2140,
-    "totalLikes": 77,
+    "totalViews": 6790,
+    "totalLikes": 275,
     "categoriesCount": 5,
-    "authorsCount": 1,
-    "averageReadTime": 4
+    "authorsCount": 2,
+    "averageReadTime": 6
   }
 }

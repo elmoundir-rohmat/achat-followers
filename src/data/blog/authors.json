@@ -13,10 +13,27 @@
       },
       "specialties": ["Instagram", "TikTok", "Growth Hacking", "Content Strategy"],
       "joinDate": "2024-01-01T00:00:00Z",
-      "articleCount": 2,
-      "totalViews": 2140,
-      "totalLikes": 77
+      "articleCount": 4,
+      "totalViews": 4940,
+      "totalLikes": 183
+    },
+    {
+      "id": "equipe-ia-innovation",
+      "name": "Équipe IA & Innovation",
+      "email": "ia@doctorfollowers.com",
+      "bio": "Équipe spécialisée dans l'intelligence artificielle et les innovations technologiques. Nous explorons les dernières avancées en IA et leur impact sur le marketing digital et les réseaux sociaux.",
+      "avatar": "/blog/assets/images/authors/equipe-ia-innovation.jpg",
+      "social": {
+        "twitter": "@doctorfollowers",
+        "linkedin": "doctorfollowers",
+        "instagram": "@doctorfollowers"
+      },
+      "specialties": ["Intelligence Artificielle", "Innovation", "ChatGPT", "Sora", "IA Générative"],
+      "joinDate": "2024-10-12",
+      "articleCount": 1,
+      "totalViews": 1850,
+      "totalLikes": 92
     }
   ],
-  "lastUpdated": "2025-01-26T10:30:00Z"
+  "lastUpdated": "2024-10-12"
 }

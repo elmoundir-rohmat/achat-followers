@@ -4,6 +4,7 @@ import CardinityHostedPayment from './CardinityHostedPayment';
 import { useCart } from '../contexts/CartContext';
 import { CARDINITY_CONFIG } from '../config/cardinity';
 import { smmaService, SMMAOrder } from '../services/smmaService';
+import { smmaServiceClient } from '../services/smmaServiceClient';
 
 interface PaymentPageProps {
   onBack?: () => void;
@@ -98,10 +99,16 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
           if (!item.username || item.username.trim() === '') {
             throw new Error('URL de profil manquante pour la commande SMMA');
           }
+          
+          // 🔍 Détecter la plateforme
+          const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+          console.log('🔍 PaymentPage - Platform:', item.platform, '→ ServiceType:', serviceType);
+          
           return {
             username: item.username,
             followers: item.followers,
             followerType: item.followerType,
+            serviceType: serviceType,
             orderId: orderDetails.orderId,
             paymentId: result.payment_id || result.transaction_id || result.id
           };
@@ -109,9 +116,17 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
 
         console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
-        // Traiter chaque commande SMMA
+        // Traiter chaque commande SMMA selon la plateforme
         const smmaResults = await Promise.all(
-          smmaOrders.map(order => smmaService.orderFollowers(order))
+          smmaOrders.map(order => {
+            if (order.serviceType === 'tiktok_followers') {
+              console.log('🎵 PaymentPage - Commande TikTok détectée');
+              return smmaServiceClient.orderTikTokFollowers(order);
+            } else {
+              console.log('📸 PaymentPage - Commande Instagram détectée');
+              return smmaServiceClient.orderFollowers(order);
+            }
+          })
         );
 
         console.log('📊 Résultats SMMA:', smmaResults);

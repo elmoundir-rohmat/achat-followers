@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Users, Clock, Mail, ArrowLeft } from 'lucide-react';
 import { smmaService, SMMAOrder } from '../services/smmaService';
+import { smmaServiceClient } from '../services/smmaServiceClient';
 
 interface PaymentSuccessPageProps {
   onBack?: () => void;
@@ -98,10 +99,16 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
         if (!item.username || item.username.trim() === '') {
           throw new Error('URL de profil manquante pour la commande SMMA');
         }
+        
+        // 🔍 Détecter la plateforme
+        const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+        console.log('🔍 PaymentSuccessPageFixed - Platform:', item.platform, '→ ServiceType:', serviceType);
+        
         return {
           username: item.username,
           followers: item.followers,
           followerType: item.followerType,
+          serviceType: serviceType,
           orderId: orderDetails?.orderId || paymentId,
           paymentId: paymentId
         };
@@ -109,9 +116,17 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
 
       console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
-      // Traiter chaque commande SMMA
+      // Traiter chaque commande SMMA selon la plateforme
       const smmaResults = await Promise.all(
-        smmaOrders.map(order => smmaService.orderFollowers(order))
+        smmaOrders.map(order => {
+          if (order.serviceType === 'tiktok_followers') {
+            console.log('🎵 PaymentSuccessPageFixed - Commande TikTok détectée');
+            return smmaServiceClient.orderTikTokFollowers(order);
+          } else {
+            console.log('📸 PaymentSuccessPageFixed - Commande Instagram détectée');
+            return smmaServiceClient.orderFollowers(order);
+          }
+        })
       );
 
       console.log('📊 Résultats SMMA:', smmaResults);

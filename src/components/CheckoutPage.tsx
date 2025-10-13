@@ -182,11 +182,19 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         if (!item.username || item.username.trim() === '') {
           throw new Error('URL de profil manquante pour la commande SMMA');
         }
+        
+        // 🔍 DEBUG : Afficher la plateforme détectée
+        console.log('🔍 DEBUG item.platform:', item.platform);
+        console.log('🔍 DEBUG item:', item);
+        
+        const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+        console.log('🔍 DEBUG serviceType calculé:', serviceType);
+        
         return {
           username: item.username,
           followers: item.followers,
           followerType: item.followerType,
-          serviceType: item.platform === 'TikTok' ? 'tiktok_followers' : 'followers',
+          serviceType: serviceType,
           orderId: orderId,
           paymentId: result.payment_id || result.transaction_id
         };
@@ -220,6 +228,10 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         paymentResult: result,
         smmaResults: smmaResults
       };
+
+      // ✅ SAUVEGARDER les items du panier dans localStorage AVANT de vider
+      localStorage.setItem('cartItems', JSON.stringify(items));
+      console.log('💾 Items du panier sauvegardés dans localStorage:', items);
 
       onComplete(orderData);
       clearCart();

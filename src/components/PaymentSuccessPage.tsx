@@ -283,10 +283,16 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           if (!item.username || item.username.trim() === '') {
             throw new Error('URL de profil manquante pour la commande SMMA');
           }
+          
+          // 🔍 Détecter la plateforme
+          const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+          console.log('🔍 PaymentSuccessPage - Platform:', item.platform, '→ ServiceType:', serviceType);
+          
           return {
             username: item.username,
             followers: item.followers,
             followerType: item.followerType,
+            serviceType: serviceType,
             orderId: orderDetails.orderId,
             paymentId: urlParams.get('id') || orderDetails.orderId
           };
@@ -294,10 +300,18 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
 
         console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
-                // Traiter chaque commande SMMA
-                const smmaResults = await Promise.all(
-                  smmaOrders.map(order => smmaServiceClient.orderFollowers(order))
-                );
+        // Traiter chaque commande SMMA selon la plateforme
+        const smmaResults = await Promise.all(
+          smmaOrders.map(order => {
+            if (order.serviceType === 'tiktok_followers') {
+              console.log('🎵 PaymentSuccessPage - Commande TikTok détectée');
+              return smmaServiceClient.orderTikTokFollowers(order);
+            } else {
+              console.log('📸 PaymentSuccessPage - Commande Instagram détectée');
+              return smmaServiceClient.orderFollowers(order);
+            }
+          })
+        );
 
         console.log('📊 Résultats SMMA:', smmaResults);
         setSmmaResults(smmaResults);

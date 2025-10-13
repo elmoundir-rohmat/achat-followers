@@ -274,10 +274,13 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande SMMA TikTok (client → serveur):', order);
       
-      const serviceId = getSMMAServiceId(order.followerType);
+      // Utiliser getServiceId avec 'tiktok_followers' pour obtenir le bon service ID (9583)
+      const serviceId = getServiceId('tiktok_followers', order.followerType);
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
+        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_followers ${order.followerType}` };
       }
+
+      console.log('✅ Service ID TikTok Followers:', serviceId);
 
       const response = await fetch('/api/smma/order', {
         method: 'POST',
@@ -287,7 +290,7 @@ class SMMAServiceClient {
         body: JSON.stringify({
           action: 'tiktok_followers',
           service_id: serviceId.toString(),
-          link: order.username,
+          link: order.username, // URL complète du profil TikTok (ex: https://tiktok.com/@username)
           quantity: order.followers,
           runs: order.runs,
           interval: order.interval,
@@ -327,10 +330,13 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande SMMA TikTok Likes (client → serveur):', order);
       
-      const serviceId = getSMMAServiceId(order.followerType);
+      // Utiliser getServiceId avec 'tiktok_likes' pour obtenir le bon service ID (4174)
+      const serviceId = getServiceId('tiktok_likes', order.followerType);
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
+        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_likes ${order.followerType}` };
       }
+
+      console.log('✅ Service ID TikTok Likes:', serviceId);
 
       const response = await fetch('/api/smma/order', {
         method: 'POST',
@@ -340,7 +346,7 @@ class SMMAServiceClient {
         body: JSON.stringify({
           action: 'tiktok_likes',
           service_id: serviceId.toString(),
-          link: order.username,
+          link: order.username, // URL complète de la vidéo TikTok (ex: https://tiktok.com/@user/video/123456)
           quantity: order.followers,
           runs: order.runs,
           interval: order.interval,

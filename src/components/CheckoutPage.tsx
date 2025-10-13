@@ -3,7 +3,6 @@ import { ShoppingCart, CreditCard, User, Mail, MapPin, Phone, X } from 'lucide-r
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
 import MockPayment from './MockPayment';
-import SMMATest from './SMMATest';
 import ConfirmDialog from './ConfirmDialog';
 import Toast, { ToastProps } from './Toast';
 import { smmaServiceClient, SMMAOrder } from '../services/smmaServiceClient';
@@ -58,7 +57,6 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
   const [orderId] = useState(`ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
   const [smmaResult, setSmmaResult] = useState<any>(null);
-  const [showSMMATest, setShowSMMATest] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{
     isOpen: boolean;
     itemId?: string;
@@ -94,17 +92,20 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       let description = '';
       let serviceQuantity = 0;
       
+      // Détecter la plateforme depuis les articles
+      const platform = items[0]?.platform || 'Instagram';
+      
       if (totalLikes > 0) {
-        description = `${totalLikes} likes Instagram`;
+        description = `${totalLikes} likes ${platform}`;
         serviceQuantity = totalLikes;
       } else if (totalComments > 0) {
-        description = `${totalComments} commentaires Instagram`;
+        description = `${totalComments} commentaires ${platform}`;
         serviceQuantity = totalComments;
       } else if (totalViews > 0) {
-        description = `${totalViews} vues Instagram`;
+        description = `${totalViews} vues ${platform}`;
         serviceQuantity = totalViews;
       } else {
-        description = `${totalFollowers} followers Instagram`;
+        description = `${totalFollowers} followers ${platform}`;
         serviceQuantity = totalFollowers;
       }
       
@@ -173,6 +174,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         username: item.username || 'unknown',
         followers: item.followers,
         followerType: item.followerType,
+        serviceType: item.platform === 'TikTok' ? 'tiktok_followers' : 'followers',
         orderId: orderId,
         paymentId: result.payment_id || result.transaction_id
       }));
@@ -267,17 +269,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
     <div className="min-h-screen bg-gray-50">
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {showSMMATest ? (
-          <div className="mb-8">
-            <button
-              onClick={() => setShowSMMATest(false)}
-              className="mb-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-            >
-              ← Retour au checkout
-            </button>
-            <SMMATest />
-          </div>
-        ) : showPayment ? (
+        {showPayment ? (
           <div className="max-w-2xl mx-auto">
             {/* Redirection automatique vers la page de paiement */}
             <div className="bg-white rounded-xl shadow-lg p-8 text-center">
@@ -467,16 +459,6 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                   {items.length === 0 ? 'Panier vide' : `Finaliser la commande - ${getTotalPrice().toFixed(2)}€`}
                 </button>
                 
-                {/* Bouton de test SMMA en mode développement */}
-                {import.meta.env.DEV && (
-                  <button
-                    type="button"
-                    onClick={() => setShowSMMATest(true)}
-                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg transition-colors text-sm"
-                  >
-                    🧪 Tester SMMA (ID 720)
-                  </button>
-                )}
               </div>
             </form>
           </div>

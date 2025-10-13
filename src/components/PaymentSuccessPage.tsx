@@ -117,10 +117,14 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           selectedPosts = pendingOrder.selectedPosts || [];
           originalFollowerType = pendingOrder.followerType || 'international';
           
-          // Détecter le type de service depuis la description
+          // ✅ DÉTECTER LA PLATEFORME depuis pendingOrder
+          const platform = pendingOrder.platform || 'Instagram';
+          console.log('🔍 Platform détectée depuis pendingOrder:', platform);
+          
+          // Détecter le type de service depuis la description ET la plateforme
           const description = pendingOrder.description || '';
           if (description.toLowerCase().includes('likes')) {
-            serviceType = 'likes';
+            serviceType = platform === 'TikTok' ? 'tiktok_likes' : 'likes';
             const likesMatch = description.match(/(\d+)\s*likes/i);
             quantity = likesMatch ? parseInt(likesMatch[1]) : 50;
           } else if (description.toLowerCase().includes('commentaires') || description.toLowerCase().includes('comments')) {
@@ -132,12 +136,14 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             const viewsMatch = description.match(/(\d+)\s*(vues|views)/i);
             quantity = viewsMatch ? parseInt(viewsMatch[1]) : 100;
           } else {
-            serviceType = 'followers';
+            // ✅ FOLLOWERS : Détecter TikTok ou Instagram
+            serviceType = platform === 'TikTok' ? 'tiktok_followers' : 'followers';
             const followersMatch = description.match(/(\d+)\s*followers/i);
             quantity = followersMatch ? parseInt(followersMatch[1]) : 25;
           }
           
           console.log('🎯 Données récupérées du panier:', {
+            platform,
             serviceType,
             quantity,
             username,
@@ -224,7 +230,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             username: username,
             followers: quantity, // Quantité pour les followers
             followerType: originalFollowerType, // 'french' ou 'international' pour les followers
-            serviceType: 'followers', // Type de service : followers
+            serviceType: serviceType, // ✅ Utiliser le serviceType détecté (peut être 'tiktok_followers')
             orderId: orderId,
             paymentId: paymentId
           };
@@ -238,13 +244,22 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         case 'likes':
           smmaResult = await smmaServiceClient.orderLikes(smmaOrder);
           break;
+        case 'tiktok_likes':
+          console.log('🎵 TikTok Likes détecté');
+          smmaResult = await smmaServiceClient.orderTikTokLikes(smmaOrder);
+          break;
         case 'comments':
           smmaResult = await smmaServiceClient.orderComments(smmaOrder);
           break;
         case 'views':
           smmaResult = await smmaServiceClient.orderViews(smmaOrder);
           break;
+        case 'tiktok_followers':
+          console.log('🎵 TikTok Followers détecté');
+          smmaResult = await smmaServiceClient.orderTikTokFollowers(smmaOrder);
+          break;
         default:
+          console.log('📸 Instagram Followers détecté');
           smmaResult = await smmaServiceClient.orderFollowers(smmaOrder);
       }
       

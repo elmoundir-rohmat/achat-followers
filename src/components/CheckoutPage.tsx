@@ -131,7 +131,9 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         serviceQuantity: serviceQuantity, // Nouveau champ pour la quantité du service principal
         followerType: items[0]?.followerType || 'international',
         username: username, // ✅ Plus de valeur par défaut
+        platform: items[0]?.platform || 'Instagram', // ✅ AJOUTER LA PLATEFORME
         selectedPosts: selectedPosts, // Posts sélectionnés pour likes/comments/views
+        items: items, // ✅ AJOUTER TOUS LES ITEMS DU PANIER
         timestamp: new Date().toISOString()
       };
       localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));

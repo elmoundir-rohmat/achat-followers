@@ -61,7 +61,7 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
         description: description,
         followers: totalFollowers,
         followerType: cartItems[0]?.followerType || 'international',
-        username: cartItems[0]?.username || 'Non spécifié',
+        username: cartItems[0]?.username || '', // ✅ Vide si non défini, pas de valeur fictive
         // SAUVEGARDER TOUTES LES DONNÉES DU PANIER
         cartItems: cartItems, // Sauvegarder les articles complets
         selectedPosts: cartItems[0]?.selectedPosts || [], // Sauvegarder les posts sélectionnés
@@ -93,13 +93,19 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
     try {
       // Appeler l'API SMMA pour traiter la commande
       if (orderDetails && cartItems.length > 0) {
-        const smmaOrders: SMMAOrder[] = cartItems.map(item => ({
-          username: item.username || 'unknown',
-          followers: item.followers,
-          followerType: item.followerType,
-          orderId: orderDetails.orderId,
-          paymentId: result.payment_id || result.transaction_id || result.id
-        }));
+        const smmaOrders: SMMAOrder[] = cartItems.map(item => {
+          // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
+          if (!item.username || item.username.trim() === '') {
+            throw new Error('URL de profil manquante pour la commande SMMA');
+          }
+          return {
+            username: item.username,
+            followers: item.followers,
+            followerType: item.followerType,
+            orderId: orderDetails.orderId,
+            paymentId: result.payment_id || result.transaction_id || result.id
+          };
+        });
 
         console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
@@ -295,15 +301,26 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
               </div>
             )}
 
-            {/* Composant Cardinity Hosted Payment */}
-            <CardinityHostedPayment
-              amount={orderDetails.amount}
-              orderId={orderDetails.orderId}
-              description={orderDetails.description}
-              onSuccess={handlePaymentSuccess}
-              onError={handlePaymentError}
-              onCancel={handlePaymentCancel}
-            />
+            {/* Mode développement : utiliser MockPayment, sinon CardinityPayment */}
+            {import.meta.env.DEV ? (
+              <MockPayment
+                amount={orderDetails.amount}
+                orderId={orderDetails.orderId}
+                description={orderDetails.description}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+                onCancel={handlePaymentCancel}
+              />
+            ) : (
+              <CardinityHostedPayment
+                amount={orderDetails.amount}
+                orderId={orderDetails.orderId}
+                description={orderDetails.description}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+                onCancel={handlePaymentCancel}
+              />
+            )}
 
             {/* Informations de sécurité */}
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">

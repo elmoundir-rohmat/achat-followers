@@ -81,16 +81,22 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
     
     try {
       // Appeler l'API SMMA pour chaque article du panier TikTok
-      const smmaOrders: SMMAOrder[] = items.map(item => ({
-        username: item.username || 'unknown',
-        followers: item.followers,
-        followerType: item.followerType === 'french' ? 'tiktok_french' : 'tiktok_international',
-        orderId: orderId,
-        paymentId: result.payment_id || result.transaction_id,
-        runs: item.deliveryOption?.runs,
-        interval: item.deliveryOption?.interval,
-        platform: 'tiktok'
-      }));
+      const smmaOrders: SMMAOrder[] = items.map(item => {
+        // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
+        if (!item.username || item.username.trim() === '') {
+          throw new Error('URL TikTok manquante pour la commande SMMA');
+        }
+        return {
+          username: item.username,
+          followers: item.followers,
+          followerType: item.followerType === 'french' ? 'tiktok_french' : 'tiktok_international',
+          orderId: orderId,
+          paymentId: result.payment_id || result.transaction_id,
+          runs: item.deliveryOption?.runs,
+          interval: item.deliveryOption?.interval,
+          platform: 'tiktok'
+        };
+      });
 
       console.log('📦 Commandes SMMA TikTok à traiter:', smmaOrders);
 

@@ -103,7 +103,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       
       let serviceType = 'followers';
       let quantity = 25;
-      let username = 'cammjersey';
+      let username = ''; // ✅ Vide par défaut, pas de valeur fictive
       let selectedPosts: any[] = [];
       let originalFollowerType = 'international'; // Déclarer en dehors du bloc if
       
@@ -113,7 +113,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           console.log('📦 pendingOrder parsé:', pendingOrder);
           
           // Extraire les données du panier sauvegardé
-          username = pendingOrder.username || 'cammjersey';
+          username = pendingOrder.username || ''; // ✅ Vide si non défini
           selectedPosts = pendingOrder.selectedPosts || [];
           originalFollowerType = pendingOrder.followerType || 'international';
           
@@ -278,13 +278,19 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       if (savedCartItems) {
         const cartItems = JSON.parse(savedCartItems);
         
-        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
-          username: item.username || 'unknown',
-          followers: item.followers,
-          followerType: item.followerType,
-          orderId: orderDetails.orderId,
-          paymentId: urlParams.get('id') || orderDetails.orderId
-        }));
+        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => {
+          // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
+          if (!item.username || item.username.trim() === '') {
+            throw new Error('URL de profil manquante pour la commande SMMA');
+          }
+          return {
+            username: item.username,
+            followers: item.followers,
+            followerType: item.followerType,
+            orderId: orderDetails.orderId,
+            paymentId: urlParams.get('id') || orderDetails.orderId
+          };
+        });
 
         console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
@@ -368,8 +374,8 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
                 </div>
                 
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Compte Instagram :</span>
-                  <span className="font-semibold">@{orderDetails.username || 'Non spécifié'}</span>
+                  <span className="text-gray-600">Compte :</span>
+                  <span className="font-semibold">{orderDetails.username || 'URL non disponible'}</span>
                 </div>
                 
                 <div className="flex justify-between">

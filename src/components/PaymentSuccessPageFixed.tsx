@@ -93,13 +93,19 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
     setIsProcessingSMMA(true);
     
     try {
-      const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
-        username: item.username || 'unknown',
-        followers: item.followers,
-        followerType: item.followerType,
-        orderId: orderDetails?.orderId || paymentId,
-        paymentId: paymentId
-      }));
+      const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => {
+        // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
+        if (!item.username || item.username.trim() === '') {
+          throw new Error('URL de profil manquante pour la commande SMMA');
+        }
+        return {
+          username: item.username,
+          followers: item.followers,
+          followerType: item.followerType,
+          orderId: orderDetails?.orderId || paymentId,
+          paymentId: paymentId
+        };
+      });
 
       console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
@@ -158,8 +164,8 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
                 </div>
                 
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Compte Instagram :</span>
-                  <span className="font-semibold">@{orderDetails.username || 'Non spécifié'}</span>
+                  <span className="text-gray-600">Compte :</span>
+                  <span className="font-semibold">{orderDetails.username || 'URL non disponible'}</span>
                 </div>
                 
                 <div className="flex justify-between">

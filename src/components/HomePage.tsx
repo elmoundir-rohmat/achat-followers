@@ -52,9 +52,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       });
       
       // Si c'est un retour Cardinity réussi, déclencher SMMA
-      if (cardinityStatus === 'approved' || cardinityId) {
+      if ((cardinityStatus === 'approved' || cardinityId) && (cardinityId || cardinityOrderId)) {
         console.log('✅ Paiement Cardinity confirmé - Déclenchement SMMA');
-        processSMMAIntegration(cardinityId || cardinityOrderId);
+        processSMMAIntegration((cardinityId || cardinityOrderId) as string);
       }
       
       // Récupérer les détails de la commande
@@ -87,13 +87,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       if (savedCartItems) {
         const cartItems = JSON.parse(savedCartItems);
         
-        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => ({
-          username: item.username || 'unknown',
-          followers: item.followers,
-          followerType: item.followerType,
-          orderId: orderDetails?.orderId || paymentId,
-          paymentId: paymentId
-        }));
+        const smmaOrders: SMMAOrder[] = cartItems.map((item: any) => {
+          // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
+          if (!item.username || item.username.trim() === '') {
+            throw new Error('URL de profil manquante pour la commande SMMA');
+          }
+          return {
+            username: item.username,
+            followers: item.followers,
+            followerType: item.followerType,
+            orderId: orderDetails?.orderId || paymentId,
+            paymentId: paymentId
+          };
+        });
 
         console.log('📦 Commandes SMMA:', smmaOrders);
 

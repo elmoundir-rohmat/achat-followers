@@ -93,8 +93,8 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
       likes: getPackageLikes(selectedPackage),
       price: totalPrice,
       followerType: followerType as 'french' | 'international',
-      platform: 'tiktok',
-      url: normalizedUrl, // URL normalisée
+      platform: 'TikTok', // ✅ Utiliser 'TikTok' (pas 'tiktok')
+      username: normalizedUrl, // ✅ Utiliser 'username' (pas 'url')
       delivery: deliveryOption
     });
     

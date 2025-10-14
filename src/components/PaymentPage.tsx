@@ -102,8 +102,13 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
             throw new Error('URL de profil manquante pour la commande SMMA');
           }
           
-          // 🔍 Détecter la plateforme
-          const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+          // 🔍 Détecter la plateforme ET le type de service
+          let serviceType: string;
+          if (item.platform === 'TikTok') {
+            serviceType = item.likes && item.likes > 0 ? 'tiktok_likes' : 'tiktok_followers';
+          } else {
+            serviceType = item.likes && item.likes > 0 ? 'likes' : 'followers';
+          }
           console.log('🔍 PaymentPage - Platform:', item.platform, '→ ServiceType:', serviceType);
           
           return {
@@ -118,14 +123,20 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
 
         console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
-        // Traiter chaque commande SMMA selon la plateforme
+        // Traiter chaque commande SMMA selon la plateforme et le type de service
         const smmaResults = await Promise.all(
           smmaOrders.map(order => {
             if (order.serviceType === 'tiktok_followers') {
-              console.log('🎵 PaymentPage - Commande TikTok détectée');
+              console.log('🎵 PaymentPage - Commande TikTok Followers détectée');
               return smmaServiceClient.orderTikTokFollowers(order);
+            } else if (order.serviceType === 'tiktok_likes') {
+              console.log('❤️ PaymentPage - Commande TikTok Likes détectée');
+              return smmaServiceClient.orderTikTokLikes(order);
+            } else if (order.serviceType === 'likes') {
+              console.log('📸 PaymentPage - Commande Instagram Likes détectée');
+              return smmaServiceClient.orderLikes(order);
             } else {
-              console.log('📸 PaymentPage - Commande Instagram détectée');
+              console.log('📸 PaymentPage - Commande Instagram Followers détectée');
               return smmaServiceClient.orderFollowers(order);
             }
           })

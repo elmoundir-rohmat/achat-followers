@@ -112,7 +112,16 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       // ✅ VALIDATION STRICTE : Vérifier que le username est bien défini
       const username = items[0]?.username;
       if (!username || username.trim() === '') {
-        alert('❌ ERREUR : Aucune URL de profil/post n\'a été saisie.\n\nVeuillez retourner à la page précédente et saisir l\'URL de votre profil ' + platform + ' avant de continuer.');
+        // Adapter le message selon le type de service
+        let serviceType = 'profil';
+        let serviceName = platform;
+        
+        if (totalLikes > 0) {
+          serviceType = platform === 'TikTok' ? 'vidéo' : 'post';
+          serviceName = platform === 'TikTok' ? 'TikTok' : 'Instagram';
+        }
+        
+        alert(`❌ ERREUR : Aucune URL de ${serviceType} ${serviceName} n'a été saisie.\n\nVeuillez retourner à la page précédente et saisir l'URL de votre ${serviceType} ${serviceName} avant de continuer.`);
         return;
       }
       
@@ -182,14 +191,32 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       const smmaOrders: SMMAOrder[] = items.map(item => {
         // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
         if (!item.username || item.username.trim() === '') {
-          throw new Error('URL de profil manquante pour la commande SMMA');
+          const serviceName = item.likes && item.likes > 0 ? 'vidéo' : 'profil';
+          const platformName = item.platform === 'TikTok' ? 'TikTok' : 'Instagram';
+          throw new Error(`URL de ${serviceName} ${platformName} manquante pour la commande SMMA`);
         }
         
         // 🔍 DEBUG : Afficher la plateforme détectée
         console.log('🔍 DEBUG item.platform:', item.platform);
         console.log('🔍 DEBUG item:', item);
         
-        const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+        // ✅ Détecter le serviceType selon la plateforme ET le type de service
+        let serviceType: string;
+        if (item.platform === 'TikTok') {
+          // Pour TikTok : détecter si c'est des likes ou des followers
+          if (item.likes && item.likes > 0) {
+            serviceType = 'tiktok_likes';
+          } else {
+            serviceType = 'tiktok_followers';
+          }
+        } else {
+          // Pour Instagram : détecter si c'est des likes ou des followers
+          if (item.likes && item.likes > 0) {
+            serviceType = 'likes';
+          } else {
+            serviceType = 'followers';
+          }
+        }
         console.log('🔍 DEBUG serviceType calculé:', serviceType);
         
         return {
@@ -204,14 +231,20 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
 
       console.log('📦 Commandes SMMA à traiter:', smmaOrders);
 
-      // Traiter chaque commande SMMA selon la plateforme
+      // Traiter chaque commande SMMA selon la plateforme et le type de service
       const smmaResults = await Promise.all(
         smmaOrders.map(order => {
           if (order.serviceType === 'tiktok_followers') {
-            console.log('🎵 Commande TikTok détectée - utilisation de orderTikTokFollowers');
+            console.log('🎵 Commande TikTok Followers détectée - utilisation de orderTikTokFollowers');
             return smmaServiceClient.orderTikTokFollowers(order);
+          } else if (order.serviceType === 'tiktok_likes') {
+            console.log('❤️ Commande TikTok Likes détectée - utilisation de orderTikTokLikes');
+            return smmaServiceClient.orderTikTokLikes(order);
+          } else if (order.serviceType === 'likes') {
+            console.log('📸 Commande Instagram Likes détectée - utilisation de orderLikes');
+            return smmaServiceClient.orderLikes(order);
           } else {
-            console.log('📸 Commande Instagram détectée - utilisation de orderFollowers');
+            console.log('📸 Commande Instagram Followers détectée - utilisation de orderFollowers');
             return smmaServiceClient.orderFollowers(order);
           }
         })

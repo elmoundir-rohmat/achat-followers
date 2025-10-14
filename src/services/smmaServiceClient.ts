@@ -355,7 +355,7 @@ class SMMAServiceClient {
           action: 'tiktok_views',
           service_id: serviceId.toString(),
           link: order.username, // URL complète de la vidéo TikTok (ex: https://tiktok.com/@user/video/123456)
-          quantity: order.followers,
+          quantity: order.views || order.followers, // ✅ Utiliser views pour TikTok Views
           runs: order.runs,
           interval: order.interval,
           order_id: order.orderId

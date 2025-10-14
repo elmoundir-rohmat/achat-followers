@@ -225,6 +225,16 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             totalPosts: selectedPosts.length
           });
           break;
+        case 'tiktok_views':
+          smmaOrder = {
+            username: username,
+            views: quantity, // ✅ Quantité pour les vues TikTok
+            followerType: originalFollowerType, // 'french' ou 'international' pour les vues
+            serviceType: serviceType, // 'tiktok_views'
+            orderId: orderId,
+            paymentId: paymentId
+          };
+          break;
         default:
           smmaOrder = {
             username: username,

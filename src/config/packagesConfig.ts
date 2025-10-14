@@ -274,10 +274,22 @@ export const VIEWS_PACKAGES: PackageConfig[] = [
   }
 ];
 
+// Packages pour les vues TikTok
+export const TIKTOK_VIEWS_PACKAGES: PackageConfig[] = [
+  { id: '100', quantity: 100, priceInternational: 0.99, priceFrench: 1.98, features: ['Livraison instantanée', 'Vues réelles', 'Garantie 30j'], delivery: 'Instantané' },
+  { id: '250', quantity: 250, priceInternational: 1.95, priceFrench: 3.90, features: ['Livraison instantanée', 'Vues actives', 'Garantie 30j'], delivery: 'Instantané' },
+  { id: '1000', quantity: 1000, priceInternational: 2.95, priceFrench: 5.90, features: ['Livraison instantanée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'], delivery: 'Instantané', popular: true },
+  { id: '5000', quantity: 5000, priceInternational: 9.95, priceFrench: 19.90, features: ['Livraison instantanée', 'Vues premium', 'Garantie 30j', 'Remplacement gratuit'], delivery: 'Instantané' },
+  { id: '10000', quantity: 10000, priceInternational: 14.94, priceFrench: 29.88, features: ['Livraison instantanée', 'Vues vérifiées', 'Garantie 30j', 'Bonus engagement'], delivery: 'Instantané' },
+  { id: '25000', quantity: 25000, priceInternational: 29.95, priceFrench: 59.90, features: ['Livraison instantanée', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'], delivery: 'Instantané' },
+  { id: '50000', quantity: 50000, priceInternational: 49.95, priceFrench: 99.90, features: ['Livraison instantanée', 'Vues premium', 'Garantie 30j', 'Support VIP'], delivery: 'Instantané' },
+  { id: '250000', quantity: 250000, priceInternational: 99.00, priceFrench: 198.00, features: ['Livraison instantanée', 'Vues massives', 'Garantie 30j', 'Support VIP', 'Bonus exclusif'], delivery: 'Instantané' }
+];
+
 /**
  * Obtenir les packages selon le type de service
  */
-export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views'): PackageConfig[] {
+export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views'): PackageConfig[] {
   switch (serviceType) {
     case 'followers':
       return FOLLOWERS_PACKAGES;
@@ -287,6 +299,8 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
       return COMMENTS_PACKAGES;
     case 'views':
       return VIEWS_PACKAGES;
+    case 'tiktok_views':
+      return TIKTOK_VIEWS_PACKAGES;
     default:
       return FOLLOWERS_PACKAGES;
   }
@@ -295,7 +309,7 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
 /**
  * Obtenir le prix d'un package selon le type de follower
  */
-export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views', followerType: 'french' | 'international'): number {
+export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views', followerType: 'french' | 'international'): number {
   const packages = getPackagesForService(serviceType);
   console.log('🔍 getPackagePrice debug:', {
     packageId,
@@ -322,7 +336,7 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
 /**
  * Obtenir la quantité d'un package
  */
-export function getPackageQuantity(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views'): number {
+export function getPackageQuantity(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views'): number {
   const packages = getPackagesForService(serviceType);
   const pkg = packages.find(p => p.id === packageId);
   

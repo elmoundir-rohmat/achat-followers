@@ -119,6 +119,9 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         if (totalLikes > 0) {
           serviceType = platform === 'TikTok' ? 'vidéo' : 'post';
           serviceName = platform === 'TikTok' ? 'TikTok' : 'Instagram';
+        } else if (totalViews > 0) {
+          serviceType = platform === 'TikTok' ? 'vidéo' : 'post';
+          serviceName = platform === 'TikTok' ? 'TikTok' : 'Instagram';
         }
         
         alert(`❌ ERREUR : Aucune URL de ${serviceType} ${serviceName} n'a été saisie.\n\nVeuillez retourner à la page précédente et saisir l'URL de votre ${serviceType} ${serviceName} avant de continuer.`);
@@ -191,7 +194,12 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       const smmaOrders: SMMAOrder[] = items.map(item => {
         // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
         if (!item.username || item.username.trim() === '') {
-          const serviceName = item.likes && item.likes > 0 ? 'vidéo' : 'profil';
+          let serviceName = 'profil';
+          if (item.likes && item.likes > 0) {
+            serviceName = 'vidéo';
+          } else if (item.views && item.views > 0) {
+            serviceName = 'vidéo';
+          }
           const platformName = item.platform === 'TikTok' ? 'TikTok' : 'Instagram';
           throw new Error(`URL de ${serviceName} ${platformName} manquante pour la commande SMMA`);
         }
@@ -203,16 +211,20 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         // ✅ Détecter le serviceType selon la plateforme ET le type de service
         let serviceType: string;
         if (item.platform === 'TikTok') {
-          // Pour TikTok : détecter si c'est des likes ou des followers
+          // Pour TikTok : détecter si c'est des likes, vues ou followers
           if (item.likes && item.likes > 0) {
             serviceType = 'tiktok_likes';
+          } else if (item.views && item.views > 0) {
+            serviceType = 'tiktok_views';
           } else {
             serviceType = 'tiktok_followers';
           }
         } else {
-          // Pour Instagram : détecter si c'est des likes ou des followers
+          // Pour Instagram : détecter si c'est des likes, vues ou followers
           if (item.likes && item.likes > 0) {
             serviceType = 'likes';
+          } else if (item.views && item.views > 0) {
+            serviceType = 'views';
           } else {
             serviceType = 'followers';
           }
@@ -240,9 +252,15 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           } else if (order.serviceType === 'tiktok_likes') {
             console.log('❤️ Commande TikTok Likes détectée - utilisation de orderTikTokLikes');
             return smmaServiceClient.orderTikTokLikes(order);
+          } else if (order.serviceType === 'tiktok_views') {
+            console.log('👁️ Commande TikTok Views détectée - utilisation de orderTikTokViews');
+            return smmaServiceClient.orderTikTokViews(order);
           } else if (order.serviceType === 'likes') {
             console.log('📸 Commande Instagram Likes détectée - utilisation de orderLikes');
             return smmaServiceClient.orderLikes(order);
+          } else if (order.serviceType === 'views') {
+            console.log('📸 Commande Instagram Views détectée - utilisation de orderViews');
+            return smmaServiceClient.orderViews(order);
           } else {
             console.log('📸 Commande Instagram Followers détectée - utilisation de orderFollowers');
             return smmaServiceClient.orderFollowers(order);

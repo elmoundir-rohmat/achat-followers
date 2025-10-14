@@ -105,9 +105,21 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
           // 🔍 Détecter la plateforme ET le type de service
           let serviceType: string;
           if (item.platform === 'TikTok') {
-            serviceType = item.likes && item.likes > 0 ? 'tiktok_likes' : 'tiktok_followers';
+            if (item.likes && item.likes > 0) {
+              serviceType = 'tiktok_likes';
+            } else if (item.views && item.views > 0) {
+              serviceType = 'tiktok_views';
+            } else {
+              serviceType = 'tiktok_followers';
+            }
           } else {
-            serviceType = item.likes && item.likes > 0 ? 'likes' : 'followers';
+            if (item.likes && item.likes > 0) {
+              serviceType = 'likes';
+            } else if (item.views && item.views > 0) {
+              serviceType = 'views';
+            } else {
+              serviceType = 'followers';
+            }
           }
           console.log('🔍 PaymentPage - Platform:', item.platform, '→ ServiceType:', serviceType);
           
@@ -132,9 +144,15 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
             } else if (order.serviceType === 'tiktok_likes') {
               console.log('❤️ PaymentPage - Commande TikTok Likes détectée');
               return smmaServiceClient.orderTikTokLikes(order);
+            } else if (order.serviceType === 'tiktok_views') {
+              console.log('👁️ PaymentPage - Commande TikTok Views détectée');
+              return smmaServiceClient.orderTikTokViews(order);
             } else if (order.serviceType === 'likes') {
               console.log('📸 PaymentPage - Commande Instagram Likes détectée');
               return smmaServiceClient.orderLikes(order);
+            } else if (order.serviceType === 'views') {
+              console.log('📸 PaymentPage - Commande Instagram Views détectée');
+              return smmaServiceClient.orderViews(order);
             } else {
               console.log('📸 PaymentPage - Commande Instagram Followers détectée');
               return smmaServiceClient.orderFollowers(order);

@@ -94,8 +94,25 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             throw new Error('URL de profil manquante pour la commande SMMA');
           }
           
-          // 🔍 Détecter la plateforme
-          const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
+          // 🔍 Détecter la plateforme ET le type de service
+          let serviceType: string;
+          if (item.platform === 'TikTok') {
+            if (item.likes && item.likes > 0) {
+              serviceType = 'tiktok_likes';
+            } else if (item.views && item.views > 0) {
+              serviceType = 'tiktok_views';
+            } else {
+              serviceType = 'tiktok_followers';
+            }
+          } else {
+            if (item.likes && item.likes > 0) {
+              serviceType = 'likes';
+            } else if (item.views && item.views > 0) {
+              serviceType = 'views';
+            } else {
+              serviceType = 'followers';
+            }
+          }
           console.log('🔍 HomePage - Platform:', item.platform, '→ ServiceType:', serviceType);
           
           return {
@@ -113,10 +130,22 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         const smmaResults = await Promise.all(
           smmaOrders.map(order => {
             if (order.serviceType === 'tiktok_followers') {
-              console.log('🎵 HomePage - Commande TikTok détectée');
+              console.log('🎵 HomePage - Commande TikTok Followers détectée');
               return smmaServiceClient.orderTikTokFollowers(order);
+            } else if (order.serviceType === 'tiktok_likes') {
+              console.log('❤️ HomePage - Commande TikTok Likes détectée');
+              return smmaServiceClient.orderTikTokLikes(order);
+            } else if (order.serviceType === 'tiktok_views') {
+              console.log('👁️ HomePage - Commande TikTok Views détectée');
+              return smmaServiceClient.orderTikTokViews(order);
+            } else if (order.serviceType === 'likes') {
+              console.log('📸 HomePage - Commande Instagram Likes détectée');
+              return smmaServiceClient.orderLikes(order);
+            } else if (order.serviceType === 'views') {
+              console.log('📸 HomePage - Commande Instagram Views détectée');
+              return smmaServiceClient.orderViews(order);
             } else {
-              console.log('📸 HomePage - Commande Instagram détectée');
+              console.log('📸 HomePage - Commande Instagram Followers détectée');
               return smmaServiceClient.orderFollowers(order);
             }
           })

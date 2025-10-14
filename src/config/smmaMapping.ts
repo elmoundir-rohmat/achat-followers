@@ -68,13 +68,23 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
     followerType: 'tiktok_likes_french',
     smmaServiceId: 4174, // Service TikTok likes français (même service)
     description: 'TikTok likes français'
+  },
+  {
+    followerType: 'tiktok_views_international',
+    smmaServiceId: 4412, // Service TikTok vues internationaux
+    description: 'TikTok vues internationaux'
+  },
+  {
+    followerType: 'tiktok_views_french',
+    smmaServiceId: 4412, // Service TikTok vues français (même service)
+    description: 'TikTok vues français'
   }
 ];
 
 /**
  * Obtenir l'ID du service SMMA pour un type de followers donné (ancienne méthode)
  */
-export function getSMMAServiceId(followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international'): number | null {
+export function getSMMAServiceId(followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international' | 'tiktok_views_french' | 'tiktok_views_international'): number | null {
   const mapping = SMMA_SERVICE_MAPPING.find(
     service => service.followerType === followerType
   );
@@ -85,7 +95,7 @@ export function getSMMAServiceId(followerType: 'french' | 'international' | 'lik
 /**
  * NOUVELLE MÉTHODE : Obtenir l'ID du service SMMA selon le type de service et le type de followers
  */
-export function getServiceId(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes', followerType: 'french' | 'international'): number | null {
+export function getServiceId(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views', followerType: 'french' | 'international'): number | null {
   // Construire la clé de mapping
   let mappingKey: string;
   
@@ -101,6 +111,8 @@ export function getServiceId(serviceType: 'followers' | 'likes' | 'comments' | '
     mappingKey = `tiktok_${followerType}`; // 'tiktok_french' ou 'tiktok_international'
   } else if (serviceType === 'tiktok_likes') {
     mappingKey = `tiktok_likes_${followerType}`; // 'tiktok_likes_french' ou 'tiktok_likes_international'
+  } else if (serviceType === 'tiktok_views') {
+    mappingKey = `tiktok_views_${followerType}`; // 'tiktok_views_french' ou 'tiktok_views_international'
   } else {
     return null;
   }
@@ -115,7 +127,7 @@ export function getServiceId(serviceType: 'followers' | 'likes' | 'comments' | '
 /**
  * Obtenir la description du service
  */
-export function getServiceDescription(followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international'): string {
+export function getServiceDescription(followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international' | 'tiktok_views_french' | 'tiktok_views_international'): string {
   const mapping = SMMA_SERVICE_MAPPING.find(
     service => service.followerType === followerType
   );

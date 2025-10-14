@@ -84,7 +84,8 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
       const smmaOrders: SMMAOrder[] = items.map(item => {
         // ✅ VALIDATION : Ne jamais envoyer de valeur par défaut
         if (!item.username || item.username.trim() === '') {
-          throw new Error('URL TikTok manquante pour la commande SMMA');
+          const serviceName = item.likes && item.likes > 0 ? 'vidéo' : (item.views && item.views > 0 ? 'vidéo' : 'profil');
+          throw new Error(`URL de ${serviceName} TikTok manquante pour la commande SMMA`);
         }
         return {
           username: item.username,

@@ -132,7 +132,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             const commentsMatch = description.match(/(\d+)\s*(commentaires|comments)/i);
             quantity = commentsMatch ? parseInt(commentsMatch[1]) : 10;
           } else if (description.toLowerCase().includes('vues') || description.toLowerCase().includes('views')) {
-            serviceType = 'views';
+            serviceType = platform === 'TikTok' ? 'tiktok_views' : 'views';
             const viewsMatch = description.match(/(\d+)\s*(vues|views)/i);
             quantity = viewsMatch ? parseInt(viewsMatch[1]) : 100;
           } else {
@@ -253,6 +253,10 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           break;
         case 'views':
           smmaResult = await smmaServiceClient.orderViews(smmaOrder);
+          break;
+        case 'tiktok_views':
+          console.log('👁️ TikTok Views détecté');
+          smmaResult = await smmaServiceClient.orderTikTokViews(smmaOrder);
           break;
         case 'tiktok_followers':
           console.log('🎵 TikTok Followers détecté');

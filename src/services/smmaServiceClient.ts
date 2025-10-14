@@ -332,6 +332,62 @@ class SMMAServiceClient {
   }
 
   /**
+   * Commande des vues TikTok
+   */
+  async orderTikTokViews(order: SMMAOrder): Promise<SMMAResponse> {
+    try {
+      console.log('🚀 Envoi de la commande SMMA TikTok Views (client → serveur):', order);
+      
+      // Utiliser getServiceId avec 'tiktok_views' pour obtenir le bon service ID (4412)
+      const serviceId = getServiceId('tiktok_views', order.followerType);
+      if (!serviceId) {
+        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_views ${order.followerType}` };
+      }
+
+      console.log('✅ Service ID TikTok Views:', serviceId);
+
+      const response = await fetch('/api/smma/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'tiktok_views',
+          service_id: serviceId.toString(),
+          link: order.username, // URL complète de la vidéo TikTok (ex: https://tiktok.com/@user/video/123456)
+          quantity: order.followers,
+          runs: order.runs,
+          interval: order.interval,
+          order_id: order.orderId
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return {
+          success: false,
+          error: errorData.error || `HTTP error ${response.status}`
+        };
+      }
+
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'appel API route (TikTok Views):', error);
+      return {
+        success: false,
+        error: 'Erreur de connexion avec le serveur'
+      };
+    }
+  }
+
+  /**
    * Commande des likes TikTok
    */
   async orderTikTokLikes(order: SMMAOrder): Promise<SMMAResponse> {

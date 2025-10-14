@@ -73,17 +73,36 @@ export default function CardinityHostedPayment({
       
       console.log('💳 Redirection vers Hosted Payment Page Cardinity:', paymentData);
 
-      // Sauvegarder les détails de la commande
-      const orderDetails = {
+      // ✅ RÉCUPÉRER le pendingOrder existant et l'enrichir (ne pas écraser)
+      const existingOrder = localStorage.getItem('pendingOrder');
+      let orderDetails: any = {
         orderId,
         amount,
         currency: CARDINITY_CONFIG.currency,
         description,
         timestamp: new Date().toISOString()
       };
-      localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
       
-      console.log('💾 Détails de commande sauvegardés pour SMMA');
+      // ✅ Si un pendingOrder existe déjà, le fusionner pour garder platform, items, etc.
+      if (existingOrder) {
+        try {
+          const parsed = JSON.parse(existingOrder);
+          orderDetails = {
+            ...parsed,  // ✅ Garder toutes les données existantes
+            orderId,    // Mettre à jour seulement ces champs
+            amount,
+            currency: CARDINITY_CONFIG.currency,
+            description,
+            timestamp: new Date().toISOString()
+          };
+          console.log('💾 pendingOrder existant fusionné:', orderDetails);
+        } catch (e) {
+          console.error('Erreur parsing pendingOrder:', e);
+        }
+      }
+      
+      localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+      console.log('💾 Détails de commande sauvegardés pour SMMA:', orderDetails);
 
       // Créer un formulaire et le soumettre automatiquement
       const form = document.createElement('form');

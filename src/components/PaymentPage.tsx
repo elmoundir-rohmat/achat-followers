@@ -63,6 +63,8 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
         followers: totalFollowers,
         followerType: cartItems[0]?.followerType || 'international',
         username: cartItems[0]?.username || '', // ✅ Vide si non défini, pas de valeur fictive
+        platform: cartItems[0]?.platform || 'Instagram', // ✅ AJOUTER LA PLATEFORME
+        items: cartItems, // ✅ AJOUTER TOUS LES ITEMS
         // SAUVEGARDER TOUTES LES DONNÉES DU PANIER
         cartItems: cartItems, // Sauvegarder les articles complets
         selectedPosts: cartItems[0]?.selectedPosts || [], // Sauvegarder les posts sélectionnés

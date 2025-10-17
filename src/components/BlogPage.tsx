@@ -19,7 +19,12 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
     const loadPosts = async () => {
       try {
         setLoading(true);
+        // Forcer le rechargement des métadonnées pour le développement
+        await BlogService.forceReloadMetadata();
         const response = await BlogService.getArticlesList();
+        console.log('Réponse BlogService:', response);
+        console.log('Articles dans la réponse:', response.posts.length);
+        console.log('Premier article:', response.posts[0]?.title);
         setPosts(response.posts);
       } catch (error) {
         console.error('Error loading blog posts:', error);

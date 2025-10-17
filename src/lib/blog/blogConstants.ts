@@ -6,7 +6,7 @@ export const BLOG_CONFIG = {
   MAX_PAGE_SIZE: 50,
   
   // Cache
-  CACHE_DURATION: 60 * 60 * 1000, // 1 heure en millisecondes
+  CACHE_DURATION: 5 * 1000, // 5 secondes en millisecondes pour le développement
   MAX_CACHE_SIZE: 100, // Nombre maximum d'articles en cache
   
   // Lecture

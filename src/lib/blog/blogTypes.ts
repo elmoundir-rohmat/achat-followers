@@ -141,7 +141,7 @@ export interface BlogPost {
 }
 
 export interface BlogMetadata {
-  id: number;
+  id: string;
   title: string;
   excerpt: string;
   image: string;
@@ -153,11 +153,13 @@ export interface BlogMetadata {
   readTime?: number;
   featured?: boolean;
   published?: boolean;
+  views?: number;
+  likes?: number;
   
   // SEO léger pour la liste
-  seoTitle: string;
-  seoDescription: string;
-  focusKeyword: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  focusKeyword?: string;
 }
 
 export interface BlogListOptions {
@@ -173,6 +175,18 @@ export interface BlogListOptions {
   search?: string;
   year?: number;
   month?: number;
+}
+
+export interface BlogSearchResult {
+  posts: BlogMetadata[];
+  totalResults: number;
+  query: string;
+  suggestions?: string[];
+  filters?: {
+    categories: Array<{ name: string; count: number }>;
+    tags: Array<{ name: string; count: number }>;
+    authors: Array<{ name: string; count: number }>;
+  };
 }
 
 export interface BlogListResponse {

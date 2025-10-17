@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "installer-sora-2-france-tutoriel-complet",
+      "slug": "installer-sora-2-france-tutoriel-complet",
+      "title": "Installer Sora 2 en France : tutoriel Sora ChatGPT complet",
+      "excerpt": "Tutoriel complet pour installer Sora 2 en France via l'App Store, obtenir une invitation et utiliser Sora ChatGPT pour créer des vidéos IA.",
+      "author": "equipe-ia-innovation",
+      "category": "Tutoriel",
+      "tags": ["Sora", "ChatGPT", "OpenAI", "Tutoriel", "Installation", "France", "App Store", "IA Vidéo"],
+      "date": "2025-01-15",
+      "readTime": 12,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "sora-chatgpt-ia-video-revolutionnaire-openai",
       "slug": "sora-chatgpt-ia-video-revolutionnaire-openai",
       "title": "Sora ChatGPT c'est quoi ? L'IA vidéo révolutionnaire d'OpenAI",
@@ -8,7 +24,7 @@
       "author": "equipe-ia-innovation",
       "category": "Conseils",
       "tags": ["IA", "Sora", "ChatGPT", "OpenAI", "Vidéo", "Intelligence Artificielle"],
-      "publishedAt": "2024-10-12",
+      "date": "2024-10-12",
       "readTime": 7,
       "featured": true,
       "published": true,
@@ -24,7 +40,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Algorithme", "Reels", "Recommandations", "Stratégie", "2025"],
-      "publishedAt": "2025-01-28",
+      "date": "2025-01-28",
       "readTime": 8,
       "featured": true,
       "published": true,
@@ -40,7 +56,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "DoctorFollowers", "Followers", "Marketing Digital", "Startup Française"],
-      "publishedAt": "2025-01-27",
+      "date": "2025-01-27",
       "readTime": 6,
       "featured": true,
       "published": true,
@@ -56,7 +72,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Followers", "Achat", "Influenceurs", "Éthique"],
-      "publishedAt": "2025-01-26",
+      "date": "2025-01-26",
       "readTime": 5,
       "featured": true,
       "published": true,
@@ -72,7 +88,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Abonnés", "Conseils", "Growth", "Engagement"],
-      "publishedAt": "2025-01-25",
+      "date": "2025-01-25",
       "readTime": 3,
       "featured": true,
       "published": true,
@@ -81,8 +97,8 @@
       "likes": 32
     }
   ],
-  "lastUpdated": "2024-10-12",
-  "totalArticles": 5,
+  "lastUpdated": "2025-01-15",
+  "totalArticles": 6,
   "categories": [
     {
       "id": "instagram",
@@ -128,6 +144,15 @@
       "color": "#6366F1",
       "icon": "lightbulb",
       "articleCount": 1
+    },
+    {
+      "id": "tutoriel",
+      "name": "Tutoriel",
+      "slug": "tutoriel",
+      "description": "Tutoriels et guides pratiques",
+      "color": "#10B981",
+      "icon": "book-open",
+      "articleCount": 1
     }
   ],
   "authors": [
@@ -153,17 +178,17 @@
         "twitter": "@doctorfollowers",
         "linkedin": "doctorfollowers"
       },
-      "articleCount": 1
+      "articleCount": 2
     }
   ],
   "stats": {
-    "totalArticles": 5,
-    "publishedArticles": 5,
+    "totalArticles": 6,
+    "publishedArticles": 6,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,
-    "categoriesCount": 5,
+    "categoriesCount": 6,
     "authorsCount": 2,
-    "averageReadTime": 6
+    "averageReadTime": 7
   }
 }

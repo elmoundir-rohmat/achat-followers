@@ -241,7 +241,13 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           followerType: item.followerType,
           serviceType: serviceType,
           orderId: orderId,
-          paymentId: result.payment_id || result.transaction_id
+          paymentId: result.payment_id || result.transaction_id,
+          // ✅ AJOUTER LES CHAMPS SPÉCIFIQUES POUR CHAQUE TYPE DE SERVICE
+          likesToAdd: item.likes,
+          commentsToAdd: item.comments,
+          viewsToAdd: item.views,
+          runs: (item as any).runs || undefined,
+          interval: (item as any).interval || undefined
         };
       });
 

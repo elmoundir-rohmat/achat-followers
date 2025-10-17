@@ -88,14 +88,25 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
     const totalPrice = getPackagePrice(selectedPackage) + deliveryOption.additionalCost;
     const normalizedUrl = normalizeTikTokUrl(tiktokUrl);
     
-    addToCart({
-      comments: getPackageComments(selectedPackage),
+    // ✅ DEBUG : Vérifier les valeurs avant ajout au panier
+    const commentsQuantity = getPackageComments(selectedPackage);
+    console.log('🔍 DEBUG TikTokCommentsPage - selectedPackage:', selectedPackage);
+    console.log('🔍 DEBUG TikTokCommentsPage - commentsQuantity:', commentsQuantity);
+    console.log('🔍 DEBUG TikTokCommentsPage - followerType:', followerType);
+    console.log('🔍 DEBUG TikTokCommentsPage - normalizedUrl:', normalizedUrl);
+    
+    const cartItem = {
+      comments: commentsQuantity,
       price: totalPrice,
       followerType: followerType as 'french' | 'international',
       platform: 'TikTok',
       username: normalizedUrl,
       delivery: deliveryOption
-    });
+    };
+    
+    console.log('🔍 DEBUG TikTokCommentsPage - cartItem à ajouter:', cartItem);
+    
+    addToCart(cartItem);
     
     // Redirection simple vers le panier - Vercel SPA routing va gérer
     window.location.href = '/cart';

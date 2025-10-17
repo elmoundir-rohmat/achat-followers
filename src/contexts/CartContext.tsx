@@ -87,6 +87,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const addToCart = (item: Omit<CartItem, 'id'>) => {
     console.log('🔍 CartContext - addToCart appelé avec:', item);
     
+    // ✅ DEBUG SPÉCIAL : Vérifier les valeurs pour TikTok Comments
+    if (item.platform === 'TikTok' && item.comments) {
+      console.log('🔍 DEBUG CartContext - TikTok Comments détecté:');
+      console.log('🔍 DEBUG CartContext - item.comments:', item.comments);
+      console.log('🔍 DEBUG CartContext - typeof item.comments:', typeof item.comments);
+      console.log('🔍 DEBUG CartContext - item.comments === 10:', item.comments === 10);
+    }
+    
     const newItem: CartItem = {
       ...item,
       id: `${item.followers || item.likes || item.comments || item.views || 0}-${item.followerType}-${Date.now()}`

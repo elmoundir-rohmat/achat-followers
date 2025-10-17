@@ -450,6 +450,15 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande TikTok Comments (client → serveur):', order);
       
+      // ✅ DEBUG DÉTAILLÉ : Vérifier les valeurs exactes
+      console.log('🔍 DEBUG order.commentsToAdd:', order.commentsToAdd);
+      console.log('🔍 DEBUG order.followers:', order.followers);
+      console.log('🔍 DEBUG order.followerType:', order.followerType);
+      
+      // Calculer la quantité finale
+      const finalQuantity = order.commentsToAdd || order.followers;
+      console.log('🔍 DEBUG finalQuantity calculée:', finalQuantity);
+      
       // Utiliser getServiceId avec 'tiktok_comments' pour obtenir le bon service ID
       const serviceId = getServiceId('tiktok_comments', order.followerType);
       if (!serviceId) {
@@ -458,20 +467,24 @@ class SMMAServiceClient {
 
       console.log('✅ Service ID TikTok Comments:', serviceId);
 
+      const requestBody = {
+        action: 'tiktok_comments',
+        service_id: serviceId.toString(),
+        link: order.username, // URL complète de la vidéo TikTok
+        quantity: finalQuantity,
+        runs: order.runs,
+        interval: order.interval,
+        order_id: order.orderId
+      };
+      
+      console.log('📤 Body envoyé à l\'API route:', requestBody);
+
       const response = await fetch('/api/smma/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          action: 'tiktok_comments',
-          service_id: serviceId.toString(),
-          link: order.username, // URL complète de la vidéo TikTok
-          quantity: order.commentsToAdd || order.followers,
-          runs: order.runs,
-          interval: order.interval,
-          order_id: order.orderId
-        })
+        body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) {

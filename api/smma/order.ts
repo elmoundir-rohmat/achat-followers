@@ -46,10 +46,20 @@ export default async function handler(
       service_id,
       link: link ? link.substring(0, 50) + '...' : 'UNDEFINED',
       quantity,
+      quantity_type: typeof quantity,
+      quantity_value: quantity,
       runs,
       interval,
       order_id
     });
+    
+    // ✅ DEBUG SPÉCIAL : Vérifier la quantité pour TikTok Comments
+    if (action === 'tiktok_comments') {
+      console.log('🔍 DEBUG TikTok Comments - quantity:', quantity);
+      console.log('🔍 DEBUG TikTok Comments - quantity type:', typeof quantity);
+      console.log('🔍 DEBUG TikTok Comments - quantity === 10:', quantity === 10);
+      console.log('🔍 DEBUG TikTok Comments - quantity >= 10:', quantity >= 10);
+    }
 
     // Validation des paramètres
     if (!action || !service_id || !link || !quantity || !order_id) {

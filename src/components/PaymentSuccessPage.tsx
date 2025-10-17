@@ -228,9 +228,29 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         case 'tiktok_views':
           smmaOrder = {
             username: username,
-            views: quantity, // ✅ Quantité pour les vues TikTok
+            viewsToAdd: quantity, // ✅ Quantité pour les vues TikTok
             followerType: originalFollowerType, // 'french' ou 'international' pour les vues
             serviceType: serviceType, // 'tiktok_views'
+            orderId: orderId,
+            paymentId: paymentId
+          };
+          break;
+        case 'tiktok_comments':
+          smmaOrder = {
+            username: username,
+            commentsToAdd: quantity, // ✅ Quantité pour les commentaires TikTok
+            followerType: originalFollowerType, // 'french' ou 'international' pour les commentaires
+            serviceType: serviceType, // 'tiktok_comments'
+            orderId: orderId,
+            paymentId: paymentId
+          };
+          break;
+        case 'tiktok_likes':
+          smmaOrder = {
+            username: username,
+            likesToAdd: quantity, // ✅ Quantité pour les likes TikTok
+            followerType: originalFollowerType, // 'french' ou 'international' pour les likes
+            serviceType: serviceType, // 'tiktok_likes'
             orderId: orderId,
             paymentId: paymentId
           };

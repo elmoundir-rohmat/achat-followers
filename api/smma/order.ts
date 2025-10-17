@@ -8,7 +8,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
  */
 
 interface SMMAOrderRequest {
-  action: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes';
+  action: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views';
   service_id: string;
   link: string;
   quantity: number;
@@ -27,6 +27,9 @@ export default async function handler(
   }
 
   try {
+    // Log du body reçu pour debug
+    console.log('🔍 Body reçu:', JSON.stringify(req.body, null, 2));
+    
     const {
       action,
       service_id,
@@ -36,6 +39,17 @@ export default async function handler(
       interval,
       order_id
     }: SMMAOrderRequest = req.body;
+    
+    // Log des paramètres extraits
+    console.log('🔍 Paramètres extraits:', {
+      action,
+      service_id,
+      link: link ? link.substring(0, 50) + '...' : 'UNDEFINED',
+      quantity,
+      runs,
+      interval,
+      order_id
+    });
 
     // Validation des paramètres
     if (!action || !service_id || !link || !quantity || !order_id) {
@@ -142,9 +156,14 @@ export default async function handler(
 
   } catch (error) {
     console.error('❌ Erreur serveur SMMA:', error);
+    console.error('❌ Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
+    console.error('❌ Error type:', typeof error);
+    console.error('❌ Error constructor:', error?.constructor?.name);
+    
     return res.status(500).json({
       error: 'Internal server error',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      message: error instanceof Error ? error.message : 'Unknown error',
+      type: error?.constructor?.name || typeof error
     });
   }
 }

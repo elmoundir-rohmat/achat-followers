@@ -56,7 +56,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     const cardinityStatus = urlParams.get('status');
     
     if (cardinityOrderId && cardinityStatus === 'approved') {
-      console.log('🎯 Paramètres Cardinity détectés, déclenchement SMMA immédiat...');
+      console.log('🎯 Paramètres Cardinity détectés, traitement de la commande...');
       console.log('🔍 Paramètres détectés:', {
         cardinityOrderId,
         cardinityStatus,
@@ -79,7 +79,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         try {
           const results = JSON.parse(savedSmmaResults);
           setSmmaResults(results);
-          console.log('📊 Résultats SMMA récupérés:', results);
+          console.log('📊 Résultats récupérés:', results);
           // Nettoyer le localStorage
           localStorage.removeItem('smmaResults');
         } catch (error) {
@@ -93,7 +93,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
   }, []);
 
   const processSMMAIntegrationWithCardinity = async (orderId: string, paymentId: string) => {
-    console.log('🚀 Déclenchement de l\'intégration SMMA avec Cardinity...', { orderId, paymentId });
+    console.log('🚀 Traitement de la commande avec Cardinity...', { orderId, paymentId });
     setIsProcessingSMMA(true);
     
     try {
@@ -128,7 +128,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             const likesMatch = description.match(/(\d+)\s*likes/i);
             quantity = likesMatch ? parseInt(likesMatch[1]) : 50;
           } else if (description.toLowerCase().includes('commentaires') || description.toLowerCase().includes('comments')) {
-            serviceType = 'comments';
+            serviceType = platform === 'TikTok' ? 'tiktok_comments' : 'comments';
             const commentsMatch = description.match(/(\d+)\s*(commentaires|comments)/i);
             quantity = commentsMatch ? parseInt(commentsMatch[1]) : 10;
           } else if (description.toLowerCase().includes('vues') || description.toLowerCase().includes('views')) {
@@ -246,7 +246,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           };
       }
 
-      console.log('📦 Commande SMMA créée depuis Cardinity:', smmaOrder);
+      console.log('📦 Commande créée depuis Cardinity:', smmaOrder);
 
       // Envoyer la commande SMMA selon le type de service
       let smmaResult;
@@ -260,6 +260,10 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           break;
         case 'comments':
           smmaResult = await smmaServiceClient.orderComments(smmaOrder);
+          break;
+        case 'tiktok_comments':
+          console.log('💬 TikTok Comments détecté');
+          smmaResult = await smmaServiceClient.orderTikTokComments(smmaOrder);
           break;
         case 'views':
           smmaResult = await smmaServiceClient.orderViews(smmaOrder);
@@ -277,7 +281,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           smmaResult = await smmaServiceClient.orderFollowers(smmaOrder);
       }
       
-      console.log('📊 Résultat SMMA:', smmaResult);
+      console.log('📊 Résultat:', smmaResult);
       setSmmaResults([smmaResult]);
       
       // Nettoyer le localStorage après succès
@@ -295,7 +299,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
   const processSMMAIntegration = async () => {
     if (!orderDetails || isProcessingSMMA) return;
     
-    console.log('🚀 Déclenchement de l\'intégration SMMA...');
+    console.log('🚀 Traitement de la commande...');
     setIsProcessingSMMA(true);
     
     try {
@@ -327,7 +331,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           };
         });
 
-        console.log('📦 Commandes SMMA à traiter:', smmaOrders);
+        console.log('📦 Commandes à traiter:', smmaOrders);
 
         // Traiter chaque commande SMMA selon la plateforme
         const smmaResults = await Promise.all(
@@ -342,7 +346,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           })
         );
 
-        console.log('📊 Résultats SMMA:', smmaResults);
+        console.log('📊 Résultats:', smmaResults);
         setSmmaResults(smmaResults);
         
         // Nettoyer le panier
@@ -366,7 +370,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
 
   // Fonction de test pour déclencher manuellement l'intégration SMMA
   const testSMMAIntegration = async () => {
-    console.log('🧪 Test manuel de l\'intégration SMMA...');
+    console.log('🧪 Test manuel du traitement...');
     
     const testOrder = {
       username: 'test_user',
@@ -378,7 +382,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
 
     try {
             const result = await smmaServiceClient.orderFollowers(testOrder);
-      console.log('🧪 Résultat du test SMMA:', result);
+      console.log('🧪 Résultat du test:', result);
       setSmmaResults([result]);
     } catch (error) {
       console.error('🧪 Erreur test SMMA:', error);
@@ -470,7 +474,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
                 </h3>
               </div>
               <div className="text-center text-sm text-gray-700">
-                <p>🚀 Transmission à Just Another Panel en cours...</p>
+                <p>🚀 Transmission de votre commande en cours...</p>
                 <p>⏱️ Veuillez patienter quelques instants</p>
               </div>
             </div>
@@ -482,7 +486,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
               <div className="flex items-center justify-center mb-3">
                 <Users className="w-6 h-6 text-green-600 mr-2" />
                 <h3 className="text-lg font-bold text-green-600">
-                  Commande transmise à Just Another Panel
+                  Commande transmise avec succès
                 </h3>
               </div>
               
@@ -491,7 +495,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
                   smmaResults.map((result: any, index: number) => (
                     <div key={index} className="p-3 bg-white rounded-lg">
                       <p><strong>Commande #{index + 1}:</strong></p>
-                      <p>• ID SMMA: {result.id || 'En cours...'}</p>
+                      <p>• ID de commande: {result.id || 'En cours...'}</p>
                       <p>• Statut: {result.status || 'Traitement en cours'}</p>
                       {result.error && (
                         <p className="text-red-600">• Erreur: {result.error}</p>

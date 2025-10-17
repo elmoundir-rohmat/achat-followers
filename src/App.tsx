@@ -84,7 +84,7 @@ function AppContent() {
         
         if (status === 'approved') {
           console.log('✅ Paiement Cardinity approuvé - Navigation vers page de succès');
-          console.log('📋 Données pour SMMA:', {
+          console.log('📋 Données de commande:', {
             orderId,
             paymentId,
             status,

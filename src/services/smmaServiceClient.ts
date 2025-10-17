@@ -10,7 +10,7 @@ export interface SMMAOrder {
   username: string;
   followers: number;
   followerType: 'french' | 'international'; // SEULEMENT pour les followers
-  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes'; // Type de service
+  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views'; // Type de service
   orderId: string;
   paymentId: string;
   postId?: string;
@@ -38,14 +38,14 @@ class SMMAServiceClient {
    */
   async orderFollowers(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA (client → serveur):', order);
+      console.log('🚀 Envoi de la commande (client → serveur):', order);
 
       const serviceId = getSMMAServiceId(order.followerType);
       
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour le type: ${order.followerType}`
+          error: `Service non trouvé pour le type: ${order.followerType}`
         };
       }
 
@@ -104,7 +104,7 @@ class SMMAServiceClient {
    */
   async orderLikes(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA likes (client → serveur):', order);
+      console.log('🚀 Envoi de la commande likes (client → serveur):', order);
 
       // Utiliser la nouvelle méthode avec serviceType et followerType séparés
       const serviceId = getServiceId(order.serviceType, order.followerType);
@@ -112,7 +112,7 @@ class SMMAServiceClient {
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour les likes ${order.followerType}`
+          error: `Service non trouvé pour les likes ${order.followerType}`
         };
       }
 
@@ -160,7 +160,7 @@ class SMMAServiceClient {
    */
   async orderComments(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA commentaires (client → serveur):', order);
+      console.log('🚀 Envoi de la commande commentaires (client → serveur):', order);
 
       // Utiliser la nouvelle méthode avec serviceType et followerType séparés
       const serviceId = getServiceId(order.serviceType, order.followerType);
@@ -168,7 +168,7 @@ class SMMAServiceClient {
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour les commentaires ${order.followerType}`
+          error: `Service non trouvé pour les commentaires ${order.followerType}`
         };
       }
 
@@ -216,7 +216,7 @@ class SMMAServiceClient {
    */
   async orderViews(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA vues (client → serveur):', order);
+      console.log('🚀 Envoi de la commande vues (client → serveur):', order);
 
       // Utiliser la nouvelle méthode avec serviceType et followerType séparés
       const serviceId = getServiceId(order.serviceType, order.followerType);
@@ -224,7 +224,7 @@ class SMMAServiceClient {
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour les vues ${order.followerType}`
+          error: `Service non trouvé pour les vues ${order.followerType}`
         };
       }
 
@@ -272,7 +272,7 @@ class SMMAServiceClient {
    */
   async orderTikTokFollowers(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA TikTok (client → serveur):', order);
+      console.log('🚀 Envoi de la commande TikTok (client → serveur):', order);
       console.log('🔍 DEBUG order.followerType:', order.followerType);
       
       // Utiliser getServiceId avec 'tiktok_followers' pour obtenir le bon service ID (9583)
@@ -280,8 +280,8 @@ class SMMAServiceClient {
       console.log('🔍 DEBUG serviceId retourné:', serviceId);
       
       if (!serviceId) {
-        console.error('❌ Service SMMA non trouvé !');
-        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_followers ${order.followerType}` };
+        console.error('❌ Service non trouvé !');
+        return { success: false, error: `Service non trouvé pour le type: tiktok_followers ${order.followerType}` };
       }
 
       console.log('✅ Service ID TikTok Followers:', serviceId);
@@ -336,12 +336,12 @@ class SMMAServiceClient {
    */
   async orderTikTokViews(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA TikTok Views (client → serveur):', order);
+      console.log('🚀 Envoi de la commande TikTok Views (client → serveur):', order);
       
       // Utiliser getServiceId avec 'tiktok_views' pour obtenir le bon service ID (4412)
       const serviceId = getServiceId('tiktok_views', order.followerType);
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_views ${order.followerType}` };
+        return { success: false, error: `Service non trouvé pour le type: tiktok_views ${order.followerType}` };
       }
 
       console.log('✅ Service ID TikTok Views:', serviceId);
@@ -355,7 +355,7 @@ class SMMAServiceClient {
           action: 'tiktok_views',
           service_id: serviceId.toString(),
           link: order.username, // URL complète de la vidéo TikTok (ex: https://tiktok.com/@user/video/123456)
-          quantity: order.views || order.followers, // ✅ Utiliser views pour TikTok Views
+          quantity: order.viewsToAdd || order.followers, // ✅ Utiliser viewsToAdd pour TikTok Views
           runs: order.runs,
           interval: order.interval,
           order_id: order.orderId
@@ -392,12 +392,12 @@ class SMMAServiceClient {
    */
   async orderTikTokLikes(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA TikTok Likes (client → serveur):', order);
+      console.log('🚀 Envoi de la commande TikTok Likes (client → serveur):', order);
       
       // Utiliser getServiceId avec 'tiktok_likes' pour obtenir le bon service ID (4174)
       const serviceId = getServiceId('tiktok_likes', order.followerType);
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_likes ${order.followerType}` };
+        return { success: false, error: `Service non trouvé pour le type: tiktok_likes ${order.followerType}` };
       }
 
       console.log('✅ Service ID TikTok Likes:', serviceId);
@@ -411,7 +411,7 @@ class SMMAServiceClient {
           action: 'tiktok_likes',
           service_id: serviceId.toString(),
           link: order.username, // URL complète de la vidéo TikTok (ex: https://tiktok.com/@user/video/123456)
-          quantity: order.followers,
+          quantity: order.likesToAdd || order.followers,
           runs: order.runs,
           interval: order.interval,
           order_id: order.orderId
@@ -436,6 +436,62 @@ class SMMAServiceClient {
 
     } catch (error) {
       console.error('❌ Erreur lors de l\'appel API route (TikTok Likes):', error);
+      return {
+        success: false,
+        error: 'Erreur de connexion avec le serveur'
+      };
+    }
+  }
+
+  /**
+   * Commande des commentaires TikTok
+   */
+  async orderTikTokComments(order: SMMAOrder): Promise<SMMAResponse> {
+    try {
+      console.log('🚀 Envoi de la commande TikTok Comments (client → serveur):', order);
+      
+      // Utiliser getServiceId avec 'tiktok_comments' pour obtenir le bon service ID
+      const serviceId = getServiceId('tiktok_comments', order.followerType);
+      if (!serviceId) {
+        return { success: false, error: `Service non trouvé pour le type: tiktok_comments ${order.followerType}` };
+      }
+
+      console.log('✅ Service ID TikTok Comments:', serviceId);
+
+      const response = await fetch('/api/smma/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'tiktok_comments',
+          service_id: serviceId.toString(),
+          link: order.username, // URL complète de la vidéo TikTok
+          quantity: order.commentsToAdd || order.followers,
+          runs: order.runs,
+          interval: order.interval,
+          order_id: order.orderId
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return {
+          success: false,
+          error: errorData.error || `HTTP error ${response.status}`
+        };
+      }
+
+      const data = await response.json();
+      return {
+        success: data.success,
+        order_id: data.order_id,
+        smma_order_id: data.smma_order_id,
+        message: data.message
+      };
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'appel API route (TikTok Comments):', error);
       return {
         success: false,
         error: 'Erreur de connexion avec le serveur'

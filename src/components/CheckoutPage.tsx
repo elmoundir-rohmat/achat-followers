@@ -209,22 +209,26 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         console.log('🔍 DEBUG item:', item);
         
         // ✅ Détecter le serviceType selon la plateforme ET le type de service
-        let serviceType: string;
+        let serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views';
         if (item.platform === 'TikTok') {
-          // Pour TikTok : détecter si c'est des likes, vues ou followers
+          // Pour TikTok : détecter si c'est des likes, vues, commentaires ou followers
           if (item.likes && item.likes > 0) {
             serviceType = 'tiktok_likes';
           } else if (item.views && item.views > 0) {
             serviceType = 'tiktok_views';
+          } else if (item.comments && item.comments > 0) {
+            serviceType = 'tiktok_comments';
           } else {
             serviceType = 'tiktok_followers';
           }
         } else {
-          // Pour Instagram : détecter si c'est des likes, vues ou followers
+          // Pour Instagram : détecter si c'est des likes, vues, commentaires ou followers
           if (item.likes && item.likes > 0) {
             serviceType = 'likes';
           } else if (item.views && item.views > 0) {
             serviceType = 'views';
+          } else if (item.comments && item.comments > 0) {
+            serviceType = 'comments';
           } else {
             serviceType = 'followers';
           }
@@ -241,7 +245,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         };
       });
 
-      console.log('📦 Commandes SMMA à traiter:', smmaOrders);
+      console.log('📦 Commandes à traiter:', smmaOrders);
 
       // Traiter chaque commande SMMA selon la plateforme et le type de service
       const smmaResults = await Promise.all(
@@ -255,12 +259,18 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           } else if (order.serviceType === 'tiktok_views') {
             console.log('👁️ Commande TikTok Views détectée - utilisation de orderTikTokViews');
             return smmaServiceClient.orderTikTokViews(order);
+          } else if (order.serviceType === 'tiktok_comments') {
+            console.log('💬 Commande TikTok Comments détectée - utilisation de orderTikTokComments');
+            return smmaServiceClient.orderTikTokComments(order);
           } else if (order.serviceType === 'likes') {
             console.log('📸 Commande Instagram Likes détectée - utilisation de orderLikes');
             return smmaServiceClient.orderLikes(order);
           } else if (order.serviceType === 'views') {
             console.log('📸 Commande Instagram Views détectée - utilisation de orderViews');
             return smmaServiceClient.orderViews(order);
+          } else if (order.serviceType === 'comments') {
+            console.log('💬 Commande Instagram Comments détectée - utilisation de orderComments');
+            return smmaServiceClient.orderComments(order);
           } else {
             console.log('📸 Commande Instagram Followers détectée - utilisation de orderFollowers');
             return smmaServiceClient.orderFollowers(order);
@@ -268,7 +278,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         })
       );
 
-      console.log('📊 Résultats SMMA:', smmaResults);
+      console.log('📊 Résultats:', smmaResults);
       setSmmaResult(smmaResults);
 
       // Préparer les données de commande complètes
@@ -379,7 +389,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
                   <span className="text-blue-700 font-medium">
-                    Traitement de votre commande avec la plateforme SMMA...
+                    Traitement de votre commande en cours...
                   </span>
                 </div>
               </div>
@@ -388,7 +398,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
             {/* Résultats SMMA */}
             {smmaResult && !isProcessingSMMA && (
               <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
-                <h4 className="font-bold text-green-800 mb-2">✅ Commandes SMMA traitées</h4>
+                <h4 className="font-bold text-green-800 mb-2">✅ Commandes traitées</h4>
                 {Array.isArray(smmaResult) ? (
                   smmaResult.map((result, index) => (
                     <div key={index} className="text-sm text-green-700 mb-1">

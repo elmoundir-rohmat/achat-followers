@@ -99,14 +99,14 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
         };
       });
 
-      console.log('📦 Commandes SMMA TikTok à traiter:', smmaOrders);
+      console.log('📦 Commandes TikTok à traiter:', smmaOrders);
 
       // Traiter chaque commande SMMA TikTok
       const smmaResults = await Promise.all(
         smmaOrders.map(order => smmaServiceClient.orderTikTokFollowers(order))
       );
 
-      console.log('📊 Résultats SMMA TikTok:', smmaResults);
+      console.log('📊 Résultats TikTok:', smmaResults);
       setSmmaResult(smmaResults);
 
       // Préparer les données de commande complètes

@@ -10,6 +10,8 @@ export interface CartItem {
   followerType: 'french' | 'international';
   username?: string;
   platform?: string;
+  serviceId?: number;
+  delivery?: any; // Pour les options de livraison TikTok
   deliveryOption?: {
     runs: number;
     interval: number;
@@ -62,7 +64,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
       const savedCart = localStorage.getItem('doctor-followers-cart');
-      return savedCart ? JSON.parse(savedCart) : [];
+      const parsedCart = savedCart ? JSON.parse(savedCart) : [];
+      console.log('🔍 CartProvider - Panier chargé depuis localStorage:', parsedCart);
+      return parsedCart;
     } catch (error) {
       console.error('Erreur lors du chargement du panier:', error);
       return [];
@@ -72,20 +76,31 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Fonction pour sauvegarder le panier dans localStorage
   const saveCartToStorage = (cartItems: CartItem[]) => {
     try {
+      console.log('🔍 CartProvider - Sauvegarde du panier:', cartItems);
       localStorage.setItem('doctor-followers-cart', JSON.stringify(cartItems));
+      console.log('✅ CartProvider - Panier sauvegardé dans localStorage');
     } catch (error) {
       console.error('Erreur lors de la sauvegarde du panier:', error);
     }
   };
 
   const addToCart = (item: Omit<CartItem, 'id'>) => {
+    console.log('🔍 CartContext - addToCart appelé avec:', item);
+    
     const newItem: CartItem = {
       ...item,
       id: `${item.followers || item.likes || item.comments || item.views || 0}-${item.followerType}-${Date.now()}`
     };
+    
+    console.log('🔍 CartContext - Nouvel item créé:', newItem);
+    
     const newItems = [...items, newItem];
+    console.log('🔍 CartContext - Nouveaux items:', newItems);
+    
     setItems(newItems);
     saveCartToStorage(newItems);
+    
+    console.log('✅ CartContext - Item ajouté au panier et sauvegardé');
   };
 
   const addToCartWithPosts = (item: Omit<CartItem, 'id'>, selectedPosts?: Array<{postId: string; likesToAdd?: number; commentsToAdd?: number; viewsToAdd?: number; mediaUrl?: string}>) => {

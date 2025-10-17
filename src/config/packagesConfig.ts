@@ -286,10 +286,72 @@ export const TIKTOK_VIEWS_PACKAGES: PackageConfig[] = [
   { id: '250000', quantity: 250000, priceInternational: 99.00, priceFrench: 198.00, features: ['Livraison instantanée', 'Vues massives', 'Garantie 30j', 'Support VIP', 'Bonus exclusif'], delivery: 'Instantané' }
 ];
 
+// Packages pour les commentaires TikTok
+export const TIKTOK_COMMENTS_PACKAGES: PackageConfig[] = [
+  {
+    id: '10',
+    quantity: 10,
+    priceInternational: 3.95,
+    priceFrench: 7.90,
+    features: ['Livraison rapide', 'Commentaires réels', 'Garantie 30j'],
+    delivery: '6-12h'
+  },
+  {
+    id: '25',
+    quantity: 25,
+    priceInternational: 8.95,
+    priceFrench: 17.90,
+    features: ['Livraison progressive', 'Commentaires actifs', 'Garantie 30j'],
+    delivery: '12-24h'
+  },
+  {
+    id: '50',
+    quantity: 50,
+    priceInternational: 11.95,
+    priceFrench: 23.90,
+    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '24-48h',
+    popular: true
+  },
+  {
+    id: '100',
+    quantity: 100,
+    priceInternational: 19.95,
+    priceFrench: 39.90,
+    features: ['Livraison progressive', 'Commentaires premium', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h',
+    popular: true
+  },
+  {
+    id: '250',
+    quantity: 250,
+    priceInternational: 49.95,
+    priceFrench: 99.90,
+    features: ['Livraison naturelle', 'Commentaires vérifiés', 'Garantie 30j', 'Bonus engagement'],
+    delivery: '5-7 jours'
+  },
+  {
+    id: '500',
+    quantity: 500,
+    priceInternational: 84.95,
+    priceFrench: 169.90,
+    features: ['Livraison premium', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'],
+    delivery: '7-10 jours'
+  },
+  {
+    id: '1000',
+    quantity: 1000,
+    priceInternational: 149.00,
+    priceFrench: 298.00,
+    features: ['Livraison VIP', 'Commentaires haut de gamme', 'Garantie 30j', 'Service personnalisé'],
+    delivery: '10-15 jours'
+  }
+];
+
 /**
  * Obtenir les packages selon le type de service
  */
-export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views'): PackageConfig[] {
+export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments'): PackageConfig[] {
   switch (serviceType) {
     case 'followers':
       return FOLLOWERS_PACKAGES;
@@ -301,6 +363,8 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
       return VIEWS_PACKAGES;
     case 'tiktok_views':
       return TIKTOK_VIEWS_PACKAGES;
+    case 'tiktok_comments':
+      return TIKTOK_COMMENTS_PACKAGES;
     default:
       return FOLLOWERS_PACKAGES;
   }
@@ -309,7 +373,10 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
 /**
  * Obtenir le prix d'un package selon le type de follower
  */
-export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views', followerType: 'french' | 'international'): number {
+export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments', followerType: 'french' | 'international'): number {
+  // Retourner 0 immédiatement si packageId est vide
+  if (!packageId) return 0;
+  
   const packages = getPackagesForService(serviceType);
   console.log('🔍 getPackagePrice debug:', {
     packageId,
@@ -336,7 +403,10 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
 /**
  * Obtenir la quantité d'un package
  */
-export function getPackageQuantity(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views'): number {
+export function getPackageQuantity(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments'): number {
+  // Retourner 0 immédiatement si packageId est vide
+  if (!packageId) return 0;
+  
   const packages = getPackagesForService(serviceType);
   const pkg = packages.find(p => p.id === packageId);
   

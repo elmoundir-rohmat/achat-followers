@@ -20,11 +20,12 @@ interface Props {
   isComments?: boolean;
   isViews?: boolean;
   isTikTokViews?: boolean;
+  isTikTokComments?: boolean;
 }
 
-export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false, isComments = false, isViews = false, isTikTokViews = false }: Props) {
+export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false, isComments = false, isViews = false, isTikTokViews = false, isTikTokComments = false }: Props) {
   // Déterminer le type de service
-  const serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' = isTikTokViews ? 'tiktok_views' : isViews ? 'views' : isComments ? 'comments' : isLikes ? 'likes' : 'followers';
+  const serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments' = isTikTokComments ? 'tiktok_comments' : isTikTokViews ? 'tiktok_views' : isViews ? 'views' : isComments ? 'comments' : isLikes ? 'likes' : 'followers';
   
   // Obtenir les packages depuis la configuration centralisée
   const packagesConfig = getPackagesForService(serviceType);

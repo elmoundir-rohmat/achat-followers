@@ -15,6 +15,7 @@ import InstagramViewsPage from './components/InstagramViewsPage';
 import TikTokFollowersPage from './components/TikTokFollowersPage';
 import TikTokLikesPage from './components/TikTokLikesPage';
 import TikTokViewsPage from './components/TikTokViewsPage';
+import TikTokCommentsPage from './components/TikTokCommentsPage';
 import LegalPage from './components/LegalPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
@@ -564,18 +565,7 @@ function AppContent() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <ModernNavigation onNavigate={handleNavigate} />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center text-white">
-            <h1 className="text-4xl font-bold mb-4">TikTok Comments</h1>
-            <p className="text-xl mb-8">Page en cours de développement</p>
-            <button
-              onClick={() => handleNavigate('home')}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Retour à l'accueil
-            </button>
-          </div>
-        </div>
+        <TikTokCommentsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
       </div>
     );

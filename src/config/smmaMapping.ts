@@ -2,7 +2,7 @@
 // L'ID correspond au type de service, pas à la quantité
 
 export interface SMMAServiceMapping {
-  followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international' | 'tiktok_comments_french' | 'tiktok_comments_international';
+  followerType: 'french' | 'international' | 'likes_french' | 'likes_international' | 'comments_french' | 'comments_international' | 'views_french' | 'views_international' | 'tiktok_french' | 'tiktok_international' | 'tiktok_likes_french' | 'tiktok_likes_international' | 'tiktok_views_french' | 'tiktok_views_international' | 'tiktok_comments_french' | 'tiktok_comments_international';
   smmaServiceId: number;
   description: string;
 }
@@ -81,12 +81,12 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   },
   {
     followerType: 'tiktok_comments_international',
-    smmaServiceId: 7118, // Service TikTok commentaires internationaux
+    smmaServiceId: 6474, // Service TikTok commentaires internationaux
     description: 'TikTok commentaires internationaux'
   },
   {
     followerType: 'tiktok_comments_french',
-    smmaServiceId: 7118, // Service TikTok commentaires français (même service)
+    smmaServiceId: 6474, // Service TikTok commentaires français (même service)
     description: 'TikTok commentaires français'
   }
 ];

@@ -99,6 +99,14 @@ export default async function handler(
       link: link,
       quantity: quantity.toString()
     };
+    
+    // ✅ DEBUG SPÉCIAL : Vérifier la conversion de quantité pour TikTok Comments
+    if (action === 'tiktok_comments') {
+      console.log('🔍 DEBUG API Route - quantity avant conversion:', quantity);
+      console.log('🔍 DEBUG API Route - quantity.toString():', quantity.toString());
+      console.log('🔍 DEBUG API Route - typeof quantity.toString():', typeof quantity.toString());
+      console.log('🔍 DEBUG API Route - params.quantity:', params.quantity);
+    }
 
     // Ajouter les paramètres optionnels (drip feed pour TikTok)
     if (runs && runs > 1) {
@@ -112,6 +120,15 @@ export default async function handler(
       ...params,
       key: smmaApiKey ? `${smmaApiKey.substring(0, 10)}...` : 'NOT_SET'
     });
+    
+    // ✅ DEBUG SPÉCIAL : Vérifier les paramètres finaux pour TikTok Comments
+    if (action === 'tiktok_comments') {
+      console.log('🔍 DEBUG API Route - Paramètres finaux TikTok Comments:');
+      console.log('🔍 DEBUG API Route - service:', params.service);
+      console.log('🔍 DEBUG API Route - quantity:', params.quantity);
+      console.log('🔍 DEBUG API Route - link:', params.link);
+      console.log('🔍 DEBUG API Route - action:', params.action);
+    }
 
     // Appel API SMMA
     console.log('🌐 URL JustAnotherPanel:', smmaApiUrl);

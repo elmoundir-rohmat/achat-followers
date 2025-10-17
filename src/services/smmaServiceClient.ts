@@ -466,6 +466,7 @@ class SMMAServiceClient {
       }
 
       console.log('✅ Service ID TikTok Comments:', serviceId);
+      console.log('🔍 DEBUG - Nouveau service ID 6474 utilisé');
 
       const requestBody = {
         action: 'tiktok_comments',

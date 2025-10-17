@@ -96,6 +96,7 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
     console.log('🔍 DEBUG TikTokCommentsPage - normalizedUrl:', normalizedUrl);
     
     const cartItem = {
+      followers: 0, // ✅ Ajouter la propriété followers requise
       comments: commentsQuantity,
       price: totalPrice,
       followerType: followerType as 'french' | 'international',

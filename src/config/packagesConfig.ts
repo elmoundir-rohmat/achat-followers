@@ -10,21 +10,13 @@ export interface PackageConfig {
   popular?: boolean;
 }
 
-// Packages pour les followers Instagram
-export const FOLLOWERS_PACKAGES: PackageConfig[] = [
-  {
-    id: '50',
-    quantity: 50,
-    priceInternational: 1.99,
-    priceFrench: 3.98,
-    features: ['Livraison rapide', 'Profils réels', 'Garantie 30j'],
-    delivery: '6-12h'
-  },
+// Packages pour les followers Instagram internationaux
+export const FOLLOWERS_PACKAGES_INTERNATIONAL: PackageConfig[] = [
   {
     id: '100',
     quantity: 100,
-    priceInternational: 2.95,
-    priceFrench: 5.90,
+    priceInternational: 4.95,
+    priceFrench: 3.98,
     features: ['Livraison progressive', 'Profils actifs', 'Garantie 30j'],
     delivery: '12-24h'
   },
@@ -39,7 +31,7 @@ export const FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
     id: '500',
     quantity: 500,
-    priceInternational: 8.95,
+    priceInternational: 12.95,
     priceFrench: 17.90,
     features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
     delivery: '24-48h',
@@ -48,7 +40,7 @@ export const FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
     id: '1000',
     quantity: 1000,
-    priceInternational: 14.95,
+    priceInternational: 19.95,
     priceFrench: 29.90,
     features: ['Livraison progressive', 'Profils premium', 'Garantie 30j', 'Remplacement gratuit'],
     delivery: '24-72h',
@@ -57,7 +49,7 @@ export const FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
     id: '5000',
     quantity: 5000,
-    priceInternational: 49.95,
+    priceInternational: 89.95,
     priceFrench: 99.90,
     features: ['Livraison naturelle', 'Profils vérifiés', 'Garantie 30j', 'Bonus engagement'],
     delivery: '5-7 jours'
@@ -65,7 +57,7 @@ export const FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
     id: '10000',
     quantity: 10000,
-    priceInternational: 97.00,
+    priceInternational: 149.95,
     priceFrench: 194.00,
     features: ['Livraison premium', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'],
     delivery: '7-10 jours'
@@ -73,12 +65,74 @@ export const FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
     id: '25000',
     quantity: 25000,
-    priceInternational: 229.00,
+    priceInternational: 249.95,
     priceFrench: 458.00,
     features: ['Livraison VIP', 'Profils haut de gamme', 'Garantie 30j', 'Service personnalisé'],
     delivery: '10-15 jours'
+  },
+  {
+    id: '50000',
+    quantity: 50000,
+    priceInternational: 449.95,
+    priceFrench: 458.00,
+    features: ['Livraison VIP', 'Profils haut de gamme', 'Garantie 30j', 'Service personnalisé', 'Manager dédié'],
+    delivery: '15-20 jours'
   }
 ];
+
+// Packages pour les followers Instagram français
+export const FOLLOWERS_PACKAGES_FRENCH: PackageConfig[] = [
+  {
+    id: '100',
+    quantity: 100,
+    priceInternational: 4.95,
+    priceFrench: 14.95,
+    features: ['Livraison progressive', 'Profils actifs', 'Garantie 30j'],
+    delivery: '12-24h'
+  },
+  {
+    id: '250',
+    quantity: 250,
+    priceInternational: 6.95,
+    priceFrench: 29.95,
+    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j'],
+    delivery: '24-48h'
+  },
+  {
+    id: '500',
+    quantity: 500,
+    priceInternational: 12.95,
+    priceFrench: 54.95,
+    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '24-48h',
+    popular: true
+  },
+  {
+    id: '1000',
+    quantity: 1000,
+    priceInternational: 19.95,
+    priceFrench: 99.95,
+    features: ['Livraison progressive', 'Profils premium', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h',
+    popular: true
+  },
+  {
+    id: '2500',
+    quantity: 2500,
+    priceInternational: 19.95,
+    priceFrench: 199.95,
+    features: ['Livraison sécurisée', 'Profils premium', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '48-72h'
+  }
+];
+
+// Fonction pour obtenir les packages selon le type
+export const getFollowersPackages = (followerType: 'international' | 'french'): PackageConfig[] => {
+  return followerType === 'french' ? FOLLOWERS_PACKAGES_FRENCH : FOLLOWERS_PACKAGES_INTERNATIONAL;
+};
+
+// Garder l'ancien tableau pour la compatibilité (déprécié)
+export const FOLLOWERS_PACKAGES: PackageConfig[] = FOLLOWERS_PACKAGES_INTERNATIONAL;
 
 // Packages pour les likes Instagram
 export const LIKES_PACKAGES: PackageConfig[] = [
@@ -351,10 +405,10 @@ export const TIKTOK_COMMENTS_PACKAGES: PackageConfig[] = [
 /**
  * Obtenir les packages selon le type de service
  */
-export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments'): PackageConfig[] {
+export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international'): PackageConfig[] {
   switch (serviceType) {
     case 'followers':
-      return FOLLOWERS_PACKAGES;
+      return followerType ? getFollowersPackages(followerType) : FOLLOWERS_PACKAGES_INTERNATIONAL;
     case 'likes':
       return LIKES_PACKAGES;
     case 'comments':
@@ -366,7 +420,7 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
     case 'tiktok_comments':
       return TIKTOK_COMMENTS_PACKAGES;
     default:
-      return FOLLOWERS_PACKAGES;
+      return FOLLOWERS_PACKAGES_INTERNATIONAL;
   }
 }
 
@@ -377,7 +431,7 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
   // Retourner 0 immédiatement si packageId est vide
   if (!packageId) return 0;
   
-  const packages = getPackagesForService(serviceType);
+  const packages = getPackagesForService(serviceType, followerType);
   console.log('🔍 getPackagePrice debug:', {
     packageId,
     serviceType,

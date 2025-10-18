@@ -28,7 +28,7 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
   const serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments' = isTikTokComments ? 'tiktok_comments' : isTikTokViews ? 'tiktok_views' : isViews ? 'views' : isComments ? 'comments' : isLikes ? 'likes' : 'followers';
   
   // Obtenir les packages depuis la configuration centralisée
-  const packagesConfig = getPackagesForService(serviceType);
+  const packagesConfig = getPackagesForService(serviceType, followerType as 'french' | 'international');
   
   // Convertir les packages de configuration en packages d'interface
   const packages: Package[] = packagesConfig.map(pkg => ({

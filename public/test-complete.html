@@ -81,8 +81,8 @@
                     { service: 'comments', type: 'international', expected: 9564 },
                     { service: 'views', type: 'french', expected: 519 },
                     { service: 'views', type: 'international', expected: 519 },
-                    { service: 'followers', type: 'french', expected: 720 },
-                    { service: 'followers', type: 'international', expected: 720 }
+                    { service: 'followers', type: 'french', expected: 6777 },
+                    { service: 'followers', type: 'international', expected: 3510 }
                 ];
 
                 let results = '<h3>Résultats du Mapping:</h3>';
@@ -94,7 +94,9 @@
                     if (test.service === 'likes') serviceId = 4343;
                     else if (test.service === 'comments') serviceId = 9564;
                     else if (test.service === 'views') serviceId = 519;
-                    else if (test.service === 'followers') serviceId = 720;
+                    else if (test.service === 'followers') {
+                        serviceId = test.type === 'international' ? 3510 : 6777;
+                    }
                     
                     const passed = serviceId === test.expected;
                     allPassed = allPassed && passed;

@@ -139,7 +139,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             // ✅ FOLLOWERS : Détecter TikTok ou Instagram
             serviceType = platform === 'TikTok' ? 'tiktok_followers' : 'followers';
             const followersMatch = description.match(/(\d+)\s*followers/i);
-            quantity = followersMatch ? parseInt(followersMatch[1]) : 25;
+            quantity = followersMatch ? parseInt(followersMatch[1]) : 50;
           }
           
           console.log('🎯 Données récupérées du panier:', {
@@ -394,7 +394,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     
     const testOrder = {
       username: 'test_user',
-      followers: 25,
+      followers: 50,
       followerType: 'international' as const,
       orderId: `TEST-${Date.now()}`,
       paymentId: `PAY-${Date.now()}`

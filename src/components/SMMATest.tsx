@@ -7,22 +7,22 @@ export default function SMMATest() {
   const [error, setError] = useState('');
   const [testType, setTestType] = useState<'followers' | 'likes'>('followers');
 
-  const testOrder720 = async () => {
+  const testOrder3510 = async () => {
     setLoading(true);
     setError('');
     setResult(null);
 
     try {
-      // Test avec l'ID 720 pour followers internationaux
+      // Test avec l'ID 3510 pour followers internationaux
       const testOrder = {
         username: 'test_user',
-        followers: 25, // Peut être 25, 100, 250, etc.
+        followers: 50, // Peut être 50, 100, 250, etc.
         followerType: 'international' as const,
         orderId: `TEST-${Date.now()}`,
         paymentId: 'test-payment-123'
       };
 
-      console.log('🧪 Test avec service ID 720:', testOrder);
+      console.log('🧪 Test avec service ID 3510:', testOrder);
       
       const response = await smmaServiceClient.orderFollowers(testOrder);
       
@@ -124,8 +124,8 @@ export default function SMMATest() {
             {testType === 'followers' ? (
               <>
                 <li>• Service: Instagram followers internationaux</li>
-                <li>• ID SMMA: 720</li>
-                <li>• Quantité: 25 followers</li>
+                <li>• ID SMMA: 3510</li>
+                <li>• Quantité: 50 followers</li>
                 <li>• Profil: @test_user</li>
                 <li>• URL: https://instagram.com/test_user</li>
               </>
@@ -143,7 +143,7 @@ export default function SMMATest() {
         </div>
 
         <button
-          onClick={testType === 'followers' ? testOrder720 : testOrder4343}
+          onClick={testType === 'followers' ? testOrder3510 : testOrder4343}
           disabled={loading}
           className={`w-full ${
             testType === 'followers' 
@@ -160,7 +160,7 @@ export default function SMMATest() {
               Test en cours...
             </span>
           ) : (
-            `Tester la commande SMMA (${testType === 'followers' ? 'ID 720' : 'ID 4343'})`
+            `Tester la commande SMMA (${testType === 'followers' ? 'ID 3510' : 'ID 4343'})`
           )}
         </button>
 

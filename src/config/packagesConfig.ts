@@ -13,10 +13,10 @@ export interface PackageConfig {
 // Packages pour les followers Instagram
 export const FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
-    id: '25',
-    quantity: 25,
-    priceInternational: 0.99,
-    priceFrench: 1.98,
+    id: '50',
+    quantity: 50,
+    priceInternational: 1.99,
+    priceFrench: 3.98,
     features: ['Livraison rapide', 'Profils réels', 'Garantie 30j'],
     delivery: '6-12h'
   },

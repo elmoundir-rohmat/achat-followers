@@ -19,7 +19,7 @@ localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
 // ❌ ÉCRASE tout ! Plus de platform, items, username...
 ```
 
-**Résultat :** Quand `PaymentSuccessPage` récupérait `pendingOrder`, il n'y avait plus `platform`, donc `platform = 'Instagram'` par défaut → Service ID 720 !
+**Résultat :** Quand `PaymentSuccessPage` récupérait `pendingOrder`, il n'y avait plus `platform`, donc `platform = 'Instagram'` par défaut → Service ID 3510 !
 
 ---
 
@@ -193,7 +193,7 @@ PaymentSuccessPage.tsx
 ## 🎉 RÉSULTAT
 
 - ✅ TikTok Followers → Service ID **9583**
-- ✅ Instagram Followers → Service ID **720**
+- ✅ Instagram Followers → Service ID **3510**
 - ✅ Données préservées à travers tout le flow
 - ✅ Fonctionne avec Cardinity en production
 

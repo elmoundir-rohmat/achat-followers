@@ -11,7 +11,7 @@
 ## 🎯 Problème Initial
 
 L'utilisateur a commandé des **TikTok Followers** mais le système a envoyé une commande à SMMA Panel pour :
-- ❌ **Service ID 720** (Instagram Followers au lieu de 9583 TikTok)
+- ❌ **Service ID 3510** (Instagram Followers au lieu de 9583 TikTok)
 - ❌ **Username : cammjersey** (un profil Instagram fictif)
 
 **Cause racine :** Le code utilisait des valeurs par défaut partout :
@@ -195,7 +195,7 @@ username = pendingOrder.username || ''; // ✅ Pas de fallback fictif
 - ✅ Validation à chaque étape du flow
 
 ### 3. **Cohérence des données**
-- ✅ Service ID correct selon la plateforme (9583 pour TikTok, 720 pour Instagram)
+- ✅ Service ID correct selon la plateforme (9583 pour TikTok, 3510 pour Instagram)
 - ✅ URL réelle de l'utilisateur transmise à SMMA
 - ✅ Plus aucune valeur fictive dans le système
 

@@ -206,18 +206,18 @@
             <h2>❌ Problème Identifié</h2>
             <div class="test-result error">
                 <h3>🐛 Bug Critique : Mauvais Service ID</h3>
-                <p><strong>Symptôme:</strong> Les commandes TikTok étaient envoyées avec le Service ID 720 (Instagram) au lieu de 9583 (TikTok Followers) ou 4174 (TikTok Likes)</p>
+                <p><strong>Symptôme:</strong> Les commandes TikTok étaient envoyées avec le Service ID 3510 (Instagram) au lieu de 9583 (TikTok Followers) ou 4174 (TikTok Likes)</p>
                 <p><strong>Impact:</strong> Les commandes TikTok ne fonctionnaient pas correctement</p>
             </div>
 
             <div class="code-block">
 <pre><span style="color: #ff6b6b">// ❌ ANCIEN CODE (INCORRECT)</span>
 <span style="color: #e83e8c">const</span> serviceId = <span style="color: #61afef">getSMMAServiceId</span>(order.followerType);
-<span style="color: #5c6370">// 'french' ou 'international' → retourne toujours 720 (Instagram)</span>
+<span style="color: #5c6370">// 'french' ou 'international' → retourne toujours 3510 (Instagram)</span>
 
 <span style="color: #ff6b6b">Résultat:</span>
-  followerType: 'international' → Service ID: <span class="highlight">720</span> ❌ (Instagram au lieu de TikTok)
-  followerType: 'french'        → Service ID: <span class="highlight">720</span> ❌ (Instagram au lieu de TikTok)</pre>
+  followerType: 'international' → Service ID: <span class="highlight">3510</span> ❌ (Instagram au lieu de TikTok)
+  followerType: 'french'        → Service ID: <span class="highlight">3510</span> ❌ (Instagram au lieu de TikTok)</pre>
             </div>
         </div>
 
@@ -271,22 +271,22 @@
                 <tbody>
                     <tr>
                         <td><strong>TikTok Followers Int.</strong></td>
-                        <td class="before">Service ID: 720<br><small>(Instagram)</small></td>
+                        <td class="before">Service ID: 3510<br><small>(Instagram)</small></td>
                         <td class="after">Service ID: 9583<br><small>(TikTok)</small></td>
                     </tr>
                     <tr>
                         <td><strong>TikTok Followers FR</strong></td>
-                        <td class="before">Service ID: 720<br><small>(Instagram)</small></td>
+                        <td class="before">Service ID: 3510<br><small>(Instagram)</small></td>
                         <td class="after">Service ID: 9583<br><small>(TikTok)</small></td>
                     </tr>
                     <tr>
                         <td><strong>TikTok Likes Int.</strong></td>
-                        <td class="before">Service ID: 720<br><small>(Instagram)</small></td>
+                        <td class="before">Service ID: 3510<br><small>(Instagram)</small></td>
                         <td class="after">Service ID: 4174<br><small>(TikTok Likes)</small></td>
                     </tr>
                     <tr>
                         <td><strong>TikTok Likes FR</strong></td>
-                        <td class="before">Service ID: 720<br><small>(Instagram)</small></td>
+                        <td class="before">Service ID: 3510<br><small>(Instagram)</small></td>
                         <td class="after">Service ID: 4174<br><small>(TikTok Likes)</small></td>
                     </tr>
                 </tbody>

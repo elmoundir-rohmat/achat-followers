@@ -8,7 +8,7 @@
 ## 🐛 Problèmes Identifiés par Test Utilisateur
 
 ### 1. **Mauvais Service ID** ❌
-- **Symptôme:** Service ID 720 (Instagram) envoyé au lieu de 9583 (TikTok Followers)
+- **Symptôme:** Service ID 3510 (Instagram) envoyé au lieu de 9583 (TikTok Followers)
 - **Cause:** Utilisation de `getSMMAServiceId()` au lieu de `getServiceId()`
 - **Impact:** Les commandes TikTok ne fonctionnaient pas
 
@@ -28,7 +28,7 @@
 **AVANT:**
 ```typescript
 const serviceId = getSMMAServiceId(order.followerType);
-// Retournait 720 pour 'french' ou 'international'
+// Retournait 3510 pour 'french' ou 'international'
 ```
 
 **APRÈS:**
@@ -43,7 +43,7 @@ console.log('✅ Service ID TikTok Followers:', serviceId);
 **AVANT:**
 ```typescript
 const serviceId = getSMMAServiceId(order.followerType);
-// Retournait 720 pour 'french' ou 'international'
+// Retournait 3510 pour 'french' ou 'international'
 ```
 
 **APRÈS:**
@@ -59,7 +59,7 @@ console.log('✅ Service ID TikTok Likes:', serviceId);
 
 | Service | Plateforme | Type | Service ID | Status |
 |---------|-----------|------|------------|---------|
-| Followers | Instagram | Int/FR | **720** | ✅ OK |
+| Followers | Instagram | Int/FR | **3510** | ✅ OK |
 | Followers | **TikTok** | Int/FR | **9583** | ✅ **CORRIGÉ** |
 | Likes | Instagram | Int/FR | **4343** | ✅ OK |
 | Likes | **TikTok** | Int/FR | **4174** | ✅ **CORRIGÉ** |

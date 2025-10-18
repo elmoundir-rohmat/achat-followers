@@ -6,7 +6,7 @@
 
 | Service | Service ID | Fonction |
 |---------|-----------|----------|
-| **Followers** | `720` | `orderFollowers()` |
+| **Followers** | `3510` | `orderFollowers()` |
 | **Likes** | `4343` | `orderLikes()` |
 | **Comments** | `9564` | `orderComments()` |
 | **Views (Reels)** | `519` | `orderViews()` |
@@ -31,7 +31,7 @@ Cherchez ces lignes dans la console (F12) :
 ✅ Service ID TikTok Followers: 9583
 
 // Pour Instagram Followers  
-✅ Service ID Instagram Followers: 720
+✅ Service ID Instagram Followers: 3510
 ```
 
 ### 2. Requête API
@@ -55,7 +55,8 @@ Cherchez cette ligne :
 
 ```typescript
 // Instagram
-{ followerType: 'international', smmaServiceId: 720 }   // Followers
+{ followerType: 'international', smmaServiceId: 3510 }   // Followers
+{ followerType: 'french', smmaServiceId: 6777 }         // Followers FR
 { followerType: 'likes_international', smmaServiceId: 4343 }  // Likes
 { followerType: 'comments_international', smmaServiceId: 9564 }  // Comments
 { followerType: 'views_international', smmaServiceId: 519 }  // Views
@@ -78,7 +79,7 @@ getServiceId('tiktok_followers', 'international')
 
 getServiceId('followers', 'international')  
 // Construit: 'international'
-// Retourne: 720 ✅
+// Retourne: 3510 ✅
 
 getServiceId('tiktok_likes', 'international')
 // Construit: 'tiktok_likes_international'
@@ -98,7 +99,7 @@ console.log(serviceId); // DOIT afficher: 9583
 ### Test 2: Instagram Followers
 ```javascript
 const serviceId = getServiceId('followers', 'international');
-console.log(serviceId); // DOIT afficher: 720
+console.log(serviceId); // DOIT afficher: 3510
 ```
 
 ### Test 3: TikTok Likes
@@ -114,7 +115,7 @@ console.log(serviceId); // DOIT afficher: 4174
 ### Erreur 1: Service ID 720 pour TikTok
 ```javascript
 // ❌ MAUVAIS
-getServiceId('followers', 'international')  // → 720
+getServiceId('followers', 'international')  // → 3510
 
 // ✅ CORRECT
 getServiceId('tiktok_followers', 'international')  // → 9583
@@ -135,7 +136,7 @@ getServiceId('tiktok_followers', 'international')
 
 ## 🔍 Débogage
 
-### Si vous voyez Service ID 720 au lieu de 9583:
+### Si vous voyez Service ID 3510 au lieu de 9583:
 
 1. **Vérifiez `platform` dans le panier:**
    ```javascript
@@ -203,7 +204,7 @@ Après un achat TikTok Followers, vous DEVEZ voir dans SMMA Panel:
 - ✅ **Link:** URL TikTok complète (https://tiktok.com/@username)
 - ✅ **Quantity:** Nombre de followers commandés
 
-**Si vous voyez Service ID 720, c'est que le cache n'a pas été vidé !**
+**Si vous voyez Service ID 3510, c'est que le cache n'a pas été vidé !**
 
 ---
 

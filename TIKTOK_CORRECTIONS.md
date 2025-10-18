@@ -8,7 +8,7 @@
 ## ❌ Problèmes Identifiés
 
 ### 1. Mauvais Service ID envoyé
-**Symptôme:** Le service envoyait le Service ID 720 (Instagram Followers) au lieu de 9583 (TikTok Followers)
+**Symptôme:** Le service envoyait le Service ID 3510 (Instagram Followers) au lieu de 9583 (TikTok Followers)
 
 **Cause:** Utilisation de `getSMMAServiceId(order.followerType)` au lieu de `getServiceId('tiktok_followers', order.followerType)`
 
@@ -28,7 +28,7 @@
 **Avant:**
 ```typescript
 const serviceId = getSMMAServiceId(order.followerType);
-// Retournait 720 pour 'french' ou 'international' (Instagram)
+// Retournait 3510 pour 'french' ou 'international' (Instagram)
 ```
 
 **Après:**
@@ -50,7 +50,7 @@ console.log('✅ Service ID TikTok Followers:', serviceId);
 **Avant:**
 ```typescript
 const serviceId = getSMMAServiceId(order.followerType);
-// Retournait 720 pour 'french' ou 'international' (Instagram)
+// Retournait 3510 pour 'french' ou 'international' (Instagram)
 ```
 
 **Après:**
@@ -214,8 +214,8 @@ https://vm.tiktok.com/XXXXXXX (short link)
 ```typescript
 // orderTikTokFollowers
 const serviceId = getSMMAServiceId(order.followerType);
-// 'french' → 720 (Instagram)
-// 'international' → 720 (Instagram)
+// 'french' → 3510 (Instagram)
+// 'international' → 3510 (Instagram)
 ```
 
 **APRÈS (✅ CORRECT):**
@@ -261,7 +261,7 @@ const order = {
 ## 🎯 Impact
 
 **Avant la correction:**
-- ❌ Toutes les commandes TikTok étaient envoyées avec le Service ID Instagram (720)
+- ❌ Toutes les commandes TikTok étaient envoyées avec le Service ID Instagram (3510)
 - ❌ Risque de commandes non traitées ou traitées incorrectement par SMMA Panel
 
 **Après la correction:**

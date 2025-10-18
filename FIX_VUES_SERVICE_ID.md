@@ -4,7 +4,7 @@
 
 Lors de l'achat de vues Instagram :
 1. ❌ Le résumé du panier affichait "0 followers" au lieu de "100 vues"
-2. ❌ La commande était envoyée vers le service ID **720** (followers) au lieu de **519** (vues)
+2. ❌ La commande était envoyée vers le service ID **3510** (followers) au lieu de **519** (vues)
 3. ❌ L'endpoint était "just another panel" au lieu du bon service de vues
 
 ## 🔍 Cause Racine
@@ -61,7 +61,7 @@ PaymentSuccessPage.tsx (ligne 130)
 
 | Type de Service | Service ID | Description |
 |----------------|-----------|-------------|
-| **Followers** | 720 | Instagram followers (FR + INT) |
+| **Followers** | 3510 | Instagram followers internationaux |
 | **Likes** | 4343 | Instagram likes (FR + INT) |
 | **Comments** | 9564 | Instagram commentaires (FR + INT) |
 | **Views** | 519 | Instagram vues/reels (FR + INT) |
@@ -78,7 +78,7 @@ PaymentSuccessPage.tsx (ligne 130)
 ```
 1. Acheter 100 vues → description: "100 vues Instagram"
 2. PaymentSuccessPage cherche "views" → ❌ Ne trouve pas
-3. serviceType = 'followers' (défaut) → ❌ Service ID 720
+3. serviceType = 'followers' (défaut) → ❌ Service ID 3510
 4. Commande envoyée vers service followers → ❌ ERREUR
 ```
 

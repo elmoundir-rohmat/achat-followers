@@ -3,7 +3,7 @@
 ## 🎯 PROBLÈME RÉSOLU
 
 **Symptôme :** Vous commandiez des TikTok Followers mais le système envoyait :
-- ❌ Service ID **720** (Instagram Followers)
+- ❌ Service ID **3510** (Instagram Followers)
 - ❌ Username **@https://instagram.com/**
 
 **Cause racine :** Les données du panier (`platform: 'TikTok'`) étaient sauvegardées dans localStorage, mais les composants qui traitaient les commandes après paiement (`PaymentPage`, `PaymentSuccessPage`, `HomePage`, `PaymentSuccessPageFixed`) n'utilisaient PAS cette information pour choisir la bonne méthode SMMA.
@@ -153,7 +153,7 @@ const smmaResults = await Promise.all(
 3. **PaymentPage** ou **PaymentSuccessPage** → Récupère `cartItems` depuis localStorage
 4. **Détection** → `item.platform !== 'TikTok'` → `serviceType = 'followers'`
 5. **Appel SMMA** → `smmaServiceClient.orderFollowers(order)`
-6. **Service ID** → `getServiceId('followers', 'international')` → **720** ✅
+6. **Service ID** → `getServiceId('followers', 'international')` → **3510** ✅
 
 ---
 
@@ -199,7 +199,7 @@ console.log('🔍 DEBUG serviceId retourné:', serviceId);
 
 ### 3. **Appel de la bonne méthode SMMA**
 - ✅ TikTok → `orderTikTokFollowers()` → Service ID **9583**
-- ✅ Instagram → `orderFollowers()` → Service ID **720**
+- ✅ Instagram → `orderFollowers()` → Service ID **3510**
 
 ### 4. **Cohérence sur tous les flux**
 - ✅ `CheckoutPage` (paiement direct)
@@ -260,7 +260,7 @@ console.log('🔍 DEBUG serviceId retourné:', serviceId);
 ## 🎉 RÉSULTAT FINAL
 
 - ✅ **TikTok Followers** → Service ID **9583**
-- ✅ **Instagram Followers** → Service ID **720**
+- ✅ **Instagram Followers** → Service ID **3510**
 - ✅ **Données du panier conservées** après paiement
 - ✅ **Détection automatique** de la plateforme
 - ✅ **Logs de debug** pour diagnostic rapide

@@ -134,75 +134,138 @@ export const getFollowersPackages = (followerType: 'international' | 'french'): 
 // Garder l'ancien tableau pour la compatibilité (déprécié)
 export const FOLLOWERS_PACKAGES: PackageConfig[] = FOLLOWERS_PACKAGES_INTERNATIONAL;
 
-// Packages pour les likes Instagram
-export const LIKES_PACKAGES: PackageConfig[] = [
+// Packages pour les likes Instagram Monde (international)
+export const LIKES_PACKAGES_INTERNATIONAL: PackageConfig[] = [
   {
-    id: '25',
-    quantity: 25,
-    priceInternational: 0.49,
-    priceFrench: 0.98,
-    features: ['Livraison rapide', 'Likes réels', 'Garantie 30j'],
+    id: '50',
+    quantity: 50,
+    priceInternational: 1.99,
+    priceFrench: 1.99,
+    features: ['Livraison rapide', 'Likes mondiaux', 'Garantie 30j'],
     delivery: '6-12h'
   },
   {
     id: '100',
     quantity: 100,
-    priceInternational: 1.49,
-    priceFrench: 2.98,
-    features: ['Livraison progressive', 'Likes actifs', 'Garantie 30j'],
-    delivery: '12-24h'
+    priceInternational: 2.49,
+    priceFrench: 2.49,
+    features: ['Livraison progressive', 'Likes actifs mondiaux', 'Garantie 30j'],
+    delivery: '12-24h',
+    popular: true
   },
   {
     id: '250',
     quantity: 250,
-    priceInternational: 3.49,
-    priceFrench: 6.98,
-    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j'],
+    priceInternational: 4.99,
+    priceFrench: 4.99,
+    features: ['Livraison sécurisée', 'Engagement naturel mondial', 'Garantie 30j'],
     delivery: '24-48h'
   },
   {
     id: '500',
     quantity: 500,
-    priceInternational: 4.49,
-    priceFrench: 8.98,
-    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
+    priceInternational: 7.99,
+    priceFrench: 7.99,
+    features: ['Livraison sécurisée', 'Engagement naturel mondial', 'Garantie 30j', 'Support prioritaire'],
     delivery: '24-48h',
     popular: true
   },
   {
     id: '1000',
     quantity: 1000,
-    priceInternational: 7.49,
-    priceFrench: 14.98,
-    features: ['Livraison progressive', 'Likes premium', 'Garantie 30j', 'Remplacement gratuit'],
-    delivery: '24-72h',
+    priceInternational: 9.99,
+    priceFrench: 9.99,
+    features: ['Livraison progressive', 'Likes premium mondiaux', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h'
+  }
+];
+
+// Packages pour les likes Instagram Europe
+export const LIKES_PACKAGES_EUROPE: PackageConfig[] = [
+  {
+    id: '100',
+    quantity: 100,
+    priceInternational: 5.99,
+    priceFrench: 5.99,
+    features: ['Livraison rapide', 'Likes européens', 'Garantie 30j'],
+    delivery: '6-12h'
+  },
+  {
+    id: '250',
+    quantity: 250,
+    priceInternational: 12.99,
+    priceFrench: 12.99,
+    features: ['Livraison progressive', 'Likes actifs européens', 'Garantie 30j'],
+    delivery: '12-24h',
     popular: true
   },
   {
-    id: '5000',
-    quantity: 5000,
-    priceInternational: 24.95,
-    priceFrench: 49.90,
-    features: ['Livraison naturelle', 'Likes vérifiés', 'Garantie 30j', 'Bonus engagement'],
-    delivery: '5-7 jours'
+    id: '500',
+    quantity: 500,
+    priceInternational: 19.99,
+    priceFrench: 19.99,
+    features: ['Livraison sécurisée', 'Engagement naturel européen', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '24-48h',
+    popular: true
   },
   {
-    id: '10000',
-    quantity: 10000,
-    priceInternational: 48.95,
-    priceFrench: 97.90,
-    features: ['Livraison premium', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'],
-    delivery: '7-10 jours'
-  },
-  {
-    id: '25000',
-    quantity: 25000,
-    priceInternational: 114.95,
-    priceFrench: 229.90,
-    features: ['Livraison VIP', 'Likes haut de gamme', 'Garantie 30j', 'Service personnalisé'],
-    delivery: '10-15 jours'
+    id: '1000',
+    quantity: 1000,
+    priceInternational: 24.99,
+    priceFrench: 24.99,
+    features: ['Livraison progressive', 'Likes premium européens', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h'
   }
 ];
+
+// Packages pour les likes Instagram France
+export const LIKES_PACKAGES_FRENCH: PackageConfig[] = [
+  {
+    id: '50',
+    quantity: 50,
+    priceInternational: 3.99,
+    priceFrench: 3.99,
+    features: ['Livraison rapide', 'Likes français', 'Garantie 30j'],
+    delivery: '6-12h'
+  },
+  {
+    id: '150',
+    quantity: 150,
+    priceInternational: 7.99,
+    priceFrench: 7.99,
+    features: ['Livraison progressive', 'Likes actifs français', 'Garantie 30j'],
+    delivery: '12-24h',
+    popular: true
+  },
+  {
+    id: '250',
+    quantity: 250,
+    priceInternational: 13.99,
+    priceFrench: 13.99,
+    features: ['Livraison sécurisée', 'Engagement naturel français', 'Garantie 30j'],
+    delivery: '24-48h'
+  },
+  {
+    id: '500',
+    quantity: 500,
+    priceInternational: 24.99,
+    priceFrench: 24.99,
+    features: ['Livraison sécurisée', 'Engagement naturel français', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '24-48h',
+    popular: true
+  },
+  {
+    id: '1000',
+    quantity: 1000,
+    priceInternational: 35.99,
+    priceFrench: 35.99,
+    features: ['Livraison progressive', 'Likes premium français', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h'
+  }
+];
+
+// Garder l'ancien tableau pour la compatibilité (déprécié)
+export const LIKES_PACKAGES: PackageConfig[] = LIKES_PACKAGES_INTERNATIONAL;
 
 // Packages pour les commentaires Instagram
 export const COMMENTS_PACKAGES: PackageConfig[] = [
@@ -405,12 +468,20 @@ export const TIKTOK_COMMENTS_PACKAGES: PackageConfig[] = [
 /**
  * Obtenir les packages selon le type de service
  */
-export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international'): PackageConfig[] {
+export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international' | 'europe'): PackageConfig[] {
   switch (serviceType) {
     case 'followers':
-      return followerType ? getFollowersPackages(followerType) : FOLLOWERS_PACKAGES_INTERNATIONAL;
+      return followerType ? getFollowersPackages(followerType as 'french' | 'international') : FOLLOWERS_PACKAGES_INTERNATIONAL;
     case 'likes':
-      return LIKES_PACKAGES;
+      if (followerType === 'international') {
+        return LIKES_PACKAGES_INTERNATIONAL;
+      } else if (followerType === 'europe') {
+        return LIKES_PACKAGES_EUROPE;
+      } else if (followerType === 'french') {
+        return LIKES_PACKAGES_FRENCH;
+      } else {
+        return LIKES_PACKAGES_INTERNATIONAL; // fallback
+      }
     case 'comments':
       return COMMENTS_PACKAGES;
     case 'views':
@@ -427,7 +498,7 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
 /**
  * Obtenir le prix d'un package selon le type de follower
  */
-export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments', followerType: 'french' | 'international'): number {
+export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_views' | 'tiktok_comments', followerType: 'french' | 'international' | 'europe'): number {
   // Retourner 0 immédiatement si packageId est vide
   if (!packageId) return 0;
   

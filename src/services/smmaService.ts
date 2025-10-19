@@ -106,9 +106,17 @@ class SMMAService {
     try {
       console.log('🚀 Envoi de la commande SMMA (likes):', order);
 
-      // Pour les likes, nous utilisons un service différent
-      // Vous pouvez adapter l'ID du service selon votre configuration SMMA
-      const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'likes_french' : 'likes_international');
+      // Mapper le followerType pour les likes Instagram
+      let smmaFollowerType = order.followerType;
+      if (order.followerType === 'international') {
+        smmaFollowerType = 'likes_international';
+      } else if (order.followerType === 'europe') {
+        smmaFollowerType = 'likes_europe';
+      } else if (order.followerType === 'french') {
+        smmaFollowerType = 'likes_french';
+      }
+
+      const serviceId = getSMMAServiceId(smmaFollowerType);
       
       if (!serviceId) {
         return {

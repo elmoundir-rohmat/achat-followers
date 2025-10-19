@@ -1,8 +1,8 @@
 import React from 'react';
-import { Globe, MapPin } from 'lucide-react';
+import { Globe, MapPin, Flag } from 'lucide-react';
 
 interface FollowerType {
-  id: 'french' | 'international';
+  id: 'french' | 'international' | 'europe';
   title: string;
   description: string;
   features: string[];
@@ -19,8 +19,8 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
   const followerTypes: FollowerType[] = [
     {
       id: 'international',
-      title: 'Followers Internationaux',
-      description: 'Abonnés provenant du monde entier',
+      title: 'Likes Monde',
+      description: 'Likes provenant du monde entier',
       features: [
         'Diversité géographique',
         'Croissance rapide',
@@ -30,14 +30,26 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
       icon: <Globe className="w-6 h-6" />
     },
     {
+      id: 'europe',
+      title: 'Likes Europe',
+      description: 'Likes ciblés spécifiquement depuis l\'Europe',
+      features: [
+        'Profils européens',
+        'Engagement naturel',
+        'Qualité européenne',
+        'Sécurité garantie'
+      ],
+      icon: <Flag className="w-6 h-6" />
+    },
+    {
       id: 'french',
-      title: 'Followers Français',
-      description: 'Abonnés ciblés spécifiquement depuis la France',
+      title: 'Likes France',
+      description: 'Likes ciblés spécifiquement depuis la France',
       features: [
         'Profils 100% français',
         'Meilleur engagement local',
         'Contenu en français',
-        'Horaires français'
+        'Support français'
       ],
       icon: <MapPin className="w-6 h-6" />
     }
@@ -48,7 +60,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
       <h2 className="text-lg font-semibold text-black mb-3 text-center">
         {title}
       </h2>
-      <div className="flex gap-3 justify-center max-w-md mx-auto">
+      <div className="flex gap-3 justify-center max-w-lg mx-auto">
         {followerTypes.map((type) => (
           <button
             key={type.id}
@@ -66,7 +78,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
                 {type.icon}
               </div>
               <span className="text-sm font-medium text-black">
-                {type.id === 'french' ? 'Français' : 'Internationaux'}
+                {type.id === 'french' ? 'France' : type.id === 'europe' ? 'Europe' : 'Monde'}
               </span>
             </div>
             

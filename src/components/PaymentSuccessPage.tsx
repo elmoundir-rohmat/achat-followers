@@ -162,9 +162,12 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       
       switch (serviceType) {
         case 'likes':
-          // Utiliser le premier post sélectionné ou un vrai post ID d'Instagram
+          // Utiliser le premier post sélectionné
           const firstPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
-          const postId = firstPost?.postId || '2978530692267465492_56727260991'; // Vrai post ID d'Instagram
+          if (!firstPost?.postId) {
+            throw new Error('Post Instagram manquant. Impossible de commander des likes.');
+          }
+          const postId = firstPost.postId;
           
           smmaOrder = {
             username: username,
@@ -184,9 +187,12 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           });
           break;
         case 'comments':
-          // Utiliser le premier post sélectionné ou un vrai post ID d'Instagram
+          // Utiliser le premier post sélectionné
           const firstCommentPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
-          const commentPostId = firstCommentPost?.postId || '2978530692267465492_56727260991'; // Vrai post ID d'Instagram
+          if (!firstCommentPost?.postId) {
+            throw new Error('Post Instagram manquant. Impossible de commander des commentaires.');
+          }
+          const commentPostId = firstCommentPost.postId;
           
           smmaOrder = {
             username: username,
@@ -205,9 +211,12 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           });
           break;
         case 'views':
-          // Utiliser le premier post sélectionné ou un vrai post ID d'Instagram
+          // Utiliser le premier post sélectionné
           const firstViewPost = selectedPosts.length > 0 ? selectedPosts[0] : null;
-          const viewPostId = firstViewPost?.postId || '2978530692267465492_56727260991'; // Vrai post ID d'Instagram
+          if (!firstViewPost?.postId) {
+            throw new Error('Post Instagram manquant. Impossible de commander des vues.');
+          }
+          const viewPostId = firstViewPost.postId;
           
           smmaOrder = {
             username: username,

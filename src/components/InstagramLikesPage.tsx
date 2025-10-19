@@ -48,42 +48,53 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
   };
 
   const handlePostsSelected = (posts: InstagramPost[], likesPerPost: number) => {
-    setSelectedPosts(posts);
+    try {
+      setSelectedPosts(posts);
+      
+      // Pour les likes, chaque post reçoit le nombre complet de likes du pack
+      const postsData = posts.map(post => {
+        if (!post.code) {
+          throw new Error(`Code Instagram manquant pour le post. Impossible de commander des likes.`);
+        }
+        return {
+          postId: post.code, // Utiliser uniquement le code court Instagram
+          likesToAdd: getPackageLikes(selectedPackage), // Chaque post reçoit le nombre complet de likes du pack
+          mediaUrl: post.media_url || post.thumbnail_url
+        };
+      });
     
-    // Pour les likes, chaque post reçoit le nombre complet de likes du pack
-    const postsData = posts.map(post => ({
-      postId: post.id,
-      likesToAdd: getPackageLikes(selectedPackage), // Chaque post reçoit le nombre complet de likes du pack
-      mediaUrl: post.media_url || post.thumbnail_url
-    }));
-    
-    // Calculer le prix total (prix par post × nombre de posts)
-    const pricePerPost = getPackagePriceLocal(selectedPackage);
-    const totalPrice = pricePerPost * posts.length;
-    
-    console.log('💰 Calcul du prix pour les likes:', {
-      selectedPackage,
-      pricePerPost,
-      postsLength: posts.length,
-      totalPrice,
-      followerType
-    });
-    
-    // Ajouter au panier SEULEMENT après la sélection des posts
-    addToCart({
-      followers: 0,
-      likes: getPackageLikes(selectedPackage), // Quantité de base pour l'affichage
-      price: totalPrice,
-      followerType: followerType as 'french' | 'international',
-      username: selectedProfile,
-      platform: 'Instagram',
-      selectedPosts: postsData
-    });
-    
-    setIsPostsModalOpen(false);
-    
-    // Redirection simple vers le panier - Vercel SPA routing va gérer
-    window.location.href = '/cart';
+      // Calculer le prix total (prix par post × nombre de posts)
+      const pricePerPost = getPackagePriceLocal(selectedPackage);
+      const totalPrice = pricePerPost * posts.length;
+      
+      console.log('💰 Calcul du prix pour les likes:', {
+        selectedPackage,
+        pricePerPost,
+        postsLength: posts.length,
+        totalPrice,
+        followerType
+      });
+      
+      // Ajouter au panier SEULEMENT après la sélection des posts
+      addToCart({
+        followers: 0,
+        likes: getPackageLikes(selectedPackage), // Quantité de base pour l'affichage
+        price: totalPrice,
+        followerType: followerType as 'french' | 'international',
+        username: selectedProfile,
+        platform: 'Instagram',
+        selectedPosts: postsData
+      });
+      
+      setIsPostsModalOpen(false);
+      
+      // Redirection simple vers le panier - Vercel SPA routing va gérer
+      window.location.href = '/cart';
+    } catch (error) {
+      console.error('❌ Erreur lors de la sélection des posts:', error);
+      alert(`Erreur: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
+      setIsPostsModalOpen(false);
+    }
   };
 
   const handleCheckoutComplete = (orderData: any) => {

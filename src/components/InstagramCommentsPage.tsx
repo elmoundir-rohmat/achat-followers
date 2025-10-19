@@ -46,35 +46,46 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
   };
 
   const handlePostsSelected = (posts: InstagramPost[], pricePerPost: number) => {
-    setSelectedPosts(posts);
+    try {
+      setSelectedPosts(posts);
+      
+      // Pour les commentaires, chaque post reçoit le nombre de commentaires du pack
+      const postsData = posts.map(post => {
+        if (!post.code) {
+          throw new Error(`Code Instagram manquant pour le post. Impossible de commander des commentaires.`);
+        }
+        return {
+          postId: post.code, // Utiliser uniquement le code court Instagram
+          commentsToAdd: getPackageComments(selectedPackage), // Chaque post reçoit le nombre complet de commentaires du pack
+          mediaUrl: post.media_url || post.thumbnail_url
+        };
+      });
     
-    // Pour les commentaires, chaque post reçoit le nombre de commentaires du pack
-    const postsData = posts.map(post => ({
-      postId: post.id,
-      commentsToAdd: getPackageComments(selectedPackage), // Chaque post reçoit le nombre complet de commentaires du pack
-      mediaUrl: post.media_url || post.thumbnail_url
-    }));
-    
-    // Calculer le prix total (prix par post × nombre de posts)
-    const totalPrice = pricePerPost * posts.length;
-    
-    // Ajouter au panier SEULEMENT après la sélection des posts
-    addToCart({
-      followers: 0,
-      likes: 0,
-      comments: getPackageComments(selectedPackage),
-      views: 0,
-      price: totalPrice,
-      followerType: followerType as 'french' | 'international',
-      username: selectedProfile,
-      platform: 'Instagram',
-      selectedPosts: postsData
-    });
-    
-    setIsPostsModalOpen(false);
-    
-    // Redirection simple vers le panier - Vercel SPA routing va gérer
-    window.location.href = '/cart';
+      // Calculer le prix total (prix par post × nombre de posts)
+      const totalPrice = pricePerPost * posts.length;
+      
+      // Ajouter au panier SEULEMENT après la sélection des posts
+      addToCart({
+        followers: 0,
+        likes: 0,
+        comments: getPackageComments(selectedPackage),
+        views: 0,
+        price: totalPrice,
+        followerType: followerType as 'french' | 'international',
+        username: selectedProfile,
+        platform: 'Instagram',
+        selectedPosts: postsData
+      });
+      
+      setIsPostsModalOpen(false);
+      
+      // Redirection simple vers le panier - Vercel SPA routing va gérer
+      window.location.href = '/cart';
+    } catch (error) {
+      console.error('❌ Erreur lors de la sélection des posts:', error);
+      alert(`Erreur: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
+      setIsPostsModalOpen(false);
+    }
   };
 
   const handleCheckoutComplete = (orderData: any) => {

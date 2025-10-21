@@ -29,12 +29,48 @@ import Footer from './components/Footer';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { getServicePageBySlug } from './config/serviceSlugs';
 import { RoutingService } from './services/routingService';
+import { usePageTracking, trackEvent, trackPageView } from './hooks/usePageTracking';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
+  
+  // Google Analytics tracking
+  usePageTracking();
+  
+  // Tracker les changements de page pour Google Analytics
+  useEffect(() => {
+    // Mapper les pages internes vers des URLs pour le tracking
+    const pageMap: Record<string, string> = {
+      'home': '/',
+      'instagram-followers': '/products/acheter-followers-instagram',
+      'instagram-likes': '/products/acheter-likes-instagram',
+      'instagram-comments': '/products/acheter-commentaires-instagram',
+      'instagram-views': '/products/acheter-vues-instagram',
+      'tiktok-followers': '/products/acheter-followers-tiktok',
+      'tiktok-likes': '/products/acheter-likes-tiktok',
+      'tiktok-views': '/products/acheter-vues-tiktok',
+      'tiktok-comments': '/products/acheter-commentaires-tiktok',
+      'cart': '/cart',
+      'payment': '/payment',
+      'payment-success': '/payment/success',
+      'payment-cancel': '/payment/cancel',
+      'legal': '/legal',
+      'about': '/about',
+      'contact': '/contact',
+      'blog': '/blog'
+    };
+    
+    const pageUrl = pageMap[currentPage] || `/${currentPage}`;
+    const pageTitle = document.title || `Doctor Followers - ${currentPage}`;
+    
+    // Tracker la page courante
+    trackPageView(pageUrl, pageTitle);
+    
+    console.log('📊 Google Analytics - Page tracked:', { page: currentPage, url: pageUrl, title: pageTitle });
+  }, [currentPage]);
   
   // Gestion du routage basé sur l'URL
   useEffect(() => {

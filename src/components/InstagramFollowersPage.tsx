@@ -125,6 +125,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         <FollowerTypeSelector
           selectedType={followerType}
           onTypeChange={setFollowerType}
+          serviceKey="instagram_followers"
         />
 
         <PackageSelector

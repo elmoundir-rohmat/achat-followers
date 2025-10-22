@@ -159,6 +159,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
           selectedType={followerType}
           onTypeChange={setFollowerType}
           title="Type de commentaires"
+          serviceKey="instagram_comments"
         />
 
         <PackageSelector

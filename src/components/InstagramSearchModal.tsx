@@ -83,7 +83,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           username: query.toLowerCase(),
           full_name: `${query} Official`,
           profile_picture: '',
-          profile_pic_url: `https://images.weserv.nl/?url=instagram.com/${query.toLowerCase()}/media/?size=l&w=150&h=150&fit=cover`,
+          profile_pic_url: `https://instagram.com/${query.toLowerCase()}/`,
           followers: 12500000,
           follower_count: 12500000,
           is_verified: true,
@@ -94,7 +94,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           username: `${query.toLowerCase()}_pro`,
           full_name: `${query} Pro Account`,
           profile_picture: '',
-          profile_pic_url: `https://images.weserv.nl/?url=instagram.com/${query.toLowerCase()}_pro/media/?size=l&w=150&h=150&fit=cover`,
+          profile_pic_url: `https://instagram.com/${query.toLowerCase()}_pro/`,
           followers: 820000,
           follower_count: 820000,
           is_verified: false,
@@ -105,7 +105,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           username: `${query.toLowerCase()}.official`,
           full_name: `${query} Verified`,
           profile_picture: '',
-          profile_pic_url: `https://images.weserv.nl/?url=instagram.com/${query.toLowerCase()}.official/media/?size=l&w=150&h=150&fit=cover`,
+          profile_pic_url: `https://instagram.com/${query.toLowerCase()}.official/`,
           followers: 2510000,
           follower_count: 2510000,
           is_verified: true,
@@ -191,13 +191,19 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
       }
       
       // Nettoyer les résultats pour utiliser les vraies URLs d'images
-      results = results.map(user => ({
-        ...user,
-        // Utiliser directement les champs de l'API StarAPI
-        profile_pic_url: user.profile_pic_url || user.profile_picture || user.hd_profile_pic_url_info?.url,
-        // S'assurer que les URLs sont absolues
-        profile_picture: user.profile_picture && user.profile_picture.startsWith('http') ? user.profile_picture : null
-      }));
+      results = results.map(user => {
+        // Trouver la meilleure URL d'image disponible
+        const imageUrl = user.profile_pic_url || 
+                        user.profile_picture || 
+                        user.hd_profile_pic_url_info?.url ||
+                        user.hd_profile_pic_versions?.[0]?.url;
+        
+        return {
+          ...user,
+          profile_pic_url: imageUrl,
+          profile_picture: imageUrl
+        };
+      });
       
       console.log('🔍 Résultats extraits:', results);
       console.log('🔍 Premier résultat détaillé:', results[0] ? JSON.stringify(results[0], null, 2) : 'Aucun résultat');
@@ -213,7 +219,9 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           console.log('📸 URLs d\'images pour', user.username, ':', {
             profile_pic_url: user.profile_pic_url,
             profile_picture: user.profile_picture,
-            hd_profile_pic_url_info: user.hd_profile_pic_url_info
+            hd_profile_pic_url_info: user.hd_profile_pic_url_info,
+            hd_profile_pic_versions: user.hd_profile_pic_versions,
+            final_image_url: user.profile_pic_url && user.profile_pic_url.trim() !== '' ? `https://images.weserv.nl/?url=${encodeURIComponent(user.profile_pic_url)}&w=150&h=150&fit=cover` : 'FALLBACK_TO_AVATAR'
           });
         });
       } else {
@@ -231,7 +239,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           username: query.toLowerCase(),
           full_name: `${query} Official`,
           profile_picture: '',
-          profile_pic_url: `https://images.weserv.nl/?url=instagram.com/${query.toLowerCase()}/media/?size=l&w=150&h=150&fit=cover`,
+          profile_pic_url: `https://instagram.com/${query.toLowerCase()}/`,
           followers: 12500000,
           follower_count: 12500000,
           is_verified: true,
@@ -242,7 +250,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           username: `${query.toLowerCase()}_pro`,
           full_name: `${query} Pro Account`,
           profile_picture: '',
-          profile_pic_url: `https://images.weserv.nl/?url=instagram.com/${query.toLowerCase()}_pro/media/?size=l&w=150&h=150&fit=cover`,
+          profile_pic_url: `https://instagram.com/${query.toLowerCase()}_pro/`,
           followers: 820000,
           follower_count: 820000,
           is_verified: false,
@@ -253,7 +261,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           username: `${query.toLowerCase()}.official`,
           full_name: `${query} Verified`,
           profile_picture: '',
-          profile_pic_url: `https://images.weserv.nl/?url=instagram.com/${query.toLowerCase()}.official/media/?size=l&w=150&h=150&fit=cover`,
+          profile_pic_url: `https://instagram.com/${query.toLowerCase()}.official/`,
           followers: 2510000,
           follower_count: 2510000,
           is_verified: true,
@@ -402,7 +410,7 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
                     >
                       <div className="relative mr-3">
                         <img
-                          src={user.profile_pic_url ? `https://images.weserv.nl/?url=${encodeURIComponent(user.profile_pic_url)}&w=150&h=150&fit=cover` : `https://ui-avatars.com/api/?name=${user.full_name || user.username}&size=150&background=6366f1&color=fff`}
+                          src={(user.profile_pic_url && user.profile_pic_url.trim() !== '') ? `https://images.weserv.nl/?url=${encodeURIComponent(user.profile_pic_url)}&w=150&h=150&fit=cover` : `https://ui-avatars.com/api/?name=${user.full_name || user.username}&size=150&background=6366f1&color=fff`}
                           alt={user.username}
                           className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
                           onLoad={(e) => {

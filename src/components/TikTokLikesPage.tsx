@@ -183,6 +183,8 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
           <FollowerTypeSelector 
             selectedType={followerType} 
             onTypeChange={setFollowerType}
+            title="Type de likes"
+            serviceKey="tiktok_likes"
           />
         </div>
 

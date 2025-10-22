@@ -197,10 +197,8 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
              <FollowerTypeSelector
                selectedType={followerType}
                onTypeChange={setFollowerType}
-               types={[
-                 { id: 'international', label: 'Internationales', description: 'Prix standard' },
-                 { id: 'french', label: 'Françaises', description: 'Prix x2' }
-               ]}
+               title="Type de vues"
+               serviceKey="tiktok_views"
              />
            </div>
 

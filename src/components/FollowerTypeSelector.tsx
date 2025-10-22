@@ -1,59 +1,58 @@
 import React from 'react';
 import { Globe, MapPin, Flag } from 'lucide-react';
-
-interface FollowerType {
-  id: 'french' | 'international' | 'europe';
-  title: string;
-  description: string;
-  features: string[];
-  icon: React.ReactNode;
-}
+import { ServiceTypeConfig, getAvailableTypes } from '../config/serviceTypes';
 
 interface Props {
   selectedType: string;
   onTypeChange: (type: string) => void;
   title?: string; // Titre personnalisé
+  serviceKey?: string; // Clé du service pour obtenir les types disponibles
+  customTypes?: ServiceTypeConfig[]; // Types personnalisés (optionnel)
 }
 
-export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Type de followers" }: Props) {
-  const followerTypes: FollowerType[] = [
-    {
-      id: 'international',
-      title: 'Likes Monde',
-      description: 'Likes provenant du monde entier',
-      features: [
-        'Diversité géographique',
-        'Croissance rapide',
-        'Portée internationale',
-        'Prix avantageux'
-      ],
-      icon: <Globe className="w-6 h-6" />
-    },
-    {
-      id: 'europe',
-      title: 'Likes Europe',
-      description: 'Likes ciblés spécifiquement depuis l\'Europe',
-      features: [
-        'Profils européens',
-        'Engagement naturel',
-        'Qualité européenne',
-        'Sécurité garantie'
-      ],
-      icon: <Flag className="w-6 h-6" />
-    },
-    {
-      id: 'french',
-      title: 'Likes France',
-      description: 'Likes ciblés spécifiquement depuis la France',
-      features: [
-        'Profils 100% français',
-        'Meilleur engagement local',
-        'Contenu en français',
-        'Support français'
-      ],
-      icon: <MapPin className="w-6 h-6" />
+export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Type de followers", serviceKey, customTypes }: Props) {
+  // Fonction pour obtenir l'icône React à partir du nom de l'icône
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'Globe':
+        return <Globe className="w-6 h-6" />;
+      case 'MapPin':
+        return <MapPin className="w-6 h-6" />;
+      case 'Flag':
+        return <Flag className="w-6 h-6" />;
+      default:
+        return <Globe className="w-6 h-6" />;
     }
-  ];
+  };
+
+  // Obtenir les types disponibles
+  let availableTypes: ServiceTypeConfig[] = [];
+  
+  if (customTypes) {
+    // Utiliser les types personnalisés fournis
+    availableTypes = customTypes;
+  } else if (serviceKey) {
+    // Utiliser la configuration du service
+    availableTypes = getAvailableTypes(serviceKey);
+  } else {
+    // Fallback vers l'ancienne logique pour la compatibilité
+    availableTypes = [
+      {
+        id: 'international',
+        title: 'Followers Monde',
+        description: 'Followers provenant du monde entier',
+        features: ['Diversité géographique', 'Croissance rapide', 'Portée internationale', 'Prix avantageux'],
+        icon: 'Globe'
+      },
+      {
+        id: 'french',
+        title: 'Followers France',
+        description: 'Followers ciblés spécifiquement depuis la France',
+        features: ['Profils 100% français', 'Meilleur engagement local', 'Contenu en français', 'Support français'],
+        icon: 'MapPin'
+      }
+    ];
+  }
 
   return (
     <div className="mb-6">
@@ -61,7 +60,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
         {title}
       </h2>
       <div className="flex gap-3 justify-center max-w-lg mx-auto">
-        {followerTypes.map((type) => (
+        {availableTypes.map((type) => (
           <button
             key={type.id}
             className={`relative px-4 py-2 rounded-lg border cursor-pointer transition-all duration-200 hover:scale-105 ${
@@ -75,7 +74,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
               <div className={`p-1 rounded-full ${
                 selectedType === type.id ? 'bg-white text-blue-500' : 'bg-gray-100 text-gray-600'
               }`}>
-                {type.icon}
+                {getIcon(type.icon)}
               </div>
               <span className="text-sm font-medium text-black">
                 {type.id === 'french' ? 'France' : type.id === 'europe' ? 'Europe' : 'Monde'}

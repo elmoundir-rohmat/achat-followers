@@ -159,6 +159,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
           selectedType={followerType}
           onTypeChange={setFollowerType}
           title="Type de vues"
+          serviceKey="instagram_views"
         />
 
         <PackageSelector

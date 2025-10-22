@@ -153,6 +153,7 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
           <FollowerTypeSelector 
             selectedType={followerType} 
             onTypeChange={setFollowerType}
+            serviceKey="tiktok_followers"
           />
         </div>
 

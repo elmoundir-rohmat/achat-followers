@@ -1,23 +1,14 @@
 User-agent: *
-Allow: /
-
-# Sitemap
-Sitemap: https://doctorfollowers.com/sitemap.xml
-
-# Disallow pages non essentielles au SEO
 Disallow: /cart
 Disallow: /checkout
+Disallow: /login
 Disallow: /payment
 Disallow: /payment-success
-Disallow: /payment-error
+Disallow: /payment-cancel
+Disallow: /test-*
+Disallow: /debug-*
 Disallow: /smma-test
-Disallow: /tools
-Disallow: /search
-Disallow: /delivery-modal
-Disallow: /confirm-dialog
-
-# Disallow admin or private areas (if any)
-# Disallow: /admin/
-# Disallow: /private/
-
-# Allow all crawlers to access all content
+Disallow: /compare-media-types
+Disallow: /debug-structure
+Allow: /
+Sitemap: https://doctorfollowers.com/sitemap.xml

@@ -31,7 +31,7 @@ git log --oneline -1
 ```
 
 ### Test 2: Test direct de l'API
-1. Allez sur : `https://votre-domaine.com/test-api-direct.html`
+1. Allez sur : `image.png`
 2. Vérifiez si l'API retourne des reels
 
 ### Test 3: Vérifier les logs Vercel

@@ -302,7 +302,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <Instagram className="relative w-12 h-12 text-white mr-4" />
               </div>
               <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                Acheter followers Instagram, Tiktok, et plus encore...
+                Achat followers Instagram et TikTok actifs et engagés - Livraison rapide
               </h1>
             </div>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">

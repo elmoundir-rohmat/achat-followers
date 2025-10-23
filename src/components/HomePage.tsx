@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Instagram, Heart, MessageCircle, Eye, Users, Zap, Shield, Clock, ArrowRight, Star, CheckCircle, TrendingUp, Award, Globe, Smartphone, ChevronDown } from 'lucide-react';
+import { Instagram, Heart, MessageCircle, Eye, Users, Zap, Shield, Clock, ArrowRight, Star, CheckCircle, TrendingUp, Award, Globe, Smartphone, ChevronDown, Bot, Target, Lock, Users2, ThumbsUp, Sparkles, Crown, Headphones } from 'lucide-react';
 import { smmaService, SMMAOrder } from '../services/smmaService';
 import { smmaServiceClient } from '../services/smmaServiceClient';
 
@@ -416,6 +416,244 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
+      {/* Pourquoi acheter des followers Instagram actifs */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-full mb-6">
+            <Bot className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Pourquoi acheter des followers Instagram actifs ?
+          </h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Problème des bots */}
+          <div className="bg-gradient-to-br from-red-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4">
+                <Bot className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white">Les bots : un danger</h3>
+            </div>
+            <ul className="space-y-3 text-blue-100">
+              <li className="flex items-start">
+                <span className="text-red-400 mr-2">❌</span>
+                <span>N'aident pas l'engagement de votre page</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-red-400 mr-2">❌</span>
+                <span>Détectés facilement par Instagram</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-red-400 mr-2">❌</span>
+                <span>Impact négatif sur votre visibilité</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-red-400 mr-2">❌</span>
+                <span>Pénalisation de l'algorithme</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solution avec nos followers */}
+          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-8 border border-green-500/30">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                <Users2 className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white">Nos followers réels</h3>
+            </div>
+            <ul className="space-y-3 text-blue-100">
+              <li className="flex items-start">
+                <span className="text-green-400 mr-2">✅</span>
+                <span><strong className="text-white">Crédibilité</strong> renforcée</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-400 mr-2">✅</span>
+                <span><strong className="text-white">Visibilité</strong> améliorée</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-400 mr-2">✅</span>
+                <span><strong className="text-white">Croissance</strong> naturelle</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-400 mr-2">✅</span>
+                <span>Engagement authentique</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Comment fonctionne notre service */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-6">
+            <Target className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Comment fonctionne notre service d'achat de followers Instagram actifs
+          </h2>
+        </div>
+        
+        {/* Processus étape par étape */}
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-white">1</span>
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Sélectionnez votre pack</h3>
+            <p className="text-blue-100 text-sm">Choisissez le nombre de followers qui correspond à vos besoins</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-white">2</span>
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Saisissez votre profil</h3>
+            <p className="text-blue-100 text-sm">Entrez le lien de votre profil Instagram (aucun mot de passe requis)</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-white">3</span>
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Livraison automatique</h3>
+            <p className="text-blue-100 text-sm">Suivi en temps réel et livraison progressive de vos followers</p>
+          </div>
+        </div>
+
+        {/* Avantages du service */}
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-center">
+            <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <h4 className="text-lg font-bold text-white mb-2">Livraison rapide</h4>
+            <p className="text-blue-100 text-sm">Commence immédiatement après votre commande</p>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-center">
+            <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock className="w-6 h-6 text-white" />
+            </div>
+            <h4 className="text-lg font-bold text-white mb-2">Achat sécurisé</h4>
+            <p className="text-blue-100 text-sm">Aucun mot de passe requis, paiement sécurisé</p>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-center">
+            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="w-6 h-6 text-white" />
+            </div>
+            <h4 className="text-lg font-bold text-white mb-2">Followers stables</h4>
+            <p className="text-blue-100 text-sm">Des abonnés qui restent sur votre compte</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Les avantages d'un achat de followers Instagram */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-6">
+            <Sparkles className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Les avantages d'un achat de followers Instagram actifs et réels
+          </h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <TrendingUp className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Preuve sociale</h3>
+            <p className="text-blue-100 text-sm">Amélioration significative de votre crédibilité et attractivité</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Eye className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Visibilité accrue</h3>
+            <p className="text-blue-100 text-sm">Meilleure visibilité dans l'algorithme Instagram</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <ThumbsUp className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Engagement naturel</h3>
+            <p className="text-blue-100 text-sm">Augmentation du taux d'engagement avec des abonnés réels</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-sm rounded-2xl p-6 border border-yellow-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Crown className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-3">Collaborations</h3>
+            <p className="text-blue-100 text-sm">Ouverture à de nouvelles collaborations avec des marques</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Pourquoi choisir Doctor Followers */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-6">
+            <Award className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Pourquoi choisir Doctor Followers pour vos followers Instagram
+          </h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-8 border border-green-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Shield className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-4">Fiabilité garantie</h3>
+            <p className="text-blue-100">Service client réactif disponible 24/7 avec un support dédié</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Users2 className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-4">Followers réels</h3>
+            <p className="text-blue-100">Uniquement des abonnés issus de comptes actifs et authentiques</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30 text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-4">Satisfaction garantie</h3>
+            <p className="text-blue-100">Politique de remboursement simple et livraison progressive</p>
+          </div>
+        </div>
+        
+        {/* Call-to-action */}
+        <div className="mt-12 text-center">
+          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30">
+            <div className="flex items-center justify-center mb-4">
+              <Headphones className="w-8 h-8 text-blue-400 mr-3" />
+              <h3 className="text-2xl font-bold text-white">Support client 24/7</h3>
+            </div>
+            <p className="text-blue-100 mb-6">
+              Notre équipe est disponible pour vous accompagner dans votre croissance Instagram
+            </p>
+            <button
+              onClick={() => onNavigate?.('contact')}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              Nous contacter
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* FAQ Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

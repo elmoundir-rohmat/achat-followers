@@ -61,7 +61,9 @@ export function parseMarkdownToHTML(markdown: string): ParsedMarkdown {
     .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
     // Texte en italique
     .replace(/\*(.+?)\*/g, '<em class="italic">$1</em>')
-    // Liens
+    // Liens CTA spéciaux (avec icônes et flèches)
+    .replace(/\[\*\*([^\]]+)\*\*\]\(([^)]+)\)/g, '<div class="text-center my-8"><a href="$2" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg" target="_blank" rel="noopener noreferrer">$1</a></div>')
+    // Liens normaux
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">$1</a>')
     // Code inline
     .replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">$1</code>')

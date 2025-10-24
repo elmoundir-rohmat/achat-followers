@@ -1110,14 +1110,7 @@ Cela permet à l'algorithme d'Instagram de mieux référencer vos vidéos et de 
 
 ### 🚀 Boostez votre visibilité Instagram
 
-<div style="text-align: center; margin: 30px 0;">
-  <a href="https://doctorfollowers.com/instagram-followers" 
-     style="display: inline-block; background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); color: white; font-weight: bold; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 18px; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); transition: all 0.3s ease; transform: scale(1);">
-    <span style="margin-right: 12px;">👥</span>
-    Acheter des Followers
-    <span style="margin-left: 12px;">→</span>
-  </a>
-</div>
+**[👥 Acheter des Followers Instagram →](https://doctorfollowers.com/instagram-followers)**
 
 *Service français • Livraison rapide • Abonnés réels*
 

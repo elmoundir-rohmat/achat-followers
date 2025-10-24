@@ -251,22 +251,20 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
                   __html: parsedContent.html
                 }} />
                 
-                {/* CTA Button spécial pour l'article Sora */}
-                {slug === 'comment-gagner-premiers-euros-sora-2-chatgpt' && (
-                  <div className="text-center my-8">
-                    <button
-                      onClick={() => window.open('https://doctorfollowers.com/instagram-followers', '_blank')}
-                      className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center mx-auto"
-                    >
-                      <Users className="w-6 h-6 mr-3 group-hover:animate-pulse" />
-                      Acheter des Followers Instagram
-                      <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <p className="text-sm text-gray-600 mt-2 italic">
-                      Service français • Livraison rapide • Abonnés réels
-                    </p>
-                  </div>
-                )}
+                {/* CTA Button pour tous les articles */}
+                <div className="text-center my-8">
+                  <button
+                    onClick={() => window.open('https://doctorfollowers.com/instagram-followers', '_blank')}
+                    className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center mx-auto"
+                  >
+                    <Users className="w-6 h-6 mr-3 group-hover:animate-pulse" />
+                    Acheter des Followers Instagram
+                    <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  <p className="text-sm text-gray-600 mt-2 italic">
+                    Service français • Livraison rapide • Abonnés réels
+                  </p>
+                </div>
               </div>
             ) : (
               <p>Contenu de l'article en cours de chargement...</p>

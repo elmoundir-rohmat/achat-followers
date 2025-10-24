@@ -61,8 +61,18 @@ export function parseMarkdownToHTML(markdown: string): ParsedMarkdown {
     .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
     // Texte en italique
     .replace(/\*(.+?)\*/g, '<em class="italic">$1</em>')
-    // Liens CTA spéciaux (avec icônes et flèches)
-    .replace(/\[\*\*([^\]]+)\*\*\]\(([^)]+)\)/g, '<div class="text-center my-8"><a href="$2" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg" target="_blank" rel="noopener noreferrer">$1</a></div>')
+    // CTA spécial pour l'article Sora
+    .replace(/\*\*🎯 ACTION IMMÉDIATE :\*\* Cliquez sur le bouton ci-dessous pour acheter des followers Instagram et booster votre visibilité dès maintenant !/g, 
+      '<div class="text-center my-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border-2 border-blue-200">' +
+      '<p class="text-lg font-semibold text-gray-800 mb-4">🎯 ACTION IMMÉDIATE</p>' +
+      '<button onclick="window.open(\'https://doctorfollowers.com/instagram-followers\', \'_blank\')" ' +
+      'class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center mx-auto">' +
+      '<svg class="w-6 h-6 mr-3 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>' +
+      'Acheter des Followers Instagram' +
+      '<svg class="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>' +
+      '</button>' +
+      '<p class="text-sm text-gray-600 mt-3 italic">Service français • Livraison rapide • Abonnés réels</p>' +
+      '</div>')
     // Liens normaux
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">$1</a>')
     // Code inline

@@ -1110,16 +1110,12 @@ Cela permet à l'algorithme d'Instagram de mieux référencer vos vidéos et de 
 
 ### 🚀 Boostez votre visibilité Instagram
 
-<div class="flex justify-center my-8">
+<div style="text-align: center; margin: 30px 0;">
   <a href="https://doctorfollowers.com/instagram-followers" 
-     class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center">
-    <svg class="w-6 h-6 mr-3 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-    </svg>
+     style="display: inline-block; background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); color: white; font-weight: bold; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 18px; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); transition: all 0.3s ease; transform: scale(1);">
+    <span style="margin-right: 12px;">👥</span>
     Acheter des Followers
-    <svg class="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-    </svg>
+    <span style="margin-left: 12px;">→</span>
   </a>
 </div>
 

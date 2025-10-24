@@ -192,7 +192,7 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
             </div>
             <div className="flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
-              <span>{formatDate(post.publishedAt)}</span>
+              <span>{formatDate(post.date)}</span>
             </div>
             {post.readTime && (
               <div className="flex items-center">

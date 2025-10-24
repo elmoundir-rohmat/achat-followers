@@ -563,7 +563,7 @@ export class BlogService {
         excerpt: "Découvrez comment installer et utiliser Sora 2 (Sora ChatGPT) en France pour créer des vidéos virales et gagner vos premiers euros en ligne grâce à Instagram.",
         image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
         date: "2024-10-24",
-        author: "equipe-ia-innovation",
+        author: "Équipe IA & Innovation",
         category: "Tutoriel",
         slug: "comment-gagner-premiers-euros-sora-2-chatgpt",
         tags: ["Sora ChatGPT", "Sora 2", "Monétisation", "IA Vidéo", "Instagram", "Tutoriel"],

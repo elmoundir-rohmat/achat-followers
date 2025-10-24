@@ -558,6 +558,25 @@ export class BlogService {
   private static getFallbackMetadata(): BlogMetadata[] {
     return [
       {
+        id: "comment-gagner-premiers-euros-sora-2-chatgpt",
+        title: "Comment gagner ses premiers euros avec Sora 2 (Sora ChatGPT)",
+        excerpt: "Découvrez comment installer et utiliser Sora 2 (Sora ChatGPT) en France pour créer des vidéos virales et gagner vos premiers euros en ligne grâce à Instagram.",
+        image: "https://images.unsplash.com/photo-1677442136019-21780e995?w=800&h=400&fit=crop",
+        date: "2025-01-24",
+        author: "equipe-ia-innovation",
+        category: "Tutoriel",
+        slug: "comment-gagner-premiers-euros-sora-2-chatgpt",
+        tags: ["Sora ChatGPT", "Sora 2", "Monétisation", "IA Vidéo", "Instagram", "Tutoriel"],
+        readTime: 8,
+        featured: true,
+        published: true,
+        seoTitle: "Comment gagner ses premiers euros avec Sora 2 (Sora ChatGPT)",
+        seoDescription: "Découvrez comment installer et utiliser Sora 2 (Sora ChatGPT) en France pour créer des vidéos virales et gagner vos premiers euros en ligne grâce à Instagram.",
+        focusKeyword: "gagner argent sora 2",
+        views: 0,
+        likes: 0
+      },
+      {
         id: "installer-sora-2-france-tutoriel-complet",
         title: "Installer Sora 2 en France : tutoriel Sora ChatGPT complet",
         excerpt: "Tutoriel complet pour installer Sora 2 en France via l'App Store, obtenir une invitation et utiliser Sora ChatGPT pour créer des vidéos IA.",

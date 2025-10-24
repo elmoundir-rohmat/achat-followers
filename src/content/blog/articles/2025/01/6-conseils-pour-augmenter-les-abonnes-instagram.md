@@ -1,66 +1,15 @@
 ---
-id: 7
 title: "6 conseils pratiques pour augmenter le nombre d'abonnés Instagram"
 excerpt: "Découvrez 6 conseils essentiels pour développer votre audience Instagram. Contenu de qualité, engagement, hashtags et stratégies éprouvées pour attirer de nouveaux abonnés."
 image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=400&fit=crop"
-date: "2025-01-25"
-author: "Moundir Rohmat"
+date: "2025-01-12"
+author: "moundir-rohmat"
 category: "Instagram"
 slug: "6-conseils-pour-augmenter-les-abonnes-instagram"
 tags: ["Instagram", "Abonnés", "Conseils", "Growth", "Engagement"]
 readTime: 3
 featured: true
 published: true
-updatedAt: "2025-01-25"
-views: 890
-likes: 32
-comments: 8
-wordCount: 850
-readingTime: 3
-
-# SEO Critical
-seo:
-  metaTitle: "6 Conseils pour Augmenter ses Abonnés Instagram en 2025"
-  metaDescription: "Découvrez 6 conseils pratiques pour augmenter le nombre d'abonnés Instagram. Contenu de qualité, engagement, hashtags et stratégies éprouvées pour développer votre audience."
-  focusKeyword: "augmenter abonnés instagram"
-  keywords: ["abonnés instagram", "croissance instagram", "conseils instagram", "engagement instagram", "hashtags instagram", "stratégie instagram", "audience instagram"]
-  canonicalUrl: "https://doctorfollowers.com/blogs/6-conseils-pour-augmenter-les-abonnes-instagram"
-  imageAlt: "Image illustrant les conseils pour augmenter le nombre d'abonnés Instagram"
-  noIndex: false
-  noFollow: false
-
-# Open Graph
-openGraph:
-  title: "6 Conseils pour Augmenter ses Abonnés Instagram en 2025"
-  description: "6 conseils pratiques pour développer votre audience Instagram : contenu de qualité, engagement, hashtags et stratégies éprouvées."
-  image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=1200&h=630&fit=crop"
-  type: "article"
-
-# Twitter Card
-twitter:
-  card: "summary_large_image"
-  title: "6 Conseils pour Augmenter ses Abonnés Instagram en 2025"
-  description: "6 conseils pratiques pour développer votre audience Instagram : contenu de qualité, engagement, hashtags et stratégies éprouvées."
-  image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=1200&h=630&fit=crop"
-  creator: "@doctorfollowers"
-
-# Schema.org Article
-schema:
-  headline: "6 Conseils pour Augmenter ses Abonnés Instagram en 2025"
-  description: "Découvrez 6 conseils essentiels pour développer votre audience Instagram. Contenu de qualité, engagement, hashtags et stratégies éprouvées."
-  datePublished: "2025-01-25"
-  dateModified: "2025-01-25"
-  author:
-    name: "Moundir Rohmat"
-    url: "https://doctorfollowers.com/authors/moundir-rohmat"
-  publisher:
-    name: "Doctor Followers"
-    logo: "https://doctorfollowers.com/logo.png"
-
-# Relations
-relatedPosts: ["achat-followers-instagram-ca-vaut-le-coup", "boostez-votre-popularite-instagram-avec-doctorfollowers"]
-nextPost: "achat-followers-instagram-ca-vaut-le-coup"
-previousPost: null
 ---
 
 # 6 conseils pratiques pour augmenter le nombre d'abonnés Instagram

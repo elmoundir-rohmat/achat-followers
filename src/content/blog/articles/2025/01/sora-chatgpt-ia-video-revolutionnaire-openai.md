@@ -3,7 +3,7 @@ id: 11
 title: "Sora ChatGPT c'est quoi ? L'IA vidéo révolutionnaire d'OpenAI"
 excerpt: "Découvrez Sora ChatGPT, la nouvelle IA d'OpenAI qui crée des vidéos réalistes à partir de texte. Fonctionnement, usages et lien avec ChatGPT."
 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop"
-date: "2024-10-12"
+date: "2025-10-05"
 author: "Équipe IA & Innovation"
 category: "Conseils"
 slug: "sora-chatgpt-ia-video-revolutionnaire-openai"
@@ -11,7 +11,7 @@ tags: ["IA", "Sora", "ChatGPT", "OpenAI", "Vidéo", "Intelligence Artificielle"]
 readTime: 7
 featured: true
 published: true
-updatedAt: "2024-10-12"
+updatedAt: "2025-10-05"
 views: 1850
 likes: 92
 comments: 18
@@ -48,8 +48,8 @@ twitter:
 schema:
   headline: "Sora ChatGPT c'est quoi ? L'IA vidéo révolutionnaire d'OpenAI"
   description: "Découvrez Sora ChatGPT, la nouvelle IA d'OpenAI qui crée des vidéos réalistes à partir de texte. Fonctionnement, usages et lien avec ChatGPT."
-  datePublished: "2024-10-12T00:00:00Z"
-  dateModified: "2024-10-12T12:00:00Z"
+  datePublished: "2025-10-05T00:00:00Z"
+  dateModified: "2025-10-05T12:00:00Z"
   author:
     name: "Équipe IA & Innovation"
     url: "https://doctorfollowers.com/authors/equipe-ia-innovation"

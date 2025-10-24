@@ -23,10 +23,14 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
     const loadArticle = async () => {
       try {
         setLoading(true);
+        // Forcer le rechargement du cache
+        await BlogService.forceReloadMetadata();
         const article = await BlogService.getArticle(slug);
+        console.log('Article chargé:', article);
         setPost(article);
       } catch (error) {
         console.error('Error loading article:', error);
+        console.error('Slug:', slug);
       } finally {
         setLoading(false);
       }

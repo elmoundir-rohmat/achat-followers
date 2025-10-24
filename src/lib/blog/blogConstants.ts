@@ -104,7 +104,7 @@ export const VALIDATION_PATTERNS = {
   SLUG: /^[a-z0-9-]+$/,
   EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   URL: /^https?:\/\/.+/,
-  DATE: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/
+  DATE: /^\d{4}-\d{2}-\d{2}$/
 } as const;
 
 // Messages d'erreur

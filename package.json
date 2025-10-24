@@ -11,7 +11,14 @@
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "vercel:deploy": "vercel --prod",
     "vercel:preview": "vercel",
-    "vercel:check": "node scripts/verify-vercel-setup.js"
+    "vercel:check": "node scripts/verify-vercel-setup.js",
+    "create-article": "node scripts/create-article.js",
+    "validate-articles": "node scripts/validate-articles.js",
+    "publish-article": "node scripts/publish-article.js",
+    "blog:create": "npm run create-article",
+    "blog:validate": "npm run validate-articles",
+    "blog:publish": "npm run publish-article",
+    "blog:list": "npm run publish-article list"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

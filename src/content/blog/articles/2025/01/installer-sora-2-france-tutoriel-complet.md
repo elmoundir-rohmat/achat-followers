@@ -3,7 +3,7 @@ id: 12
 title: "Installer Sora 2 en France : tutoriel Sora ChatGPT complet"
 excerpt: "Tutoriel complet pour installer Sora 2 en France via l'App Store, obtenir une invitation et utiliser Sora ChatGPT pour créer des vidéos IA."
 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop"
-date: "2025-01-15"
+date: "2025-10-10"
 author: "Équipe IA & Innovation"
 category: "Tutoriel"
 slug: "installer-sora-2-france-tutoriel-complet"
@@ -11,7 +11,7 @@ tags: ["Sora", "ChatGPT", "OpenAI", "Tutoriel", "Installation", "France", "App S
 readTime: 12
 featured: true
 published: true
-updatedAt: "2025-01-15"
+updatedAt: "2025-10-10"
 views: 0
 likes: 0
 comments: 0
@@ -48,8 +48,8 @@ twitter:
 schema:
   headline: "Installer Sora 2 en France : tutoriel Sora ChatGPT complet"
   description: "Tutoriel complet pour installer Sora 2 en France via l'App Store, obtenir une invitation et utiliser Sora ChatGPT pour créer des vidéos IA."
-  datePublished: "2025-01-15T00:00:00Z"
-  dateModified: "2025-01-15T12:00:00Z"
+  datePublished: "2025-10-10T00:00:00Z"
+  dateModified: "2025-10-10T12:00:00Z"
   author:
     name: "Équipe IA & Innovation"
     url: "https://doctorfollowers.com/authors/equipe-ia-innovation"
@@ -65,7 +65,7 @@ previousPost: "sora-chatgpt-ia-video-revolutionnaire-openai"
 
 # Installer Sora 2 en France : tutoriel Sora ChatGPT complet
 
-*Publié le 15 janvier 2025 • Par l'équipe IA & Innovation*
+*Publié le 10 octobre 2025 • Par l'équipe IA & Innovation*
 
 ## Introduction – qu'est-ce que Sora ChatGPT / Sora 2 ?
 

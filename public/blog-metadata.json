@@ -24,7 +24,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Algorithme", "Reels", "Recommandations", "Stratégie", "2025"],
-      "date": "2025-10-20",
+      "date": "2025-01-28",
       "readTime": 8,
       "featured": true,
       "published": true,
@@ -113,7 +113,7 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-10-20",
+  "lastUpdated": "2025-01-24",
   "totalArticles": 7,
   "categories": [
     {
@@ -159,7 +159,7 @@
       "description": "Conseils généraux pour les réseaux sociaux",
       "color": "#6366F1",
       "icon": "lightbulb",
-      "articleCount": 2
+      "articleCount": 1
     },
     {
       "id": "tutoriel",
@@ -168,7 +168,7 @@
       "description": "Tutoriels et guides pratiques",
       "color": "#10B981",
       "icon": "book-open",
-      "articleCount": 1
+      "articleCount": 2
     }
   ],
   "authors": [

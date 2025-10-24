@@ -90,7 +90,7 @@ export class BlogParser {
    * Valide le frontmatter
    */
   private static validateFrontmatter(frontmatter: MarkdownFrontmatter): void {
-    const requiredFields = ['id', 'title', 'excerpt', 'author', 'category', 'tags', 'publishedAt'];
+    const requiredFields = ['id', 'title', 'excerpt', 'author', 'category', 'tags', 'date'];
     
     for (const field of requiredFields) {
       if (!frontmatter[field as keyof MarkdownFrontmatter]) {
@@ -104,7 +104,7 @@ export class BlogParser {
     }
 
     // Valider la date
-    if (!VALIDATION_PATTERNS.DATE.test(frontmatter.publishedAt)) {
+    if (!VALIDATION_PATTERNS.DATE.test(frontmatter.date)) {
       throw new Error('Format de date invalide');
     }
   }

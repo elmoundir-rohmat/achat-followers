@@ -1,66 +1,15 @@
 ---
-id: 10
 title: "Algorithme Instagram : Nouveautés et Fonctionnalités de 2025"
 excerpt: "Découvrez les changements majeurs de l'algorithme Instagram en 2025. Plus de recommandations, priorité aux Reels, et stratégies pour adapter votre contenu et maximiser votre visibilité sur le réseau social."
 image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop"
 date: "2025-01-28"
-author: "Moundir Rohmat"
+author: "moundir-rohmat"
 category: "Instagram"
 slug: "algorithme-instagram-nouveautes-fonctionnalites-2025"
 tags: ["Instagram", "Algorithme", "Reels", "Recommandations", "Stratégie", "2025"]
 readTime: 8
 featured: true
 published: true
-updatedAt: "2025-01-28"
-views: 2150
-likes: 78
-comments: 22
-wordCount: 1850
-readingTime: 8
-
-# SEO Critical
-seo:
-  metaTitle: "Algorithme Instagram : Nouveautés et Fonctionnalités de 2025 | Doctor Followers"
-  metaDescription: "Découvrez les changements majeurs de l'algorithme Instagram en 2025. Plus de recommandations, priorité aux Reels, et stratégies pour adapter votre contenu."
-  focusKeyword: "algorithme instagram 2025"
-  keywords: ["algorithme instagram", "instagram 2025", "reels instagram", "recommandations instagram", "stratégie instagram", "mark zuckerberg", "meta instagram"]
-  canonicalUrl: "https://doctorfollowers.com/blogs/algorithme-instagram-nouveautes-fonctionnalites-2025"
-  imageAlt: "Image illustrant les nouveautés de l'algorithme Instagram en 2025"
-  noIndex: false
-  noFollow: false
-
-# Open Graph
-openGraph:
-  title: "Algorithme Instagram : Nouveautés et Fonctionnalités de 2025"
-  description: "Découvrez les changements majeurs de l'algorithme Instagram en 2025. Plus de recommandations, priorité aux Reels, et stratégies pour adapter votre contenu."
-  image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=1200&h=630&fit=crop"
-  type: "article"
-
-# Twitter Card
-twitter:
-  card: "summary_large_image"
-  title: "Algorithme Instagram : Nouveautés et Fonctionnalités de 2025"
-  description: "Découvrez les changements majeurs de l'algorithme Instagram en 2025. Plus de recommandations, priorité aux Reels, et stratégies pour adapter votre contenu."
-  image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=1200&h=630&fit=crop"
-  creator: "@doctorfollowers"
-
-# Schema.org Article
-schema:
-  headline: "Algorithme Instagram : Nouveautés et Fonctionnalités de 2025"
-  description: "Découvrez les changements majeurs de l'algorithme Instagram en 2025. Plus de recommandations, priorité aux Reels, et stratégies pour adapter votre contenu."
-  datePublished: "2025-01-28"
-  dateModified: "2025-01-28"
-  author:
-    name: "Moundir Rohmat"
-    url: "https://doctorfollowers.com/authors/moundir-rohmat"
-  publisher:
-    name: "Doctor Followers"
-    logo: "https://doctorfollowers.com/logo.png"
-
-# Relations
-relatedPosts: ["boostez-votre-popularite-instagram-avec-doctorfollowers", "achat-followers-instagram-ca-vaut-le-coup"]
-nextPost: "boostez-votre-popularite-instagram-avec-doctorfollowers"
-previousPost: "6-conseils-pour-augmenter-les-abonnes-instagram"
 ---
 
 # Algorithme Instagram : Nouveautés et Fonctionnalités de 2025

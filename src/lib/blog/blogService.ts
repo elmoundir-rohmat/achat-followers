@@ -1108,7 +1108,7 @@ Cela permet à l'algorithme d'Instagram de mieux référencer vos vidéos et de 
 
 ---
 
-### 🚀 Boostez votre visibilité Instagram
+### Boostez votre visibilité Instagram
 
 Pour accélérer votre croissance sur Instagram, nous vous recommandons d'utiliser nos services de croissance organique.
 

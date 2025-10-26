@@ -267,8 +267,78 @@ export const LIKES_PACKAGES_FRENCH: PackageConfig[] = [
 // Garder l'ancien tableau pour la compatibilité (déprécié)
 export const LIKES_PACKAGES: PackageConfig[] = LIKES_PACKAGES_INTERNATIONAL;
 
-// Packages pour les commentaires Instagram
-export const COMMENTS_PACKAGES: PackageConfig[] = [
+// Packages pour les commentaires Instagram internationaux
+export const COMMENTS_PACKAGES_INTERNATIONAL: PackageConfig[] = [
+  {
+    id: '10',
+    quantity: 10,
+    priceInternational: 3.95,
+    priceFrench: 3.95,
+    features: ['Livraison rapide', 'Commentaires réels', 'Garantie 30j'],
+    delivery: '6-12h'
+  },
+  {
+    id: '25',
+    quantity: 25,
+    priceInternational: 5.95,
+    priceFrench: 5.95,
+    features: ['Livraison progressive', 'Commentaires actifs', 'Garantie 30j'],
+    delivery: '12-24h'
+  },
+  {
+    id: '50',
+    quantity: 50,
+    priceInternational: 9.95,
+    priceFrench: 9.95,
+    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '24-48h',
+    popular: true
+  },
+  {
+    id: '75',
+    quantity: 75,
+    priceInternational: 11.95,
+    priceFrench: 11.95,
+    features: ['Livraison progressive', 'Commentaires premium', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-48h'
+  },
+  {
+    id: '100',
+    quantity: 100,
+    priceInternational: 16.95,
+    priceFrench: 16.95,
+    features: ['Livraison progressive', 'Commentaires premium', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h',
+    popular: true
+  },
+  {
+    id: '150',
+    quantity: 150,
+    priceInternational: 22.95,
+    priceFrench: 22.95,
+    features: ['Livraison naturelle', 'Commentaires vérifiés', 'Garantie 30j', 'Bonus engagement'],
+    delivery: '5-7 jours'
+  },
+  {
+    id: '200',
+    quantity: 200,
+    priceInternational: 29.95,
+    priceFrench: 29.95,
+    features: ['Livraison premium', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'],
+    delivery: '7-10 jours'
+  },
+  {
+    id: '250',
+    quantity: 250,
+    priceInternational: 35.95,
+    priceFrench: 35.95,
+    features: ['Livraison VIP', 'Commentaires haut de gamme', 'Garantie 30j', 'Service personnalisé'],
+    delivery: '10-15 jours'
+  }
+];
+
+// Packages pour les commentaires Instagram français
+export const COMMENTS_PACKAGES_FRENCH: PackageConfig[] = [
   {
     id: '10',
     quantity: 10,
@@ -328,6 +398,9 @@ export const COMMENTS_PACKAGES: PackageConfig[] = [
     delivery: '10-15 jours'
   }
 ];
+
+// Garder l'ancien tableau pour la compatibilité (déprécié)
+export const COMMENTS_PACKAGES: PackageConfig[] = COMMENTS_PACKAGES_INTERNATIONAL;
 
 // Packages pour les vues Instagram (reels/clips)
 export const VIEWS_PACKAGES: PackageConfig[] = [
@@ -483,7 +556,11 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
         return LIKES_PACKAGES_INTERNATIONAL; // fallback
       }
     case 'comments':
-      return COMMENTS_PACKAGES;
+      if (followerType === 'french') {
+        return COMMENTS_PACKAGES_FRENCH;
+      } else {
+        return COMMENTS_PACKAGES_INTERNATIONAL;
+      }
     case 'views':
       return VIEWS_PACKAGES;
     case 'tiktok_views':

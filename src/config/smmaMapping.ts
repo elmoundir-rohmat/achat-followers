@@ -36,12 +36,12 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   },
   {
     followerType: 'comments_international',
-    smmaServiceId: 9564, // Service Instagram commentaires internationaux
+    smmaServiceId: 1853, // Service Instagram commentaires internationaux
     description: 'Instagram commentaires internationaux'
   },
   {
     followerType: 'comments_french',
-    smmaServiceId: 9564, // Service Instagram commentaires français (même que les internationaux)
+    smmaServiceId: 9564, // Service Instagram commentaires français
     description: 'Instagram commentaires français'
   },
   {

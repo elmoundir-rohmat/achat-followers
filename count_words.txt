@@ -1,0 +1,32 @@
+import re
+
+# Lecture du fichier HomePage.tsx
+with open('src/components/HomePage.tsx', 'r', encoding='utf-8') as f:
+    content = f.read()
+
+# Extraction du texte visible (entre les balises >text< ou dans les chaînes)
+# Méthode 1: Extraire les strings JSX
+text_content = []
+
+# Extraire les chaînes entre guillemets simples et doubles
+strings = re.findall(r'["\']([^"\']+)["\']', content)
+
+# Filtrer les chaînes qui contiennent du texte français visible
+for s in strings:
+    # Ignorer les URLs, classes CSS, IDs techniques
+    if not any(x in s for x in ['http', 'className', 'id=', 'bg-', 'text-', '/', 'w-', 'h-', 'px-', 'py-', 'mr-', 'ml-']):
+        # Garder seulement les chaînes qui semblent être du contenu
+        if len(s) > 10 and not s.startswith('#'):
+            # Extraire les mots
+            words = re.findall(r'\b[a-zA-ZàâäéèêëïîôùûüÿçÀÂÄÉÈÊËÏÎÔÙÛÜŸÇ]+(?:\'[a-z]+)?\b', s)
+            if len(words) > 0:
+                text_content.extend(words)
+
+# Compter les mots uniques et totaux
+unique_words = set([w.lower() for w in text_content if len(w) > 2])
+total_words = len(text_content)
+
+print(f"Nombre total de mots: {total_words}")
+print(f"Nombre de mots uniques: {len(unique_words)}")
+print(f"\nPremiers 50 mots:")
+print(' '.join(text_content[:50]))

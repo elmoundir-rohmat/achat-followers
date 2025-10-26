@@ -63,7 +63,8 @@ console.log('✅ Service ID TikTok Likes:', serviceId);
 | Followers | **TikTok** | Int/FR | **9583** | ✅ **CORRIGÉ** |
 | Likes | Instagram | Int/FR | **4343** | ✅ OK |
 | Likes | **TikTok** | Int/FR | **4174** | ✅ **CORRIGÉ** |
-| Comments | Instagram | Int/FR | **9564** | ✅ OK |
+| Comments | Instagram | Int | **1853** | ✅ OK |
+| Comments | Instagram | FR | **9564** | ✅ OK |
 | Views | Instagram | Int/FR | **519** | ✅ OK |
 
 ---

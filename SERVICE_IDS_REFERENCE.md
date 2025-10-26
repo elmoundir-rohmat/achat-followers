@@ -8,7 +8,8 @@
 |---------|-----------|----------|
 | **Followers** | `3510` | `orderFollowers()` |
 | **Likes** | `4343` | `orderLikes()` |
-| **Comments** | `9564` | `orderComments()` |
+| **Comments International** | `1853` | `orderComments()` |
+| **Comments French** | `9564` | `orderComments()` |
 | **Views (Reels)** | `519` | `orderViews()` |
 
 ### TikTok
@@ -58,7 +59,8 @@ Cherchez cette ligne :
 { followerType: 'international', smmaServiceId: 3510 }   // Followers
 { followerType: 'french', smmaServiceId: 6777 }         // Followers FR
 { followerType: 'likes_international', smmaServiceId: 4343 }  // Likes
-{ followerType: 'comments_international', smmaServiceId: 9564 }  // Comments
+{ followerType: 'comments_international', smmaServiceId: 1853 }  // Comments International
+{ followerType: 'comments_french', smmaServiceId: 9564 }  // Comments French
 { followerType: 'views_international', smmaServiceId: 519 }  // Views
 
 // TikTok

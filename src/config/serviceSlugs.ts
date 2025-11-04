@@ -34,8 +34,8 @@ export const servicePages: ServicePage[] = [
     keywords: ['likes instagram', 'acheter likes', 'likes réels', 'engagement instagram', 'boost likes'],
     category: 'instagram',
     serviceType: 'likes',
-    metaTitle: 'Acheter des likes Instagram Réels',
-    metaDescription: 'Boostez vos posts Instagram avec des likes réels et authentiques. Augmentez votre engagement rapidement, satisfait ou remboursé.',
+    metaTitle: 'Acheter des Likes Instagram Réels et Actifs | Doctor Followers',
+    metaDescription: 'Achetez des likes Instagram 100% réels et actifs. Livraison rapide 1-6h, garantie 30 jours, satisfait ou remboursé. Boostez votre engagement !',
     canonicalUrl: '/products/acheter-des-likes-instagram'
   },
   {

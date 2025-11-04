@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Instagram, Star, Shield, Clock, CheckCircle, TrendingUp, Users2, Zap, ThumbsUp } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
@@ -11,6 +11,58 @@ import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
+// FAQ data pour le Schema.org
+const faqData = [
+  {
+    question: "Combien de temps faut-il pour recevoir mes likes ?",
+    answer: "Dès que votre paiement est confirmé, la livraison des likes débute rapidement. En général, vous recevez vos likes dans un délai de 1 à 6 heures. Si vous optez pour l'option express, votre commande est traitée en moins de 30 minutes. Il est également possible de choisir une livraison progressive, répartie sur plusieurs heures, pour un engagement plus naturel et durable de vos posts Instagram."
+  },
+  {
+    question: "Les likes Instagram achetés sont-ils réels ?",
+    answer: "Oui, absolument. Sur Doctor Followers, nous mettons un point d'honneur à fournir uniquement des likes réels et authentiques. Ces likes proviennent de profils actifs d'Europe de l'Ouest, et pour les commandes premium, ils sont spécifiquement sélectionnés selon votre région afin de garantir une meilleure compatibilité avec votre audience cible. Aucun faux profil, aucun robot : chaque like livré provient d'un utilisateur authentique, susceptible d'interagir naturellement avec votre contenu."
+  },
+  {
+    question: "Est-ce risqué d'acheter des likes Instagram ?",
+    answer: "Non, à condition de passer par un fournisseur sérieux comme Doctor Followers. Nos méthodes de livraison sont conformes aux conditions d'utilisation d'Instagram. Nous ne vous demandons jamais vos identifiants, et nous utilisons uniquement des profils authentiques. Depuis 2018, aucun de nos clients n'a été banni ou pénalisé par Instagram."
+  },
+  {
+    question: "Quel est le nombre maximum de likes Instagram que je peux acheter ?",
+    answer: "Sur notre site, vous pouvez acheter jusqu'à 100 000 likes Instagram en un seul achat. Pour des quantités plus importantes, vous pouvez nous contacter par email afin que nous vous proposions un devis personnalisé adapté à vos besoins et à vos délais."
+  },
+  {
+    question: "Le paiement est-il sécurisé ?",
+    answer: "Absolument. Toutes les transactions sur Doctor Followers sont protégées par un protocole SSL de dernière génération. Nous utilisons des partenaires bancaires reconnus pour garantir la sécurité de vos données. De plus, nous ne demandons jamais vos identifiants Instagram. Seul le lien de votre profil est requis."
+  },
+  {
+    question: "Proposez-vous une garantie en cas de perte de likes ?",
+    answer: "Oui. Si certains likes disparaissent dans les 30 jours suivant la commande, ils sont automatiquement remplacés grâce à notre garantie incluse. Vous conservez ainsi le même nombre de likes, sans frais supplémentaires."
+  },
+  {
+    question: "Les likes achetés peuvent-ils disparaître ?",
+    answer: "Comme tout engagement sur Instagram, un like peut disparaître avec le temps, notamment si le profil qui a liké est suspendu ou supprimé. Cela reste marginal, mais pour compenser ces éventuelles pertes, notre garantie de remplacement est prévue dans chaque commande."
+  },
+  {
+    question: "D'où viennent vos likes ?",
+    answer: "Nos likes proviennent principalement de profils francophones d'Europe de l'Ouest, comme la France, la Belgique ou la Suisse. Ce ciblage permet de renforcer votre crédibilité si vous vous adressez à une audience francophone."
+  },
+  {
+    question: "Comment optimiser l'effet des likes achetés ?",
+    answer: "Acheter des likes Instagram permet de booster votre engagement, mais l'impact réel dépend aussi de votre activité sur la plateforme. Il est essentiel de publier régulièrement, de proposer un contenu de qualité, d'interagir avec votre audience et de soigner votre stratégie de communication. Ces efforts renforcent l'engagement de vos posts et valorisent l'investissement."
+  },
+  {
+    question: "Est-ce que les likes achetés vont générer plus d'engagement ?",
+    answer: "Chez Doctor Followers, nous fournissons uniquement des likes Instagram réels, issus de profils actifs. Leur impact sur l'engagement dépendra en grande partie de la qualité de votre contenu. Si vos publications sont pertinentes, attrayantes et bien ciblées, les likes achetés peuvent naturellement attirer plus d'interactions (commentaires, partages, nouveaux followers). Toutefois, comme pour tout engagement, l'effet ne peut jamais être garanti à 100 %. C'est pourquoi nous recommandons d'allier achat de likes avec une stratégie de contenu régulière et engageante."
+  },
+  {
+    question: "Puis-je choisir sur quels posts appliquer les likes ?",
+    answer: "Oui, absolument ! Après avoir sélectionné votre pack de likes et votre profil Instagram, vous pourrez choisir spécifiquement sur quels posts vous souhaitez appliquer les likes. Notre système vous permet de sélectionner les posts de votre choix et de répartir les likes selon vos préférences."
+  },
+  {
+    question: "Les likes sont-ils distribués de manière naturelle ?",
+    answer: "Oui, nous distribuons les likes de manière progressive et naturelle pour éviter tout soupçon. Les likes arrivent de façon échelonnée sur plusieurs heures, simulant un engagement organique naturel. Cela garantit que vos posts gagnent en visibilité sans éveiller les soupçons de l'algorithme d'Instagram."
+  }
+];
+
 export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
   const [followerType, setFollowerType] = useState('french');
   const [selectedPackage, setSelectedPackage] = useState('');
@@ -20,6 +72,54 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
   const [selectedPosts, setSelectedPosts] = useState<InstagramPost[]>([]);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername, updateLastItemPosts } = useCart();
+
+  // Fonction pour naviguer vers d'autres pages Instagram
+  const navigateToInstagramService = (service: 'followers' | 'views' | 'comments') => {
+    const urls = {
+      followers: '/products/acheter-followers-instagram',
+      views: '/products/acheter-des-vues-instagram',
+      comments: '/products/acheter-des-commentaires-instagram'
+    };
+    window.location.href = urls[service];
+  };
+
+  // Ajouter le Schema FAQPage dynamique pour le SEO
+  useEffect(() => {
+    const schemaScript = document.createElement('script');
+    schemaScript.type = 'application/ld+json';
+    schemaScript.id = 'faq-schema-instagram-likes';
+    
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqData.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    };
+    
+    schemaScript.textContent = JSON.stringify(schemaData);
+    
+    // Supprimer l'ancien schema s'il existe
+    const existingScript = document.getElementById('faq-schema-instagram-likes');
+    if (existingScript) {
+      existingScript.remove();
+    }
+    
+    document.head.appendChild(schemaScript);
+    
+    // Cleanup
+    return () => {
+      const script = document.getElementById('faq-schema-instagram-likes');
+      if (script) {
+        script.remove();
+      }
+    };
+  }, []);
 
   const getPackagePriceLocal = (packageId: string) => {
     const price = getPackagePrice(packageId, 'likes', followerType as 'french' | 'international');
@@ -122,7 +222,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
               <div className="flex items-center mb-6">
                 <Instagram className="w-16 h-16 mr-4" />
                 <h1 className="text-5xl md:text-7xl font-bold">
-                  Likes Instagram
+                  Acheter des Likes Instagram Réels et Actifs
                 </h1>
               </div>
               <p className="text-xl md:text-2xl mb-8 opacity-90">
@@ -381,7 +481,10 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                   entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. 
                   <strong className="text-pink-600">Acheter des likes Instagram</strong> permet de booster votre engagement. 
                   Un post avec beaucoup de likes inspire confiance et attire naturellement plus d'interactions... 
-                  et suscite plus d'intérêt de la part de l'algorithme.
+                  et suscite plus d'intérêt de la part de l'algorithme. Pour une stratégie complète, combinez vos likes avec des 
+                  <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> followers Instagram</a>, 
+                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des vues Instagram</a> et 
+                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des commentaires Instagram</a> pour maximiser votre visibilité.
                 </p>
               </div>
             </div>
@@ -391,10 +494,13 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Améliorer votre portée organique</h3>
                 <p className="text-lg text-gray-600 leading-relaxed">
                   L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. 
-                  Plus vos posts reçoivent de likes dans les premières heures, plus ils sont susceptibles 
-                  d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs...
-                  <strong className="text-red-600">En achetant des likes Instagram français</strong>, 
-                  vous renforcez votre portée organique.
+                  Plus vos posts reçoivent de <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); }} className="text-blue-600 hover:text-blue-800 font-semibold underline">likes</a> dans les premières heures, plus ils sont susceptibles 
+                  d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs. Pour renforcer votre stratégie, 
+                  <strong className="text-red-600">en achetant des likes Instagram français</strong>, 
+                  vous renforcez votre portée organique. Complétez avec des 
+                  <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> followers Instagram</a> pour augmenter votre base d'abonnés, 
+                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des vues Instagram</a> pour vos Reels et 
+                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des commentaires Instagram</a> pour enrichir vos posts. 
                   Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
                   vertueux que vous pouvez activer avec des likes de qualité.
                 </p>
@@ -424,7 +530,10 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                   et durable. Chaque like livré provient d'un utilisateur réel, susceptible d'interagir
                   naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
                   L'objectif n'est pas juste d'avoir plus de likes, mais de <strong className="text-orange-600">créer une preuve sociale
-                  forte</strong> qui attire de vrais fans et clients.
+                  forte</strong> qui attire de vrais fans et clients. Pour une crédibilité complète, alliez vos likes avec des 
+                  <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> followers Instagram réels</a>, 
+                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des vues Instagram</a> et 
+                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des commentaires Instagram</a> pour créer une présence complète et engageante.
                 </p>
               </div>
             </div>
@@ -435,56 +544,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
 
         {/* FAQ Section */}
         <FAQSection 
-          faqs={[
-            {
-              question: "Combien de temps faut-il pour recevoir mes likes ?",
-              answer: "Dès que votre paiement est confirmé, la livraison des likes débute rapidement. En général, vous recevez vos likes dans un délai de 1 à 6 heures. Si vous optez pour l'option express, votre commande est traitée en moins de 30 minutes. Il est également possible de choisir une livraison progressive, répartie sur plusieurs heures, pour un engagement plus naturel et durable de vos posts Instagram."
-            },
-            {
-              question: "Les likes Instagram achetés sont-ils réels ?",
-              answer: "Oui, absolument. Sur Doctor Followers, nous mettons un point d'honneur à fournir uniquement des likes réels et authentiques. Ces likes proviennent de profils actifs d'Europe de l'Ouest, et pour les commandes premium, ils sont spécifiquement sélectionnés selon votre région afin de garantir une meilleure compatibilité avec votre audience cible. Aucun faux profil, aucun robot : chaque like livré provient d'un utilisateur authentique, susceptible d'interagir naturellement avec votre contenu."
-            },
-            {
-              question: "Est-ce risqué d'acheter des likes Instagram ?",
-              answer: "Non, à condition de passer par un fournisseur sérieux comme Doctor Followers. Nos méthodes de livraison sont conformes aux conditions d'utilisation d'Instagram. Nous ne vous demandons jamais vos identifiants, et nous utilisons uniquement des profils authentiques. Depuis 2018, aucun de nos clients n'a été banni ou pénalisé par Instagram."
-            },
-            {
-              question: "Quel est le nombre maximum de likes Instagram que je peux acheter ?",
-              answer: "Sur notre site, vous pouvez acheter jusqu'à 100 000 likes Instagram en un seul achat. Pour des quantités plus importantes, vous pouvez nous contacter par email afin que nous vous proposions un devis personnalisé adapté à vos besoins et à vos délais."
-            },
-            {
-              question: "Le paiement est-il sécurisé ?",
-              answer: "Absolument. Toutes les transactions sur Doctor Followers sont protégées par un protocole SSL de dernière génération. Nous utilisons des partenaires bancaires reconnus pour garantir la sécurité de vos données. De plus, nous ne demandons jamais vos identifiants Instagram. Seul le lien de votre profil est requis."
-            },
-            {
-              question: "Proposez-vous une garantie en cas de perte de likes ?",
-              answer: "Oui. Si certains likes disparaissent dans les 30 jours suivant la commande, ils sont automatiquement remplacés grâce à notre garantie incluse. Vous conservez ainsi le même nombre de likes, sans frais supplémentaires."
-            },
-            {
-              question: "Les likes achetés peuvent-ils disparaître ?",
-              answer: "Comme tout engagement sur Instagram, un like peut disparaître avec le temps, notamment si le profil qui a liké est suspendu ou supprimé. Cela reste marginal, mais pour compenser ces éventuelles pertes, notre garantie de remplacement est prévue dans chaque commande."
-            },
-            {
-              question: "D'où viennent vos likes ?",
-              answer: "Nos likes proviennent principalement de profils francophones d'Europe de l'Ouest, comme la France, la Belgique ou la Suisse. Ce ciblage permet de renforcer votre crédibilité si vous vous adressez à une audience francophone."
-            },
-            {
-              question: "Comment optimiser l'effet des likes achetés ?",
-              answer: "Acheter des likes Instagram permet de booster votre engagement, mais l'impact réel dépend aussi de votre activité sur la plateforme. Il est essentiel de publier régulièrement, de proposer un contenu de qualité, d'interagir avec votre audience et de soigner votre stratégie de communication. Ces efforts renforcent l'engagement de vos posts et valorisent l'investissement."
-            },
-            {
-              question: "Est-ce que les likes achetés vont générer plus d'engagement ?",
-              answer: "Chez Doctor Followers, nous fournissons uniquement des likes Instagram réels, issus de profils actifs. Leur impact sur l'engagement dépendra en grande partie de la qualité de votre contenu. Si vos publications sont pertinentes, attrayantes et bien ciblées, les likes achetés peuvent naturellement attirer plus d'interactions (commentaires, partages, nouveaux followers). Toutefois, comme pour tout engagement, l'effet ne peut jamais être garanti à 100 %. C'est pourquoi nous recommandons d'allier achat de likes avec une stratégie de contenu régulière et engageante."
-            },
-            {
-              question: "Puis-je choisir sur quels posts appliquer les likes ?",
-              answer: "Oui, absolument ! Après avoir sélectionné votre pack de likes et votre profil Instagram, vous pourrez choisir spécifiquement sur quels posts vous souhaitez appliquer les likes. Notre système vous permet de sélectionner les posts de votre choix et de répartir les likes selon vos préférences."
-            },
-            {
-              question: "Les likes sont-ils distribués de manière naturelle ?",
-              answer: "Oui, nous distribuons les likes de manière progressive et naturelle pour éviter tout soupçon. Les likes arrivent de façon échelonnée sur plusieurs heures, simulant un engagement organique naturel. Cela garantit que vos posts gagnent en visibilité sans éveiller les soupçons de l'algorithme d'Instagram."
-            }
-          ]}
+          faqs={faqData}
         />
       </main>
 

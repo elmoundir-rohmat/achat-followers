@@ -182,14 +182,17 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
                       </div>
                       <div className="ml-6 space-y-1">
                         {platform.services.map((service) => (
-                          <a
+                          <button
                             key={service.id}
-                            href={service.href}
-                            className="flex items-center space-x-2 text-blue-200 hover:text-white transition-colors"
+                            onClick={() => {
+                              onNavigate?.(service.id);
+                              setIsMenuOpen(false);
+                            }}
+                            className="flex items-center space-x-2 text-blue-200 hover:text-white transition-colors w-full text-left"
                           >
                             <div>{service.icon}</div>
                             <span className="text-sm">{service.name}</span>
-                          </a>
+                          </button>
                         ))}
                       </div>
                     </div>

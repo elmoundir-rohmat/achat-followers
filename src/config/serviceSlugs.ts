@@ -22,8 +22,8 @@ export const servicePages: ServicePage[] = [
     keywords: ['followers instagram', 'acheter followers', 'followers réels', 'boost instagram', 'croissance instagram'],
     category: 'instagram',
     serviceType: 'followers',
-    metaTitle: 'Acheter des followers Instagram Actifs',
-    metaDescription: 'Achetez des followers Instagram & TikTok 100% réels. Livraison instantanée, satisfait ou remboursé. Boostez votre crédibilité en une minute !',
+    metaTitle: 'Acheter des Followers Instagram Réels et Actifs | Doctor Followers',
+    metaDescription: 'Achetez des followers Instagram 100% réels et actifs. Livraison instantanée, garantie satisfait ou remboursé.',
     canonicalUrl: '/products/acheter-followers-instagram'
   },
   {

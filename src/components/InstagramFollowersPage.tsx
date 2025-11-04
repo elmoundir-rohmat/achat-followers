@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Instagram, Star, Shield, Clock, CheckCircle, Heart, TrendingUp, Users2, Zap } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
@@ -9,6 +9,82 @@ import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
+// FAQ data pour le Schema.org
+const faqData = [
+  {
+    question: "Comment acheter des followers Instagram sur Doctor Followers ?",
+    answer: "Le processus est très simple : 1) Choisissez votre pack de followers (français ou internationaux), 2) Sélectionnez la quantité désirée, 3) Cliquez sur 'Acheter maintenant' et entrez votre nom d'utilisateur Instagram, 4) Procédez au paiement sécurisé. Aucun mot de passe n'est requis, seulement le lien de votre profil Instagram. La livraison commence automatiquement dès la confirmation du paiement."
+  },
+  {
+    question: "Combien de temps faut-il pour recevoir mes followers Instagram ?",
+    answer: "La livraison débute immédiatement après la confirmation de votre paiement. En général, vous recevez vos followers Instagram dans un délai de 6 à 24 heures. Pour une croissance plus naturelle et discrète, vous pouvez choisir une livraison progressive répartie sur plusieurs jours. Notre système respecte les limites d'Instagram pour éviter tout risque de détection."
+  },
+  {
+    question: "Les followers Instagram achetés sont-ils réels et actifs ?",
+    answer: "Oui, absolument. Chez Doctor Followers, nous fournissons exclusivement des followers Instagram réels et actifs. Ce sont des comptes authentiques d'utilisateurs réels, principalement originaires d'Europe de l'Ouest (France, Belgique, Suisse). Aucun bot, aucun faux profil, aucun compte inactif. Chaque follower acheté est un utilisateur réel susceptible d'interagir avec votre contenu si celui-ci correspond à ses centres d'intérêt."
+  },
+  {
+    question: "Quelle est la différence entre followers français et internationaux ?",
+    answer: "Les followers Instagram français sont ciblés selon votre région et votre domaine d'activité. Ils sont plus susceptibles d'interagir avec votre contenu car ils partagent des intérêts similaires. Les followers internationaux proviennent d'Europe de l'Ouest sans ciblage spécifique. Ils sont idéaux pour augmenter rapidement votre nombre d'abonnés et améliorer votre crédibilité générale. Le choix dépend de vos objectifs : engagement localisé ou croissance rapide."
+  },
+  {
+    question: "Est-ce risqué d'acheter des followers Instagram ? Mon compte peut-il être banni ?",
+    answer: "Non, votre compte Instagram ne risque rien si vous passez par un fournisseur sérieux comme Doctor Followers. Nos méthodes sont 100% conformes aux conditions d'utilisation d'Instagram. Nous respectons les limites de l'algorithme, utilisons uniquement des profils authentiques, et ne demandons jamais vos identifiants. Nous livrons progressivement pour une croissance naturelle. Aucun de nos clients n'a jamais été banni grâce à nos méthodes sécurisées."
+  },
+  {
+    question: "Quel est le nombre minimum et maximum de followers que je peux acheter ?",
+    answer: "Vous pouvez acheter des followers Instagram à partir de 25 abonnés jusqu'à 50 000 en un seul achat. Pour des quantités supérieures (100 000+ followers), contactez-nous par email pour un devis personnalisé. Nous proposons également des packs progressifs pour une croissance régulière sur plusieurs semaines."
+  },
+  {
+    question: "Quels moyens de paiement acceptez-vous ?",
+    answer: "Nous acceptons tous les moyens de paiement sécurisés : cartes bancaires (Visa, Mastercard, American Express), PayPal, et virements bancaires. Toutes les transactions sont protégées par un protocole SSL de dernière génération et un cryptage 256 bits. Vos données bancaires ne sont jamais stockées sur nos serveurs."
+  },
+  {
+    question: "Proposez-vous une garantie sur les followers Instagram achetés ?",
+    answer: "Oui, nous offrons une garantie de 30 jours incluse dans chaque commande. Si certains followers se désabonnent dans les 30 jours suivant la livraison, ils sont automatiquement remplacés gratuitement. De plus, nous proposons une garantie 'Satisfait ou remboursé' : si vous n'êtes pas satisfait, nous vous remboursons intégralement dans les 24 heures."
+  },
+  {
+    question: "Les followers achetés vont-ils interagir avec mes publications (likes, commentaires) ?",
+    answer: "Les followers que nous fournissons sont des utilisateurs réels et actifs. Leur niveau d'interaction dépend principalement de la qualité et de la pertinence de votre contenu. Si vos publications sont attrayantes, bien ciblées et régulières, certains followers achetés peuvent naturellement interagir (likes, vues, commentaires). Cependant, l'engagement ne peut jamais être garanti à 100%, comme pour toute communauté organique. Nous recommandons d'allier achat de followers avec une stratégie de contenu régulière."
+  },
+  {
+    question: "Instagram peut-il détecter que j'ai acheté des followers ?",
+    answer: "Non, Instagram ne peut pas détecter nos followers car ce sont des comptes réels et authentiques. Nous livrons progressivement pour simuler une croissance naturelle, respectons les limites de l'algorithme, et utilisons uniquement des profils avec une activité normale. Contrairement aux bots ou faux comptes, nos followers passent inaperçus car ils se comportent comme des utilisateurs organiques."
+  },
+  {
+    question: "Dois-je fournir mon mot de passe Instagram pour acheter des followers ?",
+    answer: "Absolument pas ! Nous ne demandons jamais vos identifiants Instagram. C'est même l'un des signes d'un service sérieux. Seul le lien de votre profil Instagram (ex: instagram.com/votrenom) est requis. Nous ne stockons aucune donnée sensible et respectons votre vie privée. Votre compte reste 100% sécurisé."
+  },
+  {
+    question: "Que se passe-t-il si ma livraison est incomplète ou si des followers manquent ?",
+    answer: "Si vous constatez que votre commande est incomplète, contactez immédiatement notre service client. Nous vérifions chaque commande et complétons automatiquement la livraison si nécessaire. Dans le cas rare d'un problème technique, nous livrons les followers manquants dans les 48 heures ou vous remboursons intégralement si vous le préférez."
+  },
+  {
+    question: "Puis-je acheter des followers pour plusieurs comptes Instagram en même temps ?",
+    answer: "Oui, vous pouvez commander des followers pour autant de comptes Instagram que vous souhaitez. Chaque commande est traitée indépendamment. Pour des commandes multiples, nous recommandons de les espacer légèrement (quelques heures d'intervalle) pour une croissance plus naturelle. Contactez-nous pour des commandes en gros volume (plus de 5 comptes simultanés)."
+  },
+  {
+    question: "Les followers restent-ils sur mon compte à long terme ?",
+    answer: "Oui, la grande majorité des followers restent sur votre compte. Comme pour toute communauté organique, il est normal qu'une petite partie (environ 2-5%) se désabonne avec le temps, notamment si votre contenu ne correspond pas à leurs intérêts. C'est pourquoi nous incluons une garantie de 30 jours pour remplacer automatiquement les followers perdus. Après cette période, la rétention est généralement excellente (95%+) si vous maintenez une activité régulière."
+  },
+  {
+    question: "Comment optimiser l'impact des followers Instagram achetés ?",
+    answer: "Pour maximiser l'effet des followers achetés : 1) Publiez du contenu régulièrement (minimum 3-4 fois par semaine), 2) Créez du contenu de qualité et engageant, 3) Interagissez avec votre audience (répondez aux commentaires, stories), 4) Utilisez les hashtags pertinents, 5) Publiez aux heures de forte activité, 6) Collaborez avec d'autres comptes. Ces bonnes pratiques renforcent l'engagement et valorisent votre investissement."
+  },
+  {
+    question: "Puis-je annuler ma commande avant la livraison ?",
+    answer: "Oui, vous pouvez annuler votre commande à tout moment avant le début de la livraison. Contactez-nous par email avec votre numéro de commande et nous procédons au remboursement intégral dans les 24 heures. Une fois la livraison commencée, notre garantie de remplacement s'applique en cas de problème."
+  },
+  {
+    question: "Combien coûte l'achat de followers Instagram ?",
+    answer: "Nos prix varient selon la quantité et le type de followers (français ou internationaux). Les packs démarrent à partir de 9,99€ pour 25 followers et peuvent aller jusqu'à 299,99€ pour 50 000 followers. Plus vous achetez, plus le prix par follower diminue. Les followers français sont généralement 10-15% plus chers que les internationaux car ils sont ciblés et plus engagés."
+  },
+  {
+    question: "Vos followers Instagram proviennent-ils de vrais pays ?",
+    answer: "Oui, absolument. Nos followers Instagram proviennent de vrais comptes situés principalement en Europe de l'Ouest : France, Belgique, Suisse, Allemagne, Espagne, Italie. Chaque follower a une localisation réelle, une activité normale, et des centres d'intérêt authentiques. Pour les followers français, nous sélectionnons spécifiquement des comptes situés en France pour garantir une meilleure compatibilité avec votre audience."
+  }
+];
+
 export default function InstagramFollowersPage({ onBack }: { onBack: () => void }) {
   const [followerType, setFollowerType] = useState('international');
   const [selectedPackage, setSelectedPackage] = useState('');
@@ -16,6 +92,54 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername } = useCart();
+
+  // Fonction pour naviguer vers d'autres pages Instagram
+  const navigateToInstagramService = (service: 'likes' | 'views' | 'comments') => {
+    const urls = {
+      likes: '/products/acheter-des-likes-instagram',
+      views: '/products/acheter-des-vues-instagram',
+      comments: '/products/acheter-des-commentaires-instagram'
+    };
+    window.location.href = urls[service];
+  };
+
+  // Ajouter le Schema FAQPage dynamique pour le SEO
+  useEffect(() => {
+    const schemaScript = document.createElement('script');
+    schemaScript.type = 'application/ld+json';
+    schemaScript.id = 'faq-schema-instagram-followers';
+    
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqData.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    };
+    
+    schemaScript.textContent = JSON.stringify(schemaData);
+    
+    // Supprimer l'ancien schema s'il existe
+    const existingScript = document.getElementById('faq-schema-instagram-followers');
+    if (existingScript) {
+      existingScript.remove();
+    }
+    
+    document.head.appendChild(schemaScript);
+    
+    // Cleanup
+    return () => {
+      const script = document.getElementById('faq-schema-instagram-followers');
+      if (script) {
+        script.remove();
+      }
+    };
+  }, []);
 
   const getPackagePriceLocal = (packageId: string) => {
     return getPackagePrice(packageId, 'followers', followerType as 'french' | 'international');
@@ -80,7 +204,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="flex items-center mb-6">
                 <Instagram className="w-16 h-16 mr-4" />
                 <h1 className="text-5xl md:text-7xl font-bold">
-                  Acheter des followers Instagram
+                  Acheter des Followers Instagram Réels et Actifs
                 </h1>
               </div>
               <p className="text-xl md:text-2xl mb-8 opacity-90">
@@ -301,7 +425,10 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                   entrepreneur ou influenceur, un faible nombre de followers nuit à votre image. 
                   <strong className="text-blue-600">Acheter des abonnés Instagram</strong> permet de franchir ce cap. 
                   Un compte bien suivi inspire confiance, attire naturellement plus d'abonnés... 
-                  et suscite plus d'intérêt de la part de l'algorithme.
+                  et suscite plus d'intérêt de la part de l'algorithme. Pour compléter votre stratégie, 
+                  pensez également à <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline">acheter des likes Instagram</a>, 
+                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des vues Instagram</a> ou 
+                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des commentaires Instagram</a> pour renforcer votre engagement.
                 </p>
               </div>
             </div>
@@ -312,7 +439,9 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 <p className="text-lg text-gray-600 leading-relaxed">
                   L'onglet "Explorer" est la vitrine ultime sur Instagram. C'est ici que l'algorithme
                   met en avant les contenus susceptibles de devenir viraux. Pour y figurer, votre compte
-                  doit générer un taux d'interaction élevé : likes, commentaires, partages...
+                  doit générer un taux d'interaction élevé : <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline">likes</a>, 
+                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> commentaires</a>, 
+                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> vues</a>, partages...
                   <strong className="text-pink-600">En achetant des followers Instagram français</strong>, 
                   vous renforcez votre activité sur la plateforme.
                   Plus vos publications engagent, plus Instagram vous met en avant. C'est un cercle
@@ -344,7 +473,10 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                   et durable. Chaque abonné livré est un utilisateur réel, sélectionné pour correspondre
                   à votre profil. Associé à un contenu régulier, cela favorise des interactions naturelles.
                   L'objectif n'est pas juste d'avoir plus de followers, mais de <strong className="text-purple-600">créer des liens avec des
-                  abonnés</strong> susceptibles de devenir clients, fans ou partenaires.
+                  abonnés</strong> susceptibles de devenir clients, fans ou partenaires. Pour maximiser l'engagement, 
+                  combinez vos followers avec des <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline">likes Instagram</a>, 
+                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des vues Instagram</a> et 
+                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-blue-600 hover:text-blue-800 font-semibold underline"> des commentaires Instagram</a> pour créer une dynamique d'interaction complète.
                 </p>
               </div>
             </div>
@@ -355,48 +487,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
 
         {/* FAQ Section */}
         <FAQSection 
-          faqs={[
-            {
-              question: "Combien de temps faut-il pour recevoir ma commande ?",
-              answer: "Dès que votre paiement est confirmé, la livraison des abonnés débute rapidement. En général, vous recevez vos followers dans un délai de 6 à 24 heures. Si vous optez pour l'option express, votre commande est traitée en moins d'une heure. Il est également possible de choisir une livraison progressive, répartie sur plusieurs jours, pour une croissance plus discrète et naturelle de votre compte Instagram."
-            },
-            {
-              question: "Les abonnés Instagram achetés sont-ils réels ?",
-              answer: "Oui, absolument. Sur Doctor Followers, nous mettons un point d'honneur à fournir uniquement des abonnés réels et actifs. Ces followers proviennent en majorité d'Europe de l'Ouest, et pour les commandes premium, ils sont spécifiquement sélectionnés selon votre région afin de garantir une meilleure compatibilité avec votre audience cible. Aucun faux profil, aucun robot : chaque compte livré est un utilisateur authentique, susceptible d'interagir avec votre contenu si celui-ci correspond à ses centres d'intérêt."
-            },
-            {
-              question: "Est-ce risqué d'acheter des followers Instagram ?",
-              answer: "Non, à condition de passer par un fournisseur sérieux comme ThinkWell. Nos méthodes de livraison sont conformes aux conditions d'utilisation d'Instagram. Nous ne vous demandons jamais vos identifiants, et nous utilisons uniquement des profils authentiques. Nos méthodes sont sûres et respectent les limites d'Instagram."
-            },
-            {
-              question: "Quel est le nombre maximum d'abonnés Instagram que je peux acheter ?",
-              answer: "Sur notre site, vous pouvez acheter jusqu'à 50 000 abonnés Instagram en un seul achat. Pour des quantités plus importantes, vous pouvez nous contacter par email afin que nous vous proposions un devis personnalisé adapté à vos besoins et à vos délais."
-            },
-            {
-              question: "Le paiement est-il sécurisé ?",
-              answer: "Absolument. Toutes les transactions sur Doctor Followers sont protégées par un protocole SSL de dernière génération. Nous utilisons des partenaires bancaires reconnus pour garantir la sécurité de vos données. De plus, nous ne demandons jamais vos identifiants Instagram. Seul le lien de votre profil est requis."
-            },
-            {
-              question: "Proposez-vous une garantie en cas de désabonnement ?",
-              answer: "Oui. Si certains abonnés se désabonnent dans les 30 jours suivant la commande, ils sont automatiquement remplacés grâce à notre garantie incluse. Vous conservez ainsi le même nombre d'abonnés, sans frais supplémentaires."
-            },
-            {
-              question: "Les followers achetés peuvent-ils se désabonner ?",
-              answer: "Comme tout utilisateur d'Instagram, un abonné peut se désabonner avec le temps, notamment s'il ne s'identifie pas à votre contenu. Cela reste marginal, mais pour compenser ces éventuelles pertes, notre garantie de remplacement est prévue dans chaque commande."
-            },
-            {
-              question: "D'où viennent vos abonnés ?",
-              answer: "Nos followers proviennent principalement de pays francophones d'Europe de l'Ouest, comme la France, la Belgique ou la Suisse. Ce ciblage permet de renforcer votre crédibilité si vous vous adressez à une audience francophone."
-            },
-            {
-              question: "Comment optimiser l'effet des abonnés achetés ?",
-              answer: "Acheter des followers Instagram permet de booster votre crédibilité, mais l'impact réel dépend aussi de votre activité sur la plateforme. Il est essentiel de publier régulièrement, de proposer un contenu de qualité, d'interagir avec votre audience et de soigner votre stratégie de communication. Ces efforts renforcent l'engagement de vos nouveaux abonnés et valorisent l'investissement."
-            },
-            {
-              question: "Est-ce que les abonnés achetés vont interagir avec mes publications ?",
-              answer: "Chez Doctor Followers, nous fournissons uniquement des abonnés Instagram réels, issus de comptes actifs. Leur niveau d'interaction dépendra en grande partie de la qualité de votre contenu. Si vos publications sont pertinentes, attrayantes et bien ciblées, certains followers achetés peuvent naturellement interagir (likes, vues, commentaires). Toutefois, comme pour toute communauté, l'engagement ne peut jamais être garanti à 100 %. C'est pourquoi nous recommandons d'allier achat de followers avec une stratégie de contenu régulière et engageante."
-            }
-          ]}
+          faqs={faqData}
         />
       </main>
 

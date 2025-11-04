@@ -20,6 +20,40 @@ export default function Footer({ onNavigate }: FooterProps) {
           <span>✓ Garantie satisfait ou remboursé</span>
           <span>✓ Livraison garantie</span>
         </div>
+
+        {/* Nos meilleurs services */}
+        <div className="border-t border-gray-800 pt-6 mb-6">
+          <h3 className="text-lg font-semibold mb-4 text-white">Nos meilleurs services</h3>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <button
+              onClick={() => onNavigate?.('instagram-followers')}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Acheter des followers Instagram
+            </button>
+            <span className="text-gray-600">•</span>
+            <button
+              onClick={() => onNavigate?.('instagram-likes')}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Acheter des likes Instagram
+            </button>
+            <span className="text-gray-600">•</span>
+            <button
+              onClick={() => onNavigate?.('tiktok-followers')}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Acheter des abonnés TikTok
+            </button>
+            <span className="text-gray-600">•</span>
+            <button
+              onClick={() => onNavigate?.('tiktok-views')}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Acheter des vues TikTok
+            </button>
+          </div>
+        </div>
         
         {/* Informations légales discrètes */}
         <div className="border-t border-gray-800 pt-6">

@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "followers-reels-vs-bots-comment-faire-la-difference",
+      "slug": "followers-reels-vs-bots-comment-faire-la-difference",
+      "title": "Followers réels vs bots : comment faire la différence ?",
+      "excerpt": "Apprenez à distinguer les followers Instagram réels des bots. Guide complet avec techniques de détection, signes révélateurs et conseils pour protéger votre compte.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Followers", "Bots", "Détection", "Authenticité", "Sécurité"],
+      "date": "2025-01-20",
+      "readTime": 8,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "comment-gagner-premiers-euros-sora-2-chatgpt",
       "slug": "comment-gagner-premiers-euros-sora-2-chatgpt",
       "title": "Comment gagner ses premiers euros avec Sora 2 (Sora ChatGPT)",
@@ -113,8 +129,8 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-01-24",
-  "totalArticles": 7,
+  "lastUpdated": "2025-01-20",
+  "totalArticles": 8,
   "categories": [
     {
       "id": "instagram",
@@ -123,7 +139,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 4
+      "articleCount": 5
     },
     {
       "id": "tiktok",
@@ -182,7 +198,7 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 4
+      "articleCount": 5
     },
     {
       "id": "equipe-ia-innovation",
@@ -198,8 +214,8 @@
     }
   ],
   "stats": {
-    "totalArticles": 7,
-    "publishedArticles": 7,
+    "totalArticles": 8,
+    "publishedArticles": 8,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,

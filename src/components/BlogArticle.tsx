@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 interface BlogArticleProps {
   slug: string;
   onBack: () => void;
+  onNavigate?: (page: string) => void;
 }
 
-export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
+export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticleProps) {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [parsedContent, setParsedContent] = useState<{
     html: string;
@@ -257,7 +258,7 @@ export default function BlogArticle({ slug, onBack }: BlogArticleProps) {
           {/* CTA Button pour tous les articles */}
           <div className="text-center my-8">
             <button
-              onClick={() => window.open('https://doctorfollowers.com/instagram-followers', '_blank')}
+              onClick={() => onNavigate?.('instagram-followers')}
               className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center mx-auto"
             >
               <Users className="w-6 h-6 mr-3 group-hover:animate-pulse" />

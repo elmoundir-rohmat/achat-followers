@@ -669,6 +669,7 @@ function AppContent() {
         <BlogArticle 
           slug={currentArticleSlug}
           onBack={() => handleNavigate('blog')}
+          onNavigate={handleNavigate}
         />
         <Footer onNavigate={handleNavigate} />
       </div>

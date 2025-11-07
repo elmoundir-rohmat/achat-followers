@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "followers-reels-vs-bots",
+      "slug": "followers-reels-vs-bots",
+      "title": "Followers réels vs bots : comment faire la différence ?",
+      "excerpt": "Découvrez comment différencier les vrais followers des bots sur Instagram et protéger votre crédibilité.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["followers réels", "bots", "Instagram", "crédibilité", "engagement"],
+      "date": "2025-11-04",
+      "readTime": 8,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1520531158340-44015069e78e?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "followers-reels-vs-bots-comment-faire-la-difference",
       "slug": "followers-reels-vs-bots-comment-faire-la-difference",
       "title": "Followers réels vs bots : comment faire la différence ?",
@@ -129,8 +145,8 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-01-20",
-  "totalArticles": 8,
+  "lastUpdated": "2025-11-04",
+  "totalArticles": 9,
   "categories": [
     {
       "id": "instagram",
@@ -139,7 +155,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 5
+      "articleCount": 6
     },
     {
       "id": "tiktok",
@@ -198,7 +214,7 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 5
+      "articleCount": 6
     },
     {
       "id": "equipe-ia-innovation",
@@ -214,8 +230,8 @@
     }
   ],
   "stats": {
-    "totalArticles": 8,
-    "publishedArticles": 8,
+    "totalArticles": 9,
+    "publishedArticles": 9,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,

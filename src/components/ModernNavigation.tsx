@@ -123,7 +123,7 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
 
             {/* Other Menu Items */}
             <button
-              onClick={() => onNavigate?.('outils')}
+              onClick={() => onNavigate?.('tools')}
               className="text-white hover:text-blue-300 transition-colors font-medium"
             >
               Outils
@@ -204,7 +204,7 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
               <div className="space-y-2">
                 <button
                   onClick={() => {
-                    onNavigate?.('outils');
+                    onNavigate?.('tools');
                     setIsMenuOpen(false);
                   }}
                   className="block text-white hover:text-blue-300 transition-colors w-full text-left"

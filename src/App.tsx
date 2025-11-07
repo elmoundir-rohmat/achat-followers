@@ -30,9 +30,10 @@ import { CartProvider, useCart } from './contexts/CartContext';
 import { getServicePageBySlug } from './config/serviceSlugs';
 import { RoutingService } from './services/routingService';
 import { usePageTracking, trackEvent, trackPageView } from './hooks/usePageTracking';
+import ToolsPage from './components/ToolsPage';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel' | 'tools'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
@@ -60,7 +61,8 @@ function AppContent() {
       'legal': '/legal',
       'about': '/about',
       'contact': '/contact',
-      'blog': '/blog'
+      'blog': '/blog',
+      'tools': '/generateur-police-instagram'
     };
     
     const pageUrl = pageMap[currentPage] || `/${currentPage}`;
@@ -216,6 +218,9 @@ function AppContent() {
         setCurrentPage('contact');
       }
       // Page d'accueil
+      else if (path === '/generateur-police-instagram') {
+        setCurrentPage('tools');
+      }
       else if (path === '/') {
         setCurrentPage('home');
       }
@@ -405,6 +410,14 @@ function AppContent() {
     if (page === 'contact') {
       setCurrentPage('contact');
       window.history.pushState({}, '', '/contact');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+
+    // Page Outils
+    if (page === 'tools') {
+      setCurrentPage('tools');
+      window.history.pushState({}, '', '/generateur-police-instagram');
       setTimeout(() => setIsNavigating(false), 100);
       return;
     }
@@ -656,6 +669,17 @@ function AppContent() {
             window.history.pushState({}, '', `/blogs/${slug}`);
           }}
         />
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    );
+  }
+
+  // Page Outils
+  if (currentPage === 'tools') {
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <ModernNavigation onNavigate={handleNavigate} />
+        <ToolsPage onNavigate={handleNavigate} />
         <Footer onNavigate={handleNavigate} />
       </div>
     );

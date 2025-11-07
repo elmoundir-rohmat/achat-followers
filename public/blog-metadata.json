@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "followers-instagram-combien-faut-il-pour-etre-credible",
+      "slug": "followers-instagram-combien-faut-il-pour-etre-credible",
+      "title": "Followers Instagram : combien faut-il pour être crédible ?",
+      "excerpt": "Découvrez les paliers clés de followers Instagram pour inspirer confiance et les actions à mener pour que votre audience reste authentique et engagée.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Followers", "Crédibilité", "Marketing d'influence", "Preuve sociale"],
+      "date": "2025-11-07",
+      "readTime": 9,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "followers-reels-vs-bots",
       "slug": "followers-reels-vs-bots",
       "title": "Followers réels vs bots : comment faire la différence ?",
@@ -145,8 +161,8 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-11-04",
-  "totalArticles": 9,
+  "lastUpdated": "2025-11-07",
+  "totalArticles": 10,
   "categories": [
     {
       "id": "instagram",
@@ -155,7 +171,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 6
+      "articleCount": 7
     },
     {
       "id": "tiktok",
@@ -214,7 +230,7 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 6
+      "articleCount": 7
     },
     {
       "id": "equipe-ia-innovation",
@@ -230,8 +246,8 @@
     }
   ],
   "stats": {
-    "totalArticles": 9,
-    "publishedArticles": 9,
+    "totalArticles": 10,
+    "publishedArticles": 10,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,

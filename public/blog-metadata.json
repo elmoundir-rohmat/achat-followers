@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "acheter-des-followers-instagram-on-vous-dit-tout",
+      "slug": "acheter-des-followers-instagram-on-vous-dit-tout",
+      "title": "Acheter des followers Instagram : on vous dit tout",
+      "excerpt": "Analyse complète des avantages, risques et meilleures pratiques pour acheter des followers Instagram sans sacrifier votre crédibilité ni votre engagement.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Followers", "Achat followers", "Stratégie réseaux sociaux", "Crédibilité"],
+      "date": "2025-11-08",
+      "readTime": 11,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "followers-instagram-combien-faut-il-pour-etre-credible",
       "slug": "followers-instagram-combien-faut-il-pour-etre-credible",
       "title": "Followers Instagram : combien faut-il pour être crédible ?",
@@ -161,8 +177,8 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-11-07",
-  "totalArticles": 10,
+  "lastUpdated": "2025-11-08",
+  "totalArticles": 11,
   "categories": [
     {
       "id": "instagram",
@@ -171,7 +187,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 7
+      "articleCount": 8
     },
     {
       "id": "tiktok",
@@ -230,7 +246,7 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 7
+      "articleCount": 8
     },
     {
       "id": "equipe-ia-innovation",
@@ -246,8 +262,8 @@
     }
   ],
   "stats": {
-    "totalArticles": 10,
-    "publishedArticles": 10,
+    "totalArticles": 11,
+    "publishedArticles": 11,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,

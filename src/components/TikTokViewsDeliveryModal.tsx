@@ -18,12 +18,18 @@ interface TikTokViewsDeliveryModalProps {
   onClose: () => void;
   onConfirm: (option: DeliveryOption) => void;
   basePrice: number;
+  viewsCount?: number;
+  followerType?: 'french' | 'international' | 'premium';
+  tiktokUrl?: string;
 }
 
 export default function TikTokViewsDeliveryModal({ 
   onClose, 
   onConfirm, 
-  basePrice
+  basePrice,
+  viewsCount = 0,
+  followerType = 'premium',
+  tiktokUrl = ''
 }: TikTokViewsDeliveryModalProps) {
   const [selectedOption, setSelectedOption] = useState<string>('');
 

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Music, Star, Shield, Eye, Zap, ShoppingCart, X } from 'lucide-react';
-import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
 import TikTokViewsDeliveryModal from './TikTokViewsDeliveryModal';
 import { useCart } from '../contexts/CartContext';
-import { getPackagePrice } from '../config/packagesConfig';
+import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
 export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
-  const [followerType, setFollowerType] = useState('french');
   const [selectedPackage, setSelectedPackage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
@@ -15,12 +13,12 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
   const [tiktokUrl, setTiktokUrl] = useState('');
   const { addToCart } = useCart();
 
-  const getPackagePriceLocal = (packageId: string) => {
-    return getPackagePrice(packageId, 'tiktok_views', followerType as 'french' | 'international');
+  const getPrice = (packageId: string) => {
+    return getPackagePrice(packageId, 'tiktok_views');
   };
 
   const getPackageViews = (packageId: string) => {
-    return parseInt(packageId) || 0;
+    return getPackageQuantity(packageId, 'tiktok_views');
   };
 
   const validateTikTokUrl = (url: string): boolean => {
@@ -85,13 +83,13 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
     console.log('🔍 selectedPackage:', selectedPackage);
     console.log('🔍 tiktokUrl:', tiktokUrl);
     
-    const totalPrice = getPackagePriceLocal(selectedPackage) + deliveryOption.additionalCost;
+    const totalPrice = getPrice(selectedPackage) + deliveryOption.additionalCost;
     const normalizedUrl = normalizeTikTokUrl(tiktokUrl);
     
     const cartItem = {
       views: getPackageViews(selectedPackage),
       price: totalPrice,
-      followerType: followerType as 'french' | 'international',
+      followerType: 'premium' as any, // Premium Vues pour TikTok
       platform: 'TikTok',
       username: normalizedUrl, // URL normalisée de la vidéo TikTok
       delivery: deliveryOption,
@@ -191,24 +189,16 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
 
         {/* Main Content */}
          <div className="max-w-4xl mx-auto">
-           {/* Follower Type Selector */}
+           {/* Package Selection Premium Vues */}
            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 mb-8">
-             <h2 className="text-2xl font-bold text-white mb-6">Type de Vues</h2>
-             <FollowerTypeSelector
-               selectedType={followerType}
-               onTypeChange={setFollowerType}
-               title="Type de vues"
-               serviceKey="tiktok_views"
-             />
-           </div>
-
-           {/* Package Selection */}
-           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 mb-8">
-             <h2 className="text-2xl font-bold text-white mb-6">Choisissez votre Pack</h2>
+             <h2 className="text-2xl font-bold text-white mb-4">Premium Vues TikTok</h2>
+             <p className="text-blue-100 mb-6 text-center">
+               Choisissez votre package de vues premium
+             </p>
              <PackageSelector
                selectedPackage={selectedPackage}
                onPackageChange={setSelectedPackage}
-               followerType={followerType}
+               followerType="premium"
                isTikTokViews={true}
              />
            </div>
@@ -229,13 +219,13 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
                      </div>
                      <div>
                        <div className="text-3xl font-bold text-pink-600">
-                         {followerType === 'french' ? 'Françaises' : 'Internationales'}
+                         Premium
                        </div>
                        <div className="text-gray-600">Type de vues</div>
                      </div>
                      <div>
                        <div className="text-3xl font-bold text-green-600">
-                         {getPackagePriceLocal(selectedPackage).toFixed(2)}€
+                         {getPrice(selectedPackage).toFixed(2)}€
                        </div>
                        <div className="text-gray-600">Prix total</div>
                      </div>
@@ -296,11 +286,11 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Pack sélectionné :</span>
-                  <span className="font-semibold">{getPackageViews(selectedPackage).toLocaleString()} vues {followerType === 'french' ? 'françaises' : 'internationales'}</span>
+                  <span className="font-semibold">{getPackageViews(selectedPackage).toLocaleString()} vues Premium</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Prix :</span>
-                  <span className="font-semibold">{getPackagePriceLocal(selectedPackage).toFixed(2)}€</span>
+                  <span className="font-semibold">{getPrice(selectedPackage).toFixed(2)}€</span>
                 </div>
               </div>
             </div>
@@ -347,7 +337,10 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
           <TikTokViewsDeliveryModal
             onClose={() => setIsDeliveryModalOpen(false)}
             onConfirm={handleDeliveryConfirm}
-            basePrice={getPackagePriceLocal(selectedPackage)}
+            basePrice={getPrice(selectedPackage)}
+            viewsCount={getPackageViews(selectedPackage)}
+            followerType="premium" as any
+            tiktokUrl={tiktokUrl}
           />
         </>
       )}

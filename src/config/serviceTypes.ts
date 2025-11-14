@@ -219,33 +219,21 @@ export const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
     ]
   },
 
-  // TikTok Views - seulement Monde et France
+  // TikTok Views - Premium Vues (un seul type)
   'tiktok_views': {
     serviceName: 'TikTok Views',
     availableTypes: [
       {
-        id: 'international',
-        title: 'Views Monde',
-        description: 'Vues provenant du monde entier',
+        id: 'premium',
+        title: 'Premium Vues',
+        description: 'Vues premium de qualité supérieure',
         features: [
-          'Diversité géographique',
-          'Croissance rapide',
-          'Portée internationale',
-          'Prix avantageux'
+          'Qualité premium',
+          'Livraison instantanée',
+          'Engagement naturel',
+          'Garantie 30 jours'
         ],
-        icon: 'Globe'
-      },
-      {
-        id: 'french',
-        title: 'Views France',
-        description: 'Vues ciblées spécifiquement depuis la France',
-        features: [
-          'Profils 100% français',
-          'Meilleur engagement local',
-          'Contenu en français',
-          'Support français'
-        ],
-        icon: 'MapPin'
+        icon: 'Star'
       }
     ]
   }

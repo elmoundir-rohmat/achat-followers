@@ -464,16 +464,50 @@ export const VIEWS_PACKAGES: PackageConfig[] = [
   }
 ];
 
-// Packages pour les vues TikTok
+// Packages pour les vues TikTok Premium (un seul type, pas de distinction monde/français)
 export const TIKTOK_VIEWS_PACKAGES: PackageConfig[] = [
-  { id: '100', quantity: 100, priceInternational: 0.99, priceFrench: 1.98, features: ['Livraison instantanée', 'Vues réelles', 'Garantie 30j'], delivery: 'Instantané' },
-  { id: '250', quantity: 250, priceInternational: 1.95, priceFrench: 3.90, features: ['Livraison instantanée', 'Vues actives', 'Garantie 30j'], delivery: 'Instantané' },
-  { id: '1000', quantity: 1000, priceInternational: 2.95, priceFrench: 5.90, features: ['Livraison instantanée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'], delivery: 'Instantané', popular: true },
-  { id: '5000', quantity: 5000, priceInternational: 9.95, priceFrench: 19.90, features: ['Livraison instantanée', 'Vues premium', 'Garantie 30j', 'Remplacement gratuit'], delivery: 'Instantané' },
-  { id: '10000', quantity: 10000, priceInternational: 14.94, priceFrench: 29.88, features: ['Livraison instantanée', 'Vues vérifiées', 'Garantie 30j', 'Bonus engagement'], delivery: 'Instantané' },
-  { id: '25000', quantity: 25000, priceInternational: 29.95, priceFrench: 59.90, features: ['Livraison instantanée', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'], delivery: 'Instantané' },
-  { id: '50000', quantity: 50000, priceInternational: 49.95, priceFrench: 99.90, features: ['Livraison instantanée', 'Vues premium', 'Garantie 30j', 'Support VIP'], delivery: 'Instantané' },
-  { id: '250000', quantity: 250000, priceInternational: 99.00, priceFrench: 198.00, features: ['Livraison instantanée', 'Vues massives', 'Garantie 30j', 'Support VIP', 'Bonus exclusif'], delivery: 'Instantané' }
+  {
+    id: '100',
+    quantity: 100,
+    priceInternational: 1.00,
+    priceFrench: 1.00,
+    features: ['Livraison instantanée', 'Vues Premium', 'Garantie 30j'],
+    delivery: 'Instantané'
+  },
+  {
+    id: '1000',
+    quantity: 1000,
+    priceInternational: 1.95,
+    priceFrench: 1.95,
+    features: ['Livraison instantanée', 'Vues Premium', 'Garantie 30j'],
+    delivery: 'Instantané',
+    popular: true
+  },
+  {
+    id: '10000',
+    quantity: 10000,
+    priceInternational: 5.95,
+    priceFrench: 5.95,
+    features: ['Livraison instantanée', 'Vues Premium', 'Garantie 30j', 'Support prioritaire'],
+    delivery: 'Instantané',
+    popular: true
+  },
+  {
+    id: '100000',
+    quantity: 100000,
+    priceInternational: 39.95,
+    priceFrench: 39.95,
+    features: ['Livraison instantanée', 'Vues Premium', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: 'Instantané'
+  },
+  {
+    id: '1000000',
+    quantity: 1000000,
+    priceInternational: 199.95,
+    priceFrench: 199.95,
+    features: ['Livraison instantanée', 'Vues Premium', 'Garantie 30j', 'Manager dédié'],
+    delivery: 'Instantané'
+  }
 ];
 
 // Packages pour les commentaires TikTok
@@ -723,8 +757,8 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
   // Retourner 0 immédiatement si packageId est vide
   if (!packageId) return 0;
   
-  // Pour tiktok_followers et tiktok_likes, on ignore le followerType car il n'y a qu'un seul type Premium
-  const packages = getPackagesForService(serviceType, (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes') ? undefined : followerType);
+  // Pour tiktok_followers, tiktok_likes et tiktok_views, on ignore le followerType car il n'y a qu'un seul type Premium
+  const packages = getPackagesForService(serviceType, (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views') ? undefined : followerType);
   console.log('🔍 getPackagePrice debug:', {
     packageId,
     serviceType,
@@ -741,10 +775,10 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
     return 0;
   }
   
-  // Pour tiktok_followers et tiktok_likes, on utilise toujours priceInternational (même prix pour tous)
+  // Pour tiktok_followers, tiktok_likes et tiktok_views, on utilise toujours priceInternational (même prix pour tous)
   let price: number;
-  if (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes') {
-    price = pkg.priceInternational; // Prix unique pour Premium Followers/Likes
+  if (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views') {
+    price = pkg.priceInternational; // Prix unique pour Premium Followers/Likes/Views
   } else {
     price = followerType === 'french' ? pkg.priceFrench : pkg.priceInternational;
   }

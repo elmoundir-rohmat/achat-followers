@@ -50,6 +50,8 @@ export default async function handler(
       quantity,
       quantity_type: typeof quantity,
       quantity_value: quantity,
+      comments: comments ? `${comments.length} commentaires` : 'undefined',
+      comments_preview: comments ? comments.slice(0, 2) : 'undefined',
       runs,
       interval,
       order_id
@@ -124,12 +126,21 @@ export default async function handler(
     
     // Pour les commentaires personnalisés, envoyer la liste des commentaires (1 par ligne)
     // Le SMMA compte automatiquement le nombre de commentaires
+    // IMPORTANT: Ne pas envoyer 'quantity' quand on envoie 'comments' (selon la doc PHP)
     if (isCustomComments && comments) {
-      // Joindre les commentaires avec des retours à la ligne
-      // Le SMMA attend probablement les commentaires comme une chaîne avec \n
-      params.comments = comments.join('\n');
-      console.log('📝 Envoi de commentaires personnalisés:', comments.length, 'commentaires');
-      console.log('📝 Commentaires:', comments);
+      // Nettoyer et joindre les commentaires avec des retours à la ligne
+      // Le SMMA attend les commentaires comme une chaîne avec \n (ex: "good pic\ngreat photo\n:)")
+      const cleanedComments = comments
+        .map(comment => comment.trim())
+        .filter(comment => comment !== '');
+      
+      params.comments = cleanedComments.join('\n');
+      console.log('📝 Envoi de commentaires personnalisés:', cleanedComments.length, 'commentaires');
+      console.log('📝 Commentaires formatés:', params.comments);
+      console.log('📝 Commentaires (array):', cleanedComments);
+      
+      // IMPORTANT: Ne pas envoyer quantity pour les commentaires personnalisés
+      // Le SMMA compte automatiquement le nombre de lignes dans comments
     } else if (quantity !== undefined) {
       // Pour les autres services ou commentaires aléatoires, envoyer la quantité
       params.quantity = quantity.toString();
@@ -164,14 +175,36 @@ export default async function handler(
     if (action === 'tiktok_comments') {
       console.log('🔍 DEBUG API Route - Paramètres finaux TikTok Comments:');
       console.log('🔍 DEBUG API Route - service:', params.service);
-      console.log('🔍 DEBUG API Route - quantity:', params.quantity);
+      if (isCustomComments) {
+        console.log('🔍 DEBUG API Route - comments (personnalisés):', params.comments);
+        console.log('🔍 DEBUG API Route - comments length:', params.comments?.split('\n').length);
+        console.log('🔍 DEBUG API Route - quantity (ne doit PAS être présent):', params.quantity);
+      } else {
+        console.log('🔍 DEBUG API Route - quantity (aléatoires):', params.quantity);
+        console.log('🔍 DEBUG API Route - comments (ne doit PAS être présent):', params.comments);
+      }
       console.log('🔍 DEBUG API Route - link:', params.link);
       console.log('🔍 DEBUG API Route - action:', params.action);
     }
 
     // Appel API SMMA
     console.log('🌐 URL JustAnotherPanel:', smmaApiUrl);
-    console.log('📤 Body envoyé à JustAnotherPanel:', new URLSearchParams(params).toString());
+    
+    // Pour debug : afficher le body avant encodage
+    const bodyString = new URLSearchParams(params).toString();
+    console.log('📤 Body envoyé à JustAnotherPanel (string):', bodyString);
+    console.log('📤 Body envoyé à JustAnotherPanel (params object):', params);
+    
+    // Vérification spéciale pour les commentaires personnalisés
+    if (isCustomComments && params.comments) {
+      console.log('🔍 Vérification commentaires personnalisés:');
+      console.log('  - Service ID:', params.service);
+      console.log('  - Link:', params.link);
+      console.log('  - Comments (raw):', params.comments);
+      console.log('  - Comments (split):', params.comments.split('\n'));
+      console.log('  - Comments count:', params.comments.split('\n').length);
+      console.log('  - Quantity présent?', params.quantity ? 'OUI (ERREUR!)' : 'NON (correct)');
+    }
     
     const response = await fetch(smmaApiUrl, {
       method: 'POST',

@@ -87,10 +87,13 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
           const serviceName = item.likes && item.likes > 0 ? 'vidéo' : (item.views && item.views > 0 ? 'vidéo' : 'profil');
           throw new Error(`URL de ${serviceName} TikTok manquante pour la commande SMMA`);
         }
+        // Pour Premium Followers, on utilise toujours 'tiktok_international' (même service ID 8200)
+        const followerTypeForSMMA = item.followerType === 'premium' ? 'tiktok_international' : 
+                                     (item.followerType === 'french' ? 'tiktok_french' : 'tiktok_international');
         return {
           username: item.username,
           followers: item.followers,
-          followerType: item.followerType === 'french' ? 'tiktok_french' : 'tiktok_international',
+          followerType: followerTypeForSMMA,
           orderId: orderId,
           paymentId: result.payment_id || result.transaction_id,
           runs: item.deliveryOption?.runs,

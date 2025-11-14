@@ -7,7 +7,7 @@ export interface CartItem {
   comments?: number;
   views?: number;
   price: number;
-  followerType: 'french' | 'international';
+  followerType: 'french' | 'international' | 'premium';
   username?: string;
   platform?: string;
   serviceId?: number;

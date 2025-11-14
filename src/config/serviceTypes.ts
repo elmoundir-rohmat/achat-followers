@@ -150,33 +150,21 @@ export const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
     ]
   },
 
-  // TikTok Followers - seulement Monde et France
+  // TikTok Followers - Premium Followers (un seul type)
   'tiktok_followers': {
     serviceName: 'TikTok Followers',
     availableTypes: [
       {
-        id: 'international',
-        title: 'Followers Monde',
-        description: 'Followers provenant du monde entier',
+        id: 'premium',
+        title: 'Premium Followers',
+        description: 'Followers premium de qualité supérieure',
         features: [
-          'Diversité géographique',
+          'Qualité premium',
           'Croissance rapide',
-          'Portée internationale',
-          'Prix avantageux'
+          'Engagement naturel',
+          'Garantie 30 jours'
         ],
-        icon: 'Globe'
-      },
-      {
-        id: 'french',
-        title: 'Followers France',
-        description: 'Followers ciblés spécifiquement depuis la France',
-        features: [
-          'Profils 100% français',
-          'Meilleur engagement local',
-          'Contenu en français',
-          'Support français'
-        ],
-        icon: 'MapPin'
+        icon: 'Star'
       }
     ]
   },

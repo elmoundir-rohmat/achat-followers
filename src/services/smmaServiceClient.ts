@@ -275,8 +275,10 @@ class SMMAServiceClient {
       console.log('🚀 Envoi de la commande TikTok (client → serveur):', order);
       console.log('🔍 DEBUG order.followerType:', order.followerType);
       
-      // Utiliser getServiceId avec 'tiktok_followers' pour obtenir le bon service ID (9583)
-      const serviceId = getServiceId('tiktok_followers', order.followerType);
+      // Utiliser getServiceId avec 'tiktok_followers' pour obtenir le bon service ID (8200)
+      // Pour Premium Followers, on utilise toujours 'international' comme fallback
+      const followerTypeForService = order.followerType === 'premium' ? 'international' : order.followerType;
+      const serviceId = getServiceId('tiktok_followers', followerTypeForService as 'french' | 'international');
       console.log('🔍 DEBUG serviceId retourné:', serviceId);
       
       if (!serviceId) {
@@ -284,10 +286,10 @@ class SMMAServiceClient {
         return { success: false, error: `Service non trouvé pour le type: tiktok_followers ${order.followerType}` };
       }
 
-      console.log('✅ Service ID TikTok Followers:', serviceId);
+      console.log('✅ Service ID TikTok Followers Premium:', serviceId);
       
-      if (serviceId !== 9583) {
-        console.error('❌❌❌ ERREUR: Service ID incorrect !', serviceId, 'au lieu de 9583');
+      if (serviceId !== 8200) {
+        console.error('❌❌❌ ERREUR: Service ID incorrect !', serviceId, 'au lieu de 8200');
       }
 
       const response = await fetch('/api/smma/order', {

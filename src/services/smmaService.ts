@@ -1,10 +1,10 @@
 // Service pour l'intégration avec la plateforme SMMA (JustAnotherPanel)
-import { getSMMAServiceId, getServiceDescription } from '../config/smmaMapping';
+import { getSMMAServiceId, getServiceDescription, getServiceId } from '../config/smmaMapping';
 
 export interface SMMAOrder {
   username: string;
   followers: number;
-  followerType: 'french' | 'international'; // SEULEMENT pour les followers
+  followerType: 'french' | 'international' | 'premium'; // Pour les followers (premium pour TikTok)
   serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes'; // Type de service
   orderId: string;
   paymentId: string;
@@ -307,12 +307,15 @@ class SMMAService {
     try {
       console.log('🚀 Envoi de la commande SMMA TikTok:', order);
       
-      const serviceId = getSMMAServiceId(order.followerType);
+      // Utiliser getServiceId pour obtenir le service ID (8200 pour Premium Followers)
+      // Pour Premium Followers, on utilise toujours 'international' comme fallback
+      const followerTypeForService = order.followerType === 'premium' ? 'international' : order.followerType;
+      const serviceId = getServiceId('tiktok_followers', followerTypeForService as 'french' | 'international');
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: ${order.followerType}` };
+        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_followers ${order.followerType}` };
       }
       
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} followers TikTok ${order.followerType}`);
+      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} followers TikTok Premium`);
 
       const params: Record<string, string> = {
         key: this.apiKey,

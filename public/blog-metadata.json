@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "id": "que-faire-apres-avoir-achete-des-followers-instagram-le-guide-complet",
+      "slug": "que-faire-apres-avoir-achete-des-followers-instagram-le-guide-complet",
+      "title": "Que faire après avoir acheté des followers Instagram ? Le guide complet",
+      "excerpt": "Vous venez d’acheter des followers Instagram ? Découvrez les 10 actions prioritaires pour transformer cette preuve sociale en croissance réelle et durable.",
+      "author": "moundir-rohmat",
+      "category": "Instagram",
+      "tags": ["Instagram", "Followers", "Stratégie post-achat", "Engagement", "Community management"],
+      "date": "2025-11-13",
+      "readTime": 10,
+      "featured": true,
+      "published": true,
+      "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=400&fit=crop",
+      "views": 0,
+      "likes": 0
+    },
+    {
       "id": "acheter-des-followers-instagram-on-vous-dit-tout",
       "slug": "acheter-des-followers-instagram-on-vous-dit-tout",
       "title": "Acheter des followers Instagram : on vous dit tout",
@@ -177,8 +193,8 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-11-08",
-  "totalArticles": 11,
+  "lastUpdated": "2025-11-09",
+  "totalArticles": 12,
   "categories": [
     {
       "id": "instagram",
@@ -187,7 +203,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 8
+      "articleCount": 9
     },
     {
       "id": "tiktok",
@@ -246,7 +262,7 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 8
+      "articleCount": 9
     },
     {
       "id": "equipe-ia-innovation",
@@ -262,8 +278,8 @@
     }
   ],
   "stats": {
-    "totalArticles": 11,
-    "publishedArticles": 11,
+    "totalArticles": 12,
+    "publishedArticles": 12,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,

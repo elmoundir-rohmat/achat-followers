@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Music, Star, Shield, Users2, Zap, ShoppingCart, X } from 'lucide-react';
-import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
 import TikTokDeliveryModal from './TikTokDeliveryModal';
 import TikTokCheckoutPage from './TikTokCheckoutPage';
 import { useCart } from '../contexts/CartContext';
+import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
 export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) {
-  const [followerType, setFollowerType] = useState('french');
   const [selectedPackage, setSelectedPackage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
@@ -15,23 +14,12 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
   const [tiktokUrl, setTiktokUrl] = useState('');
   const { addToCart } = useCart();
 
-  const getPackagePrice = (packageId: string) => {
-    const internationalPrices: Record<string, number> = {
-      '25': 0.99,
-      '100': 2.95,
-      '250': 6.95,
-      '500': 8.95,
-      '1000': 14.95,
-      '5000': 49.95,
-      '10000': 97,
-      '25000': 229
-    };
-    const basePrice = internationalPrices[packageId] || 0;
-    return followerType === 'french' ? (basePrice * 2) : basePrice;
+  const getPrice = (packageId: string) => {
+    return getPackagePrice(packageId, 'tiktok_followers');
   };
 
   const getPackageFollowers = (packageId: string) => {
-    return parseInt(packageId) || 0;
+    return getPackageQuantity(packageId, 'tiktok_followers');
   };
 
   const handlePurchase = () => {
@@ -69,12 +57,12 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
 
   const handleDeliveryConfirm = (deliveryOption: any) => {
     const followersCount = getPackageFollowers(selectedPackage);
-    const totalPrice = getPackagePrice(selectedPackage) + deliveryOption.additionalCost;
+    const totalPrice = getPrice(selectedPackage) + deliveryOption.additionalCost;
     
     addToCart({
       followers: followersCount, // Quantité commandée (pas multipliée)
       price: totalPrice,
-      followerType: followerType as 'french' | 'international',
+      followerType: 'premium' as any, // Premium Followers pour TikTok
       platform: 'TikTok',
       username: tiktokUrl,
       deliveryOption: {
@@ -145,27 +133,19 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
-        {/* Type de Followers */}
+        {/* Sélection du Package Premium Followers */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
-            Choisissez votre type de followers
+          <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            Premium Followers TikTok
           </h2>
-          <FollowerTypeSelector 
-            selectedType={followerType} 
-            onTypeChange={setFollowerType}
-            serviceKey="tiktok_followers"
-          />
-        </div>
-
-        {/* Sélection du Package */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
-            Sélectionnez votre package
-          </h2>
+          <p className="text-center text-gray-600 mb-8">
+            Choisissez votre package de followers premium
+          </p>
           <PackageSelector 
             selectedPackage={selectedPackage}
             onPackageChange={setSelectedPackage}
-            followerType={followerType}
+            followerType="premium"
+            isTikTokFollowers={true}
           />
         </div>
 
@@ -185,13 +165,13 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-purple-600">
-                      {followerType === 'french' ? 'Français' : 'Internationaux'}
+                      Premium
                     </div>
                     <div className="text-gray-600">Type de followers</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-green-600">
-                      {getPackagePrice(selectedPackage).toFixed(2)}€
+                      {getPrice(selectedPackage).toFixed(2)}€
                     </div>
                     <div className="text-gray-600">Prix total</div>
                   </div>
@@ -274,11 +254,11 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Type:</span>
-                    <span className="font-semibold text-gray-900">{followerType === 'french' ? 'Français' : 'Internationaux'}</span>
+                    <span className="font-semibold text-gray-900">Premium Followers</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Prix:</span>
-                    <span className="font-semibold text-green-600">{getPackagePrice(selectedPackage).toFixed(2)}€</span>
+                    <span className="font-semibold text-green-600">{getPrice(selectedPackage).toFixed(2)}€</span>
                   </div>
                 </div>
               </div>
@@ -326,9 +306,9 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
         onBack={handleDeliveryBack}
         onConfirm={handleDeliveryConfirm}
         followersCount={getPackageFollowers(selectedPackage)}
-        followerType={followerType as 'french' | 'international'}
+        followerType="premium" as any
         tiktokUrl={tiktokUrl}
-        basePrice={getPackagePrice(selectedPackage)}
+        basePrice={getPrice(selectedPackage)}
       />
 
     </div>

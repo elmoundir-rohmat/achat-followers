@@ -134,14 +134,25 @@ export default function TikTokCustomCommentsModal({
                     <CheckCircle className="w-4 h-4 text-green-500 inline-block ml-2" />
                   )}
                 </label>
-                <textarea
+                <input
+                  type="text"
                   value={comment}
-                  onChange={(e) => handleCommentChange(index, e.target.value)}
+                  onChange={(e) => {
+                    // Supprimer les retours à la ligne et les remplacer par des espaces
+                    const value = e.target.value.replace(/\n/g, ' ').replace(/\r/g, '');
+                    handleCommentChange(index, value);
+                  }}
+                  onPaste={(e) => {
+                    // Empêcher le collage de texte avec retours à la ligne
+                    e.preventDefault();
+                    const pastedText = e.clipboardData.getData('text');
+                    const cleanedText = pastedText.replace(/\n/g, ' ').replace(/\r/g, '');
+                    handleCommentChange(index, cleanedText);
+                  }}
                   placeholder={`Saisissez votre commentaire ${index + 1}...`}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 resize-none ${
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
                     errors[index] ? 'border-red-500 bg-red-50' : 'border-gray-300'
                   }`}
-                  rows={2}
                 />
                 {errors[index] && (
                   <p className="text-red-500 text-xs mt-1">Ce commentaire ne peut pas être vide</p>

@@ -106,6 +106,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       let username = ''; // ✅ Vide par défaut, pas de valeur fictive
       let selectedPosts: any[] = [];
       let originalFollowerType = 'international'; // Déclarer en dehors du bloc if
+      let customComments: string[] | undefined = undefined; // Pour les commentaires TikTok personnalisés
       
       if (savedPendingOrder) {
         try {
@@ -116,6 +117,15 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           username = pendingOrder.username || ''; // ✅ Vide si non défini
           selectedPosts = pendingOrder.selectedPosts || [];
           originalFollowerType = pendingOrder.followerType || 'international';
+          
+          // Récupérer customComments depuis les items du panier (pour commentaires TikTok personnalisés)
+          if (pendingOrder.items && pendingOrder.items.length > 0) {
+            const firstItem = pendingOrder.items[0];
+            if (firstItem.customComments && Array.isArray(firstItem.customComments)) {
+              customComments = firstItem.customComments;
+              console.log('📝 customComments récupéré depuis pendingOrder:', customComments);
+            }
+          }
           
           // ✅ DÉTECTER LA PLATEFORME depuis pendingOrder
           const platform = pendingOrder.platform || 'Instagram';
@@ -247,12 +257,15 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         case 'tiktok_comments':
           smmaOrder = {
             username: username,
-            commentsToAdd: quantity, // ✅ Quantité pour les commentaires TikTok
-            followerType: originalFollowerType, // 'french' ou 'international' pour les commentaires
+            commentsToAdd: quantity, // ✅ Quantité pour les commentaires TikTok (utilisé pour aléatoires)
+            followerType: originalFollowerType, // 'custom' ou 'random' pour les commentaires TikTok
             serviceType: serviceType, // 'tiktok_comments'
             orderId: orderId,
-            paymentId: paymentId
+            paymentId: paymentId,
+            // Pour les commentaires personnalisés, passer la liste des commentaires
+            customComments: customComments // ✅ Liste des commentaires personnalisés (undefined pour aléatoires)
           };
+          console.log('💬 TikTok Comments détecté - customComments:', customComments);
           break;
         case 'tiktok_likes':
           smmaOrder = {

@@ -20,7 +20,7 @@ interface TikTokLikesDeliveryModalProps {
   onBack: () => void; // New prop for going back to previous modal
   onConfirm: (option: DeliveryOption) => void;
   likesCount: number;
-  followerType: 'french' | 'international';
+  followerType: 'french' | 'international' | 'premium';
   tiktokUrl: string;
   basePrice: number;
 }

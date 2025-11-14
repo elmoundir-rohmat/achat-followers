@@ -66,13 +66,13 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   },
   {
     followerType: 'tiktok_likes_international',
-    smmaServiceId: 4174, // Service TikTok likes internationaux
-    description: 'TikTok likes internationaux'
+    smmaServiceId: 3850, // Service TikTok likes Premium
+    description: 'TikTok likes Premium'
   },
   {
     followerType: 'tiktok_likes_french',
-    smmaServiceId: 4174, // Service TikTok likes français (même service)
-    description: 'TikTok likes français'
+    smmaServiceId: 3850, // Service TikTok likes Premium (même service)
+    description: 'TikTok likes Premium'
   },
   {
     followerType: 'tiktok_views_international',
@@ -135,7 +135,9 @@ export function getServiceId(serviceType: 'followers' | 'likes' | 'comments' | '
     // Peu importe le followerType (premium, french, international), on retourne le même ID
     mappingKey = 'tiktok_international'; // Utilise toujours le mapping Premium (8200)
   } else if (serviceType === 'tiktok_likes') {
-    mappingKey = `tiktok_likes_${followerType}`; // 'tiktok_likes_french' ou 'tiktok_likes_international'
+    // Pour tiktok_likes, on utilise toujours le même service ID (Premium Likes)
+    // Peu importe le followerType (premium, french, international), on retourne le même ID
+    mappingKey = 'tiktok_likes_international'; // Utilise toujours le mapping Premium (3850)
   } else if (serviceType === 'tiktok_views') {
     mappingKey = `tiktok_views_${followerType}`; // 'tiktok_views_french' ou 'tiktok_views_international'
   } else if (serviceType === 'tiktok_comments') {

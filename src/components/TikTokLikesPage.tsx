@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Music, Star, Shield, Heart, Zap, ShoppingCart, X } from 'lucide-react';
-import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
 import TikTokLikesDeliveryModal from './TikTokLikesDeliveryModal';
 // TikTokLikesCheckoutPage supprimé - utilisation du CheckoutPage unifié
 import { useCart } from '../contexts/CartContext';
+import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
 export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
-  const [followerType, setFollowerType] = useState('french');
   const [selectedPackage, setSelectedPackage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
@@ -15,23 +14,12 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
   const [tiktokUrl, setTiktokUrl] = useState('');
   const { addToCart } = useCart();
 
-  const getPackagePrice = (packageId: string) => {
-    const internationalPrices: Record<string, number> = {
-      '25': 0.99,
-      '100': 2.95,
-      '250': 6.95,
-      '500': 8.95,
-      '1000': 14.95,
-      '5000': 49.95,
-      '10000': 97,
-      '25000': 229
-    };
-    const basePrice = internationalPrices[packageId] || 0;
-    return followerType === 'french' ? (basePrice * 2) : basePrice;
+  const getPrice = (packageId: string) => {
+    return getPackagePrice(packageId, 'tiktok_likes');
   };
 
   const getPackageLikes = (packageId: string) => {
-    return parseInt(packageId) || 0;
+    return getPackageQuantity(packageId, 'tiktok_likes');
   };
 
   const validateTikTokUrl = (url: string): boolean => {
@@ -86,13 +74,13 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
   };
 
   const handleDeliveryConfirm = (deliveryOption: any) => {
-    const totalPrice = getPackagePrice(selectedPackage) + deliveryOption.additionalCost;
+    const totalPrice = getPrice(selectedPackage) + deliveryOption.additionalCost;
     const normalizedUrl = normalizeTikTokUrl(tiktokUrl);
     
     addToCart({
       likes: getPackageLikes(selectedPackage),
       price: totalPrice,
-      followerType: followerType as 'french' | 'international',
+      followerType: 'premium' as any, // Premium Likes pour TikTok
       platform: 'TikTok', // ✅ Utiliser 'TikTok' (pas 'tiktok')
       username: normalizedUrl, // ✅ Utiliser 'username' (pas 'url')
       delivery: deliveryOption
@@ -175,28 +163,19 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
-        {/* Type de Likes */}
+        {/* Sélection du Package Premium Likes */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8 text-white">
-            Choisissez votre type de likes
+          <h2 className="text-3xl font-bold text-center mb-4 text-white">
+            Premium Likes TikTok
           </h2>
-          <FollowerTypeSelector 
-            selectedType={followerType} 
-            onTypeChange={setFollowerType}
-            title="Type de likes"
-            serviceKey="tiktok_likes"
-          />
-        </div>
-
-        {/* Sélection du Package */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8 text-white">
-            Sélectionnez votre package
-          </h2>
+          <p className="text-center text-gray-300 mb-8">
+            Choisissez votre package de likes premium
+          </p>
           <PackageSelector 
             selectedPackage={selectedPackage}
             onPackageChange={setSelectedPackage}
-            followerType={followerType}
+            followerType="premium"
+            isTikTokLikes={true}
           />
         </div>
 
@@ -217,13 +196,13 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-purple-600">
-                      {followerType === 'french' ? 'Français' : 'Internationaux'}
+                      Premium
                     </div>
                     <div className="text-gray-600">Type de likes</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-green-600">
-                      {getPackagePrice(selectedPackage).toFixed(2)}€
+                      {getPrice(selectedPackage).toFixed(2)}€
                     </div>
                     <div className="text-gray-600">Prix total</div>
                   </div>
@@ -305,11 +284,11 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Type:</span>
-                    <span className="font-semibold text-gray-900">{followerType === 'french' ? 'Français' : 'Internationaux'}</span>
+                    <span className="font-semibold text-gray-900">Premium Likes</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Prix:</span>
-                    <span className="font-semibold text-green-600">{getPackagePrice(selectedPackage).toFixed(2)}€</span>
+                    <span className="font-semibold text-green-600">{getPrice(selectedPackage).toFixed(2)}€</span>
                   </div>
                 </div>
               </div>
@@ -365,9 +344,9 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
         }}
         onConfirm={handleDeliveryConfirm}
         likesCount={getPackageLikes(selectedPackage)}
-        followerType={followerType as 'french' | 'international'}
+        followerType="premium" as any
         tiktokUrl={tiktokUrl}
-        basePrice={getPackagePrice(selectedPackage)}
+        basePrice={getPrice(selectedPackage)}
       />
     </div>
   );

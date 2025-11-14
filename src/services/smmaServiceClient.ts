@@ -396,13 +396,19 @@ class SMMAServiceClient {
     try {
       console.log('🚀 Envoi de la commande TikTok Likes (client → serveur):', order);
       
-      // Utiliser getServiceId avec 'tiktok_likes' pour obtenir le bon service ID (4174)
-      const serviceId = getServiceId('tiktok_likes', order.followerType);
+      // Utiliser getServiceId avec 'tiktok_likes' pour obtenir le bon service ID (3850)
+      // Pour Premium Likes, on utilise toujours 'international' comme fallback
+      const followerTypeForService = order.followerType === 'premium' ? 'international' : order.followerType;
+      const serviceId = getServiceId('tiktok_likes', followerTypeForService as 'french' | 'international');
       if (!serviceId) {
         return { success: false, error: `Service non trouvé pour le type: tiktok_likes ${order.followerType}` };
       }
 
-      console.log('✅ Service ID TikTok Likes:', serviceId);
+      console.log('✅ Service ID TikTok Likes Premium:', serviceId);
+      
+      if (serviceId !== 3850) {
+        console.error('❌❌❌ ERREUR: Service ID incorrect !', serviceId, 'au lieu de 3850');
+      }
 
       const response = await fetch('/api/smma/order', {
         method: 'POST',

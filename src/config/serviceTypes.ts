@@ -169,33 +169,21 @@ export const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
     ]
   },
 
-  // TikTok Likes - seulement Monde et France
+  // TikTok Likes - Premium Likes (un seul type)
   'tiktok_likes': {
     serviceName: 'TikTok Likes',
     availableTypes: [
       {
-        id: 'international',
-        title: 'Likes Monde',
-        description: 'Likes provenant du monde entier',
+        id: 'premium',
+        title: 'Premium Likes',
+        description: 'Likes premium de qualité supérieure',
         features: [
-          'Diversité géographique',
+          'Qualité premium',
           'Engagement rapide',
-          'Portée internationale',
-          'Prix avantageux'
+          'Engagement naturel',
+          'Garantie 30 jours'
         ],
-        icon: 'Globe'
-      },
-      {
-        id: 'french',
-        title: 'Likes France',
-        description: 'Likes ciblés spécifiquement depuis la France',
-        features: [
-          'Profils 100% français',
-          'Meilleur engagement local',
-          'Contenu en français',
-          'Support français'
-        ],
-        icon: 'MapPin'
+        icon: 'Star'
       }
     ]
   },

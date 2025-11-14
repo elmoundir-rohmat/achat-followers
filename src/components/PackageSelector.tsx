@@ -22,21 +22,22 @@ interface Props {
   isTikTokViews?: boolean;
   isTikTokComments?: boolean;
   isTikTokFollowers?: boolean;
+  isTikTokLikes?: boolean;
 }
 
-export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false, isComments = false, isViews = false, isTikTokViews = false, isTikTokComments = false, isTikTokFollowers = false }: Props) {
+export default function PackageSelector({ selectedPackage, onPackageChange, followerType, isLikes = false, isComments = false, isViews = false, isTikTokViews = false, isTikTokComments = false, isTikTokFollowers = false, isTikTokLikes = false }: Props) {
   // Déterminer le type de service
-  const serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_views' | 'tiktok_comments' = isTikTokFollowers ? 'tiktok_followers' : isTikTokComments ? 'tiktok_comments' : isTikTokViews ? 'tiktok_views' : isViews ? 'views' : isComments ? 'comments' : isLikes ? 'likes' : 'followers';
+  const serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments' = isTikTokLikes ? 'tiktok_likes' : isTikTokFollowers ? 'tiktok_followers' : isTikTokComments ? 'tiktok_comments' : isTikTokViews ? 'tiktok_views' : isViews ? 'views' : isComments ? 'comments' : isLikes ? 'likes' : 'followers';
   
   // Obtenir les packages depuis la configuration centralisée
-  // Pour tiktok_followers, on ignore le followerType car il n'y a qu'un seul type Premium
-  const packagesConfig = getPackagesForService(serviceType, isTikTokFollowers ? undefined : followerType as 'french' | 'international' | 'europe');
+  // Pour tiktok_followers et tiktok_likes, on ignore le followerType car il n'y a qu'un seul type Premium
+  const packagesConfig = getPackagesForService(serviceType, (isTikTokFollowers || isTikTokLikes) ? undefined : followerType as 'french' | 'international' | 'europe');
   
   // Convertir les packages de configuration en packages d'interface
   const packages: Package[] = packagesConfig.map(pkg => ({
     id: pkg.id,
     followers: pkg.quantity,
-    price: isTikTokFollowers ? pkg.priceInternational : (followerType === 'french' ? pkg.priceFrench : pkg.priceInternational),
+    price: (isTikTokFollowers || isTikTokLikes) ? pkg.priceInternational : (followerType === 'french' ? pkg.priceFrench : pkg.priceInternational),
     popular: pkg.popular,
     features: pkg.features,
     delivery: pkg.delivery,
@@ -76,7 +77,7 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
                 {pkg.followers.toLocaleString()}
               </div>
               <div className="text-xs opacity-75 text-black">
-                {isViews ? 'Vues' : isTikTokViews ? 'Vues' : isLikes ? 'Likes' : isComments ? 'Commentaires' : isTikTokComments ? 'Commentaires' : isTikTokFollowers ? 'Followers' : 'Followers'}
+                {isViews ? 'Vues' : isTikTokViews ? 'Vues' : isLikes ? 'Likes' : isTikTokLikes ? 'Likes' : isComments ? 'Commentaires' : isTikTokComments ? 'Commentaires' : isTikTokFollowers ? 'Followers' : 'Followers'}
               </div>
               <div className={`text-sm font-bold mt-1 ${
                 selectedPackage === pkg.id ? 'text-white' : 'text-blue-600'

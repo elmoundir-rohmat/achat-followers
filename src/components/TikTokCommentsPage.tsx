@@ -2,35 +2,25 @@ import React, { useState } from 'react';
 import { MessageCircle, Star, Shield, Heart, Zap, ShoppingCart, X } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
-import TikTokLikesDeliveryModal from './TikTokLikesDeliveryModal';
+import TikTokCustomCommentsModal from './TikTokCustomCommentsModal';
 import { useCart } from '../contexts/CartContext';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 
 export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
-  const [followerType, setFollowerType] = useState('french');
+  const [followerType, setFollowerType] = useState('random'); // 'random' ou 'custom'
   const [selectedPackage, setSelectedPackage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
+  const [isCustomCommentsModalOpen, setIsCustomCommentsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const [tiktokUrl, setTiktokUrl] = useState('');
   const { addToCart } = useCart();
 
-  const getPackagePrice = (packageId: string) => {
-    const internationalPrices: Record<string, number> = {
-      '10': 3.95,
-      '25': 8.95,
-      '50': 11.95,
-      '100': 19.95,
-      '250': 49.95,
-      '500': 84.95,
-      '1000': 149.00
-    };
-    const basePrice = internationalPrices[packageId] || 0;
-    return followerType === 'french' ? (basePrice * 2) : basePrice;
+  const getPrice = (packageId: string) => {
+    return getPackagePrice(packageId, 'tiktok_comments', followerType as 'random' | 'custom');
   };
 
   const getPackageComments = (packageId: string) => {
-    return parseInt(packageId) || 0;
+    return getPackageQuantity(packageId, 'tiktok_comments', followerType as 'random' | 'custom');
   };
 
   const validateTikTokUrl = (url: string): boolean => {
@@ -80,34 +70,68 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
       return;
     }
     
-    setIsModalOpen(false);
-    setIsDeliveryModalOpen(true);
-  };
-
-  const handleDeliveryConfirm = (deliveryOption: any) => {
-    const totalPrice = getPackagePrice(selectedPackage) + deliveryOption.additionalCost;
-    const normalizedUrl = normalizeTikTokUrl(tiktokUrl);
+    // Si c'est des commentaires personnalisés, ouvrir le modal de saisie
+    if (followerType === 'custom') {
+      setIsModalOpen(false);
+      setIsCustomCommentsModalOpen(true);
+      return;
+    }
     
-    // ✅ DEBUG : Vérifier les valeurs avant ajout au panier
+    // Pour les commentaires aléatoires, ajout direct au panier (pas de drip feed)
+    const normalizedUrl = normalizeTikTokUrl(tiktokUrl);
     const commentsQuantity = getPackageComments(selectedPackage);
+    const totalPrice = getPrice(selectedPackage);
+    
     console.log('🔍 DEBUG TikTokCommentsPage - selectedPackage:', selectedPackage);
     console.log('🔍 DEBUG TikTokCommentsPage - commentsQuantity:', commentsQuantity);
     console.log('🔍 DEBUG TikTokCommentsPage - followerType:', followerType);
     console.log('🔍 DEBUG TikTokCommentsPage - normalizedUrl:', normalizedUrl);
     
     const cartItem = {
-      followers: 0, // ✅ Ajouter la propriété followers requise
+      followers: 0,
       comments: commentsQuantity,
       price: totalPrice,
-      followerType: followerType as 'french' | 'international',
+      followerType: followerType as 'random' | 'custom',
       platform: 'TikTok',
       username: normalizedUrl,
-      delivery: deliveryOption
+      // Pas d'option de livraison pour les commentaires TikTok (pas de drip feed)
+      delivery: undefined
     };
     
     console.log('🔍 DEBUG TikTokCommentsPage - cartItem à ajouter:', cartItem);
     
     addToCart(cartItem);
+    setIsModalOpen(false);
+    
+    // Redirection simple vers le panier - Vercel SPA routing va gérer
+    window.location.href = '/cart';
+  };
+
+  const handleCustomCommentsConfirm = (customComments: string[]) => {
+    const normalizedUrl = normalizeTikTokUrl(tiktokUrl);
+    const commentsQuantity = getPackageComments(selectedPackage);
+    const totalPrice = getPrice(selectedPackage);
+    
+    console.log('🔍 DEBUG TikTokCommentsPage - customComments:', customComments);
+    console.log('🔍 DEBUG TikTokCommentsPage - commentsQuantity:', commentsQuantity);
+    console.log('🔍 DEBUG TikTokCommentsPage - normalizedUrl:', normalizedUrl);
+    
+    const cartItem = {
+      followers: 0,
+      comments: commentsQuantity,
+      price: totalPrice,
+      followerType: 'custom' as const,
+      platform: 'TikTok',
+      username: normalizedUrl,
+      // Stocker les commentaires personnalisés
+      customComments: customComments,
+      delivery: undefined
+    };
+    
+    console.log('🔍 DEBUG TikTokCommentsPage - cartItem avec commentaires personnalisés:', cartItem);
+    
+    addToCart(cartItem);
+    setIsCustomCommentsModalOpen(false);
     
     // Redirection simple vers le panier - Vercel SPA routing va gérer
     window.location.href = '/cart';
@@ -226,13 +250,13 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-purple-600">
-                      {followerType === 'french' ? 'Français' : 'Internationaux'}
+                      {followerType === 'random' ? 'Aléatoires' : 'Personnalisés'}
                     </div>
                     <div className="text-gray-600">Type de commentaires</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-green-600">
-                      {getPackagePrice(selectedPackage).toFixed(2)}€
+                      {getPrice(selectedPackage).toFixed(2)}€
                     </div>
                     <div className="text-gray-600">Prix total</div>
                   </div>
@@ -314,11 +338,11 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Type:</span>
-                    <span className="font-semibold text-gray-900">{followerType === 'french' ? 'Français' : 'Internationaux'}</span>
+                    <span className="font-semibold text-gray-900">{followerType === 'random' ? 'Commentaires Aléatoires' : 'Commentaires Personnalisés'}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Prix:</span>
-                    <span className="font-semibold text-green-600">{getPackagePrice(selectedPackage).toFixed(2)}€</span>
+                    <span className="font-semibold text-green-600">{getPrice(selectedPackage).toFixed(2)}€</span>
                   </div>
                 </div>
               </div>
@@ -364,19 +388,18 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
         </div>
       )}
 
-      {/* Modal de livraison */}
-      <TikTokLikesDeliveryModal
-        isOpen={isDeliveryModalOpen}
-        onClose={() => setIsDeliveryModalOpen(false)}
+      {/* Modal pour saisir les commentaires personnalisés */}
+      <TikTokCustomCommentsModal
+        isOpen={isCustomCommentsModalOpen}
+        onClose={() => setIsCustomCommentsModalOpen(false)}
         onBack={() => {
-          setIsDeliveryModalOpen(false);
+          setIsCustomCommentsModalOpen(false);
           setIsModalOpen(true);
         }}
-        onConfirm={handleDeliveryConfirm}
-        likesCount={getPackageComments(selectedPackage)}
-        followerType={followerType as 'french' | 'international'}
+        onConfirm={handleCustomCommentsConfirm}
+        commentsCount={getPackageComments(selectedPackage)}
         tiktokUrl={tiktokUrl}
-        basePrice={getPackagePrice(selectedPackage)}
+        basePrice={getPrice(selectedPackage)}
       />
     </div>
   );

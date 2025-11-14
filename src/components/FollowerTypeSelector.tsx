@@ -1,5 +1,5 @@
 import React from 'react';
-import { Globe, MapPin, Flag } from 'lucide-react';
+import { Globe, MapPin, Flag, Shuffle, Edit } from 'lucide-react';
 import { ServiceTypeConfig, getAvailableTypes } from '../config/serviceTypes';
 
 interface Props {
@@ -20,6 +20,10 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
         return <MapPin className="w-6 h-6" />;
       case 'Flag':
         return <Flag className="w-6 h-6" />;
+      case 'Shuffle':
+        return <Shuffle className="w-6 h-6" />;
+      case 'Edit':
+        return <Edit className="w-6 h-6" />;
       default:
         return <Globe className="w-6 h-6" />;
     }
@@ -77,7 +81,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
                 {getIcon(type.icon)}
               </div>
               <span className="text-sm font-medium text-black">
-                {type.id === 'french' ? 'France' : type.id === 'europe' ? 'Europe' : 'Monde'}
+                {type.title}
               </span>
             </div>
             

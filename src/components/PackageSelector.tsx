@@ -31,13 +31,21 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
   
   // Obtenir les packages depuis la configuration centralisée
   // Pour tiktok_followers, tiktok_likes et tiktok_views, on ignore le followerType car il n'y a qu'un seul type Premium
-  const packagesConfig = getPackagesForService(serviceType, (isTikTokFollowers || isTikTokLikes || isTikTokViews) ? undefined : followerType as 'french' | 'international' | 'europe');
+  // Pour tiktok_comments, on utilise 'random' ou 'custom' directement
+  let packagesConfig: PackageConfig[];
+  if (isTikTokFollowers || isTikTokLikes || isTikTokViews) {
+    packagesConfig = getPackagesForService(serviceType, undefined);
+  } else if (isTikTokComments) {
+    packagesConfig = getPackagesForService(serviceType, followerType as 'random' | 'custom' || 'random');
+  } else {
+    packagesConfig = getPackagesForService(serviceType, followerType as 'french' | 'international' | 'europe');
+  }
   
   // Convertir les packages de configuration en packages d'interface
   const packages: Package[] = packagesConfig.map(pkg => ({
     id: pkg.id,
     followers: pkg.quantity,
-    price: (isTikTokFollowers || isTikTokLikes || isTikTokViews) ? pkg.priceInternational : (followerType === 'french' ? pkg.priceFrench : pkg.priceInternational),
+    price: (isTikTokFollowers || isTikTokLikes || isTikTokViews || isTikTokComments) ? pkg.priceInternational : (followerType === 'french' ? pkg.priceFrench : pkg.priceInternational),
     popular: pkg.popular,
     features: pkg.features,
     delivery: pkg.delivery,

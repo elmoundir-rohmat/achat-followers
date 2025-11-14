@@ -246,8 +246,11 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           likesToAdd: item.likes,
           commentsToAdd: item.comments,
           viewsToAdd: item.views,
-          runs: (item as any).runs || undefined,
-          interval: (item as any).interval || undefined
+          // Pour les commentaires TikTok personnalisés, passer la liste des commentaires
+          customComments: (serviceType === 'tiktok_comments' && item.followerType === 'custom') ? (item as any).customComments : undefined,
+          // Pour les commentaires TikTok, pas de drip feed (pas de runs/interval)
+          runs: (serviceType === 'tiktok_comments') ? undefined : ((item as any).runs || undefined),
+          interval: (serviceType === 'tiktok_comments') ? undefined : ((item as any).interval || undefined)
         };
       });
 

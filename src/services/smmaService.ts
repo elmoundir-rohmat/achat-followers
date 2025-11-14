@@ -4,8 +4,8 @@ import { getSMMAServiceId, getServiceDescription, getServiceId } from '../config
 export interface SMMAOrder {
   username: string;
   followers: number;
-  followerType: 'french' | 'international' | 'premium'; // Pour les followers (premium pour TikTok)
-  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes'; // Type de service
+  followerType: 'french' | 'international' | 'premium' | 'random' | 'custom'; // Pour les followers (premium pour TikTok, random/custom pour TikTok comments)
+  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments'; // Type de service
   orderId: string;
   paymentId: string;
   postId?: string; // Pour les likes/commentaires/vues sur des posts spécifiques
@@ -15,6 +15,7 @@ export interface SMMAOrder {
   runs?: number; // Pour TikTok drip feed
   interval?: number; // Pour TikTok drip feed
   platform?: 'instagram' | 'tiktok'; // Pour identifier la plateforme
+  customComments?: string[]; // Pour les commentaires TikTok personnalisés (liste de commentaires)
 }
 
 export interface SMMAResponse {

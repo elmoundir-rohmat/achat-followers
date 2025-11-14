@@ -9,7 +9,7 @@
 export interface SMMAOrder {
   username: string;
   followers: number;
-  followerType: 'french' | 'international'; // SEULEMENT pour les followers
+  followerType: 'french' | 'international' | 'premium' | 'random' | 'custom'; // Pour les followers (premium pour TikTok, random/custom pour TikTok comments)
   serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views'; // Type de service
   orderId: string;
   paymentId: string;
@@ -474,23 +474,42 @@ class SMMAServiceClient {
       console.log('🔍 DEBUG finalQuantity calculée:', finalQuantity);
       
       // Utiliser getServiceId avec 'tiktok_comments' pour obtenir le bon service ID
-      const serviceId = getServiceId('tiktok_comments', order.followerType);
+      // Pour tiktok_comments, on utilise 'random' ou 'custom' directement
+      const followerTypeForService = order.followerType === 'random' ? 'random' : 
+                                      order.followerType === 'custom' ? 'custom' : 
+                                      (order.followerType === 'french' ? 'custom' : 'random'); // Fallback pour compatibilité
+      const serviceId = getServiceId('tiktok_comments', followerTypeForService as 'random' | 'custom');
       if (!serviceId) {
         return { success: false, error: `Service non trouvé pour le type: tiktok_comments ${order.followerType}` };
       }
 
       console.log('✅ Service ID TikTok Comments:', serviceId);
-      console.log('🔍 DEBUG - Nouveau service ID 6474 utilisé');
+      const expectedServiceId = followerTypeForService === 'random' ? 7054 : 7118;
+      if (serviceId !== expectedServiceId) {
+        console.error(`❌❌❌ ERREUR: Service ID incorrect ! ${serviceId} au lieu de ${expectedServiceId}`);
+      }
 
-      const requestBody = {
+      // Pour les commentaires TikTok, pas de drip feed (pas de runs/interval)
+      const requestBody: any = {
         action: 'tiktok_comments',
         service_id: serviceId.toString(),
         link: order.username, // URL complète de la vidéo TikTok
-        quantity: finalQuantity,
-        runs: order.runs,
-        interval: order.interval,
         order_id: order.orderId
       };
+      
+      // Pour les commentaires personnalisés (service 7118), envoyer la liste des commentaires
+      // Le SMMA compte le nombre de commentaires dans la liste pour facturer
+      if (order.followerType === 'custom' && order.customComments && order.customComments.length > 0) {
+        // Envoyer les commentaires comme une liste (1 commentaire par ligne)
+        requestBody.comments = order.customComments;
+        // Le SMMA compte automatiquement le nombre de commentaires
+        console.log('📝 Envoi de commentaires personnalisés:', order.customComments.length, 'commentaires');
+      } else {
+        // Pour les commentaires aléatoires, envoyer juste la quantité
+        requestBody.quantity = finalQuantity;
+      }
+      
+      // Ne pas ajouter runs et interval pour les commentaires TikTok (pas de drip feed)
       
       console.log('📤 Body envoyé à l\'API route:', requestBody);
 

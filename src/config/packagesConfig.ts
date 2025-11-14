@@ -510,67 +510,108 @@ export const TIKTOK_VIEWS_PACKAGES: PackageConfig[] = [
   }
 ];
 
-// Packages pour les commentaires TikTok
-export const TIKTOK_COMMENTS_PACKAGES: PackageConfig[] = [
+// Packages pour les commentaires TikTok Aléatoires
+export const TIKTOK_COMMENTS_RANDOM_PACKAGES: PackageConfig[] = [
   {
     id: '10',
     quantity: 10,
-    priceInternational: 3.95,
-    priceFrench: 7.90,
-    features: ['Livraison rapide', 'Commentaires réels', 'Garantie 30j'],
+    priceInternational: 1.49,
+    priceFrench: 1.49,
+    features: ['Livraison rapide', 'Commentaires aléatoires', 'Garantie 30j'],
     delivery: '6-12h'
   },
   {
-    id: '25',
-    quantity: 25,
-    priceInternational: 8.95,
-    priceFrench: 17.90,
-    features: ['Livraison progressive', 'Commentaires actifs', 'Garantie 30j'],
+    id: '20',
+    quantity: 20,
+    priceInternational: 1.95,
+    priceFrench: 1.95,
+    features: ['Livraison progressive', 'Commentaires aléatoires', 'Garantie 30j'],
     delivery: '12-24h'
   },
   {
     id: '50',
     quantity: 50,
-    priceInternational: 11.95,
-    priceFrench: 23.90,
-    features: ['Livraison sécurisée', 'Engagement naturel', 'Garantie 30j', 'Support prioritaire'],
+    priceInternational: 4.95,
+    priceFrench: 4.95,
+    features: ['Livraison sécurisée', 'Commentaires aléatoires', 'Garantie 30j', 'Support prioritaire'],
     delivery: '24-48h',
     popular: true
   },
   {
     id: '100',
     quantity: 100,
-    priceInternational: 19.95,
-    priceFrench: 39.90,
-    features: ['Livraison progressive', 'Commentaires premium', 'Garantie 30j', 'Remplacement gratuit'],
+    priceInternational: 7.95,
+    priceFrench: 7.95,
+    features: ['Livraison progressive', 'Commentaires aléatoires', 'Garantie 30j', 'Remplacement gratuit'],
     delivery: '24-72h',
     popular: true
   },
   {
     id: '250',
     quantity: 250,
-    priceInternational: 49.95,
-    priceFrench: 99.90,
-    features: ['Livraison naturelle', 'Commentaires vérifiés', 'Garantie 30j', 'Bonus engagement'],
+    priceInternational: 14.95,
+    priceFrench: 14.95,
+    features: ['Livraison naturelle', 'Commentaires aléatoires', 'Garantie 30j', 'Bonus engagement'],
     delivery: '5-7 jours'
   },
   {
     id: '500',
     quantity: 500,
-    priceInternational: 84.95,
-    priceFrench: 169.90,
-    features: ['Livraison premium', 'Qualité maximale', 'Garantie 30j', 'Manager dédié'],
+    priceInternational: 24.95,
+    priceFrench: 24.95,
+    features: ['Livraison premium', 'Commentaires aléatoires', 'Garantie 30j', 'Manager dédié'],
     delivery: '7-10 jours'
   },
   {
     id: '1000',
     quantity: 1000,
-    priceInternational: 149.00,
-    priceFrench: 298.00,
-    features: ['Livraison VIP', 'Commentaires haut de gamme', 'Garantie 30j', 'Service personnalisé'],
+    priceInternational: 39.95,
+    priceFrench: 39.95,
+    features: ['Livraison VIP', 'Commentaires aléatoires', 'Garantie 30j', 'Service personnalisé'],
     delivery: '10-15 jours'
   }
 ];
+
+// Packages pour les commentaires TikTok Personnalisés
+export const TIKTOK_COMMENTS_CUSTOM_PACKAGES: PackageConfig[] = [
+  {
+    id: '10',
+    quantity: 10,
+    priceInternational: 2.45,
+    priceFrench: 2.45,
+    features: ['Livraison rapide', 'Commentaires personnalisés', 'Garantie 30j'],
+    delivery: '6-12h'
+  },
+  {
+    id: '20',
+    quantity: 20,
+    priceInternational: 3.95,
+    priceFrench: 3.95,
+    features: ['Livraison progressive', 'Commentaires personnalisés', 'Garantie 30j'],
+    delivery: '12-24h'
+  },
+  {
+    id: '50',
+    quantity: 50,
+    priceInternational: 6.95,
+    priceFrench: 6.95,
+    features: ['Livraison sécurisée', 'Commentaires personnalisés', 'Garantie 30j', 'Support prioritaire'],
+    delivery: '24-48h',
+    popular: true
+  },
+  {
+    id: '100',
+    quantity: 100,
+    priceInternational: 9.95,
+    priceFrench: 9.95,
+    features: ['Livraison progressive', 'Commentaires personnalisés', 'Garantie 30j', 'Remplacement gratuit'],
+    delivery: '24-72h',
+    popular: true
+  }
+];
+
+// Garder l'ancien pour compatibilité (déprécié)
+export const TIKTOK_COMMENTS_PACKAGES: PackageConfig[] = TIKTOK_COMMENTS_RANDOM_PACKAGES;
 
 // Packages pour les followers TikTok Premium (un seul type, pas de distinction monde/français)
 export const TIKTOK_FOLLOWERS_PACKAGES: PackageConfig[] = [
@@ -715,7 +756,7 @@ export const TIKTOK_LIKES_PACKAGES: PackageConfig[] = [
 /**
  * Obtenir les packages selon le type de service
  */
-export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international' | 'europe'): PackageConfig[] {
+export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international' | 'europe' | 'random' | 'custom'): PackageConfig[] {
   switch (serviceType) {
     case 'followers':
       return followerType ? getFollowersPackages(followerType as 'french' | 'international') : FOLLOWERS_PACKAGES_INTERNATIONAL;
@@ -744,7 +785,12 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
     case 'tiktok_views':
       return TIKTOK_VIEWS_PACKAGES;
     case 'tiktok_comments':
-      return TIKTOK_COMMENTS_PACKAGES;
+      // Pour tiktok_comments, on utilise 'random' ou 'custom' au lieu de 'french'/'international'
+      if (followerType === 'custom') {
+        return TIKTOK_COMMENTS_CUSTOM_PACKAGES;
+      } else {
+        return TIKTOK_COMMENTS_RANDOM_PACKAGES; // 'random' par défaut
+      }
     default:
       return FOLLOWERS_PACKAGES_INTERNATIONAL;
   }
@@ -753,12 +799,21 @@ export function getPackagesForService(serviceType: 'followers' | 'likes' | 'comm
 /**
  * Obtenir le prix d'un package selon le type de follower
  */
-export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international' | 'europe'): number {
+export function getPackagePrice(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international' | 'europe' | 'random' | 'custom'): number {
   // Retourner 0 immédiatement si packageId est vide
   if (!packageId) return 0;
   
   // Pour tiktok_followers, tiktok_likes et tiktok_views, on ignore le followerType car il n'y a qu'un seul type Premium
-  const packages = getPackagesForService(serviceType, (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views') ? undefined : followerType);
+  // Pour tiktok_comments, on utilise 'random' ou 'custom' directement
+  let packages: PackageConfig[];
+  if (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views') {
+    packages = getPackagesForService(serviceType, undefined);
+  } else if (serviceType === 'tiktok_comments') {
+    // Pour tiktok_comments, on utilise 'random' ou 'custom'
+    packages = getPackagesForService(serviceType, followerType as 'random' | 'custom' || 'random');
+  } else {
+    packages = getPackagesForService(serviceType, followerType);
+  }
   console.log('🔍 getPackagePrice debug:', {
     packageId,
     serviceType,
@@ -775,10 +830,10 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
     return 0;
   }
   
-  // Pour tiktok_followers, tiktok_likes et tiktok_views, on utilise toujours priceInternational (même prix pour tous)
+  // Pour tiktok_followers, tiktok_likes, tiktok_views et tiktok_comments, on utilise toujours priceInternational (même prix pour tous)
   let price: number;
-  if (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views') {
-    price = pkg.priceInternational; // Prix unique pour Premium Followers/Likes/Views
+  if (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views' || serviceType === 'tiktok_comments') {
+    price = pkg.priceInternational; // Prix unique pour Premium Followers/Likes/Views/Comments
   } else {
     price = followerType === 'french' ? pkg.priceFrench : pkg.priceInternational;
   }
@@ -790,11 +845,14 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
 /**
  * Obtenir la quantité d'un package
  */
-export function getPackageQuantity(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments'): number {
+export function getPackageQuantity(packageId: string, serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_views' | 'tiktok_comments', followerType?: 'french' | 'international' | 'europe' | 'random' | 'custom'): number {
   // Retourner 0 immédiatement si packageId est vide
   if (!packageId) return 0;
   
-  const packages = getPackagesForService(serviceType);
+  // Pour tiktok_comments, on doit passer le followerType pour obtenir les bons packages
+  const packages = serviceType === 'tiktok_comments' && followerType 
+    ? getPackagesForService(serviceType, followerType as 'random' | 'custom')
+    : getPackagesForService(serviceType);
   const pkg = packages.find(p => p.id === packageId);
   
   return pkg ? pkg.quantity : 0;

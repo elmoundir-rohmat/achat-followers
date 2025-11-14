@@ -11,7 +11,8 @@ interface SMMAOrderRequest {
   action: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views';
   service_id: string;
   link: string;
-  quantity: number;
+  quantity?: number; // Optionnel pour les commentaires personnalisés
+  comments?: string[]; // Pour les commentaires TikTok personnalisés (liste de commentaires)
   runs?: number;
   interval?: number;
   order_id: string;
@@ -35,6 +36,7 @@ export default async function handler(
       service_id,
       link,
       quantity,
+      comments, // Pour les commentaires personnalisés
       runs,
       interval,
       order_id
@@ -62,11 +64,32 @@ export default async function handler(
     }
 
     // Validation des paramètres
-    if (!action || !service_id || !link || !quantity || !order_id) {
+    // Pour les commentaires personnalisés (service 7118), on accepte soit quantity soit comments
+    const isCustomComments = action === 'tiktok_comments' && comments && comments.length > 0;
+    
+    if (!action || !service_id || !link || !order_id) {
       return res.status(400).json({ 
         error: 'Missing required parameters',
-        required: ['action', 'service_id', 'link', 'quantity', 'order_id']
+        required: ['action', 'service_id', 'link', 'order_id']
       });
+    }
+    
+    // Pour les commentaires personnalisés, on doit avoir la liste des commentaires
+    // Pour les autres services, on doit avoir la quantité
+    if (isCustomComments) {
+      if (!comments || comments.length === 0) {
+        return res.status(400).json({ 
+          error: 'Missing required parameter: comments (array of custom comments)',
+          required: ['action', 'service_id', 'link', 'comments', 'order_id']
+        });
+      }
+    } else {
+      if (!quantity) {
+        return res.status(400).json({ 
+          error: 'Missing required parameter: quantity',
+          required: ['action', 'service_id', 'link', 'quantity', 'order_id']
+        });
+      }
     }
 
     // Récupérer la configuration SMMA depuis les variables d'environnement
@@ -96,16 +119,32 @@ export default async function handler(
       key: smmaApiKey,
       action: 'add',
       service: service_id,
-      link: link,
-      quantity: quantity.toString()
+      link: link
     };
     
-    // ✅ DEBUG SPÉCIAL : Vérifier la conversion de quantité pour TikTok Comments
+    // Pour les commentaires personnalisés, envoyer la liste des commentaires (1 par ligne)
+    // Le SMMA compte automatiquement le nombre de commentaires
+    if (isCustomComments && comments) {
+      // Joindre les commentaires avec des retours à la ligne
+      // Le SMMA attend probablement les commentaires comme une chaîne avec \n
+      params.comments = comments.join('\n');
+      console.log('📝 Envoi de commentaires personnalisés:', comments.length, 'commentaires');
+      console.log('📝 Commentaires:', comments);
+    } else if (quantity !== undefined) {
+      // Pour les autres services ou commentaires aléatoires, envoyer la quantité
+      params.quantity = quantity.toString();
+    }
+    
+    // ✅ DEBUG SPÉCIAL : Vérifier la conversion pour TikTok Comments
     if (action === 'tiktok_comments') {
-      console.log('🔍 DEBUG API Route - quantity avant conversion:', quantity);
-      console.log('🔍 DEBUG API Route - quantity.toString():', quantity.toString());
-      console.log('🔍 DEBUG API Route - typeof quantity.toString():', typeof quantity.toString());
-      console.log('🔍 DEBUG API Route - params.quantity:', params.quantity);
+      if (isCustomComments) {
+        console.log('🔍 DEBUG API Route - Commentaires personnalisés:', comments?.length, 'commentaires');
+        console.log('🔍 DEBUG API Route - params.comments:', params.comments);
+      } else {
+        console.log('🔍 DEBUG API Route - quantity avant conversion:', quantity);
+        console.log('🔍 DEBUG API Route - quantity.toString():', quantity?.toString());
+        console.log('🔍 DEBUG API Route - params.quantity:', params.quantity);
+      }
     }
 
     // Ajouter les paramètres optionnels (drip feed pour TikTok)

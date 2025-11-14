@@ -188,33 +188,33 @@ export const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
     ]
   },
 
-  // TikTok Comments - seulement Monde et France
+  // TikTok Comments - Commentaires Aléatoires et Personnalisés
   'tiktok_comments': {
     serviceName: 'TikTok Comments',
     availableTypes: [
       {
-        id: 'international',
-        title: 'Comments Monde',
-        description: 'Commentaires provenant du monde entier',
+        id: 'random',
+        title: 'Commentaires Aléatoires',
+        description: 'Commentaires générés aléatoirement pour un engagement naturel',
         features: [
-          'Diversité géographique',
+          'Commentaires variés',
           'Engagement rapide',
-          'Portée internationale',
-          'Prix avantageux'
+          'Prix avantageux',
+          'Livraison rapide'
         ],
-        icon: 'Globe'
+        icon: 'Shuffle'
       },
       {
-        id: 'french',
-        title: 'Comments France',
-        description: 'Commentaires ciblés spécifiquement depuis la France',
+        id: 'custom',
+        title: 'Commentaires Personnalisés',
+        description: 'Commentaires personnalisés selon vos spécifications',
         features: [
-          'Profils 100% français',
-          'Meilleur engagement local',
-          'Contenu en français',
-          'Support français'
+          'Commentaires sur mesure',
+          'Contenu personnalisé',
+          'Meilleur engagement',
+          'Support prioritaire'
         ],
-        icon: 'MapPin'
+        icon: 'Edit'
       }
     ]
   },

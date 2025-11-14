@@ -7,7 +7,7 @@ export interface CartItem {
   comments?: number;
   views?: number;
   price: number;
-  followerType: 'french' | 'international' | 'premium';
+  followerType: 'french' | 'international' | 'premium' | 'random' | 'custom';
   username?: string;
   platform?: string;
   serviceId?: number;
@@ -18,6 +18,7 @@ export interface CartItem {
     totalTime: string;
     additionalCost: number;
   };
+  customComments?: string[]; // Pour les commentaires TikTok personnalisés
   selectedPosts?: Array<{
     postId: string;
     likesToAdd?: number;

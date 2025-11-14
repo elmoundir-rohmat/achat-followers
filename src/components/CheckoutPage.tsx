@@ -255,6 +255,18 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       });
 
       console.log('📦 Commandes à traiter:', smmaOrders);
+      
+      // Debug spécial pour les commentaires personnalisés
+      smmaOrders.forEach((order, index) => {
+        if (order.serviceType === 'tiktok_comments') {
+          console.log(`🔍 DEBUG CheckoutPage - Commande ${index} (TikTok Comments):`, {
+            followerType: order.followerType,
+            customComments: order.customComments,
+            customCommentsLength: order.customComments?.length,
+            commentsToAdd: order.commentsToAdd
+          });
+        }
+      });
 
       // Traiter chaque commande SMMA selon la plateforme et le type de service
       const smmaResults = await Promise.all(

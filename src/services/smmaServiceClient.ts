@@ -465,13 +465,12 @@ class SMMAServiceClient {
       console.log('🚀 Envoi de la commande TikTok Comments (client → serveur):', order);
       
       // ✅ DEBUG DÉTAILLÉ : Vérifier les valeurs exactes
+      console.log('🔍 DEBUG orderTikTokComments - order complet:', order);
       console.log('🔍 DEBUG order.commentsToAdd:', order.commentsToAdd);
       console.log('🔍 DEBUG order.followers:', order.followers);
       console.log('🔍 DEBUG order.followerType:', order.followerType);
-      
-      // Calculer la quantité finale
-      const finalQuantity = order.commentsToAdd || order.followers;
-      console.log('🔍 DEBUG finalQuantity calculée:', finalQuantity);
+      console.log('🔍 DEBUG order.customComments:', order.customComments);
+      console.log('🔍 DEBUG order.customComments?.length:', order.customComments?.length);
       
       // Utiliser getServiceId avec 'tiktok_comments' pour obtenir le bon service ID
       // Pour tiktok_comments, on utilise 'random' ou 'custom' directement
@@ -499,14 +498,40 @@ class SMMAServiceClient {
       
       // Pour les commentaires personnalisés (service 7118), envoyer la liste des commentaires
       // Le SMMA compte le nombre de commentaires dans la liste pour facturer
-      if (order.followerType === 'custom' && order.customComments && order.customComments.length > 0) {
-        // Envoyer les commentaires comme une liste (1 commentaire par ligne)
+      // Vérifier si c'est bien des commentaires personnalisés
+      const isCustomComments = serviceId === 7118 && 
+                                order.followerType === 'custom' && 
+                                order.customComments && 
+                                Array.isArray(order.customComments) &&
+                                order.customComments.length > 0;
+      
+      console.log('🔍 DEBUG isCustomComments:', isCustomComments);
+      console.log('🔍 DEBUG conditions:', {
+        serviceId: serviceId,
+        serviceIdIs7118: serviceId === 7118,
+        followerType: order.followerType,
+        followerTypeIsCustom: order.followerType === 'custom',
+        hasCustomComments: !!order.customComments,
+        isArray: Array.isArray(order.customComments),
+        customCommentsLength: order.customComments?.length || 0,
+        customCommentsValue: order.customComments
+      });
+      
+      if (isCustomComments) {
+        // Envoyer les commentaires comme un tableau (sera converti en chaîne côté serveur)
         requestBody.comments = order.customComments;
         // Le SMMA compte automatiquement le nombre de commentaires
-        console.log('📝 Envoi de commentaires personnalisés:', order.customComments.length, 'commentaires');
+        console.log('✅ Envoi de commentaires personnalisés:', order.customComments.length, 'commentaires');
+        console.log('✅ Commentaires à envoyer:', order.customComments);
+        // IMPORTANT: Ne PAS envoyer quantity pour les commentaires personnalisés
+        delete requestBody.quantity;
       } else {
         // Pour les commentaires aléatoires, envoyer juste la quantité
+        const finalQuantity = order.commentsToAdd || order.followers;
         requestBody.quantity = finalQuantity;
+        console.log('✅ Envoi de commentaires aléatoires, quantity:', finalQuantity);
+        // IMPORTANT: Ne PAS envoyer comments pour les commentaires aléatoires
+        delete requestBody.comments;
       }
       
       // Ne pas ajouter runs et interval pour les commentaires TikTok (pas de drip feed)

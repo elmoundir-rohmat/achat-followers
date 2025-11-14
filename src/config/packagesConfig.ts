@@ -541,6 +541,14 @@ export const TIKTOK_COMMENTS_PACKAGES: PackageConfig[] = [
 // Packages pour les followers TikTok Premium (un seul type, pas de distinction monde/français)
 export const TIKTOK_FOLLOWERS_PACKAGES: PackageConfig[] = [
   {
+    id: '10',
+    quantity: 10,
+    priceInternational: 0.99,
+    priceFrench: 0.99,
+    features: ['Livraison rapide', 'Followers Premium', 'Garantie 30j'],
+    delivery: '6-12h'
+  },
+  {
     id: '100',
     quantity: 100,
     priceInternational: 3.95,

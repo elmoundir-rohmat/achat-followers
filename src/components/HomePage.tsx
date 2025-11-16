@@ -285,462 +285,542 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900"></div>
-        <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <div className="flex justify-center items-center mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-lg opacity-75"></div>
-                <Instagram className="relative w-12 h-12 text-white mr-4" />
+      <div className="border-b border-slate-200 bg-gradient-to-b from-white via-slate-50 to-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="grid gap-10 md:grid-cols-2 items-center">
+            <div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-500 shadow-sm">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-50">
+                  <Zap className="h-3 w-3 text-blue-500" />
+                </div>
+                <span>Followers réels • Livraison 24-72h • Paiement sécurisé</span>
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                Achat followers Instagram et TikTok actifs et engagés - Livraison rapide
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-500 to-purple-500 shadow-md">
+                  <Instagram className="h-6 w-6 text-white" />
+                </div>
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
+                  Doctor Followers
+                </p>
+              </div>
+
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
+                Achat followers Instagram & TikTok
+                <span className="block text-slate-500">simples, rapides et 100% réels.</span>
               </h1>
-            </div>
-            <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            <p>
-              Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer votre audience en revenus.
-            </p>
+              <p className="text-sm sm:text-base text-slate-500 mb-8 max-w-xl">
+                Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer
+                votre audience en revenus, sans design chargé ni parcours compliqué.
+              </p>
 
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-              <button
-                onClick={() => onNavigate?.('instagram-followers')}
-                className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center"
-              >
-                <Users className="w-6 h-6 mr-3 group-hover:animate-pulse" />
-                Acheter des Followers
-                <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button
-                onClick={() => onNavigate?.('instagram-likes')}
-                className="group bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center"
-              >
-                <Heart className="w-6 h-6 mr-3 group-hover:animate-pulse" />
-                Acheter des Likes
-                <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
-              </button>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 mb-8">
+                <button
+                  onClick={() => onNavigate?.('instagram-followers')}
+                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Acheter des followers
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => onNavigate?.('instagram-likes')}
+                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
+                >
+                  <Heart className="mr-2 h-4 w-4" />
+                  Voir les likes
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-600">
+                {features.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                  >
+                    <span className="mt-0.5 text-blue-500">{feature.icon}</span>
+                    <div>
+                      <p className="font-semibold text-slate-900 text-sm">{feature.title}</p>
+                      <p className="text-[11px] text-slate-500">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 text-white border border-white/20 hover:bg-white/20 transition-all duration-300">
-                  <div className="text-blue-400 mr-3">{feature.icon}</div>
+            {/* Carte de prévisualisation simple pour garder le côté "produit" */}
+            <div className="flex justify-center md:justify-end">
+              <div className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-5 shadow-xl">
+                <div className="flex items-center justify-between mb-4">
                   <div>
-                    <div className="font-semibold">{feature.title}</div>
-                    <div className="text-sm text-blue-200">{feature.description}</div>
+                    <p className="text-xs text-slate-500">Pack sélectionné</p>
+                    <p className="text-lg font-semibold text-slate-900">10 000 followers</p>
+                  </div>
+                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600">
+                    Livraison active
+                  </span>
+                </div>
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4 mb-4">
+                  <div className="flex items-center justify-between mb-2 text-xs text-slate-500">
+                    <span>Compte</span>
+                    <span>@votreprofil</span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+                    <span>Progression</span>
+                    <span>72%</span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-slate-200">
+                    <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
                   </div>
                 </div>
-              ))}
+                <div className="flex items-center justify-between text-sm mb-4">
+                  <div>
+                    <p className="text-xs text-slate-500">Total</p>
+                    <p className="text-lg font-semibold text-slate-900">97,00 €</p>
+                  </div>
+                  <button className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition-colors">
+                    Voir les packs
+                    <ArrowRight className="ml-2 h-3 w-3" />
+                  </button>
+                </div>
+                <p className="text-[11px] text-slate-500">
+                  Paiement sécurisé, aucun mot de passe demandé, support réactif si besoin.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Services Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Nos services
-          </h2>
-          <p className="text-xl text-blue-200">
-            Choisissez votre plateforme et boostez votre présence avec des followers réels et actifs.
-          </p>
-        </div>
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-semibold text-slate-900">
+                Nos services
+              </h2>
+              <p className="mt-3 text-sm text-slate-600 max-w-md">
+                Choisissez votre plateforme et boostez votre présence avec des followers réels et actifs.
+              </p>
+            </div>
+          </div>
 
-        <div className="space-y-16">
-          {platformServices.map((platform, platformIndex) => (
-            <div key={platform.platform} className={`backdrop-blur-sm rounded-3xl p-8 border transition-all duration-300 hover:scale-[1.02] ${
-              platformIndex === 0 
-                ? 'bg-gradient-to-br from-pink-500/20 to-purple-500/20 border-pink-500/30' 
-                : 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/30'
-            }`}>
-              <div className="flex items-center mb-8">
-                <div className={`mr-4 p-3 rounded-xl ${
-                  platformIndex === 0 
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-500' 
-                    : 'bg-gradient-to-r from-blue-500 to-cyan-500'
-                }`}>
-                  {platform.platformIcon}
+          <div className="space-y-10">
+            {platformServices.map((platform) => (
+              <div key={platform.platform} className="space-y-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-slate-200 shadow-sm">
+                    {platform.platformIcon}
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900">{platform.platform}</h3>
                 </div>
-                <h3 className="text-3xl font-bold text-white">{platform.platform}</h3>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {platform.services.map((service) => (
-                  <div
-                    key={service.id}
-                    className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                      hoveredService === service.id ? 'scale-105' : ''
-                    }`}
-                    onMouseEnter={() => setHoveredService(service.id)}
-                    onMouseLeave={() => setHoveredService(null)}
-                    onClick={() => onNavigate?.(service.id)}
-                  >
-                    <div className={`${service.bgColor} rounded-2xl p-6 h-full border-2 border-transparent group-hover:border-white/20 transition-all duration-300 shadow-lg group-hover:shadow-xl`}>
-                      <div className={`${service.color} mb-4`}>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {platform.services.map((service) => (
+                    <button
+                      key={service.id}
+                      onClick={() => onNavigate?.(service.id)}
+                      onMouseEnter={() => setHoveredService(service.id)}
+                      onMouseLeave={() => setHoveredService(null)}
+                      className={`group flex flex-col items-start rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left transition-colors hover:border-slate-300 hover:bg-slate-50 ${
+                        hoveredService === service.id ? 'border-slate-300 bg-slate-50' : ''
+                      }`}
+                    >
+                      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white">
                         {service.icon}
                       </div>
-                      <h4 className="text-lg font-bold text-white mb-2">
+                      <p className="text-sm font-semibold text-slate-900 mb-1">
                         {service.name}
-                      </h4>
-                      <p className="text-white/90 text-sm mb-4">
+                      </p>
+                      <p className="text-xs text-slate-600 mb-3">
                         {service.description}
                       </p>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // Éviter le double clic
-                          onNavigate?.(service.id);
-                        }}
-                        className="flex items-center text-white font-medium group-hover:text-white/80 transition-colors hover:bg-white/10 px-3 py-2 rounded-lg"
-                      >
-                        <span className="text-sm">Découvrir</span>
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                      <span className="text-xs font-medium text-slate-700 inline-flex items-center gap-1">
+                        Découvrir
+                        <ArrowRight className="h-3 w-3" />
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Pourquoi acheter des followers Instagram actifs */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-full mb-6">
-            <Bot className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Pourquoi acheter des followers Instagram actifs ?
-          </h2>
-        </div>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Problème des bots */}
-          <div className="bg-gradient-to-br from-red-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4">
-                <Bot className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white">Les bots : un danger</h3>
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-50 text-red-500 mb-4">
+              <Bot className="w-6 h-6" />
             </div>
-            <ul className="space-y-3 text-blue-100">
-              <li className="flex items-start">
-                <span className="text-red-400 mr-2">❌</span>
-                <span>N'aident pas l'engagement de votre page</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-400 mr-2">❌</span>
-                <span>Détectés facilement par Instagram</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-400 mr-2">❌</span>
-                <span>Impact négatif sur votre visibilité</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-400 mr-2">❌</span>
-                <span>Pénalisation de l'algorithme</span>
-              </li>
-            </ul>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-50 mb-3">
+              Pourquoi acheter des followers Instagram actifs ?
+            </h2>
           </div>
 
-          {/* Solution avec nos followers */}
-          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-8 border border-green-500/30">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
-                <Users2 className="w-6 h-6 text-white" />
+          <div className="grid md:grid-cols-2 gap-8 text-sm">
+            {/* Problème des bots */}
+            <div className="rounded-2xl border border-red-100 bg-red-50 p-6">
+              <div className="flex items-center mb-3">
+                <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-white">
+                  <Bot className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-semibold text-slate-900">Les bots : un danger</h3>
               </div>
-              <h3 className="text-xl font-bold text-white">Nos followers réels</h3>
+              <ul className="space-y-2 text-slate-600 text-xs">
+                <li className="flex items-start gap-2">
+                  <span className="text-red-400 mt-0.5">❌</span>
+                  <span>N'aident pas l'engagement de votre page</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-400 mt-0.5">❌</span>
+                  <span>Détectés facilement par Instagram</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-400 mt-0.5">❌</span>
+                  <span>Impact négatif sur votre visibilité</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-400 mt-0.5">❌</span>
+                  <span>Pénalisation de l'algorithme</span>
+                </li>
+              </ul>
             </div>
-            <ul className="space-y-3 text-blue-100">
-              <li className="flex items-start">
-                <span className="text-green-400 mr-2">✅</span>
-                <span><strong className="text-white">Crédibilité</strong> renforcée</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-400 mr-2">✅</span>
-                <span><strong className="text-white">Visibilité</strong> améliorée</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-400 mr-2">✅</span>
-                <span><strong className="text-white">Croissance</strong> naturelle</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-400 mr-2">✅</span>
-                <span>Engagement authentique</span>
-              </li>
-            </ul>
+
+            {/* Solution avec nos followers */}
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6">
+              <div className="flex items-center mb-3">
+                <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-white">
+                  <Users2 className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-semibold text-slate-900">Nos followers réels</h3>
+              </div>
+              <ul className="space-y-2 text-slate-700 text-xs">
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-600 mt-0.5">✅</span>
+                  <span><strong className="text-slate-900">Crédibilité</strong> renforcée</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-600 mt-0.5">✅</span>
+                  <span><strong className="text-slate-900">Visibilité</strong> améliorée</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-600 mt-0.5">✅</span>
+                  <span><strong className="text-slate-900">Croissance</strong> naturelle</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">✅</span>
+                  <span>Engagement authentique</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Comment fonctionne notre service */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-6">
-            <Target className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Comment fonctionne notre service d'achat de followers Instagram actifs
-          </h2>
-        </div>
-        
-        {/* Processus étape par étape */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-bold text-white">1</span>
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 text-blue-500 mb-4">
+              <Target className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-3">Sélectionnez votre pack</h3>
-            <p className="text-blue-100 text-sm">Choisissez le nombre de followers qui correspond à vos besoins</p>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
+              Comment fonctionne notre service d'achat de followers Instagram actifs
+            </h2>
           </div>
-          
-          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-bold text-white">2</span>
-            </div>
-            <h3 className="text-lg font-bold text-white mb-3">Saisissez votre profil</h3>
-            <p className="text-blue-100 text-sm">Entrez le lien de votre profil Instagram (aucun mot de passe requis)</p>
-          </div>
-          
-          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-bold text-white">3</span>
-            </div>
-            <h3 className="text-lg font-bold text-white mb-3">Livraison automatique</h3>
-            <p className="text-blue-100 text-sm">Suivi en temps réel et livraison progressive de vos followers</p>
-          </div>
-        </div>
 
-        {/* Avantages du service */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-center">
-            <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Zap className="w-6 h-6 text-white" />
+          {/* Processus étape par étape */}
+          <div className="grid md:grid-cols-3 gap-6 mb-10 text-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white mx-auto">
+                <span className="text-lg font-semibold">1</span>
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">Sélectionnez votre pack</h3>
+              <p className="text-xs text-slate-600">
+                Choisissez le nombre de followers qui correspond à vos besoins.
+              </p>
             </div>
-            <h4 className="text-lg font-bold text-white mb-2">Livraison rapide</h4>
-            <p className="text-blue-100 text-sm">Commence immédiatement après votre commande</p>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-purple-500 text-white mx-auto">
+                <span className="text-lg font-semibold">2</span>
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">Saisissez votre profil</h3>
+              <p className="text-xs text-slate-600">
+                Entrez le lien de votre profil Instagram (aucun mot de passe requis).
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white mx-auto">
+                <span className="text-lg font-semibold">3</span>
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">Livraison automatique</h3>
+              <p className="text-xs text-slate-600">
+                Suivi en temps réel et livraison progressive de vos followers.
+              </p>
+            </div>
           </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-center">
-            <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-6 h-6 text-white" />
+
+          {/* Avantages du service */}
+          <div className="grid md:grid-cols-3 gap-6 text-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Zap className="w-5 h-5" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-900 mb-1">Livraison rapide</h4>
+              <p className="text-xs text-slate-600">
+                Commence immédiatement après votre commande.
+              </p>
             </div>
-            <h4 className="text-lg font-bold text-white mb-2">Achat sécurisé</h4>
-            <p className="text-blue-100 text-sm">Aucun mot de passe requis, paiement sécurisé</p>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 text-center">
-            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-6 h-6 text-white" />
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Lock className="w-5 h-5" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-900 mb-1">Achat sécurisé</h4>
+              <p className="text-xs text-slate-600">
+                Aucun mot de passe requis, paiement sécurisé.
+              </p>
             </div>
-            <h4 className="text-lg font-bold text-white mb-2">Followers stables</h4>
-            <p className="text-blue-100 text-sm">Des abonnés qui restent sur votre compte</p>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-5 h-5" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-900 mb-1">Followers stables</h4>
+              <p className="text-xs text-slate-600">
+                Des abonnés qui restent sur votre compte.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Les avantages d'un achat de followers Instagram */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-6">
-            <Sparkles className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Les avantages d'un achat de followers Instagram actifs et réels
-          </h2>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <TrendingUp className="w-8 h-8 text-white" />
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-50 text-purple-500 mb-4">
+              <Sparkles className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-3">Preuve sociale</h3>
-            <p className="text-blue-100 text-sm">Amélioration significative de votre crédibilité et attractivité</p>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
+              Les avantages d'un achat de followers Instagram actifs et réels
+            </h2>
           </div>
-          
-          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Eye className="w-8 h-8 text-white" />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 text-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-3">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-1">Preuve sociale</h3>
+              <p className="text-xs text-slate-600">
+                Amélioration significative de votre crédibilité et attractivité.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-white mb-3">Visibilité accrue</h3>
-            <p className="text-blue-100 text-sm">Meilleure visibilité dans l'algorithme Instagram</p>
-          </div>
-          
-          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <ThumbsUp className="w-8 h-8 text-white" />
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Eye className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-1">Visibilité accrue</h3>
+              <p className="text-xs text-slate-600">
+                Meilleure visibilité dans l'algorithme Instagram.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-white mb-3">Engagement naturel</h3>
-            <p className="text-blue-100 text-sm">Augmentation du taux d'engagement avec des abonnés réels</p>
-          </div>
-          
-          <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-sm rounded-2xl p-6 border border-yellow-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Crown className="w-8 h-8 text-white" />
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-3">
+                <ThumbsUp className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-1">Engagement naturel</h3>
+              <p className="text-xs text-slate-600">
+                Augmentation du taux d'engagement avec des abonnés réels.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-white mb-3">Collaborations</h3>
-            <p className="text-blue-100 text-sm">Ouverture à de nouvelles collaborations avec des marques</p>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Crown className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-1">Collaborations</h3>
+              <p className="text-xs text-slate-600">
+                Ouverture à de nouvelles collaborations avec des marques.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Pourquoi choisir Doctor Followers */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-6">
-            <Award className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Pourquoi choisir Doctor Followers pour vos followers Instagram
-          </h2>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-2xl p-8 border border-green-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-8 h-8 text-white" />
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 mb-4">
+              <Award className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-4">Fiabilité garantie</h3>
-            <p className="text-blue-100">Service client réactif disponible 24/7 avec un support dédié</p>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
+              Pourquoi choisir Doctor Followers pour vos followers Instagram
+            </h2>
           </div>
-          
-          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Users2 className="w-8 h-8 text-white" />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">Fiabilité garantie</h3>
+              <p className="text-xs text-slate-600">
+                Service client réactif disponible 24/7 avec un support dédié.
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-white mb-4">Followers réels</h3>
-            <p className="text-blue-100">Uniquement des abonnés issus de comptes actifs et authentiques</p>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-3">
+                <Users2 className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">Followers réels</h3>
+              <p className="text-xs text-slate-600">
+                Uniquement des abonnés issus de comptes actifs et authentiques.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-3">
+                <CheckCircle className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">Satisfaction garantie</h3>
+              <p className="text-xs text-slate-600">
+                Politique de remboursement simple et livraison progressive.
+              </p>
+            </div>
           </div>
-          
-          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-white" />
+
+          {/* Call-to-action */}
+          <div className="mt-10 text-center">
+            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+              <div className="flex flex-col items-center gap-2 mb-4">
+                <Headphones className="w-6 h-6 text-blue-400" />
+                <h3 className="text-lg font-semibold text-slate-900">Support client 24/7</h3>
+              </div>
+              <p className="text-xs text-slate-600 mb-5">
+                Notre équipe est disponible pour vous accompagner dans votre croissance Instagram.
+              </p>
+              <button
+                onClick={() => onNavigate?.('contact')}
+                className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+              >
+                Nous contacter
+              </button>
             </div>
-            <h3 className="text-xl font-bold text-white mb-4">Satisfaction garantie</h3>
-            <p className="text-blue-100">Politique de remboursement simple et livraison progressive</p>
-          </div>
-        </div>
-        
-        {/* Call-to-action */}
-        <div className="mt-12 text-center">
-          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30">
-            <div className="flex items-center justify-center mb-4">
-              <Headphones className="w-8 h-8 text-blue-400 mr-3" />
-              <h3 className="text-2xl font-bold text-white">Support client 24/7</h3>
-            </div>
-            <p className="text-blue-100 mb-6">
-              Notre équipe est disponible pour vous accompagner dans votre croissance Instagram
-            </p>
-            <button
-              onClick={() => onNavigate?.('contact')}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Nous contacter
-            </button>
           </div>
         </div>
       </div>
 
       {/* FAQ Section */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Questions Fréquentes
-          </h2>
-          <p className="text-xl text-blue-200">
-            Tout ce que vous devez savoir sur nos services
-          </p>
-        </div>
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-2">
+              Questions fréquentes
+            </h2>
+            <p className="text-sm text-slate-600">
+              Tout ce que vous devez savoir sur nos services.
+            </p>
+          </div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
-              <button
-                onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-white/10 transition-colors"
+          <div className="space-y-3">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
               >
-                <span className="text-white font-medium">{faq.question}</span>
-                <div className={`transform transition-transform ${openFaq === index ? 'rotate-180' : ''}`}>
-                  <ChevronDown className="w-5 h-5 text-blue-400" />
-                </div>
-              </button>
-              {openFaq === index && (
-                <div className="px-6 pb-4">
-                  <p className="text-blue-200">{faq.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-left text-sm"
+                >
+                  <span className="font-medium text-slate-900">{faq.question}</span>
+                  <ChevronDown
+                    className={`h-4 w-4 text-slate-500 transition-transform ${
+                      openFaq === index ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {openFaq === index && (
+                  <div className="px-4 pb-3 text-xs text-slate-600">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Stats Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">24/7</div>
-            <div className="text-blue-200">Support client</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <Users className="w-8 h-8 text-blue-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">100%</div>
-            <div className="text-blue-200">Sécurisé</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <Award className="w-8 h-8 text-yellow-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">Rapide</div>
-            <div className="text-blue-200">Livraison</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <Globe className="w-8 h-8 text-purple-400 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-white mb-2">Pro</div>
-            <div className="text-blue-200">Service</div>
+      <div className="border-b border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 text-center text-xs">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <TrendingUp className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+              <div className="text-2xl font-semibold text-slate-900 mb-1">24/7</div>
+              <div className="text-slate-600">Support client</div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Users className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+              <div className="text-2xl font-semibold text-slate-900 mb-1">100%</div>
+              <div className="text-slate-600">Sécurisé</div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Award className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+              <div className="text-2xl font-semibold text-slate-900 mb-1">Rapide</div>
+              <div className="text-slate-600">Livraison</div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Globe className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+              <div className="text-2xl font-semibold text-slate-900 mb-1">Pro</div>
+              <div className="text-slate-600">Service</div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* CTA Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-center relative overflow-hidden">
-          <div className="absolute inset-0 opacity-20" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }}></div>
-          <div className="relative">
-            <h3 className="text-4xl font-bold text-white mb-4">
-              Prêt à booster votre présence ?
-            </h3>
-            <p className="text-xl text-blue-100 mb-8">
-              Rejoignez des milliers de créateurs qui font confiance à Doctor Followers
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+      <div className="bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center md:text-left md:px-10 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-2">
+                Prêt à booster votre présence ?
+              </h3>
+              <p className="text-sm text-slate-600 max-w-xl">
+                Rejoignez des créateurs qui ont choisi un parcours simple pour faire grandir leurs
+                comptes Instagram et TikTok.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 onClick={() => onNavigate?.('instagram-followers')}
-                className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl hover:bg-blue-50 transition-colors transform hover:scale-105 shadow-lg flex items-center justify-center"
+                className="inline-flex flex-1 items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
               >
-                <Users className="w-6 h-6 mr-3" />
-                Commencer avec les Followers
+                <Users className="mr-2 h-4 w-4" />
+                Commencer avec les followers
               </button>
               <button
                 onClick={() => onNavigate?.('instagram-likes')}
-                className="bg-white/20 text-white font-bold py-4 px-8 rounded-xl hover:bg-white/30 transition-colors transform hover:scale-105 shadow-lg border border-white/30 flex items-center justify-center"
+                className="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
               >
-                <Heart className="w-6 h-6 mr-3" />
-                Essayer les Likes
+                <Heart className="mr-2 h-4 w-4" />
+                Essayer les likes
               </button>
             </div>
           </div>

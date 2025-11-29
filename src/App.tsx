@@ -677,7 +677,7 @@ function AppContent() {
   // Page Outils
   if (currentPage === 'tools') {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <ToolsPage onNavigate={handleNavigate} />
         <Footer onNavigate={handleNavigate} />

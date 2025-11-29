@@ -7,7 +7,7 @@ interface ToolsPageProps {
 
 export default function ToolsPage({ onNavigate }: ToolsPageProps) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-cream">
       <FontGenerator />
     </div>
   );

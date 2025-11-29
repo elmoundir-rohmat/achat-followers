@@ -279,19 +279,19 @@ export default function FontGenerator() {
   const displayedStyles = showAllStyles ? generatedTexts : generatedTexts.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-cream font-rounded">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Instagram Générateur de texte</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">Instagram Générateur de texte</h1>
+          <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
             Nos générateurs de polices Instagram vous permettent de créer un texte agréable que vous pouvez copier et coller dans votre bio, légendes, commentaires et histoires Instagram.
           </p>
         </div>
 
         {/* Input Section */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <label htmlFor="text-input" className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8 mb-8">
+          <label htmlFor="text-input" className="block text-sm font-medium text-slate-700 mb-3">
             Tapez le texte que vous voulez faire gras dans la case ci-dessous..
           </label>
           <textarea
@@ -299,52 +299,52 @@ export default function FontGenerator() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ex: Mon compte Instagram"
-            className="w-full p-3 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none resize-none"
+            className="w-full p-4 border border-soft-pink-200/50 rounded-button focus:ring-2 focus:ring-soft-pink-300 focus:border-soft-pink-300 focus:outline-none resize-none bg-white/80 backdrop-blur-sm transition-all text-slate-900"
             rows={3}
           />
         </div>
 
         {/* Styles Counter and Dropdown */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <span className="text-sm text-gray-600">Montrant: {generatedTexts.length} texte instagram</span>
+            <span className="text-sm text-slate-600 font-medium">Montrant: {generatedTexts.length} texte instagram</span>
             <button
               onClick={() => setShowAllStyles(!showAllStyles)}
-              className="ml-2 text-gray-500 hover:text-gray-700"
+              className="ml-2 text-slate-500 hover:text-slate-700 p-1 rounded-card-sm hover:bg-soft-pink-50/50 transition-all"
             >
-              <ChevronDown className={`w-4 h-4 transition-transform ${showAllStyles ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-4 h-4 transition-transform ${showAllStyles ? 'rotate-180' : ''}`} strokeWidth={1.5} />
             </button>
           </div>
         </div>
 
         {/* Styles List */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           {displayedStyles.map((style) => (
-            <div key={style.id} className="bg-white rounded-lg border border-gray-200 p-4 flex items-center">
+            <div key={style.id} className="bg-white/80 backdrop-blur-sm rounded-card-sm border border-soft-pink-200/50 p-5 flex items-center shadow-soft hover:shadow-soft-lg transition-all">
               <input
                 type="checkbox"
                 checked={selectedStyles[style.id] || false}
                 onChange={() => toggleStyleSelection(style.id)}
-                className="mr-3 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="mr-4 w-5 h-5 text-soft-pink-600 border-soft-pink-300 rounded focus:ring-soft-pink-500"
               />
               <div className="flex-1">
-                <span className="text-lg font-medium text-gray-900">
+                <span className="text-lg font-medium text-slate-800">
                   {style.generated || 'Votre texte stylisé apparaîtra ici...'}
                 </span>
               </div>
               <button
                 onClick={() => copyToClipboard(style.generated, style.id)}
                 disabled={!style.generated}
-                className="ml-3 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+                className="ml-4 px-4 py-2 text-sm bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white rounded-button hover:shadow-soft-lg disabled:bg-gray-400 disabled:opacity-50 transition-all shadow-soft font-medium"
               >
                 {copiedStates[style.id] ? (
                   <span className="flex items-center">
-                    <Check className="w-3 h-3 mr-1" />
+                    <Check className="w-3 h-3 mr-1" strokeWidth={2} />
                     Copié
                   </span>
                 ) : (
                   <span className="flex items-center">
-                    <Copy className="w-3 h-3 mr-1" />
+                    <Copy className="w-3 h-3 mr-1" strokeWidth={1.5} />
                     Copie
                   </span>
                 )}
@@ -355,21 +355,21 @@ export default function FontGenerator() {
 
         {/* Instagram Preview */}
         {inputText && (
-          <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Aperçu Instagram</h2>
+          <div className="mt-10 bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8">
+            <h2 className="text-lg font-semibold text-slate-800 mb-6">Aperçu Instagram</h2>
             
-            <div className="max-w-sm mx-auto bg-gradient-to-b from-purple-500 to-pink-500 rounded-3xl p-6 text-white">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3">
-                  <Instagram className="w-6 h-6 text-purple-500" />
+            <div className="max-w-sm mx-auto bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 rounded-card p-8 text-white shadow-soft-xl">
+              <div className="flex items-center mb-6">
+                <div className="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center mr-4 shadow-soft-lg">
+                  <Instagram className="w-7 h-7 bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <div className="font-semibold">doctor_followers</div>
-                  <div className="text-sm opacity-75">Compte vérifié</div>
+                  <div className="font-semibold text-lg">doctor_followers</div>
+                  <div className="text-sm opacity-90">Compte vérifié</div>
                 </div>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {generatedTexts.slice(0, 3).map((style) => (
                   <div key={style.id} className="text-sm">
                     <div className="font-medium">{style.generated}</div>
@@ -381,20 +381,20 @@ export default function FontGenerator() {
         )}
 
         {/* Tips Section */}
-        <div className="mt-8 bg-blue-600 rounded-lg p-6 text-white">
-          <h2 className="text-lg font-semibold mb-3">💡 Conseils d'utilisation</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h3 className="font-medium mb-2">Pour votre bio Instagram :</h3>
-              <ul className="space-y-1 opacity-90">
+        <div className="mt-10 bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 rounded-card p-8 text-white shadow-soft-xl">
+          <h2 className="text-lg font-semibold mb-6">💡 Conseils d'utilisation</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div className="bg-white/10 backdrop-blur-sm rounded-card-sm p-5 border border-white/20">
+              <h3 className="font-semibold mb-3">Pour votre bio Instagram :</h3>
+              <ul className="space-y-2 opacity-90">
                 <li>• Utilisez des polices différentes pour créer du contraste</li>
                 <li>• Évitez d'en faire trop, 2-3 styles maximum</li>
                 <li>• Testez la lisibilité sur mobile</li>
               </ul>
             </div>
-            <div>
-              <h3 className="font-medium mb-2">Pour vos légendes :</h3>
-              <ul className="space-y-1 opacity-90">
+            <div className="bg-white/10 backdrop-blur-sm rounded-card-sm p-5 border border-white/20">
+              <h3 className="font-semibold mb-3">Pour vos légendes :</h3>
+              <ul className="space-y-2 opacity-90">
                 <li>• Utilisez les polices pour mettre en valeur des mots-clés</li>
                 <li>• Créez des séparateurs visuels avec les symboles</li>
                 <li>• Gardez la cohérence avec votre identité de marque</li>

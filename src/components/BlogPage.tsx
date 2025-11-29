@@ -83,25 +83,25 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center font-rounded">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement des articles...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-soft-pink-500 mx-auto mb-4"></div>
+          <p className="text-slate-600">Chargement des articles...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream font-rounded">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 border-b border-soft-pink-200/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-semibold text-slate-800 mb-6">
               Blog
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
               Découvrez nos conseils et stratégies pour développer votre présence sur les réseaux sociaux
             </p>
           </div>
@@ -110,16 +110,16 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
 
       {/* Search and Filters */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8 mb-10">
           <form onSubmit={handleSearch} className="mb-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" strokeWidth={1.5} />
               <input
                 type="text"
                 placeholder="Rechercher un article..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-12 pr-4 py-4 border border-soft-pink-200/50 rounded-button focus:ring-2 focus:ring-soft-pink-300 focus:border-soft-pink-300 bg-white/80 backdrop-blur-sm transition-all text-slate-900"
               />
             </div>
           </form>
@@ -127,22 +127,22 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
           <div className="flex flex-wrap items-center gap-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center px-4 py-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="flex items-center px-5 py-2.5 text-slate-700 hover:text-slate-900 border border-soft-pink-200/50 rounded-button hover:bg-soft-pink-50/50 transition-all shadow-soft"
             >
-              <Filter className="w-4 h-4 mr-2" />
+              <Filter className="w-4 h-4 mr-2" strokeWidth={1.5} />
               Filtres
             </button>
 
             {showFilters && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => handleCategoryToggle(category)}
-                    className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                    className={`px-4 py-2 rounded-pill text-sm transition-all shadow-soft ${
                       selectedCategories.includes(category)
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white shadow-soft-lg'
+                        : 'bg-white/80 backdrop-blur-sm text-slate-700 hover:bg-soft-pink-50/50 border border-soft-pink-200/50'
                     }`}
                   >
                     {category}
@@ -156,14 +156,14 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
         {/* Articles Grid */}
         {filteredPosts.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Aucun article trouvé</p>
+            <p className="text-slate-500 text-lg">Aucun article trouvé</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
               <article
                 key={post.id}
-                className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 overflow-hidden hover:shadow-soft-xl transition-all duration-300 cursor-pointer"
                 onClick={() => onViewArticle?.(post.slug)}
               >
                 <div className="aspect-video overflow-hidden">
@@ -175,30 +175,30 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
                 </div>
                 
                 <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
-                    <Calendar className="w-4 h-4 mr-1" />
+                  <div className="flex items-center text-sm text-slate-500 mb-4">
+                    <Calendar className="w-4 h-4 mr-1" strokeWidth={1.5} />
                     <span className="mr-4">{formatDate(post.date)}</span>
-                    <User className="w-4 h-4 mr-1" />
+                    <User className="w-4 h-4 mr-1" strokeWidth={1.5} />
                     <span className="mr-4">{post.authorId}</span>
-                    <Clock className="w-4 h-4 mr-1" />
+                    <Clock className="w-4 h-4 mr-1" strokeWidth={1.5} />
                     <span>{post.readTime} min</span>
                   </div>
 
-                  <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                  <h2 className="text-xl font-semibold text-slate-800 mb-3 line-clamp-2">
                     {post.title}
                   </h2>
 
-                  <p className="text-gray-600 mb-4 line-clamp-3">
+                  <p className="text-slate-600 mb-4 line-clamp-3 leading-relaxed">
                     {post.excerpt}
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                    <span className="px-4 py-1.5 bg-gradient-to-br from-soft-pink-50 to-lavender-50 text-soft-pink-700 text-sm rounded-pill border border-soft-pink-200/50 font-medium">
                       {post.category}
                     </span>
-                    <div className="flex items-center text-blue-600 hover:text-blue-800">
-                      <span className="text-sm font-medium">Lire l'article</span>
-                      <ArrowRight className="w-4 h-4 ml-1" />
+                    <div className="flex items-center bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent hover:from-soft-pink-600 hover:via-peach-600 hover:to-lavender-600">
+                      <span className="text-sm font-semibold">Lire l'article</span>
+                      <ArrowRight className="w-4 h-4 ml-1" strokeWidth={1.5} />
                     </div>
                   </div>
                 </div>

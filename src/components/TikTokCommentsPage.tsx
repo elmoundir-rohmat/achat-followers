@@ -158,47 +158,46 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-cream font-rounded">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-2xl shadow-2xl">
-                <MessageCircle className="w-12 h-12 text-white" />
+            <div className="flex justify-center mb-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg">
+                <MessageCircle className="w-9 h-9 text-white" strokeWidth={1.5} />
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              TikTok <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Comments</span>
+            <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 mb-6 leading-tight">
+              TikTok <span className="bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">Comments</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
               Boostez vos commentaires TikTok avec nos services premium. 
               Obtenez des commentaires réels et engageants pour maximiser votre visibilité.
             </p>
             
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-6 border border-soft-pink-200/50 shadow-soft-lg">
                 <div className="flex items-center justify-center mb-3">
-                  <Star className="w-8 h-8 text-yellow-400" />
+                  <Star className="w-8 h-8 text-warm-yellow-500" strokeWidth={1.5} />
                 </div>
-                <div className="text-3xl font-bold text-white mb-2">99.9%</div>
-                <div className="text-gray-300">Taux de réussite</div>
+                <div className="text-3xl font-semibold text-slate-800 mb-2">99.9%</div>
+                <div className="text-slate-600 font-medium">Taux de réussite</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-6 border border-soft-pink-200/50 shadow-soft-lg">
                 <div className="flex items-center justify-center mb-3">
-                  <Shield className="w-8 h-8 text-green-400" />
+                  <Shield className="w-8 h-8 text-soft-pink-500" strokeWidth={1.5} />
                 </div>
-                <div className="text-3xl font-bold text-white mb-2">100%</div>
-                <div className="text-gray-300">Sécurisé</div>
+                <div className="text-3xl font-semibold text-slate-800 mb-2">100%</div>
+                <div className="text-slate-600 font-medium">Sécurisé</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-6 border border-soft-pink-200/50 shadow-soft-lg">
                 <div className="flex items-center justify-center mb-3">
-                  <Zap className="w-8 h-8 text-blue-400" />
+                  <Zap className="w-8 h-8 text-lavender-500" strokeWidth={1.5} />
                 </div>
-                <div className="text-3xl font-bold text-white mb-2">24/7</div>
-                <div className="text-gray-300">Support client</div>
+                <div className="text-3xl font-semibold text-slate-800 mb-2">24/7</div>
+                <div className="text-slate-600 font-medium">Support client</div>
               </div>
             </div>
           </div>
@@ -206,13 +205,10 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         
         {/* Type de Commentaires */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8 text-white">
-            Choisissez votre type de commentaires
-          </h2>
+        <div className="mb-20">
           <FollowerTypeSelector 
             selectedType={followerType} 
             onTypeChange={setFollowerType}
@@ -222,10 +218,7 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Sélection du Package */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8 text-white">
-            Sélectionnez votre package
-          </h2>
+        <div className="mb-20">
           <PackageSelector 
             selectedPackage={selectedPackage}
             onPackageChange={setSelectedPackage}
@@ -236,38 +229,38 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
 
         {/* Résumé et Bouton d'ajout au panier */}
         {selectedPackage && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-16">
+          <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-xl p-10 border border-soft-pink-200/50 mb-16">
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Résumé de votre commande</h3>
+              <h3 className="text-3xl font-semibold text-slate-800 mb-8">Résumé de votre commande</h3>
               
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6">
+              <div className="bg-gradient-to-br from-soft-pink-50 via-peach-50 to-lavender-50 rounded-card-sm p-8 mb-8 border border-soft-pink-200/50">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                   <div>
-                    <div className="text-3xl font-bold text-blue-600">
+                    <div className="text-4xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">
                       {getPackageComments(selectedPackage).toLocaleString()}
                     </div>
-                    <div className="text-gray-600">Commentaires TikTok</div>
+                    <div className="text-slate-600 mt-2 font-medium">Commentaires TikTok</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-purple-600">
+                    <div className="text-4xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">
                       {followerType === 'random' ? 'Aléatoires' : 'Personnalisés'}
                     </div>
-                    <div className="text-gray-600">Type de commentaires</div>
+                    <div className="text-slate-600 mt-2 font-medium">Type de commentaires</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-green-600">
+                    <div className="text-4xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">
                       {getPrice(selectedPackage).toFixed(2)}€
                     </div>
-                    <div className="text-gray-600">Prix total</div>
+                    <div className="text-slate-600 mt-2 font-medium">Prix total</div>
                   </div>
                 </div>
               </div>
 
               <button
                 onClick={handlePurchase}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-12 py-4 rounded-2xl text-xl font-bold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center mx-auto"
+                className="bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 hover:shadow-soft-xl hover:scale-105 text-white px-14 py-5 rounded-button text-xl font-semibold transition-all duration-300 shadow-soft-lg flex items-center mx-auto"
               >
-                <Zap className="w-6 h-6 mr-3" />
+                <Zap className="w-6 h-6 mr-3" strokeWidth={2} />
                 Acheter maintenant
               </button>
             </div>
@@ -275,31 +268,31 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
         )}
 
         {/* Section Garanties */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h3 className="text-2xl font-bold text-center mb-8 text-gray-900">
+        <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-xl p-10 border border-soft-pink-200/50">
+          <h3 className="text-3xl md:text-4xl font-semibold text-center mb-12 text-slate-800">
             Nos garanties TikTok Comments
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-green-600" />
+              <div className="w-18 h-18 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
+                <Shield className="w-9 h-9 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">100% Sécurisé</h4>
-              <p className="text-gray-600">Aucun risque pour votre compte TikTok</p>
+              <h4 className="text-xl font-semibold text-slate-800 mb-3">100% Sécurisé</h4>
+              <p className="text-slate-600 leading-relaxed">Aucun risque pour votre compte TikTok</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="w-8 h-8 text-blue-600" />
+              <div className="w-18 h-18 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
+                <MessageCircle className="w-9 h-9 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Commentaires Réels</h4>
-              <p className="text-gray-600">Tous les commentaires proviennent de comptes actifs</p>
+              <h4 className="text-xl font-semibold text-slate-800 mb-3">Commentaires Réels</h4>
+              <p className="text-slate-600 leading-relaxed">Tous les commentaires proviennent de comptes actifs</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-purple-600" />
+              <div className="w-18 h-18 bg-gradient-to-br from-warm-yellow-100 to-soft-orange-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
+                <Zap className="w-9 h-9 text-soft-orange-600" strokeWidth={1.5} />
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Livraison Rapide</h4>
-              <p className="text-gray-600">Recevez vos commentaires en quelques heures</p>
+              <h4 className="text-xl font-semibold text-slate-800 mb-3">Livraison Rapide</h4>
+              <p className="text-slate-600 leading-relaxed">Recevez vos commentaires en quelques heures</p>
             </div>
           </div>
         </div>
@@ -307,20 +300,20 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
 
       {/* Modal de confirmation */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white/95 backdrop-blur-md rounded-card shadow-soft-xl max-w-lg w-full border border-soft-pink-200/50">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-2xl">
+            <div className="bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white p-6 rounded-t-card">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <MessageCircle className="w-6 h-6 mr-3" />
-                  <h2 className="text-xl font-bold">Confirmer votre commande</h2>
+                <div className="flex items-center gap-3">
+                  <MessageCircle className="w-6 h-6" strokeWidth={1.5} />
+                  <h2 className="text-xl font-semibold">Confirmer votre commande</h2>
                 </div>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="text-white hover:text-gray-200 transition-colors"
+                  className="text-white/90 hover:text-white transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-5 h-5" strokeWidth={1.5} />
                 </button>
               </div>
             </div>
@@ -328,27 +321,27 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
             {/* Content */}
             <div className="p-6">
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-slate-800 mb-3">
                   Résumé de votre commande
                 </h3>
-                <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 rounded-card-sm p-4 space-y-2 border border-soft-pink-200/50">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Commentaires TikTok:</span>
-                    <span className="font-semibold text-gray-900">{getPackageComments(selectedPackage).toLocaleString()}</span>
+                    <span className="text-slate-600">Commentaires TikTok:</span>
+                    <span className="font-semibold text-slate-800">{getPackageComments(selectedPackage).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Type:</span>
-                    <span className="font-semibold text-gray-900">{followerType === 'random' ? 'Commentaires Aléatoires' : 'Commentaires Personnalisés'}</span>
+                    <span className="text-slate-600">Type:</span>
+                    <span className="font-semibold text-slate-800">{followerType === 'random' ? 'Commentaires Aléatoires' : 'Commentaires Personnalisés'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Prix:</span>
-                    <span className="font-semibold text-green-600">{getPrice(selectedPackage).toFixed(2)}€</span>
+                    <span className="text-slate-600">Prix:</span>
+                    <span className="font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">{getPrice(selectedPackage).toFixed(2)}€</span>
                   </div>
                 </div>
               </div>
 
               <div className="mb-6">
-                <label htmlFor="tiktok-url" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="tiktok-url" className="block text-sm font-medium text-slate-700 mb-2">
                   Lien de votre post TikTok *
                 </label>
                 <input
@@ -357,9 +350,9 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
                   value={tiktokUrl}
                   onChange={(e) => setTiktokUrl(e.target.value)}
                   placeholder="https://www.tiktok.com/@username/video/1234567890"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-soft-pink-200/50 rounded-card-sm focus:ring-2 focus:ring-soft-pink-300 focus:border-soft-pink-300 text-slate-900 bg-white/80 backdrop-blur-sm transition-all"
                 />
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-xs text-slate-500 mt-2">
                   <p className="font-medium mb-1">Formats acceptés :</p>
                   <p>• https://www.tiktok.com/@username/video/1234567890</p>
                   <p>• https://tiktok.com/@username/video/1234567890</p>
@@ -368,17 +361,17 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
                 </div>
               </div>
 
-              <div className="flex space-x-3">
+              <div className="flex gap-3">
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 border border-soft-pink-200/50 text-slate-700 rounded-button hover:bg-soft-pink-50/50 transition-all font-medium"
                 >
                   Annuler
                 </button>
                 <button
                   onClick={handleConfirmPurchase}
                   disabled={!tiktokUrl.trim()}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                  className="flex-1 bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white py-3 rounded-button font-semibold hover:shadow-soft-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-soft"
                 >
                   Continuer
                 </button>

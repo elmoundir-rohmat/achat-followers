@@ -123,10 +123,10 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center font-rounded">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement de l'article...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-soft-pink-500 mx-auto mb-4"></div>
+          <p className="text-slate-600">Chargement de l'article...</p>
         </div>
       </div>
     );
@@ -134,13 +134,13 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center font-rounded">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Article non trouvé</h1>
-          <p className="text-gray-600 mb-8">L'article que vous recherchez n'existe pas.</p>
+          <h1 className="text-4xl font-semibold text-slate-800 mb-4">Article non trouvé</h1>
+          <p className="text-slate-600 mb-8">L'article que vous recherchez n'existe pas.</p>
           <button
             onClick={onBack}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-3 bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white rounded-button hover:shadow-soft-lg transition-all duration-300 shadow-soft font-semibold"
           >
             Retour au blog
           </button>
@@ -163,15 +163,15 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream font-rounded">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 border-b border-soft-pink-200/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
             onClick={onBack}
-            className="flex items-center text-gray-600 hover:text-gray-900 transition-colors mb-4"
+            className="flex items-center text-slate-600 hover:text-slate-800 transition-colors mb-4 p-2 hover:bg-white/50 rounded-card-sm"
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className="w-5 h-5 mr-2" strokeWidth={1.5} />
             Retour au blog
           </button>
         </div>
@@ -181,23 +181,23 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Article Header */}
         <header className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-semibold text-slate-800 mb-6 leading-tight">
             {post.title}
           </h1>
           
           {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
+          <div className="flex flex-wrap items-center gap-6 text-slate-600 mb-6">
             <div className="flex items-center">
-              <User className="w-5 h-5 mr-2" />
+              <User className="w-5 h-5 mr-2" strokeWidth={1.5} />
               <span>{post.author || 'Auteur inconnu'}</span>
             </div>
             <div className="flex items-center">
-              <Calendar className="w-5 h-5 mr-2" />
+              <Calendar className="w-5 h-5 mr-2" strokeWidth={1.5} />
               <span>{formatDate(post.date)}</span>
             </div>
             {post.readTime && (
               <div className="flex items-center">
-                <Clock className="w-5 h-5 mr-2" />
+                <Clock className="w-5 h-5 mr-2" strokeWidth={1.5} />
                 <span>{post.readTime} min de lecture</span>
               </div>
             )}
@@ -209,9 +209,9 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
               {post.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full flex items-center"
+                  className="px-4 py-1.5 bg-gradient-to-br from-soft-pink-50 to-lavender-50 text-soft-pink-700 text-sm rounded-pill flex items-center border border-soft-pink-200/50"
                 >
-                  <Tag className="w-3 h-3 mr-1" />
+                  <Tag className="w-3 h-3 mr-1" strokeWidth={1.5} />
                   {tag}
                 </span>
               ))}
@@ -224,15 +224,15 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
           <img
             src={post.image}
             alt={post.seo.imageAlt || post.title}
-            className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg"
+            className="w-full h-64 md:h-96 object-cover rounded-card shadow-soft-xl"
           />
         </div>
 
         {/* Article Content */}
         <article className="prose prose-lg max-w-none">
           {/* Excerpt */}
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8 rounded-r-lg">
-            <p className="text-lg text-gray-700 italic leading-relaxed">
+          <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 border-l-4 border-soft-pink-400 p-6 mb-8 rounded-r-card-sm shadow-soft">
+            <p className="text-lg text-slate-700 italic leading-relaxed">
               {post.excerpt}
             </p>
           </div>
@@ -259,20 +259,20 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
           <div className="text-center my-8">
             <button
               onClick={() => onNavigate?.('instagram-followers')}
-              className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg flex items-center justify-center mx-auto"
+              className="group bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 hover:shadow-soft-xl text-white font-semibold py-4 px-8 rounded-button transition-all duration-300 transform hover:scale-105 shadow-soft-lg text-lg flex items-center justify-center mx-auto"
             >
-              <Users className="w-6 h-6 mr-3 group-hover:animate-pulse" />
+              <Users className="w-6 h-6 mr-3 group-hover:animate-pulse" strokeWidth={1.5} />
               Acheter des Followers Instagram
-              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
             </button>
-            <p className="text-sm text-gray-600 mt-2 italic">
+            <p className="text-sm text-slate-600 mt-2 italic">
               Service français • Livraison rapide • Abonnés réels
             </p>
           </div>
 
           {/* Article Stats */}
           {parsedContent && (
-            <div className="mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500">
+            <div className="mt-8 pt-6 border-t border-soft-pink-200/50 text-sm text-slate-500">
               <div className="flex flex-wrap gap-4">
                 <span>{parsedContent.wordCount} mots</span>
                 <span>•</span>
@@ -285,16 +285,16 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
         </article>
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white mt-12">
-          <h3 className="text-2xl font-bold mb-4">
+        <div className="bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 rounded-card p-10 text-white mt-12 shadow-soft-xl">
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4">
             Prêt à booster votre présence Instagram ?
           </h3>
-          <p className="text-lg mb-6 opacity-90">
+          <p className="text-lg mb-6 opacity-90 leading-relaxed">
             Découvrez nos services de croissance organique pour Instagram, TikTok et YouTube.
           </p>
           <button
             onClick={() => onBack()}
-            className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+            className="bg-white/90 backdrop-blur-sm text-soft-pink-600 px-8 py-3 rounded-button font-semibold hover:bg-white transition-all shadow-soft-lg"
           >
             Découvrir nos services
           </button>

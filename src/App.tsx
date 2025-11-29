@@ -80,10 +80,8 @@ function AppContent() {
       const path = window.location.pathname;
       const urlParams = new URLSearchParams(window.location.search);
       
-      // Debug pour production
+      // Debug pour production (sans exposer les paramètres sensibles)
       console.log('Current page:', currentPage, 'URL:', path);
-      console.log('Routing to:', path);
-      console.log('URL params:', Object.fromEntries(urlParams));
       
       // SOLUTION SPA : Gérer les paramètres de paiement depuis l'accueil
       if (path === '/' && urlParams.has('payment_success')) {

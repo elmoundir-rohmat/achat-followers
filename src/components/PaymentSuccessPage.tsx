@@ -72,7 +72,6 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     try {
       // RÉCUPÉRER LES DONNÉES SAUVEGARDÉES AVANT LE PAIEMENT
       const savedPendingOrder = localStorage.getItem('pendingOrder');
-      console.log('🔍 pendingOrder récupéré:', savedPendingOrder);
       
       let serviceType = 'followers';
       let quantity = 25;
@@ -84,7 +83,6 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       if (savedPendingOrder) {
         try {
           const pendingOrder = JSON.parse(savedPendingOrder);
-          console.log('📦 pendingOrder parsé:', pendingOrder);
           
           // Extraire les données du panier sauvegardé
           username = pendingOrder.username || ''; // ✅ Vide si non défini
@@ -96,13 +94,11 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             const firstItem = pendingOrder.items[0];
             if (firstItem.customComments && Array.isArray(firstItem.customComments)) {
               customComments = firstItem.customComments;
-              console.log('📝 customComments récupéré depuis pendingOrder:', customComments);
             }
           }
           
           // ✅ DÉTECTER LA PLATEFORME depuis pendingOrder
           const platform = pendingOrder.platform || 'Instagram';
-          console.log('🔍 Platform détectée depuis pendingOrder:', platform);
           
           // Détecter le type de service depuis la description ET la plateforme
           const description = pendingOrder.description || '';
@@ -125,19 +121,9 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             quantity = followersMatch ? parseInt(followersMatch[1]) : 50;
           }
           
-          console.log('🎯 Données récupérées du panier:', {
-            platform,
-            serviceType,
-            quantity,
-            username,
-            selectedPosts: selectedPosts.length
-          });
-          
         } catch (error) {
-          console.error('❌ Erreur parsing pendingOrder:', error);
+          // Erreur silencieuse lors du parsing
         }
-      } else {
-        console.log('⚠️ Aucun pendingOrder trouvé, utilisation des valeurs par défaut');
       }
       
       // Créer la commande SMMA directement selon le type de service
@@ -261,8 +247,6 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           };
       }
 
-      console.log('📦 Commande créée depuis Cardinity:', smmaOrder);
-
       // Envoyer la commande SMMA selon le type de service
       let smmaResult;
       switch (serviceType) {
@@ -332,9 +316,8 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             throw new Error('URL de profil manquante pour la commande SMMA');
           }
           
-          // 🔍 Détecter la plateforme
+          // Détecter la plateforme
           const serviceType = item.platform === 'TikTok' ? 'tiktok_followers' : 'followers';
-          console.log('🔍 PaymentSuccessPage - Platform:', item.platform, '→ ServiceType:', serviceType);
           
           return {
             username: item.username,
@@ -346,22 +329,17 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
           };
         });
 
-        console.log('📦 Commandes à traiter:', smmaOrders);
-
         // Traiter chaque commande SMMA selon la plateforme
         const smmaResults = await Promise.all(
           smmaOrders.map(order => {
             if (order.serviceType === 'tiktok_followers') {
-              console.log('🎵 PaymentSuccessPage - Commande TikTok détectée');
               return smmaServiceClient.orderTikTokFollowers(order);
             } else {
-              console.log('📸 PaymentSuccessPage - Commande Instagram détectée');
               return smmaServiceClient.orderFollowers(order);
             }
           })
         );
 
-        console.log('📊 Résultats:', smmaResults);
         setSmmaResults(smmaResults);
         
         // Nettoyer le panier

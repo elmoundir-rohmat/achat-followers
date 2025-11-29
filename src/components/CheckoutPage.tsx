@@ -185,7 +185,6 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
   };
 
   const handlePaymentSuccess = async (result: any) => {
-    console.log('✅ Paiement réussi:', result);
     
     setIsProcessingSMMA(true);
     
@@ -253,8 +252,6 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
           interval: (serviceType === 'tiktok_comments') ? undefined : ((item as any).interval || undefined)
         };
       });
-
-      console.log('📦 Commandes à traiter:', smmaOrders);
       
       // Debug spécial pour les commentaires personnalisés
       smmaOrders.forEach((order, index) => {
@@ -272,34 +269,25 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
       const smmaResults = await Promise.all(
         smmaOrders.map(order => {
           if (order.serviceType === 'tiktok_followers') {
-            console.log('🎵 Commande TikTok Followers détectée - utilisation de orderTikTokFollowers');
             return smmaServiceClient.orderTikTokFollowers(order);
           } else if (order.serviceType === 'tiktok_likes') {
-            console.log('❤️ Commande TikTok Likes détectée - utilisation de orderTikTokLikes');
             return smmaServiceClient.orderTikTokLikes(order);
           } else if (order.serviceType === 'tiktok_views') {
-            console.log('👁️ Commande TikTok Views détectée - utilisation de orderTikTokViews');
             return smmaServiceClient.orderTikTokViews(order);
           } else if (order.serviceType === 'tiktok_comments') {
-            console.log('💬 Commande TikTok Comments détectée - utilisation de orderTikTokComments');
             return smmaServiceClient.orderTikTokComments(order);
           } else if (order.serviceType === 'likes') {
-            console.log('📸 Commande Instagram Likes détectée - utilisation de orderLikes');
             return smmaServiceClient.orderLikes(order);
           } else if (order.serviceType === 'views') {
-            console.log('📸 Commande Instagram Views détectée - utilisation de orderViews');
             return smmaServiceClient.orderViews(order);
           } else if (order.serviceType === 'comments') {
-            console.log('💬 Commande Instagram Comments détectée - utilisation de orderComments');
             return smmaServiceClient.orderComments(order);
           } else {
-            console.log('📸 Commande Instagram Followers détectée - utilisation de orderFollowers');
             return smmaServiceClient.orderFollowers(order);
           }
         })
       );
 
-      console.log('📊 Résultats:', smmaResults);
       setSmmaResult(smmaResults);
 
       // Préparer les données de commande complètes

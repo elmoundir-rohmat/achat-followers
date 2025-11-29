@@ -46,7 +46,6 @@ export default async function handler(req, res) {
     } = req.body;
 
     console.log('💳 Données de paiement extraites:', {
-      id,
       order_id,
       amount,
       currency,

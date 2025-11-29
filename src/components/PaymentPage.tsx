@@ -90,7 +90,6 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
   }, [cartItems]);
 
   const handlePaymentSuccess = async (result: any) => {
-    console.log('✅ Paiement réussi:', result);
     setIsProcessing(true);
     
     try {
@@ -121,7 +120,6 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
               serviceType = 'followers';
             }
           }
-          console.log('🔍 PaymentPage - Platform:', item.platform, '→ ServiceType:', serviceType);
           
           return {
             username: item.username,

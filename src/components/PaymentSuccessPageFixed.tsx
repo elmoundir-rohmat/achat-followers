@@ -25,8 +25,6 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
     const isCardinitySuccess = cardinityStatus === 'approved' || cardinityId;
     
     if (isCardinitySuccess) {
-      console.log('✅ Paiement Cardinity confirmé - Déclenchement de l\'intégration SMMA');
-      
       // Récupérer les détails de la commande depuis le localStorage
       const savedOrder = localStorage.getItem('pendingOrder');
       const savedCartItems = localStorage.getItem('cartItems');
@@ -82,7 +80,6 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
   }, []);
 
   const processSMMAIntegrationWithData = async (cartItems: any[], paymentId: string) => {
-    console.log('🚀 Déclenchement de l\'intégration SMMA avec les données Cardinity...');
     setIsProcessingSMMA(true);
     
     try {
@@ -111,8 +108,6 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
             serviceType = 'followers';
           }
         }
-        console.log('🔍 PaymentSuccessPageFixed - Platform:', item.platform, '→ ServiceType:', serviceType);
-        
         return {
           username: item.username,
           followers: item.followers,
@@ -123,34 +118,25 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
         };
       });
 
-      console.log('📦 Commandes SMMA à traiter:', smmaOrders);
-
       // Traiter chaque commande SMMA selon la plateforme et le type de service
       const smmaResults = await Promise.all(
         smmaOrders.map(order => {
-          if (order.serviceType === 'tiktok_followers') {
-            console.log('🎵 PaymentSuccessPageFixed - Commande TikTok Followers détectée');
-            return smmaServiceClient.orderTikTokFollowers(order);
-          } else if (order.serviceType === 'tiktok_likes') {
-            console.log('❤️ PaymentSuccessPageFixed - Commande TikTok Likes détectée');
-            return smmaServiceClient.orderTikTokLikes(order);
-          } else if (order.serviceType === 'tiktok_views') {
-            console.log('👁️ PaymentSuccessPageFixed - Commande TikTok Views détectée');
-            return smmaServiceClient.orderTikTokViews(order);
-          } else if (order.serviceType === 'likes') {
-            console.log('📸 PaymentSuccessPageFixed - Commande Instagram Likes détectée');
-            return smmaServiceClient.orderLikes(order);
-          } else if (order.serviceType === 'views') {
-            console.log('📸 PaymentSuccessPageFixed - Commande Instagram Views détectée');
-            return smmaServiceClient.orderViews(order);
-          } else {
-            console.log('📸 PaymentSuccessPageFixed - Commande Instagram Followers détectée');
-            return smmaServiceClient.orderFollowers(order);
-          }
-        })
-      );
+            if (order.serviceType === 'tiktok_followers') {
+              return smmaServiceClient.orderTikTokFollowers(order);
+            } else if (order.serviceType === 'tiktok_likes') {
+              return smmaServiceClient.orderTikTokLikes(order);
+            } else if (order.serviceType === 'tiktok_views') {
+              return smmaServiceClient.orderTikTokViews(order);
+            } else if (order.serviceType === 'likes') {
+              return smmaServiceClient.orderLikes(order);
+            } else if (order.serviceType === 'views') {
+              return smmaServiceClient.orderViews(order);
+            } else {
+              return smmaServiceClient.orderFollowers(order);
+            }
+          })
+        );
 
-      console.log('📊 Résultats SMMA:', smmaResults);
       setSmmaResults(smmaResults);
       
     } catch (error) {

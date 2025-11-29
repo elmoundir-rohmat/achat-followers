@@ -31,7 +31,6 @@ export default async function handler(req, res) {
       } = req.body;
 
       console.log('💳 Données Cardinity:', {
-        id,
         order_id,
         amount,
         currency,
@@ -45,7 +44,6 @@ export default async function handler(req, res) {
         
         const cancelParams = new URLSearchParams({
           order: order_id || '',
-          payment_id: id || '',
           status: status || '',
           error: error || 'payment_not_approved',
           error_description: error_description || 'Paiement non approuvé'
@@ -57,9 +55,9 @@ export default async function handler(req, res) {
       console.log('✅ Paiement approuvé avec succès !');
 
       // Construire les paramètres pour la redirection vers la page d'accueil (sans données sensibles)
+      // Le id (paymentId) n'est pas inclus car c'est une information sensible
       const successParams = new URLSearchParams({
         order_id: order_id || '',
-        id: id || '',
         amount: amount || '',
         currency: currency || '',
         status: status || '',

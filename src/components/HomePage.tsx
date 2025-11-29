@@ -35,7 +35,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     const path = window.location.pathname;
     
     if (path === '/payment/success') {
-      console.log('🎯 Page de succès détectée - Affichage du modal');
       setShowPaymentSuccess(true);
       
       // Récupérer les paramètres Cardinity
@@ -45,16 +44,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       const cardinityStatus = urlParams.get('status');
       const cardinityId = urlParams.get('id');
       
-      console.log('🔍 Paramètres Cardinity:', {
-        order_id: cardinityOrderId,
-        amount: cardinityAmount,
-        status: cardinityStatus,
-        id: cardinityId
-      });
-      
-      // Si c'est un retour Cardinity réussi, déclencher SMMA
+      // Si c'est un retour Cardinity réussi, déclencher la commande
       if ((cardinityStatus === 'approved' || cardinityId) && (cardinityId || cardinityOrderId)) {
-        console.log('✅ Paiement Cardinity confirmé - Déclenchement SMMA');
         processSMMAIntegration((cardinityId || cardinityOrderId) as string);
       }
       
@@ -73,14 +64,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           });
           localStorage.removeItem('pendingOrder');
         } catch (error) {
-          console.error('Erreur:', error);
+          // Erreur silencieuse lors du parsing
         }
       }
     }
   }, []);
 
   const processSMMAIntegration = async (paymentId: string) => {
-    console.log('🚀 Déclenchement SMMA avec paymentId:', paymentId);
     setIsProcessingSMMA(true);
     
     try {
@@ -94,8 +84,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             throw new Error('URL de profil manquante pour la commande SMMA');
           }
           
-          // 🔍 Détecter la plateforme ET le type de service
-          let serviceType: string;
+          // Détecter la plateforme ET le type de service
+          let serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views';
           if (item.platform === 'TikTok') {
             if (item.likes && item.likes > 0) {
               serviceType = 'tiktok_likes';
@@ -113,7 +103,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               serviceType = 'followers';
             }
           }
-          console.log('🔍 HomePage - Platform:', item.platform, '→ ServiceType:', serviceType);
           
           return {
             username: item.username,
@@ -125,38 +114,27 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           };
         });
 
-        console.log('📦 Commandes SMMA:', smmaOrders);
-
         const smmaResults = await Promise.all(
           smmaOrders.map(order => {
             if (order.serviceType === 'tiktok_followers') {
-              console.log('🎵 HomePage - Commande TikTok Followers détectée');
               return smmaServiceClient.orderTikTokFollowers(order);
             } else if (order.serviceType === 'tiktok_likes') {
-              console.log('❤️ HomePage - Commande TikTok Likes détectée');
               return smmaServiceClient.orderTikTokLikes(order);
             } else if (order.serviceType === 'tiktok_views') {
-              console.log('👁️ HomePage - Commande TikTok Views détectée');
               return smmaServiceClient.orderTikTokViews(order);
             } else if (order.serviceType === 'likes') {
-              console.log('📸 HomePage - Commande Instagram Likes détectée');
               return smmaServiceClient.orderLikes(order);
             } else if (order.serviceType === 'views') {
-              console.log('📸 HomePage - Commande Instagram Views détectée');
               return smmaServiceClient.orderViews(order);
             } else {
-              console.log('📸 HomePage - Commande Instagram Followers détectée');
               return smmaServiceClient.orderFollowers(order);
             }
           })
         );
-
-        console.log('📊 Résultats SMMA:', smmaResults);
         setSmmaResults(smmaResults);
         localStorage.removeItem('cartItems');
       }
     } catch (error) {
-      console.error('❌ Erreur SMMA:', error);
       setSmmaResults({ error: 'Erreur lors du traitement' });
     } finally {
       setIsProcessingSMMA(false);

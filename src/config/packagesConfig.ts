@@ -814,30 +814,19 @@ export function getPackagePrice(packageId: string, serviceType: 'followers' | 'l
   } else {
     packages = getPackagesForService(serviceType, followerType);
   }
-  console.log('🔍 getPackagePrice debug:', {
-    packageId,
-    serviceType,
-    followerType,
-    packagesLength: packages.length,
-    packages: packages.slice(0, 3) // Afficher les 3 premiers packages
-  });
-  
   const pkg = packages.find(p => p.id === packageId);
-  console.log('🔍 Package trouvé:', pkg);
   
   if (!pkg) {
-    console.log('❌ Package non trouvé pour ID:', packageId);
     return 0;
   }
   
   // Pour tiktok_followers, tiktok_likes, tiktok_views et tiktok_comments, on utilise toujours priceInternational (même prix pour tous)
   let price: number;
   if (serviceType === 'tiktok_followers' || serviceType === 'tiktok_likes' || serviceType === 'tiktok_views' || serviceType === 'tiktok_comments') {
-    price = pkg.priceInternational; // Prix unique pour Premium Followers/Likes/Views/Comments
+    price = pkg.priceInternational;
   } else {
     price = followerType === 'french' ? pkg.priceFrench : pkg.priceInternational;
   }
-  console.log('💰 Prix calculé:', { price, followerType, priceFrench: pkg.priceFrench, priceInternational: pkg.priceInternational });
   
   return price;
 }

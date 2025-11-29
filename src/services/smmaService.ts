@@ -5,7 +5,7 @@ export interface SMMAOrder {
   username: string;
   followers: number;
   followerType: 'french' | 'international' | 'premium' | 'random' | 'custom'; // Pour les followers (premium pour TikTok, random/custom pour TikTok comments)
-  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments'; // Type de service
+  serviceType: 'followers' | 'likes' | 'comments' | 'views' | 'tiktok_followers' | 'tiktok_likes' | 'tiktok_comments' | 'tiktok_views'; // Type de service
   orderId: string;
   paymentId: string;
   postId?: string; // Pour les likes/commentaires/vues sur des posts spécifiques

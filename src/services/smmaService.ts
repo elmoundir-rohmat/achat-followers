@@ -1,4 +1,4 @@
-// Service pour l'intégration avec la plateforme SMMA (JustAnotherPanel)
+// Service pour l'intégration avec le fournisseur externe
 import { getSMMAServiceId, getServiceDescription, getServiceId } from '../config/smmaMapping';
 
 export interface SMMAOrder {
@@ -32,30 +32,30 @@ class SMMAService {
 
   constructor() {
     // Configuration depuis les variables d'environnement
-    this.baseUrl = import.meta.env.VITE_SMMA_API_URL || 'https://justanotherpanel.com/api/v2';
-    this.apiKey = import.meta.env.VITE_SMMA_API_KEY || 'your_smma_api_key_here';
+    const apiUrl = import.meta.env.VITE_SMMA_API_URL;
+    const apiKey = import.meta.env.VITE_SMMA_API_KEY;
+    
+    if (!apiUrl || !apiKey) {
+      throw new Error('API configuration is missing. Please set VITE_SMMA_API_URL and VITE_SMMA_API_KEY environment variables.');
+    }
+    
+    this.baseUrl = apiUrl;
+    this.apiKey = apiKey;
   }
 
   /**
-   * Commande des followers sur la plateforme SMMA
+   * Commande des followers
    */
   async orderFollowers(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA:', order);
-
-      // Obtenir l'ID du service SMMA pour ce type de followers
       const serviceId = getSMMAServiceId(order.followerType);
       
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour le type: ${order.followerType}`
+          error: `Service non trouvé pour le type: ${order.followerType}`
         };
       }
-
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} followers ${order.followerType}`);
-
-      // Appel API réel vers JustAnotherPanel
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -77,37 +77,32 @@ class SMMAService {
       const data = await response.json();
       
       if (data.order) {
-        console.log('✅ Commande SMMA créée:', data);
         return {
           success: true,
           order_id: order.orderId,
           smma_order_id: data.order.toString(),
-          message: `Commande SMMA #${data.order} créée avec succès pour @${order.username} (${order.followers} ${getServiceDescription(order.followerType)})`
+          message: `Commande #${data.order} créée avec succès pour @${order.username} (${order.followers} ${getServiceDescription(order.followerType)})`
         };
       } else {
         return {
           success: false,
-          error: 'Erreur lors de la création de la commande SMMA'
+          error: 'Erreur lors de la création de la commande'
         };
       }
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel SMMA:', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec la plateforme SMMA'
+        error: 'Erreur de connexion avec le service'
       };
     }
   }
 
   /**
-   * Commande des likes sur la plateforme SMMA
+   * Commande des likes
    */
   async orderLikes(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA (likes):', order);
-
-      // Mapper le followerType pour les likes Instagram
       let smmaFollowerType = order.followerType;
       if (order.followerType === 'international') {
         smmaFollowerType = 'likes_international';
@@ -122,13 +117,9 @@ class SMMAService {
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour les likes ${order.followerType}`
+          error: `Service non trouvé pour les likes ${order.followerType}`
         };
       }
-
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} likes ${order.followerType}`);
-
-      // Appel API réel vers JustAnotherPanel
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -150,49 +141,40 @@ class SMMAService {
       const data = await response.json();
       
       if (data.order) {
-        console.log('✅ Commande SMMA (likes) créée:', data);
         return {
           success: true,
           order_id: order.orderId,
           smma_order_id: data.order.toString(),
-          message: `Commande SMMA #${data.order} créée avec succès pour ${order.postId ? `post ${order.postId}` : `@${order.username}`} (${order.likesToAdd || order.followers} likes ${getServiceDescription(order.followerType)})`
+          message: `Commande #${data.order} créée avec succès pour ${order.postId ? `post ${order.postId}` : `@${order.username}`} (${order.likesToAdd || order.followers} likes ${getServiceDescription(order.followerType)})`
         };
       } else {
         return {
           success: false,
-          error: 'Erreur lors de la création de la commande SMMA (likes)'
+          error: 'Erreur lors de la création de la commande (likes)'
         };
       }
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel SMMA (likes):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec la plateforme SMMA (likes)'
+        error: 'Erreur de connexion avec le service (likes)'
       };
     }
   }
 
   /**
-   * Commande des commentaires sur la plateforme SMMA
+   * Commande des commentaires
    */
   async orderComments(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA (commentaires):', order);
-
-      // Pour les commentaires, nous utilisons un service différent
       const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'comments_french' : 'comments_international');
       
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour les commentaires ${order.followerType}`
+          error: `Service non trouvé pour les commentaires ${order.followerType}`
         };
       }
-
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.commentsToAdd || order.followers} commentaires ${order.followerType}`);
-
-      // Appel API réel vers JustAnotherPanel
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -214,49 +196,40 @@ class SMMAService {
       const data = await response.json();
       
       if (data.order) {
-        console.log('✅ Commande SMMA (commentaires) créée:', data);
         return {
           success: true,
           order_id: order.orderId,
           smma_order_id: data.order.toString(),
-          message: `Commande SMMA #${data.order} créée avec succès pour ${order.postId ? `post ${order.postId}` : `@${order.username}`} (${order.commentsToAdd || order.followers} commentaires ${getServiceDescription(order.followerType)})`
+          message: `Commande #${data.order} créée avec succès pour ${order.postId ? `post ${order.postId}` : `@${order.username}`} (${order.commentsToAdd || order.followers} commentaires ${getServiceDescription(order.followerType)})`
         };
       } else {
         return {
           success: false,
-          error: 'Erreur lors de la création de la commande SMMA (commentaires)'
+          error: 'Erreur lors de la création de la commande (commentaires)'
         };
       }
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel SMMA (commentaires):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec la plateforme SMMA (commentaires)'
+        error: 'Erreur de connexion avec le service (commentaires)'
       };
     }
   }
 
   /**
-   * Commande des vues Instagram sur la plateforme SMMA
+   * Commande des vues Instagram
    */
   async orderViews(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA (vues):', order);
-
-      // Pour les vues, nous utilisons un service différent
       const serviceId = getSMMAServiceId(order.followerType === 'french' ? 'views_french' : 'views_international');
       
       if (!serviceId) {
         return {
           success: false,
-          error: `Service SMMA non trouvé pour les vues ${order.followerType}`
+          error: `Service non trouvé pour les vues ${order.followerType}`
         };
       }
-
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.viewsToAdd || order.followers} vues ${order.followerType}`);
-
-      // Appel API réel vers JustAnotherPanel
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -278,45 +251,37 @@ class SMMAService {
       const data = await response.json();
       
       if (data.order) {
-        console.log('✅ Commande SMMA (vues) créée:', data);
         return {
           success: true,
           order_id: order.orderId,
           smma_order_id: data.order.toString(),
-          message: `Commande SMMA #${data.order} créée avec succès pour ${order.postId ? `reel ${order.postId}` : `@${order.username}`} (${order.viewsToAdd || order.followers} vues ${getServiceDescription(order.followerType)})`
+          message: `Commande #${data.order} créée avec succès pour ${order.postId ? `reel ${order.postId}` : `@${order.username}`} (${order.viewsToAdd || order.followers} vues ${getServiceDescription(order.followerType)})`
         };
       } else {
         return {
           success: false,
-          error: 'Erreur lors de la création de la commande SMMA (vues)'
+          error: 'Erreur lors de la création de la commande (vues)'
         };
       }
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel SMMA (vues):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec la plateforme SMMA (vues)'
+        error: 'Erreur de connexion avec le service (vues)'
       };
     }
   }
 
   /**
-   * Commander des followers TikTok via SMMA
+   * Commander des followers TikTok
    */
   async orderTikTokFollowers(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA TikTok:', order);
-      
-      // Utiliser getServiceId pour obtenir le service ID (8200 pour Premium Followers)
-      // Pour Premium Followers, on utilise toujours 'international' comme fallback
       const followerTypeForService = order.followerType === 'premium' ? 'international' : order.followerType;
       const serviceId = getServiceId('tiktok_followers', followerTypeForService as 'french' | 'international');
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_followers ${order.followerType}` };
+        return { success: false, error: `Service non trouvé pour le type: tiktok_followers ${order.followerType}` };
       }
-      
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} followers TikTok Premium`);
 
       const params: Record<string, string> = {
         key: this.apiKey,
@@ -334,8 +299,6 @@ class SMMAService {
         }
       }
 
-      console.log('📤 Paramètres SMMA TikTok:', params);
-
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -349,7 +312,6 @@ class SMMAService {
       }
 
       const data = await response.json();
-      console.log('📊 Réponse SMMA TikTok:', data);
 
       if (data.error) {
         return {
@@ -365,30 +327,23 @@ class SMMAService {
       };
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel SMMA (TikTok):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec la plateforme SMMA (TikTok)'
+        error: 'Erreur de connexion avec le service (TikTok)'
       };
     }
   }
 
   /**
-   * Commande des likes TikTok sur la plateforme SMMA
+   * Commande des likes TikTok
    */
   async orderTikTokLikes(order: SMMAOrder): Promise<SMMAResponse> {
     try {
-      console.log('🚀 Envoi de la commande SMMA TikTok Likes:', order);
-      
-      // Utiliser getServiceId pour obtenir le service ID (3850 pour Premium Likes)
-      // Pour Premium Likes, on utilise toujours 'international' comme fallback
       const followerTypeForService = order.followerType === 'premium' ? 'international' : order.followerType;
       const serviceId = getServiceId('tiktok_likes', followerTypeForService as 'french' | 'international');
       if (!serviceId) {
-        return { success: false, error: `Service SMMA non trouvé pour le type: tiktok_likes ${order.followerType}` };
+        return { success: false, error: `Service non trouvé pour le type: tiktok_likes ${order.followerType}` };
       }
-      
-      console.log(`📦 Utilisation du service SMMA ID: ${serviceId} pour ${order.followers} likes TikTok Premium`);
 
       const params: Record<string, string> = {
         key: this.apiKey,
@@ -406,8 +361,6 @@ class SMMAService {
         }
       }
 
-      console.log('📤 Paramètres SMMA TikTok Likes:', params);
-
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -421,7 +374,6 @@ class SMMAService {
       }
 
       const data = await response.json();
-      console.log('📊 Réponse SMMA TikTok Likes:', data);
 
       if (data.error) {
         return {
@@ -438,20 +390,18 @@ class SMMAService {
       };
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel SMMA (TikTok Likes):', error);
       return {
         success: false,
-        error: 'Erreur de connexion avec la plateforme SMMA (TikTok Likes)'
+        error: 'Erreur de connexion avec le service (TikTok Likes)'
       };
     }
   }
 
   /**
-   * Vérifier le statut d'une commande SMMA
+   * Vérifier le statut d'une commande
    */
   async checkOrderStatus(smmaOrderId: string): Promise<any> {
     try {
-      console.log('🔍 Vérification du statut SMMA:', smmaOrderId);
 
       const response = await fetch(this.baseUrl, {
         method: 'POST',
@@ -470,11 +420,9 @@ class SMMAService {
       }
 
       const data = await response.json();
-      console.log('📊 Statut de la commande:', data);
       return data;
 
     } catch (error) {
-      console.error('❌ Erreur lors de la vérification:', error);
       throw error;
     }
   }

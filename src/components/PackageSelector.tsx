@@ -49,31 +49,31 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
     popular: pkg.popular,
     features: pkg.features,
     delivery: pkg.delivery,
-    icon: <Shield className="w-5 h-5" /> // Icône par défaut, peut être personnalisée
+    icon: <Shield className="w-5 h-5" strokeWidth={1.5} /> // Icône par défaut, peut être personnalisée
   }));
 
   return (
-    <div className="mb-8">
-      <h2 className="text-2xl font-bold text-black mb-6 text-center">
+    <div className="mb-12">
+      <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-8 text-center">
         Sélectionnez votre pack
       </h2>
       
       {/* Grille compacte 4x2 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-2xl mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
         {packages.map((pkg) => (
           <button
             key={pkg.id}
-            className={`relative p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:scale-105 ${
+            className={`relative p-4 rounded-card-sm border cursor-pointer transition-all duration-300 hover:scale-105 ${
               selectedPackage === pkg.id
-                ? 'border-blue-500 bg-blue-500 text-white shadow-lg'
-                : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
-            } ${pkg.popular ? 'ring-1 ring-orange-400' : ''}`}
+                ? 'border-soft-pink-300 bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 text-white shadow-soft-xl'
+                : 'border-soft-pink-200/50 bg-white/80 backdrop-blur-sm hover:border-soft-pink-300/50 hover:shadow-soft-lg'
+            } ${pkg.popular ? 'ring-2 ring-warm-yellow-300/50' : ''}`}
             onClick={() => onPackageChange(pkg.id)}
           >
             {/* Badge populaire compact */}
             {pkg.popular && (
-              <div className="absolute -top-1 -right-1">
-                <span className="bg-orange-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold">
+              <div className="absolute -top-2 -right-2">
+                <span className="bg-gradient-to-br from-warm-yellow-400 to-soft-orange-400 text-white px-2 py-1 rounded-pill text-xs font-bold shadow-soft">
                   ★
                 </span>
               </div>
@@ -81,14 +81,20 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
             
             {/* Contenu compact */}
             <div className="text-center">
-              <div className="text-sm font-bold mb-1 text-black">
+              <div className={`text-base font-semibold mb-1 ${
+                selectedPackage === pkg.id ? 'text-white' : 'text-slate-800'
+              }`}>
                 {pkg.followers.toLocaleString()}
               </div>
-              <div className="text-xs opacity-75 text-black">
+              <div className={`text-xs mb-2 ${
+                selectedPackage === pkg.id ? 'text-white/90' : 'text-slate-600'
+              }`}>
                 {isViews ? 'Vues' : isTikTokViews ? 'Vues' : isLikes ? 'Likes' : isTikTokLikes ? 'Likes' : isComments ? 'Commentaires' : isTikTokComments ? 'Commentaires' : isTikTokFollowers ? 'Followers' : 'Followers'}
               </div>
-              <div className={`text-sm font-bold mt-1 ${
-                selectedPackage === pkg.id ? 'text-white' : 'text-blue-600'
+              <div className={`text-sm font-semibold ${
+                selectedPackage === pkg.id 
+                  ? 'text-white' 
+                  : 'bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent'
               }`}>
                 {pkg.price.toFixed(2)}€
               </div>
@@ -96,9 +102,9 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
 
             {/* Indicateur de sélection */}
             {selectedPackage === pkg.id && (
-              <div className="absolute top-1 right-1">
-                <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                  <Check className="w-2.5 h-2.5 text-blue-500" />
+              <div className="absolute top-2 right-2">
+                <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-soft">
+                  <Check className="w-3 h-3 text-soft-pink-500" strokeWidth={2.5} />
                 </div>
               </div>
             )}

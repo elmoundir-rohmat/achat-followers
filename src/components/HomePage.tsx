@@ -190,13 +190,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const platformServices: PlatformServices[] = [
     {
       platform: 'Instagram',
-      platformIcon: <Instagram className="w-8 h-8" />,
+      platformIcon: <Instagram className="w-8 h-8" strokeWidth={1.5} />,
       services: [
         {
           id: 'instagram-followers',
           name: 'Followers Instagram',
           description: 'Des followers réels et actifs pour faire grandir votre communauté',
-          icon: <Users className="w-6 h-6" />,
+          icon: <Users className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-pink-500 to-purple-600'
         },
@@ -204,7 +204,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           id: 'instagram-likes',
           name: 'Likes Instagram',
           description: 'Augmentez l\'engagement de vos posts avec des likes authentiques',
-          icon: <Heart className="w-6 h-6" />,
+          icon: <Heart className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-red-500 to-pink-600'
         },
@@ -212,7 +212,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           id: 'instagram-views',
           name: 'Vues Instagram',
           description: 'Boostez vos reels, stories et vidéos avec des vues authentiques',
-          icon: <Eye className="w-6 h-6" />,
+          icon: <Eye className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-purple-500 to-pink-600'
         },
@@ -220,7 +220,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           id: 'instagram-comments',
           name: 'Commentaires Instagram',
           description: 'Des commentaires pertinents pour booster vos posts',
-          icon: <MessageCircle className="w-6 h-6" />,
+          icon: <MessageCircle className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-blue-500 to-cyan-600'
         }
@@ -228,13 +228,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     },
     {
       platform: 'TikTok',
-      platformIcon: <div className="w-8 h-8 bg-black text-white rounded flex items-center justify-center font-bold text-sm">TT</div>,
+      platformIcon: <div className="w-8 h-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-full flex items-center justify-center font-semibold text-sm shadow-soft">TT</div>,
       services: [
         {
           id: 'tiktok-followers',
           name: 'Followers TikTok',
           description: 'Développez votre audience TikTok avec des followers engagés',
-          icon: <Users className="w-6 h-6" />,
+          icon: <Users className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-gray-800 to-black'
         },
@@ -242,7 +242,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           id: 'tiktok-likes',
           name: 'Likes TikTok',
           description: 'Boostez vos vidéos avec des likes réels et authentiques',
-          icon: <Heart className="w-6 h-6" />,
+          icon: <Heart className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-red-600 to-pink-600'
         },
@@ -250,7 +250,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           id: 'tiktok-comments',
           name: 'Commentaires TikTok',
           description: 'Engagez votre audience avec des commentaires pertinents',
-          icon: <MessageCircle className="w-6 h-6" />,
+          icon: <MessageCircle className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-blue-600 to-cyan-600'
         },
@@ -258,7 +258,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           id: 'tiktok-views',
           name: 'Vues TikTok',
           description: 'Augmentez la portée de vos vidéos TikTok',
-          icon: <Eye className="w-6 h-6" />,
+          icon: <Eye className="w-6 h-6" strokeWidth={1.5} />,
           color: 'text-white',
           bgColor: 'bg-gradient-to-br from-purple-600 to-indigo-600'
         }
@@ -268,83 +268,83 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   const features = [
     {
-      icon: <Zap className="w-6 h-6" />,
+      icon: <Zap className="w-6 h-6" strokeWidth={1.5} />,
       title: 'Livraison Rapide',
       description: 'Résultats visibles en quelques heures'
     },
     {
-      icon: <Shield className="w-6 h-6" />,
+      icon: <Shield className="w-6 h-6" strokeWidth={1.5} />,
       title: '100% Sécurisé',
       description: 'Aucun risque pour votre compte'
     },
     {
-      icon: <Clock className="w-6 h-6" />,
+      icon: <Clock className="w-6 h-6" strokeWidth={1.5} />,
       title: 'Garantie 30 jours',
       description: 'Satisfait ou remboursé'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-cream text-slate-800 font-rounded">
       {/* Hero Section */}
-      <div className="border-b border-slate-200 bg-gradient-to-b from-white via-slate-50 to-slate-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="grid gap-10 md:grid-cols-2 items-center">
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20 md:py-32">
+          <div className="grid gap-16 md:grid-cols-2 items-center">
             <div>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-500 shadow-sm">
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-50">
-                  <Zap className="h-3 w-3 text-blue-500" />
+              <div className="mb-8 inline-flex items-center gap-2 rounded-pill border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm px-4 py-2 text-xs font-medium text-slate-600 shadow-soft">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-warm-yellow-200 to-soft-orange-200">
+                  <Zap className="h-3 w-3 text-soft-orange-500" />
                 </div>
                 <span>Followers réels • Livraison 24-72h • Paiement sécurisé</span>
               </div>
 
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-500 to-purple-500 shadow-md">
-                  <Instagram className="h-6 w-6 text-white" />
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg">
+                  <Instagram className="h-7 w-7 text-white" strokeWidth={1.5} />
                 </div>
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
                   Doctor Followers
                 </p>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-slate-800 mb-6 leading-tight">
                 Achat followers Instagram & TikTok
-                <span className="block text-slate-500">simples, rapides et 100% réels.</span>
+                <span className="block text-slate-600 mt-2">simples, rapides et 100% réels.</span>
               </h1>
-              <p className="text-sm sm:text-base text-slate-500 mb-8 max-w-xl">
+              <p className="text-base sm:text-lg text-slate-600 mb-10 max-w-xl leading-relaxed">
                 Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer
                 votre audience en revenus, sans design chargé ni parcours compliqué.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <button
-                  onClick={() => onNavigate?.('instagram-followers')}
-                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
+            </p>
+            
+            {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <button
+                onClick={() => onNavigate?.('instagram-followers')}
+                  className="inline-flex items-center justify-center rounded-button bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 px-8 py-4 text-sm font-semibold text-white shadow-soft-lg hover:shadow-soft-xl hover:scale-105 transition-all duration-300"
                 >
-                  <Users className="mr-2 h-4 w-4" />
+                  <Users className="mr-2 h-4 w-4" strokeWidth={2} />
                   Acheter des followers
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => onNavigate?.('instagram-likes')}
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
-                >
-                  <Heart className="mr-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" strokeWidth={2} />
+              </button>
+              <button
+                onClick={() => onNavigate?.('instagram-likes')}
+                  className="inline-flex items-center justify-center rounded-button border-2 border-soft-pink-300 bg-white/80 backdrop-blur-sm px-8 py-4 text-sm font-semibold text-slate-700 hover:bg-white hover:border-soft-pink-400 hover:scale-105 transition-all duration-300 shadow-soft"
+              >
+                  <Heart className="mr-2 h-4 w-4" strokeWidth={2} />
                   Voir les likes
-                </button>
-              </div>
+              </button>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-600">
-                {features.map((feature, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {features.map((feature, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                    className="flex items-start gap-4 rounded-card-sm border border-soft-pink-100 bg-white/60 backdrop-blur-sm px-5 py-4 shadow-soft hover:shadow-soft-lg transition-all duration-300"
                   >
-                    <span className="mt-0.5 text-blue-500">{feature.icon}</span>
+                    <span className="mt-0.5 text-soft-pink-500">{feature.icon}</span>
                     <div>
-                      <p className="font-semibold text-slate-900 text-sm">{feature.title}</p>
-                      <p className="text-[11px] text-slate-500">{feature.description}</p>
+                      <p className="font-semibold text-slate-800 text-sm mb-1">{feature.title}</p>
+                      <p className="text-xs text-slate-600 leading-relaxed">{feature.description}</p>
                     </div>
                   </div>
                 ))}
@@ -353,40 +353,40 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
             {/* Carte de prévisualisation simple pour garder le côté "produit" */}
             <div className="flex justify-center md:justify-end">
-              <div className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-5 shadow-xl">
-                <div className="flex items-center justify-between mb-4">
+              <div className="w-full max-w-sm rounded-card border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-6 shadow-soft-xl">
+                <div className="flex items-center justify-between mb-5">
                   <div>
-                    <p className="text-xs text-slate-500">Pack sélectionné</p>
-                    <p className="text-lg font-semibold text-slate-900">10 000 followers</p>
+                    <p className="text-xs text-slate-500 mb-1">Pack sélectionné</p>
+                    <p className="text-xl font-semibold text-slate-800">10 000 followers</p>
                   </div>
-                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600">
+                  <span className="rounded-pill bg-gradient-to-r from-lavender-100 to-soft-pink-100 px-4 py-1.5 text-xs font-medium text-lavender-700 border border-lavender-200/50">
                     Livraison active
                   </span>
                 </div>
-                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4 mb-4">
-                  <div className="flex items-center justify-between mb-2 text-xs text-slate-500">
+                <div className="rounded-card-sm border border-lavender-100 bg-gradient-to-br from-lavender-50/50 to-soft-pink-50/50 p-5 mb-5">
+                  <div className="flex items-center justify-between mb-3 text-xs text-slate-600">
                     <span>Compte</span>
-                    <span>@votreprofil</span>
+                    <span className="font-medium">@votreprofil</span>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+                  <div className="flex items-center justify-between text-xs text-slate-600 mb-3">
                     <span>Progression</span>
-                    <span>72%</span>
+                    <span className="font-semibold">72%</span>
                   </div>
-                  <div className="h-1.5 w-full rounded-full bg-slate-200">
-                    <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                  <div className="h-2 w-full rounded-full bg-lavender-100 overflow-hidden">
+                    <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 shadow-inner-soft" />
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-sm mb-4">
+                <div className="flex items-center justify-between text-sm mb-5">
                   <div>
-                    <p className="text-xs text-slate-500">Total</p>
-                    <p className="text-lg font-semibold text-slate-900">97,00 €</p>
+                    <p className="text-xs text-slate-500 mb-1">Total</p>
+                    <p className="text-xl font-semibold text-slate-800">97,00 €</p>
                   </div>
-                  <button className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition-colors">
+                  <button className="inline-flex items-center rounded-button bg-gradient-to-r from-soft-pink-400 to-lavender-400 px-5 py-2.5 text-xs font-semibold text-white hover:shadow-soft-lg hover:scale-105 transition-all duration-300">
                     Voir les packs
-                    <ArrowRight className="ml-2 h-3 w-3" />
+                    <ArrowRight className="ml-2 h-3 w-3" strokeWidth={2} />
                   </button>
                 </div>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-xs text-slate-500 leading-relaxed">
                   Paiement sécurisé, aucun mot de passe demandé, support réactif si besoin.
                 </p>
               </div>
@@ -396,207 +396,207 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Services Section */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+      <div className="bg-gradient-to-b from-cream to-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14">
             <div>
-              <h2 className="text-2xl md:text-3xl font-semibold text-slate-900">
-                Nos services
-              </h2>
-              <p className="mt-3 text-sm text-slate-600 max-w-md">
-                Choisissez votre plateforme et boostez votre présence avec des followers réels et actifs.
-              </p>
+              <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+            Nos services
+          </h2>
+              <p className="text-base text-slate-600 max-w-md leading-relaxed">
+            Choisissez votre plateforme et boostez votre présence avec des followers réels et actifs.
+          </p>
             </div>
-          </div>
+        </div>
 
-          <div className="space-y-10">
+          <div className="space-y-14">
             {platformServices.map((platform) => (
-              <div key={platform.platform} className="space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-slate-200 shadow-sm">
-                    {platform.platformIcon}
+              <div key={platform.platform} className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-card-sm bg-white border border-soft-pink-200/50 shadow-soft">
+                  {platform.platformIcon}
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">{platform.platform}</h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {platform.services.map((service) => (
+                  <h3 className="text-xl font-semibold text-slate-800">{platform.platform}</h3>
+              </div>
+              
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {platform.services.map((service) => (
                     <button
-                      key={service.id}
+                    key={service.id}
                       onClick={() => onNavigate?.(service.id)}
-                      onMouseEnter={() => setHoveredService(service.id)}
-                      onMouseLeave={() => setHoveredService(null)}
-                      className={`group flex flex-col items-start rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left transition-colors hover:border-slate-300 hover:bg-slate-50 ${
-                        hoveredService === service.id ? 'border-slate-300 bg-slate-50' : ''
+                    onMouseEnter={() => setHoveredService(service.id)}
+                    onMouseLeave={() => setHoveredService(null)}
+                      className={`group flex flex-col items-start rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm px-5 py-5 text-left transition-all duration-300 hover:shadow-soft-lg hover:scale-105 ${
+                        hoveredService === service.id ? 'border-soft-pink-300 bg-white shadow-soft-lg scale-105' : ''
                       }`}
-                    >
-                      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white">
+                  >
+                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-card-sm bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 text-white shadow-soft">
                         {service.icon}
                       </div>
-                      <p className="text-sm font-semibold text-slate-900 mb-1">
+                      <p className="text-sm font-semibold text-slate-800 mb-2">
                         {service.name}
                       </p>
-                      <p className="text-xs text-slate-600 mb-3">
+                      <p className="text-xs text-slate-600 mb-4 leading-relaxed">
                         {service.description}
                       </p>
-                      <span className="text-xs font-medium text-slate-700 inline-flex items-center gap-1">
+                      <span className="text-xs font-medium text-soft-pink-600 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                         Découvrir
-                        <ArrowRight className="h-3 w-3" />
+                        <ArrowRight className="h-3 w-3" strokeWidth={2} />
                       </span>
-                    </button>
-                  ))}
-                </div>
+                      </button>
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
           </div>
         </div>
       </div>
 
       {/* Pourquoi acheter des followers Instagram actifs */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-50 text-red-500 mb-4">
-              <Bot className="w-6 h-6" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-50 mb-3">
-              Pourquoi acheter des followers Instagram actifs ?
-            </h2>
+      <div className="bg-gradient-to-b from-white to-cream">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-soft-pink-100 to-lavender-100 mb-6 shadow-soft">
+              <Bot className="w-7 h-7 text-soft-pink-500" strokeWidth={1.5} />
+          </div>
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+            Pourquoi acheter des followers Instagram actifs ?
+          </h2>
+        </div>
+        
+          <div className="grid md:grid-cols-2 gap-6 text-sm">
+          {/* Problème des bots */}
+            <div className="rounded-card border border-soft-pink-200/50 bg-gradient-to-br from-soft-pink-50/50 to-peach-50/50 p-8 shadow-soft-lg">
+              <div className="flex items-center mb-5">
+                <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 to-peach-400 text-white shadow-soft">
+                  <Bot className="w-6 h-6" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-800">Les bots : un danger</h3>
+              </div>
+              <ul className="space-y-3 text-slate-600 text-sm leading-relaxed">
+                <li className="flex items-start gap-3">
+                  <span className="text-soft-pink-500 mt-0.5 text-lg">❌</span>
+                <span>N'aident pas l'engagement de votre page</span>
+              </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-soft-pink-500 mt-0.5 text-lg">❌</span>
+                <span>Détectés facilement par Instagram</span>
+              </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-soft-pink-500 mt-0.5 text-lg">❌</span>
+                <span>Impact négatif sur votre visibilité</span>
+              </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-soft-pink-500 mt-0.5 text-lg">❌</span>
+                <span>Pénalisation de l'algorithme</span>
+              </li>
+            </ul>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 text-sm">
-            {/* Problème des bots */}
-            <div className="rounded-2xl border border-red-100 bg-red-50 p-6">
-              <div className="flex items-center mb-3">
-                <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-white">
-                  <Bot className="w-5 h-5" />
+          {/* Solution avec nos followers */}
+            <div className="rounded-card border border-lavender-200/50 bg-gradient-to-br from-lavender-50/50 to-baby-purple-50/50 p-8 shadow-soft-lg">
+              <div className="flex items-center mb-5">
+                <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-lavender-400 to-baby-purple-400 text-white shadow-soft">
+                  <Users2 className="w-6 h-6" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-base font-semibold text-slate-900">Les bots : un danger</h3>
+                <h3 className="text-lg font-semibold text-slate-800">Nos followers réels</h3>
               </div>
-              <ul className="space-y-2 text-slate-600 text-xs">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-400 mt-0.5">❌</span>
-                  <span>N'aident pas l'engagement de votre page</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-400 mt-0.5">❌</span>
-                  <span>Détectés facilement par Instagram</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-400 mt-0.5">❌</span>
-                  <span>Impact négatif sur votre visibilité</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-400 mt-0.5">❌</span>
-                  <span>Pénalisation de l'algorithme</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Solution avec nos followers */}
-            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6">
-              <div className="flex items-center mb-3">
-                <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-white">
-                  <Users2 className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-semibold text-slate-900">Nos followers réels</h3>
-              </div>
-              <ul className="space-y-2 text-slate-700 text-xs">
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 mt-0.5">✅</span>
-                  <span><strong className="text-slate-900">Crédibilité</strong> renforcée</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 mt-0.5">✅</span>
-                  <span><strong className="text-slate-900">Visibilité</strong> améliorée</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 mt-0.5">✅</span>
-                  <span><strong className="text-slate-900">Croissance</strong> naturelle</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-400 mt-0.5">✅</span>
-                  <span>Engagement authentique</span>
-                </li>
-              </ul>
+              <ul className="space-y-3 text-slate-700 text-sm leading-relaxed">
+                <li className="flex items-start gap-3">
+                  <span className="text-lavender-600 mt-0.5 text-lg">✅</span>
+                  <span><strong className="text-slate-800">Crédibilité</strong> renforcée</span>
+              </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-lavender-600 mt-0.5 text-lg">✅</span>
+                  <span><strong className="text-slate-800">Visibilité</strong> améliorée</span>
+              </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-lavender-600 mt-0.5 text-lg">✅</span>
+                  <span><strong className="text-slate-800">Croissance</strong> naturelle</span>
+              </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-lavender-500 mt-0.5 text-lg">✅</span>
+                <span>Engagement authentique</span>
+              </li>
+            </ul>
             </div>
           </div>
         </div>
       </div>
 
       {/* Comment fonctionne notre service */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 text-blue-500 mb-4">
-              <Target className="w-6 h-6" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
-              Comment fonctionne notre service d'achat de followers Instagram actifs
-            </h2>
+      <div className="bg-gradient-to-b from-cream to-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-lavender-100 to-baby-purple-100 mb-6 shadow-soft">
+              <Target className="w-7 h-7 text-lavender-500" strokeWidth={1.5} />
           </div>
-
-          {/* Processus étape par étape */}
-          <div className="grid md:grid-cols-3 gap-6 mb-10 text-sm">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white mx-auto">
-                <span className="text-lg font-semibold">1</span>
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+            Comment fonctionne notre service d'achat de followers Instagram actifs
+          </h2>
+        </div>
+        
+        {/* Processus étape par étape */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12 text-sm">
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 to-peach-400 text-white mx-auto shadow-soft-lg">
+                <span className="text-xl font-semibold">1</span>
               </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">Sélectionnez votre pack</h3>
-              <p className="text-xs text-slate-600">
+              <h3 className="text-base font-semibold text-slate-800 mb-3">Sélectionnez votre pack</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Choisissez le nombre de followers qui correspond à vos besoins.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-purple-500 text-white mx-auto">
-                <span className="text-lg font-semibold">2</span>
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">Saisissez votre profil</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-lavender-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-lavender-400 to-baby-purple-400 text-white mx-auto shadow-soft-lg">
+                <span className="text-xl font-semibold">2</span>
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-3">Saisissez votre profil</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Entrez le lien de votre profil Instagram (aucun mot de passe requis).
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white mx-auto">
-                <span className="text-lg font-semibold">3</span>
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">Livraison automatique</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-warm-yellow-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-warm-yellow-400 to-soft-orange-400 text-white mx-auto shadow-soft-lg">
+                <span className="text-xl font-semibold">3</span>
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-3">Livraison automatique</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Suivi en temps réel et livraison progressive de vos followers.
               </p>
-            </div>
           </div>
+        </div>
 
-          {/* Avantages du service */}
+        {/* Avantages du service */}
           <div className="grid md:grid-cols-3 gap-6 text-sm">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Zap className="w-5 h-5" />
+            <div className="rounded-card-sm border border-warm-yellow-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-warm-yellow-400 to-soft-orange-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Zap className="w-6 h-6" strokeWidth={1.5} />
               </div>
-              <h4 className="text-sm font-semibold text-slate-900 mb-1">Livraison rapide</h4>
-              <p className="text-xs text-slate-600">
+              <h4 className="text-base font-semibold text-slate-800 mb-2">Livraison rapide</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Commence immédiatement après votre commande.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Lock className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-semibold text-slate-900 mb-1">Achat sécurisé</h4>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-lavender-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lavender-400 to-baby-purple-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Lock className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h4 className="text-base font-semibold text-slate-800 mb-2">Achat sécurisé</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Aucun mot de passe requis, paiement sécurisé.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Shield className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-semibold text-slate-900 mb-1">Followers stables</h4>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-soft-pink-400 to-peach-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Shield className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h4 className="text-base font-semibold text-slate-800 mb-2">Followers stables</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Des abonnés qui restent sur votre compte.
               </p>
             </div>
@@ -605,54 +605,54 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Les avantages d'un achat de followers Instagram */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-50 text-purple-500 mb-4">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
-              Les avantages d'un achat de followers Instagram actifs et réels
-            </h2>
+      <div className="bg-gradient-to-b from-white to-cream">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-baby-purple-100 to-lavender-100 mb-6 shadow-soft">
+              <Sparkles className="w-7 h-7 text-baby-purple-500" strokeWidth={1.5} />
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 text-sm">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-3">
-                <TrendingUp className="w-5 h-5" />
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+            Les avantages d'un achat de followers Instagram actifs et réels
+          </h2>
+        </div>
+        
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+            <div className="rounded-card-sm border border-baby-purple-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-baby-purple-400 to-lavender-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <TrendingUp className="w-6 h-6" strokeWidth={1.5} />
               </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-1">Preuve sociale</h3>
-              <p className="text-xs text-slate-600">
+              <h3 className="text-base font-semibold text-slate-800 mb-2">Preuve sociale</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Amélioration significative de votre crédibilité et attractivité.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Eye className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-1">Visibilité accrue</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-soft-pink-400 to-peach-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Eye className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-2">Visibilité accrue</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Meilleure visibilité dans l'algorithme Instagram.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-3">
-                <ThumbsUp className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-1">Engagement naturel</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-lavender-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lavender-400 to-baby-purple-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <ThumbsUp className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-2">Engagement naturel</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Augmentation du taux d'engagement avec des abonnés réels.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Crown className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-1">Collaborations</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-warm-yellow-200/50 bg-white/80 backdrop-blur-sm p-7 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-warm-yellow-400 to-soft-orange-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Crown className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-2">Collaborations</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Ouverture à de nouvelles collaborations avec des marques.
               </p>
             </div>
@@ -661,165 +661,176 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Pourquoi choisir Doctor Followers */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 mb-4">
-              <Award className="w-6 h-6" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
-              Pourquoi choisir Doctor Followers pour vos followers Instagram
-            </h2>
+      <div className="bg-gradient-to-b from-cream to-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-warm-yellow-100 to-soft-orange-100 mb-6 shadow-soft">
+              <Award className="w-7 h-7 text-soft-orange-500" strokeWidth={1.5} />
           </div>
-
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+            Pourquoi choisir Doctor Followers pour vos followers Instagram
+          </h2>
+        </div>
+        
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Shield className="w-5 h-5" />
+            <div className="rounded-card-sm border border-lavender-200/50 bg-white/80 backdrop-blur-sm p-8 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lavender-400 to-baby-purple-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Shield className="w-6 h-6" strokeWidth={1.5} />
               </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">Fiabilité garantie</h3>
-              <p className="text-xs text-slate-600">
+              <h3 className="text-base font-semibold text-slate-800 mb-3">Fiabilité garantie</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Service client réactif disponible 24/7 avec un support dédié.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-3">
-                <Users2 className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">Followers réels</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-8 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-soft-pink-400 to-peach-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <Users2 className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-3">Followers réels</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Uniquement des abonnés issus de comptes actifs et authentiques.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-3">
-                <CheckCircle className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">Satisfaction garantie</h3>
-              <p className="text-xs text-slate-600">
+            <div className="rounded-card-sm border border-warm-yellow-200/50 bg-white/80 backdrop-blur-sm p-8 text-center shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-warm-yellow-400 to-soft-orange-400 text-white flex items-center justify-center mx-auto mb-4 shadow-soft-lg">
+                <CheckCircle className="w-6 h-6" strokeWidth={1.5} />
+          </div>
+              <h3 className="text-base font-semibold text-slate-800 mb-3">Satisfaction garantie</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Politique de remboursement simple et livraison progressive.
               </p>
-            </div>
           </div>
-
-          {/* Call-to-action */}
-          <div className="mt-10 text-center">
-            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
-              <div className="flex flex-col items-center gap-2 mb-4">
-                <Headphones className="w-6 h-6 text-blue-400" />
-                <h3 className="text-lg font-semibold text-slate-900">Support client 24/7</h3>
-              </div>
-              <p className="text-xs text-slate-600 mb-5">
+        </div>
+        
+        {/* Call-to-action */}
+          <div className="mt-14 text-center">
+            <div className="rounded-card border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-10 shadow-soft-lg">
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-lavender-400 to-baby-purple-400 flex items-center justify-center shadow-soft-lg">
+                  <Headphones className="w-7 h-7 text-white" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-800">Support client 24/7</h3>
+            </div>
+              <p className="text-sm text-slate-600 mb-7 leading-relaxed max-w-md mx-auto">
                 Notre équipe est disponible pour vous accompagner dans votre croissance Instagram.
-              </p>
-              <button
-                onClick={() => onNavigate?.('contact')}
-                className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
-              >
-                Nous contacter
-              </button>
+            </p>
+            <button
+              onClick={() => onNavigate?.('contact')}
+                className="inline-flex items-center justify-center rounded-button bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 px-8 py-4 text-sm font-semibold text-white hover:shadow-soft-xl hover:scale-105 transition-all duration-300 shadow-soft-lg"
+            >
+              Nous contacter
+            </button>
             </div>
           </div>
         </div>
       </div>
 
       {/* FAQ Section */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-2">
+      <div className="bg-gradient-to-b from-white to-cream">
+        <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
               Questions fréquentes
-            </h2>
-            <p className="text-sm text-slate-600">
+          </h2>
+            <p className="text-base text-slate-600">
               Tout ce que vous devez savoir sur nos services.
-            </p>
-          </div>
+          </p>
+        </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, index) => (
+          <div className="space-y-4">
+          {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                className="overflow-hidden rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm shadow-soft hover:shadow-soft-lg transition-all duration-300"
               >
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="flex w-full items-center justify-between px-4 py-3 text-left text-sm"
+              <button
+                onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="flex w-full items-center justify-between px-6 py-5 text-left text-sm"
                 >
-                  <span className="font-medium text-slate-900">{faq.question}</span>
+                  <span className="font-semibold text-slate-800">{faq.question}</span>
                   <ChevronDown
-                    className={`h-4 w-4 text-slate-500 transition-transform ${
+                    className={`h-5 w-5 text-soft-pink-500 transition-transform duration-300 ${
                       openFaq === index ? 'rotate-180' : ''
                     }`}
+                    strokeWidth={1.5}
                   />
-                </button>
-                {openFaq === index && (
-                  <div className="px-4 pb-3 text-xs text-slate-600">
+              </button>
+              {openFaq === index && (
+                  <div className="px-6 pb-5 text-sm text-slate-600 leading-relaxed">
                     {faq.answer}
-                  </div>
-                )}
-              </div>
-            ))}
+                </div>
+              )}
+            </div>
+          ))}
           </div>
         </div>
       </div>
 
       {/* Stats Section */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 text-center text-xs">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <TrendingUp className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
-              <div className="text-2xl font-semibold text-slate-900 mb-1">24/7</div>
-              <div className="text-slate-600">Support client</div>
+      <div className="bg-gradient-to-b from-cream to-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lavender-100 to-baby-purple-100 flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="w-7 h-7 text-lavender-500" strokeWidth={1.5} />
+              </div>
+              <div className="text-3xl font-semibold text-slate-800 mb-2">24/7</div>
+              <div className="text-sm text-slate-600">Support client</div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <Users className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-              <div className="text-2xl font-semibold text-slate-900 mb-1">100%</div>
-              <div className="text-slate-600">Sécurisé</div>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <Award className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-              <div className="text-2xl font-semibold text-slate-900 mb-1">Rapide</div>
-              <div className="text-slate-600">Livraison</div>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <Globe className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-              <div className="text-2xl font-semibold text-slate-900 mb-1">Pro</div>
-              <div className="text-slate-600">Service</div>
-            </div>
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-soft-pink-100 to-peach-100 flex items-center justify-center mx-auto mb-4">
+                <Users className="w-7 h-7 text-soft-pink-500" strokeWidth={1.5} />
+              </div>
+              <div className="text-3xl font-semibold text-slate-800 mb-2">100%</div>
+              <div className="text-sm text-slate-600">Sécurisé</div>
+          </div>
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-warm-yellow-100 to-soft-orange-100 flex items-center justify-center mx-auto mb-4">
+                <Award className="w-7 h-7 text-soft-orange-500" strokeWidth={1.5} />
+              </div>
+              <div className="text-3xl font-semibold text-slate-800 mb-2">Rapide</div>
+              <div className="text-sm text-slate-600">Livraison</div>
+          </div>
+            <div className="rounded-card-sm border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm p-7 shadow-soft hover:shadow-soft-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-baby-purple-100 to-lavender-100 flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-7 h-7 text-baby-purple-500" strokeWidth={1.5} />
+              </div>
+              <div className="text-3xl font-semibold text-slate-800 mb-2">Pro</div>
+              <div className="text-sm text-slate-600">Service</div>
+          </div>
           </div>
         </div>
       </div>
 
       {/* CTA Section */}
-      <div className="bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center md:text-left md:px-10 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+          <div className="rounded-card border border-soft-pink-200/50 bg-white/80 backdrop-blur-sm px-8 py-12 text-center md:text-left md:px-12 md:py-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-soft-xl">
             <div>
-              <h3 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-2">
-                Prêt à booster votre présence ?
-              </h3>
-              <p className="text-sm text-slate-600 max-w-xl">
+              <h3 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+              Prêt à booster votre présence ?
+            </h3>
+              <p className="text-base text-slate-600 max-w-xl leading-relaxed">
                 Rejoignez des créateurs qui ont choisi un parcours simple pour faire grandir leurs
                 comptes Instagram et TikTok.
-              </p>
+            </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <button
                 onClick={() => onNavigate?.('instagram-followers')}
-                className="inline-flex flex-1 items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+                className="inline-flex flex-1 items-center justify-center rounded-button bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 px-8 py-4 text-sm font-semibold text-white hover:shadow-soft-xl hover:scale-105 transition-all duration-300 shadow-soft-lg"
               >
-                <Users className="mr-2 h-4 w-4" />
+                <Users className="mr-2 h-4 w-4" strokeWidth={2} />
                 Commencer avec les followers
               </button>
               <button
                 onClick={() => onNavigate?.('instagram-likes')}
-                className="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
+                className="inline-flex flex-1 items-center justify-center rounded-button border-2 border-soft-pink-300 bg-white/80 backdrop-blur-sm px-8 py-4 text-sm font-semibold text-slate-700 hover:bg-white hover:border-soft-pink-400 hover:scale-105 transition-all duration-300 shadow-soft"
               >
-                <Heart className="mr-2 h-4 w-4" />
+                <Heart className="mr-2 h-4 w-4" strokeWidth={2} />
                 Essayer les likes
               </button>
             </div>

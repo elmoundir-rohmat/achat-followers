@@ -103,34 +103,36 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
   // Le checkout est maintenant géré par l'App.tsx via /cart
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream font-rounded">
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="flex items-center mb-6">
-                <Instagram className="w-16 h-16 mr-4" />
-                <h1 className="text-5xl md:text-7xl font-bold">
+              <div className="flex items-center mb-8">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
+                  <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
                   Commentaires Instagram
                 </h1>
               </div>
-              <p className="text-xl md:text-2xl mb-8 opacity-90">
+              <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
                 Des commentaires authentiques et personnalisés pour booster l'engagement de vos posts
               </p>
-              <div className="flex items-center space-x-8 text-lg">
-                <div className="flex items-center">
-                  <Star className="w-6 h-6 text-yellow-400 mr-2" />
-                  <span>4.9/5</span>
+              <div className="flex flex-wrap items-center gap-6 text-base">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">4.9/5</span>
                 </div>
-                <div className="flex items-center">
-                  <MessageCircle className="w-6 h-6 mr-2" />
-                  <span>+50K commentaires</span>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <MessageCircle className="w-5 h-5 text-lavender-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">+50K commentaires</span>
                 </div>
-                <div className="flex items-center">
-                  <Shield className="w-6 h-6 mr-2" />
-                  <span>100% sécurisé</span>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Shield className="w-5 h-5 text-soft-pink-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">100% sécurisé</span>
                 </div>
               </div>
             </div>
@@ -138,15 +140,15 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
               <img 
                 src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
                 alt="Instagram Comments and Engagement Analytics" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-card shadow-soft-xl"
               />
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3">
-                <div className="text-blue-600 font-bold text-lg">💬 +85% Engagement</div>
-                <div className="text-sm text-gray-600">Boost achieved</div>
+              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
+                <div className="text-soft-pink-600 font-semibold text-lg">💬 +85% Engagement</div>
+                <div className="text-sm text-slate-600">Boost achieved</div>
               </div>
-              <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3">
-                <div className="text-purple-600 font-bold text-lg">📊 +20K Comments</div>
-                <div className="text-sm text-gray-600">Monthly delivered</div>
+              <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
+                <div className="text-lavender-600 font-semibold text-lg">📊 +20K Comments</div>
+                <div className="text-sm text-slate-600">Monthly delivered</div>
               </div>
             </div>
           </div>
@@ -154,7 +156,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
       </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         <FollowerTypeSelector
           selectedType={followerType}
           onTypeChange={setFollowerType}
@@ -171,47 +173,47 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
 
         {/* Purchase Section */}
         {selectedPackage && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-100 mb-12">
+          <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-xl p-10 border border-soft-pink-200/50 mb-14">
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl font-semibold text-slate-800 mb-6">
                 Résumé de votre commande
               </h3>
               
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-lg font-semibold text-gray-700">
+              <div className="bg-gradient-to-br from-soft-pink-50 via-peach-50 to-lavender-50 rounded-card-sm p-8 mb-8 border border-soft-pink-200/50">
+                <div className="flex justify-between items-center mb-6">
+                  <span className="text-xl font-semibold text-slate-700">
                     {getPackageComments(selectedPackage).toLocaleString()} commentaires {followerType === 'french' ? 'français' : 'internationaux'}
                   </span>
-                  <span className="text-3xl font-bold text-blue-600">
+                  <span className="text-4xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">
                     {getPackagePriceLocal(selectedPackage).toFixed(2)}€
                   </span>
                 </div>
                 
-                <div className="flex justify-center items-center space-x-6 text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    Garantie 30 jours
+                <div className="flex flex-wrap justify-center items-center gap-4 text-sm">
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-lavender-200/50 shadow-soft">
+                    <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>
+                    <span className="text-slate-700 font-medium">Garantie 30 jours</span>
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    Livraison progressive
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-lavender-200/50 shadow-soft">
+                    <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>
+                    <span className="text-slate-700 font-medium">Livraison progressive</span>
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    Commentaires réels
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-lavender-200/50 shadow-soft">
+                    <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>
+                    <span className="text-slate-700 font-medium">Commentaires réels</span>
                   </div>
                 </div>
               </div>
 
               <button
                 onClick={handlePurchase}
-                className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-12 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 hover:shadow-soft-xl hover:scale-105 text-white font-semibold py-5 px-14 rounded-button transition-all duration-300 shadow-soft-lg text-lg"
               >
-                <MessageCircle className="w-6 h-6 inline mr-3" />
+                <MessageCircle className="w-6 h-6 inline mr-3" strokeWidth={2} />
                 Acheter maintenant
               </button>
 
-              <p className="text-sm text-gray-500 mt-4">
+              <p className="text-sm text-slate-600 mt-6">
                 🔒 Paiement sécurisé • Aucun mot de passe requis • Livraison garantie
               </p>
             </div>
@@ -219,66 +221,66 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
         )}
 
         {/* Features Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <MessageSquare className="w-6 h-6 text-blue-600" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+            <div className="flex items-center mb-6">
+              <div className="w-14 h-14 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
+                <MessageSquare className="w-7 h-7 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Commentaires Internationaux</h3>
+              <h3 className="text-2xl font-semibold text-slate-800">Commentaires Internationaux</h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5" />
-                <p className="text-gray-600">Acheter de vrais commentaires Instagram, sans ciblage particulier, provenant de l'Europe de l'ouest.</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <p className="text-slate-600 leading-relaxed">Acheter de vrais commentaires Instagram, sans ciblage particulier, provenant de l'Europe de l'ouest.</p>
               </div>
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5" />
-                <p className="text-gray-600">Les commentaires que nous vous fournissons proviennent de profils actifs et authentiques.</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <p className="text-slate-600 leading-relaxed">Les commentaires que nous vous fournissons proviennent de profils actifs et authentiques.</p>
               </div>
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5" />
-                <p className="text-gray-600">Livraison progressive pour un engagement naturel et durable.</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <p className="text-slate-600 leading-relaxed">Livraison progressive pour un engagement naturel et durable.</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-blue-200">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
-                <MessageCircle className="w-6 h-6 text-indigo-600" />
+          <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg border-2 border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+            <div className="flex items-center mb-6">
+              <div className="w-14 h-14 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
+                <MessageCircle className="w-7 h-7 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Commentaires Instagram Français</h3>
+              <h3 className="text-2xl font-semibold text-slate-800">Commentaires Instagram Français</h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-indigo-500 mr-3 mt-0.5" />
-                <p className="text-gray-600">Acheter des commentaires ciblés selon votre région française.</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <p className="text-slate-600 leading-relaxed">Acheter des commentaires ciblés selon votre région française.</p>
               </div>
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-indigo-500 mr-3 mt-0.5" />
-                <p className="text-gray-600">Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <p className="text-slate-600 leading-relaxed">Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité</p>
               </div>
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-indigo-500 mr-3 mt-0.5" />
-                <p className="text-gray-600">Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <p className="text-slate-600 leading-relaxed">Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Testimonials Section */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Avis des clients</h2>
-            <div className="flex items-center justify-center space-x-2">
-              <span className="text-2xl font-bold text-blue-600">4.9</span>
-              <div className="flex space-x-1">
+        <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">Avis des clients</h2>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-3xl font-semibold bg-gradient-to-r from-soft-pink-500 to-lavender-500 bg-clip-text text-transparent">4.9</span>
+              <div className="flex gap-1">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  <Star key={i} className="w-6 h-6 text-warm-yellow-400 fill-current" strokeWidth={1.5} />
                 ))}
               </div>
-              <span className="text-gray-600">(127 avis)</span>
+              <span className="text-slate-600 font-medium">(127 avis)</span>
             </div>
           </div>
 
@@ -288,60 +290,60 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
               { name: "Julien, Marseille", date: "15/02/2025", rating: 5, comment: "Les commentaires français sont parfaits et très pertinents. Mon taux d'engagement a explosé grâce à ce service." },
               { name: "Emma, Strasbourg", date: "03/02/2025", rating: 5, comment: "Excellent service ! Les commentaires sont authentiques et ont attiré plus de vraies interactions sur mes posts." }
             ].map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg">
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-card-sm p-7 shadow-soft-lg border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
                 <div className="flex justify-between items-start mb-4">
-                  <div className="font-bold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-500">{testimonial.date}</div>
+                  <div className="font-semibold text-slate-800">{testimonial.name}</div>
+                  <div className="text-sm text-slate-500">{testimonial.date}</div>
                 </div>
-                <div className="flex space-x-1 mb-3">
+                <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-5 h-5 text-warm-yellow-400 fill-current" strokeWidth={1.5} />
                   ))}
                 </div>
-                <p className="text-gray-600 text-sm">{testimonial.comment}</p>
+                <p className="text-slate-600 text-sm leading-relaxed">{testimonial.comment}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Security & Guarantees Section */}
-        <div className="bg-blue-50 rounded-2xl p-8 mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+        <div className="bg-gradient-to-br from-lavender-50/50 via-soft-pink-50/50 to-peach-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
+          <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-12">
             Acheter des commentaires Instagram en toute sécurité avec Doctor Followers
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-blue-600" />
+            <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+              <div className="w-18 h-18 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
+                <Shield className="w-9 h-9 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3">Service client 24/7</h3>
-              <p className="text-gray-600 text-sm">
-                Bien que les incidents soient rares, notre <strong className="text-blue-600">Service client</strong> est disponible
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">Service client 24/7</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
                 par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
                 spécifique, nous pouvons également vous contacter par téléphone.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+              <div className="w-18 h-18 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
+                <CheckCircle className="w-9 h-9 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3">Politique de remboursement</h3>
-              <p className="text-gray-600 text-sm">
-                Notre offre <strong className="text-green-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">Politique de remboursement</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
                 Dans le cas où la commande ne vous convient
                 pas, nous vous faisons un remboursement dans les 24h.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-purple-600" />
+            <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+              <div className="w-18 h-18 bg-gradient-to-br from-warm-yellow-100 to-soft-orange-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
+                <Zap className="w-9 h-9 text-soft-orange-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3">Paiements sécurisés</h3>
-              <p className="text-gray-600 text-sm">
-                <strong className="text-purple-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">Paiements sécurisés</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
                 SSL et des prestataires reconnus -et surtout, nous ne vous
                 demanderons jamais vos identifiants Instagram.
               </p>
@@ -351,7 +353,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
 
         {/* Why Buy Comments Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">
             Pourquoi acheter des commentaires Instagram en 2025?
           </h2>
 
@@ -361,16 +363,16 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
                 <img 
                   src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                   alt="Instagram Post with High Comments and Engagement" 
-                  className="rounded-xl shadow-lg"
+                  className="rounded-card shadow-soft-xl"
                 />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Augmenter votre engagement</h3>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Augmenter votre engagement</h3>
+                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                   Sur Instagram, les commentaires sont l'indicateur le plus fort d'engagement. Plus vos posts reçoivent de commentaires, 
                   plus l'algorithme les met en avant. Que vous soyez créateur de contenu,
                   entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. 
-                  <strong className="text-blue-600">Acheter des commentaires Instagram</strong> permet de booster votre engagement. 
+                  <strong className="text-soft-pink-600">Acheter des commentaires Instagram</strong> permet de booster votre engagement. 
                   Un post avec beaucoup de commentaires inspire confiance et attire naturellement plus d'interactions... 
                   et suscite plus d'intérêt de la part de l'algorithme.
                 </p>
@@ -379,12 +381,12 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Améliorer votre portée organique</h3>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Améliorer votre portée organique</h3>
+                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                   L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. 
                   Plus vos posts reçoivent de commentaires dans les premières heures, plus ils sont susceptibles 
                   d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs...
-                  <strong className="text-indigo-600">En achetant des commentaires Instagram français</strong>, 
+                  <strong className="text-soft-pink-600">En achetant des commentaires Instagram français</strong>, 
                   vous renforcez votre portée organique.
                   Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
                   vertueux que vous pouvez activer avec des commentaires de qualité.
@@ -394,7 +396,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
                 <img 
                   src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                   alt="Instagram Analytics Dashboard showing Reach and Comments" 
-                  className="rounded-xl shadow-lg"
+                  className="rounded-card shadow-soft-xl"
                 />
               </div>
             </div>
@@ -404,17 +406,17 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
                 <img 
                   src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                   alt="Instagram Business Profile with High Comment Engagement" 
-                  className="rounded-xl shadow-lg"
+                  className="rounded-card shadow-soft-xl"
                 />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Construire votre crédibilité</h3>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  <strong className="text-purple-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Construire votre crédibilité</h3>
+                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                  <strong className="text-lavender-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
                   Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique
                   et durable. Chaque commentaire livré provient d'un utilisateur réel, susceptible d'interagir
                   naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
-                  L'objectif n'est pas juste d'avoir plus de commentaires, mais de <strong className="text-purple-600">créer une preuve sociale
+                  L'objectif n'est pas juste d'avoir plus de commentaires, mais de <strong className="text-lavender-600">créer une preuve sociale
                   forte</strong> qui attire de vrais fans et clients.
                 </p>
               </div>

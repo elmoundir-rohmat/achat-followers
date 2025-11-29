@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Ensure dark background for the app */
+/* Soft pastel background for the app */
 body {
-  background-color: #0f172a; /* slate-900 */
-  color: white;
+  background-color: #FAF7F2; /* cream */
+  color: #1e293b; /* slate-800 */
 }
 
 html {
-  background-color: #0f172a;
+  background-color: #FAF7F2; /* cream */
 }

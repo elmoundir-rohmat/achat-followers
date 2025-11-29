@@ -15,17 +15,17 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'Globe':
-        return <Globe className="w-6 h-6" />;
+        return <Globe className="w-5 h-5" strokeWidth={1.5} />;
       case 'MapPin':
-        return <MapPin className="w-6 h-6" />;
+        return <MapPin className="w-5 h-5" strokeWidth={1.5} />;
       case 'Flag':
-        return <Flag className="w-6 h-6" />;
+        return <Flag className="w-5 h-5" strokeWidth={1.5} />;
       case 'Shuffle':
-        return <Shuffle className="w-6 h-6" />;
+        return <Shuffle className="w-5 h-5" strokeWidth={1.5} />;
       case 'Edit':
-        return <Edit className="w-6 h-6" />;
+        return <Edit className="w-5 h-5" strokeWidth={1.5} />;
       default:
-        return <Globe className="w-6 h-6" />;
+        return <Globe className="w-5 h-5" strokeWidth={1.5} />;
     }
   };
 
@@ -59,36 +59,42 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
   }
 
   return (
-    <div className="mb-6">
-      <h2 className="text-lg font-semibold text-black mb-3 text-center">
+    <div className="mb-10">
+      <h2 className="text-xl md:text-2xl font-semibold text-slate-800 mb-6 text-center">
         {title}
       </h2>
-      <div className="flex gap-3 justify-center max-w-lg mx-auto">
+      <div className="flex gap-4 justify-center max-w-lg mx-auto">
         {availableTypes.map((type) => (
           <button
             key={type.id}
-            className={`relative px-4 py-2 rounded-lg border cursor-pointer transition-all duration-200 hover:scale-105 ${
+            className={`relative px-6 py-3 rounded-pill border cursor-pointer transition-all duration-300 hover:scale-105 ${
               selectedType === type.id
-                ? 'border-blue-500 bg-blue-500 text-white shadow-md'
-                : 'border-gray-300 bg-white hover:border-gray-400 hover:shadow-sm'
+                ? 'border-soft-pink-300 bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white shadow-soft-lg'
+                : 'border-soft-pink-200/50 bg-white/80 backdrop-blur-sm hover:border-soft-pink-300/50 hover:shadow-soft text-slate-700'
             }`}
             onClick={() => onTypeChange(type.id)}
           >
-            <div className="flex items-center gap-2">
-              <div className={`p-1 rounded-full ${
-                selectedType === type.id ? 'bg-white text-blue-500' : 'bg-gray-100 text-gray-600'
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-full transition-all ${
+                selectedType === type.id 
+                  ? 'bg-white/20 backdrop-blur-sm' 
+                  : 'bg-gradient-to-br from-lavender-50 to-soft-pink-50'
               }`}>
-                {getIcon(type.icon)}
+                <div className={selectedType === type.id ? 'text-white' : 'text-lavender-600'}>
+                  {getIcon(type.icon)}
+                </div>
               </div>
-              <span className="text-sm font-medium text-black">
+              <span className={`text-sm font-semibold ${
+                selectedType === type.id ? 'text-white' : 'text-slate-700'
+              }`}>
                 {type.title}
               </span>
             </div>
             
             {selectedType === type.id && (
-              <div className="absolute -top-1 -right-1">
-                <div className="w-3 h-3 bg-white rounded-full flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+              <div className="absolute -top-1.5 -right-1.5">
+                <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-soft">
+                  <div className="w-2 h-2 bg-soft-pink-500 rounded-full"></div>
                 </div>
               </div>
             )}

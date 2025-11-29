@@ -510,7 +510,7 @@ function AppContent() {
   // Page de panier/checkout
   if (currentPage === 'cart') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <CheckoutPage 
           onBack={handleBackToSelection}
@@ -524,7 +524,7 @@ function AppContent() {
   // Si on est sur la page d'accueil, afficher HomePage
   if (currentPage === 'home') {
     return (
-      <div key="home" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="home" className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <HomePage onNavigate={handleNavigate} />
         <Footer onNavigate={handleNavigate} />
@@ -535,7 +535,7 @@ function AppContent() {
   // Page Instagram Followers
   if (currentPage === 'instagram-followers') {
     return (
-      <div key="instagram-followers" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-followers" className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramFollowersPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -546,7 +546,7 @@ function AppContent() {
   // Page Instagram Likes
   if (currentPage === 'instagram-likes') {
     return (
-      <div key="instagram-likes" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-likes" className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramLikesPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -557,7 +557,7 @@ function AppContent() {
   // Page Instagram Comments
   if (currentPage === 'instagram-comments') {
     return (
-      <div key="instagram-comments" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-comments" className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramCommentsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -568,7 +568,7 @@ function AppContent() {
   // Page Instagram Views
   if (currentPage === 'instagram-views') {
     return (
-      <div key="instagram-views" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="instagram-views" className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <InstagramViewsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -579,7 +579,7 @@ function AppContent() {
   // Page TikTok Followers
   if (currentPage === 'tiktok-followers') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <TikTokFollowersPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -590,7 +590,7 @@ function AppContent() {
   // Page TikTok Likes
   if (currentPage === 'tiktok-likes') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <TikTokLikesPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -601,7 +601,7 @@ function AppContent() {
   // Page TikTok Views
   if (currentPage === 'tiktok-views') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <TikTokViewsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -612,7 +612,7 @@ function AppContent() {
   // Page TikTok Comments
   if (currentPage === 'tiktok-comments') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <TikTokCommentsPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -623,7 +623,7 @@ function AppContent() {
   // Page Légale
   if (currentPage === 'legal') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <LegalPage 
           onBack={() => handleNavigate('home')} 
@@ -637,7 +637,7 @@ function AppContent() {
   // Page À propos
   if (currentPage === 'about') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <AboutPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -648,7 +648,7 @@ function AppContent() {
   // Page Contact
   if (currentPage === 'contact') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <ContactPage onBack={() => handleNavigate('home')} />
         <Footer onNavigate={handleNavigate} />
@@ -659,7 +659,7 @@ function AppContent() {
   // Page Blog
   if (currentPage === 'blog') {
     return (
-      <div key="blog" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key="blog" className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <BlogPage 
           onNavigate={handleNavigate}
@@ -688,7 +688,7 @@ function AppContent() {
   // Page Article de Blog
   if (currentPage === 'blog-article') {
     return (
-      <div key={`blog-article-${currentArticleSlug}`} className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div key={`blog-article-${currentArticleSlug}`} className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <BlogArticle 
           slug={currentArticleSlug}
@@ -703,7 +703,7 @@ function AppContent() {
   // Si on est sur la page likes, afficher LikesMainPage
   if (currentPage === 'likes') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         <LikesMainPage onBack={() => handleNavigate('followers')} />
         <Footer onNavigate={handleNavigate} />
@@ -733,7 +733,7 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-cream">
       <ModernNavigation onNavigate={(page) => setCurrentPage(page as any)} />
 
       {/* Hero Section */}

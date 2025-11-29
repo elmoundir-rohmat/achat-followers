@@ -265,7 +265,6 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
                   smmaResults.map((result: any, index: number) => (
                     <div key={index} className="p-3 bg-white rounded-lg">
                       <p><strong>Commande #{index + 1}:</strong></p>
-                      <p>• ID SMMA: {result.id || 'En cours...'}</p>
                       <p>• Statut: {result.status || 'Traitement en cours'}</p>
                       {result.error && (
                         <p className="text-red-600">• Erreur: {result.error}</p>
@@ -275,7 +274,7 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
                 ) : (
                   <div className="p-3 bg-white rounded-lg">
                     <p><strong>Résultat:</strong></p>
-                    <p>• {JSON.stringify(smmaResults)}</p>
+                    <p>• {smmaResults.success ? 'Commande créée avec succès' : smmaResults.error || 'En cours de traitement'}</p>
                   </div>
                 )}
               </div>

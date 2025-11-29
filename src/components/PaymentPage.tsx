@@ -133,36 +133,26 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
           };
         });
 
-        console.log('📦 Commandes SMMA à traiter:', smmaOrders);
-
-        // Traiter chaque commande SMMA selon la plateforme et le type de service
+        // Traiter chaque commande selon la plateforme et le type de service
         const smmaResults = await Promise.all(
           smmaOrders.map(order => {
             if (order.serviceType === 'tiktok_followers') {
-              console.log('🎵 PaymentPage - Commande TikTok Followers détectée');
               return smmaServiceClient.orderTikTokFollowers(order);
             } else if (order.serviceType === 'tiktok_likes') {
-              console.log('❤️ PaymentPage - Commande TikTok Likes détectée');
               return smmaServiceClient.orderTikTokLikes(order);
             } else if (order.serviceType === 'tiktok_views') {
-              console.log('👁️ PaymentPage - Commande TikTok Views détectée');
               return smmaServiceClient.orderTikTokViews(order);
             } else if (order.serviceType === 'likes') {
-              console.log('📸 PaymentPage - Commande Instagram Likes détectée');
               return smmaServiceClient.orderLikes(order);
             } else if (order.serviceType === 'views') {
-              console.log('📸 PaymentPage - Commande Instagram Views détectée');
               return smmaServiceClient.orderViews(order);
             } else {
-              console.log('📸 PaymentPage - Commande Instagram Followers détectée');
               return smmaServiceClient.orderFollowers(order);
             }
           })
         );
-
-        console.log('📊 Résultats SMMA:', smmaResults);
         
-        // Sauvegarder les résultats SMMA dans le localStorage pour la page de succès
+        // Sauvegarder les résultats dans le localStorage pour la page de succès
         localStorage.setItem('smmaResults', JSON.stringify(smmaResults));
       }
       
@@ -173,7 +163,7 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
       window.location.href = '/payment/success';
       
     } catch (error) {
-      console.error('❌ Erreur lors du traitement SMMA:', error);
+      console.error('❌ Erreur lors du traitement:', error);
       // Même en cas d'erreur SMMA, on redirige vers la page de succès
       // car le paiement a réussi
       clearCart();

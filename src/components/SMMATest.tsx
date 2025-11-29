@@ -182,8 +182,8 @@ export default function SMMATest() {
             <div className="text-sm space-y-1">
               {result.success ? (
                 <>
-                  <p><strong>Commande SMMA:</strong> #{result.smma_order_id}</p>
-                  <p><strong>Message:</strong> {result.message}</p>
+                  <p><strong>Commande:</strong> Créée avec succès</p>
+                  <p><strong>Message:</strong> {result.message?.replace(/\(SMMA ID: \d+\)/g, '') || 'Commande créée avec succès'}</p>
                 </>
               ) : (
                 <p><strong>Erreur:</strong> {result.error}</p>

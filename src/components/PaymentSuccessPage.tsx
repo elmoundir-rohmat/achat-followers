@@ -547,7 +547,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
                 ) : (
                   <div className="p-3 bg-white rounded-lg">
                     <p><strong>Résultat:</strong></p>
-                    <p>• {JSON.stringify(smmaResults)}</p>
+                    <p>• {smmaResults.success ? 'Commande créée avec succès' : smmaResults.error || 'En cours de traitement'}</p>
                   </div>
                 )}
               </div>

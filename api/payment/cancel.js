@@ -47,8 +47,7 @@ export default async function handler(req, res) {
       currency,
       status,
       error,
-      error_description,
-      project_id
+      error_description
     });
 
     // Construire les paramètres pour la redirection

@@ -234,7 +234,7 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
             {/* Résultats SMMA */}
             {smmaResult && !isProcessingSMMA && (
               <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
-                <h4 className="font-bold text-green-800 mb-2">✅ Commandes SMMA TikTok traitées</h4>
+                <h4 className="font-bold text-green-800 mb-2">✅ Commandes TikTok traitées</h4>
                 {Array.isArray(smmaResult) ? (
                   smmaResult.map((result, index) => (
                     <div key={index} className="text-sm text-green-700 mb-1">

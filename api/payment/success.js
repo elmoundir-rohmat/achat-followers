@@ -53,7 +53,6 @@ export default async function handler(req, res) {
       status,
       description,
       payment_method,
-      project_id,
       created,
       live,
       type,
@@ -88,7 +87,7 @@ export default async function handler(req, res) {
     console.log('💳 Payment ID:', id);
     console.log('📝 Description:', description);
 
-    // Construire les paramètres pour la redirection
+    // Construire les paramètres pour la redirection (sans données sensibles)
     const successParams = new URLSearchParams({
       order: order_id || '',
       payment_id: id || '',
@@ -97,7 +96,6 @@ export default async function handler(req, res) {
       status: status || '',
       description: description || '',
       payment_method: payment_method || '',
-      project_id: project_id || '',
       created: created || '',
       live: live || 'false'
     });

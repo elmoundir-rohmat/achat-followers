@@ -243,14 +243,13 @@ export default async function handler(
       });
     }
 
-    console.log(`✅ Commande SMMA créée: #${data.order}`);
+    console.log(`✅ Commande créée: #${data.order}`);
 
-    // Retourner la réponse au client
+    // Retourner la réponse au client (sans exposer l'ID interne)
     return res.status(200).json({
       success: true,
       order_id: order_id,
-      smma_order_id: data.order.toString(),
-      message: `Order created successfully (SMMA ID: ${data.order})`
+      message: `Commande créée avec succès`
     });
 
   } catch (error) {

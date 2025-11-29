@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 
       console.log('✅ Paiement approuvé avec succès !');
 
-      // Construire les paramètres pour la redirection vers la page d'accueil
+      // Construire les paramètres pour la redirection vers la page d'accueil (sans données sensibles)
       const successParams = new URLSearchParams({
         order_id: order_id || '',
         id: id || '',
@@ -65,7 +65,6 @@ export default async function handler(req, res) {
         status: status || '',
         description: description || '',
         payment_method: payment_method || '',
-        project_id: project_id || '',
         created: created || '',
         live: live || 'false'
       });

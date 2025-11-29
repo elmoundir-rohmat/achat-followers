@@ -112,23 +112,7 @@ function AppContent() {
         const orderId = urlParams.get('order_id');
         const paymentId = urlParams.get('id');
         
-        console.log('🎯 Paramètres Cardinity détectés sur l\'accueil:', {
-          order_id: orderId,
-          status: status,
-          amount: urlParams.get('amount'),
-          payment_id: paymentId,
-          allParams: Object.fromEntries(urlParams)
-        });
-        
         if (status === 'approved') {
-          console.log('✅ Paiement Cardinity approuvé - Navigation vers page de succès');
-          console.log('📋 Données de commande:', {
-            orderId,
-            paymentId,
-            status,
-            amount: urlParams.get('amount'),
-            description: urlParams.get('description')
-          });
           setCurrentPage('payment-success');
           return;
         } else {

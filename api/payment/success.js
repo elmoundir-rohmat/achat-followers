@@ -88,9 +88,9 @@ export default async function handler(req, res) {
     console.log('📝 Description:', description);
 
     // Construire les paramètres pour la redirection (sans données sensibles)
+    // Le payment_id n'est pas inclus car c'est une information sensible
     const successParams = new URLSearchParams({
       order: order_id || '',
-      payment_id: id || '',
       amount: amount || '',
       currency: currency || '',
       status: status || '',

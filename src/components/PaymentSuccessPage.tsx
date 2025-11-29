@@ -12,22 +12,11 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
 
   useEffect(() => {
-    console.log('🎉 PaymentSuccessPage chargée !');
-    console.log('🔍 window.location.href:', window.location.href);
-    console.log('🔍 window.location.search:', window.location.search);
-    
     // Récupérer les détails de la commande depuis l'URL ou le localStorage
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get('order_id');
     const amount = urlParams.get('amount');
     const currency = urlParams.get('currency');
-    
-    console.log('🔍 Paramètres URL extraits:', {
-      orderId,
-      amount,
-      currency,
-      allParams: Object.fromEntries(urlParams)
-    });
     
     // Récupérer les détails depuis le localStorage si disponibles
     const savedOrder = localStorage.getItem('pendingOrder');
@@ -56,30 +45,15 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     const cardinityStatus = urlParams.get('status');
     
     if (cardinityOrderId && cardinityStatus === 'approved') {
-      console.log('🎯 Paramètres Cardinity détectés, traitement de la commande...');
-      console.log('🔍 Paramètres détectés:', {
-        cardinityOrderId,
-        cardinityStatus,
-        paymentId: urlParams.get('id'),
-        allParams: Object.fromEntries(urlParams)
-      });
       // Déclencher SMMA immédiatement pour les paiements Cardinity
       processSMMAIntegrationWithCardinity(cardinityOrderId, urlParams.get('id') || cardinityOrderId);
     } else {
-      console.log('❌ Paramètres Cardinity non détectés:', {
-        cardinityOrderId,
-        cardinityStatus,
-        hasOrderId: urlParams.has('order_id'),
-        hasStatus: urlParams.has('status'),
-        allParams: Object.fromEntries(urlParams)
-      });
       // Récupérer les résultats SMMA pour les autres cas
       const savedSmmaResults = localStorage.getItem('smmaResults');
       if (savedSmmaResults) {
         try {
           const results = JSON.parse(savedSmmaResults);
           setSmmaResults(results);
-          console.log('📊 Résultats récupérés:', results);
           // Nettoyer le localStorage
           localStorage.removeItem('smmaResults');
         } catch (error) {
@@ -93,7 +67,6 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
   }, []);
 
   const processSMMAIntegrationWithCardinity = async (orderId: string, paymentId: string) => {
-    console.log('🚀 Traitement de la commande avec Cardinity...', { orderId, paymentId });
     setIsProcessingSMMA(true);
     
     try {
@@ -515,8 +488,8 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             
             <div className="bg-blue-50 rounded-lg p-4">
               <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-blue-600">Livraison rapide</h4>
-              <p className="text-sm text-gray-600">24-72h maximum</p>
+              <h4 className="font-semibold text-blue-600">Traitement rapide</h4>
+              <p className="text-sm text-gray-600">Service efficace</p>
             </div>
             
             <div className="bg-purple-50 rounded-lg p-4">

@@ -21,14 +21,6 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
     const cardinityStatus = urlParams.get('status');
     const cardinityId = urlParams.get('id');
     
-    console.log('🔍 Paramètres Cardinity reçus:', {
-      order_id: cardinityOrderId,
-      amount: cardinityAmount,
-      currency: cardinityCurrency,
-      status: cardinityStatus,
-      id: cardinityId
-    });
-    
     // Vérifier si c'est un retour de paiement Cardinity réussi
     const isCardinitySuccess = cardinityStatus === 'approved' || cardinityId;
     
@@ -260,8 +252,8 @@ export default function PaymentSuccessPageFixed({ onBack }: PaymentSuccessPagePr
             
             <div className="bg-blue-50 rounded-lg p-4">
               <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-blue-600">Livraison rapide</h4>
-              <p className="text-sm text-gray-600">24-72h maximum</p>
+              <h4 className="font-semibold text-blue-600">Traitement rapide</h4>
+              <p className="text-sm text-gray-600">Service efficace</p>
             </div>
             
             <div className="bg-purple-50 rounded-lg p-4">

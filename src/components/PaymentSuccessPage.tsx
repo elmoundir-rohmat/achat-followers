@@ -489,23 +489,6 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
             </div>
           )}
 
-          {/* Informations de livraison */}
-          <div className="bg-blue-50 rounded-xl p-6 mb-6">
-            <div className="flex items-center justify-center mb-3">
-              <Clock className="w-6 h-6 text-blue-600 mr-2" />
-              <h3 className="text-lg font-bold text-blue-600">
-                Livraison en cours
-              </h3>
-            </div>
-            
-            <div className="space-y-2 text-sm text-gray-700">
-              <p>✅ Votre commande a été traitée avec succès</p>
-              <p>⏱️ La livraison des followers commence dans les 5-10 minutes</p>
-              <p>📈 Vous recevrez vos followers progressivement sur 24-72h</p>
-              <p>📧 Un email de confirmation vous sera envoyé</p>
-            </div>
-          </div>
-
           {/* Traitement SMMA en cours */}
           {isProcessingSMMA && (
             <div className="bg-blue-50 rounded-xl p-6 mb-6">
@@ -518,38 +501,6 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
               <div className="text-center text-sm text-gray-700">
                 <p>🚀 Transmission de votre commande en cours...</p>
                 <p>⏱️ Veuillez patienter quelques instants</p>
-              </div>
-            </div>
-          )}
-
-          {/* Résultats SMMA */}
-          {smmaResults && !isProcessingSMMA && (
-            <div className="bg-green-50 rounded-xl p-6 mb-6">
-              <div className="flex items-center justify-center mb-3">
-                <Users className="w-6 h-6 text-green-600 mr-2" />
-                <h3 className="text-lg font-bold text-green-600">
-                  Commande transmise avec succès
-                </h3>
-              </div>
-              
-              <div className="space-y-2 text-sm text-gray-700">
-                {Array.isArray(smmaResults) ? (
-                  smmaResults.map((result: any, index: number) => (
-                    <div key={index} className="p-3 bg-white rounded-lg">
-                      <p><strong>Commande #{index + 1}:</strong></p>
-                      <p>• ID de commande: {result.id || 'En cours...'}</p>
-                      <p>• Statut: {result.status || 'Traitement en cours'}</p>
-                      {result.error && (
-                        <p className="text-red-600">• Erreur: {result.error}</p>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <div className="p-3 bg-white rounded-lg">
-                    <p><strong>Résultat:</strong></p>
-                    <p>• {smmaResults.success ? 'Commande créée avec succès' : smmaResults.error || 'En cours de traitement'}</p>
-                  </div>
-                )}
               </div>
             </div>
           )}

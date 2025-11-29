@@ -60,7 +60,7 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   },
   {
     followerType: 'tiktok_french',
-    smmaServiceId: 8200, (même service)
+    smmaServiceId: 8200,
     description: 'TikTok followers Premium'
   },
   {
@@ -70,7 +70,7 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   },
   {
     followerType: 'tiktok_likes_french',
-    smmaServiceId: 3850, (même service)
+    smmaServiceId: 3850,
     description: 'TikTok likes Premium'
   },
   {
@@ -80,7 +80,7 @@ export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   },
   {
     followerType: 'tiktok_views_french',
-    smmaServiceId: 3365, (même service)
+    smmaServiceId: 3365,
     description: 'TikTok vues Premium'
   },
   {

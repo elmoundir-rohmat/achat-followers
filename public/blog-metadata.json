@@ -1,52 +1,23 @@
 {
   "articles": [
     {
-      "id": "que-faire-apres-avoir-achete-des-followers-instagram-le-guide-complet",
-      "slug": "que-faire-apres-avoir-achete-des-followers-instagram-le-guide-complet",
-      "title": "Que faire après avoir acheté des followers Instagram ? Le guide complet",
-      "excerpt": "Vous venez d’acheter des followers Instagram ? Découvrez les 10 actions prioritaires pour transformer cette preuve sociale en croissance réelle et durable.",
+      "id": "comment-avoir-plus-de-followers-instagram",
+      "slug": "comment-avoir-plus-de-followers-instagram",
+      "title": "Comment avoir plus de followers Instagram : Le guide complet 2025",
+      "excerpt": "Découvrez les meilleures stratégies pour augmenter vos followers Instagram en 2025. Techniques éprouvées, astuces d'experts et méthodes pour développer votre audience de manière organique et durable.",
       "author": "moundir-rohmat",
       "category": "Instagram",
-      "tags": ["Instagram", "Followers", "Stratégie post-achat", "Engagement", "Community management"],
-      "date": "2025-11-13",
-      "readTime": 10,
+      "tags": ["Instagram", "Followers", "Growth", "Stratégie", "Engagement", "Réseaux sociaux", "Marketing"],
+      "date": "2025-12-04",
+      "readTime": 12,
       "featured": true,
       "published": true,
-      "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=400&fit=crop",
+      "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=400&fit=crop",
       "views": 0,
-      "likes": 0
-    },
-    {
-      "id": "acheter-des-followers-instagram-on-vous-dit-tout",
-      "slug": "acheter-des-followers-instagram-on-vous-dit-tout",
-      "title": "Acheter des followers Instagram : on vous dit tout",
-      "excerpt": "Analyse complète des avantages, risques et meilleures pratiques pour acheter des followers Instagram sans sacrifier votre crédibilité ni votre engagement.",
-      "author": "moundir-rohmat",
-      "category": "Instagram",
-      "tags": ["Instagram", "Followers", "Achat followers", "Stratégie réseaux sociaux", "Crédibilité"],
-      "date": "2025-11-08",
-      "readTime": 11,
-      "featured": true,
-      "published": true,
-      "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=400&fit=crop",
-      "views": 0,
-      "likes": 0
-    },
-    {
-      "id": "followers-instagram-combien-faut-il-pour-etre-credible",
-      "slug": "followers-instagram-combien-faut-il-pour-etre-credible",
-      "title": "Followers Instagram : combien faut-il pour être crédible ?",
-      "excerpt": "Découvrez les paliers clés de followers Instagram pour inspirer confiance et les actions à mener pour que votre audience reste authentique et engagée.",
-      "author": "moundir-rohmat",
-      "category": "Instagram",
-      "tags": ["Instagram", "Followers", "Crédibilité", "Marketing d'influence", "Preuve sociale"],
-      "date": "2025-11-07",
-      "readTime": 9,
-      "featured": true,
-      "published": true,
-      "image": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800&h=400&fit=crop",
-      "views": 0,
-      "likes": 0
+      "likes": 0,
+      "seoTitle": "Comment avoir plus de followers Instagram : Guide Complet 2025 | Doctor Followers",
+      "seoDescription": "Découvrez comment avoir plus de followers Instagram en 2025. Stratégies éprouvées, techniques d'engagement et méthodes pour développer votre audience organiquement. Guide expert avec 15+ conseils pratiques.",
+      "focusKeyword": "comment avoir plus de followers instagram"
     },
     {
       "id": "followers-reels-vs-bots",
@@ -104,7 +75,7 @@
       "author": "moundir-rohmat",
       "category": "Instagram",
       "tags": ["Instagram", "Algorithme", "Reels", "Recommandations", "Stratégie", "2025"],
-      "date": "2025-01-28",
+      "date": "2025-10-20",
       "readTime": 8,
       "featured": true,
       "published": true,
@@ -193,8 +164,8 @@
       "likes": 92
     }
   ],
-  "lastUpdated": "2025-11-09",
-  "totalArticles": 12,
+  "lastUpdated": "2025-12-04",
+  "totalArticles": 10,
   "categories": [
     {
       "id": "instagram",
@@ -203,7 +174,7 @@
       "description": "Conseils et stratégies pour Instagram",
       "color": "#E4405F",
       "icon": "instagram",
-      "articleCount": 9
+      "articleCount": 7
     },
     {
       "id": "tiktok",
@@ -262,7 +233,7 @@
         "twitter": "@moundir_rohmat",
         "linkedin": "moundir-rohmat"
       },
-      "articleCount": 9
+      "articleCount": 7
     },
     {
       "id": "equipe-ia-innovation",
@@ -278,8 +249,8 @@
     }
   ],
   "stats": {
-    "totalArticles": 12,
-    "publishedArticles": 12,
+    "totalArticles": 10,
+    "publishedArticles": 10,
     "draftArticles": 0,
     "totalViews": 6790,
     "totalLikes": 275,

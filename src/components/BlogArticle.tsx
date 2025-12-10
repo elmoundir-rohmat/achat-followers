@@ -1,5 +1,6 @@
 import { ArrowLeft, Calendar, User, Clock, Tag, Users, ArrowRight } from 'lucide-react';
-import { BlogService, BlogPost } from '../lib/blog';
+import { BlogPost } from '../lib/blog';
+import { BlogServiceSanity } from '../lib/blog/blogServiceSanity';
 import { parseMarkdownToHTML, generateTableOfContents } from '../utils/markdownParser';
 import { useEffect, useState } from 'react';
 
@@ -24,9 +25,9 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
     const loadArticle = async () => {
       try {
         setLoading(true);
-        // Forcer le rechargement du cache
-        await BlogService.forceReloadMetadata();
-        const article = await BlogService.getArticle(slug);
+        // Charger l'article depuis Sanity
+        await BlogServiceSanity.forceReloadMetadata();
+        const article = await BlogServiceSanity.getArticle(slug);
         console.log('Article chargé:', article);
         setPost(article);
       } catch (error) {

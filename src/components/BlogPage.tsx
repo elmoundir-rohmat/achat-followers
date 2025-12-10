@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, Calendar, User, ArrowRight, Clock } from 'lucide-react';
-import { BlogService, BlogMetadata } from '../lib/blog';
+import { BlogMetadata } from '../lib/blog';
+import { BlogServiceSanity } from '../lib/blog/blogServiceSanity';
 
 interface BlogPageProps {
   onNavigate?: (page: string) => void;
@@ -19,9 +20,9 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
     const loadPosts = async () => {
       try {
         setLoading(true);
-        // Forcer le rechargement des métadonnées pour le développement
-        await BlogService.forceReloadMetadata();
-        const response = await BlogService.getArticlesList();
+        // Charger les articles depuis Sanity
+        await BlogServiceSanity.forceReloadMetadata();
+        const response = await BlogServiceSanity.getArticlesList();
         console.log('Réponse BlogService:', response);
         console.log('Articles dans la réponse:', response.posts.length);
         console.log('Premier article:', response.posts[0]?.title);
@@ -41,7 +42,7 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const response = await BlogService.getArticlesList();
+        const response = await BlogServiceSanity.getArticlesList();
         const uniqueCategories = [...new Set(response.posts.map(post => post.category))];
         setCategories(uniqueCategories);
       } catch (error) {

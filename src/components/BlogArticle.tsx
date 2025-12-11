@@ -28,11 +28,9 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
         // Charger l'article depuis Sanity
         await BlogServiceSanity.forceReloadMetadata();
         const article = await BlogServiceSanity.getArticle(slug);
-        console.log('Article chargé:', article);
         setPost(article);
       } catch (error) {
         console.error('Error loading article:', error);
-        console.error('Slug:', slug);
       } finally {
         setLoading(false);
       }

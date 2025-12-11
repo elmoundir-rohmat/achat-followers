@@ -28,16 +28,6 @@ const blogPostsQuery = `*[_type == "blogPost" && !(_id in path("drafts.**")) && 
   content
 }`
 
-// Requête de test pour voir tous les articles (même non publiés et drafts)
-const testQuery = `*[_type == "blogPost"] {
-  _id,
-  title,
-  published,
-  "author": author->name,
-  "category": category->name,
-  "isDraft": _id in path("drafts.**")
-}`
-
 // Requête GROQ pour un article spécifique
 // Exclut les drafts et vérifie le champ published
 const blogPostBySlugQuery = `*[_type == "blogPost" && !(_id in path("drafts.**")) && slug.current == $slug && published == true][0] {
@@ -118,12 +108,11 @@ function transformSanityPostToBlogPost(sanityPost: any): BlogPost {
 function transformToBlogMetadata(sanityPost: any): BlogMetadata {
   const slug = sanityPost.slug?.current || sanityPost.slug || ''
   
-  // Debug pour voir ce qui est reçu
+  // Validation du slug
   if (!slug) {
-    console.warn('⚠️ Article sans slug:', {
+    console.warn('Article sans slug:', {
       _id: sanityPost._id,
-      title: sanityPost.title,
-      slug: sanityPost.slug
+      title: sanityPost.title
     })
   }
   
@@ -180,38 +169,7 @@ export class SanityService {
    */
   static async getBlogMetadata(): Promise<BlogMetadata[]> {
     try {
-      // Test : récupérer tous les articles pour voir ce qui existe
-      const allPosts = await client.fetch(testQuery)
-      console.log('🔍 Tous les articles dans Sanity:', allPosts)
-      console.log('🔍 Nombre d\'articles:', allPosts.length)
-      console.log('🔍 Dataset utilisé:', client.config().dataset)
-      
-      // Maintenant récupérer seulement les publiés
       const posts = await client.fetch(blogPostsQuery)
-      console.log('✅ Articles publiés récupérés:', posts)
-      console.log('✅ Nombre d\'articles publiés:', posts.length)
-      
-      // Debug détaillé
-      if (posts.length > 0) {
-        console.log('📄 Détails du premier article:', {
-          title: posts[0].title,
-          published: posts[0].published,
-          author: posts[0].author,
-          category: posts[0].category,
-          slug: posts[0].slug
-        })
-      }
-      
-      if (posts.length === 0 && allPosts.length > 0) {
-        console.warn('⚠️ Des articles existent mais ne sont pas publiés. Vérifiez la case "Publié" dans Sanity Studio.')
-        console.log('🔍 Détails de l\'article non publié:', {
-          title: allPosts[0].title,
-          published: allPosts[0].published,
-          author: allPosts[0].author,
-          category: allPosts[0].category
-        })
-      }
-      
       return posts.map(transformToBlogMetadata)
     } catch (error) {
       console.error('Erreur lors de la récupération des métadonnées:', error)

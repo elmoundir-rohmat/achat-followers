@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Instagram, Heart, MessageCircle, Eye, Users, Zap, Shield, Clock, ArrowRight, Star, CheckCircle, TrendingUp, Award, Globe, Smartphone, ChevronDown, Bot, Target, Lock, Users2, ThumbsUp, Sparkles, Crown, Headphones } from 'lucide-react';
 import { smmaService, SMMAOrder } from '../services/smmaService';
 import { smmaServiceClient } from '../services/smmaServiceClient';
+import { PageService, HomePageData } from '../services/pageService';
 
 interface Service {
   id: string;
@@ -29,6 +30,151 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [smmaResults, setSmmaResults] = useState<any>(null);
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
+  const [homePageData, setHomePageData] = useState<HomePageData | null>(null);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    PageService.getHomePage().then(setHomePageData);
+  }, []);
+
+  // Mettre à jour les métadonnées SEO
+  useEffect(() => {
+    if (homePageData?.seo) {
+      // Titre de la page
+      if (homePageData.seo.metaTitle) {
+        document.title = homePageData.seo.metaTitle;
+      }
+
+      // Meta description
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (homePageData.seo.metaDescription) {
+        if (metaDescription) {
+          metaDescription.setAttribute('content', homePageData.seo.metaDescription);
+        } else {
+          const meta = document.createElement('meta');
+          meta.name = 'description';
+          meta.content = homePageData.seo.metaDescription;
+          document.head.appendChild(meta);
+        }
+      }
+
+      // Keywords
+      if (homePageData.seo.keywords && homePageData.seo.keywords.length > 0) {
+        let metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute('content', homePageData.seo.keywords.join(', '));
+        } else {
+          const meta = document.createElement('meta');
+          meta.name = 'keywords';
+          meta.content = homePageData.seo.keywords.join(', ');
+          document.head.appendChild(meta);
+        }
+      }
+
+      // Canonical URL
+      if (homePageData.seo.canonicalUrl) {
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+          canonical.setAttribute('href', homePageData.seo.canonicalUrl);
+        } else {
+          const link = document.createElement('link');
+          link.rel = 'canonical';
+          link.href = homePageData.seo.canonicalUrl;
+          document.head.appendChild(link);
+        }
+      }
+
+      // Open Graph
+      if (homePageData.openGraph) {
+        if (homePageData.openGraph.title) {
+          let ogTitle = document.querySelector('meta[property="og:title"]');
+          if (ogTitle) {
+            ogTitle.setAttribute('content', homePageData.openGraph.title);
+          } else {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'og:title');
+            meta.content = homePageData.openGraph.title;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (homePageData.openGraph.description) {
+          let ogDesc = document.querySelector('meta[property="og:description"]');
+          if (ogDesc) {
+            ogDesc.setAttribute('content', homePageData.openGraph.description);
+          } else {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'og:description');
+            meta.content = homePageData.openGraph.description;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (homePageData.openGraph.image?.url) {
+          let ogImage = document.querySelector('meta[property="og:image"]');
+          if (ogImage) {
+            ogImage.setAttribute('content', homePageData.openGraph.image.url);
+          } else {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'og:image');
+            meta.content = homePageData.openGraph.image.url;
+            document.head.appendChild(meta);
+          }
+        }
+      }
+
+      // Twitter Card
+      if (homePageData.twitter) {
+        if (homePageData.twitter.card) {
+          let twitterCard = document.querySelector('meta[name="twitter:card"]');
+          if (twitterCard) {
+            twitterCard.setAttribute('content', homePageData.twitter.card);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:card';
+            meta.content = homePageData.twitter.card;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (homePageData.twitter.title) {
+          let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+          if (twitterTitle) {
+            twitterTitle.setAttribute('content', homePageData.twitter.title);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:title';
+            meta.content = homePageData.twitter.title;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (homePageData.twitter.description) {
+          let twitterDesc = document.querySelector('meta[name="twitter:description"]');
+          if (twitterDesc) {
+            twitterDesc.setAttribute('content', homePageData.twitter.description);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:description';
+            meta.content = homePageData.twitter.description;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (homePageData.twitter.image?.url) {
+          let twitterImage = document.querySelector('meta[name="twitter:image"]');
+          if (twitterImage) {
+            twitterImage.setAttribute('content', homePageData.twitter.image.url);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:image';
+            meta.content = homePageData.twitter.image.url;
+            document.head.appendChild(meta);
+          }
+        }
+      }
+    }
+  }, [homePageData]);
 
   // Vérifier si on est sur une page de paiement
   useEffect(() => {
@@ -142,7 +288,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   };
 
 
-  const faqs = [
+  // FAQ par défaut (fallback si Sanity n'a pas de données)
+  const defaultFaqs = [
     {
       question: "Les followers sont-ils réels ?",
       answer: "Oui, tous nos followers sont des comptes réels et actifs. Nous ne vendons jamais de bots ou de comptes inactifs."
@@ -164,6 +311,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       answer: "Absolument ! Vous pouvez choisir entre des followers français ou internationaux selon vos besoins."
     }
   ];
+
+  // Utiliser les FAQ de Sanity si disponibles, sinon les valeurs par défaut
+  const faqs = homePageData?.faq?.questions || defaultFaqs;
 
   const platformServices: PlatformServices[] = [
     {
@@ -286,12 +436,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </div>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-slate-800 mb-6 leading-tight">
-                Achat followers Instagram & TikTok
-                <span className="block text-slate-600 mt-2">simples, rapides et 100% réels.</span>
+                {homePageData?.hero?.title || "Achat followers Instagram & TikTok"}
+                <span className="block text-slate-600 mt-2">{homePageData?.hero?.subtitle || "simples, rapides et 100% réels."}</span>
               </h1>
               <p className="text-base sm:text-lg text-slate-600 mb-10 max-w-xl leading-relaxed">
-                Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer
-                votre audience en revenus, sans design chargé ni parcours compliqué.
+                {homePageData?.hero?.description || "Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer votre audience en revenus, sans design chargé ni parcours compliqué."}
             </p>
             
             {/* CTA Buttons */}
@@ -314,7 +463,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {features.map((feature, index) => (
+              {(homePageData?.benefits?.items || features).map((feature, index) => (
                   <div
                     key={index}
                     className="flex items-start gap-4 rounded-card-sm border border-soft-pink-100 bg-white/60 backdrop-blur-sm px-5 py-4 shadow-soft hover:shadow-soft-lg transition-all duration-300"
@@ -379,7 +528,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14">
             <div>
               <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-            Nos services
+            {homePageData?.services?.title || "Nos services"}
           </h2>
               <p className="text-base text-slate-600 max-w-md leading-relaxed">
             Choisissez votre plateforme et boostez votre présence avec des followers réels et actifs.
@@ -438,7 +587,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <Bot className="w-7 h-7 text-soft-pink-500" strokeWidth={1.5} />
           </div>
             <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-            Pourquoi acheter des followers Instagram actifs ?
+            {homePageData?.sectionTitles?.whyBuy || "Pourquoi acheter des followers Instagram actifs ?"}
           </h2>
         </div>
         
@@ -510,7 +659,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <Target className="w-7 h-7 text-lavender-500" strokeWidth={1.5} />
           </div>
             <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-            Comment fonctionne notre service d'achat de followers Instagram actifs
+            {homePageData?.sectionTitles?.howItWorks || "Comment fonctionne notre service d'achat de followers Instagram actifs"}
           </h2>
         </div>
         
@@ -590,7 +739,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <Sparkles className="w-7 h-7 text-baby-purple-500" strokeWidth={1.5} />
           </div>
             <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-            Les avantages d'un achat de followers Instagram actifs et réels
+            {homePageData?.sectionTitles?.advantages || "Les avantages d'un achat de followers Instagram actifs et réels"}
           </h2>
         </div>
         
@@ -646,7 +795,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <Award className="w-7 h-7 text-soft-orange-500" strokeWidth={1.5} />
           </div>
             <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-            Pourquoi choisir Doctor Followers pour vos followers Instagram
+            {homePageData?.sectionTitles?.whyChoose || "Pourquoi choisir Doctor Followers pour vos followers Instagram"}
           </h2>
         </div>
         
@@ -709,8 +858,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <div className="bg-gradient-to-b from-white to-cream">
         <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-              Questions fréquentes
+              <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
+              {homePageData?.sectionTitles?.faq || "Questions fréquentes"}
           </h2>
             <p className="text-base text-slate-600">
               Tout ce que vous devez savoir sur nos services.

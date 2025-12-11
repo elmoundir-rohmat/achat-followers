@@ -4,6 +4,15 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title('Contenu')
     .items([
+      // Page d'accueil
+      S.listItem()
+        .title('Page d\'Accueil')
+        .child(
+          S.document()
+            .schemaType('homePage')
+            .documentId('homePage')
+        ),
+      
       // Articles de blog
       S.listItem()
         .title('Articles de Blog')
@@ -51,7 +60,7 @@ export const structure = (S: StructureBuilder) =>
       // Tous les documents
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['blogPost', 'page', 'author', 'category', 'tag'].includes(
+          !['blogPost', 'page', 'homePage', 'author', 'category', 'tag'].includes(
             listItem.getId()!
           )
       ),

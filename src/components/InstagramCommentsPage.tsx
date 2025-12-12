@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { MessageCircle, Instagram, Star, Shield, Clock, CheckCircle, TrendingUp, Users2, Zap, MessageSquare } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
@@ -10,6 +10,7 @@ import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
+import { PageService, InstagramCommentsPageData } from '../services/pageService';
 
 export default function InstagramCommentsPage({ onBack }: { onBack: () => void }) {
   const [followerType, setFollowerType] = useState('french');
@@ -20,6 +21,159 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
   const [selectedPosts, setSelectedPosts] = useState<InstagramPost[]>([]);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, addToCartWithPosts, updateLastItemUsername, updateLastItemPosts, updateLastItemPrice, items, setItems, saveCartToStorage } = useCart();
+  const [pageData, setPageData] = useState<InstagramCommentsPageData | null>(null);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    PageService.getInstagramCommentsPage()
+      .then((data) => {
+        console.log('📦 Instagram Comments - pageData reçu dans le composant:', data)
+        console.log('📦 Instagram Comments - pageData.hero:', data?.hero)
+        setPageData(data)
+      })
+      .catch((error) => {
+        console.error('❌ Erreur chargement Instagram Comments:', error)
+      })
+  }, []);
+
+  // Mettre à jour les métadonnées SEO
+  useEffect(() => {
+    if (pageData?.seo) {
+      // Titre de la page
+      if (pageData.seo.metaTitle) {
+        document.title = pageData.seo.metaTitle;
+      }
+
+      // Meta description
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (pageData.seo.metaDescription) {
+        if (metaDescription) {
+          metaDescription.setAttribute('content', pageData.seo.metaDescription);
+        } else {
+          const meta = document.createElement('meta');
+          meta.name = 'description';
+          meta.content = pageData.seo.metaDescription;
+          document.head.appendChild(meta);
+        }
+      }
+
+      // Keywords
+      if (pageData.seo.keywords && pageData.seo.keywords.length > 0) {
+        let metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute('content', pageData.seo.keywords.join(', '));
+        } else {
+          const meta = document.createElement('meta');
+          meta.name = 'keywords';
+          meta.content = pageData.seo.keywords.join(', ');
+          document.head.appendChild(meta);
+        }
+      }
+
+      // Canonical URL
+      if (pageData.seo.canonicalUrl) {
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+          canonical.setAttribute('href', pageData.seo.canonicalUrl);
+        } else {
+          const link = document.createElement('link');
+          link.rel = 'canonical';
+          link.href = pageData.seo.canonicalUrl;
+          document.head.appendChild(link);
+        }
+      }
+
+      // Open Graph
+      if (pageData.openGraph) {
+        if (pageData.openGraph.title) {
+          let ogTitle = document.querySelector('meta[property="og:title"]');
+          if (ogTitle) {
+            ogTitle.setAttribute('content', pageData.openGraph.title);
+          } else {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'og:title');
+            meta.content = pageData.openGraph.title;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (pageData.openGraph.description) {
+          let ogDesc = document.querySelector('meta[property="og:description"]');
+          if (ogDesc) {
+            ogDesc.setAttribute('content', pageData.openGraph.description);
+          } else {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'og:description');
+            meta.content = pageData.openGraph.description;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (pageData.openGraph.image?.url) {
+          let ogImage = document.querySelector('meta[property="og:image"]');
+          if (ogImage) {
+            ogImage.setAttribute('content', pageData.openGraph.image.url);
+          } else {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'og:image');
+            meta.content = pageData.openGraph.image.url;
+            document.head.appendChild(meta);
+          }
+        }
+      }
+
+      // Twitter Card
+      if (pageData.twitter) {
+        if (pageData.twitter.card) {
+          let twitterCard = document.querySelector('meta[name="twitter:card"]');
+          if (twitterCard) {
+            twitterCard.setAttribute('content', pageData.twitter.card);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:card';
+            meta.content = pageData.twitter.card;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (pageData.twitter.title) {
+          let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+          if (twitterTitle) {
+            twitterTitle.setAttribute('content', pageData.twitter.title);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:title';
+            meta.content = pageData.twitter.title;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (pageData.twitter.description) {
+          let twitterDesc = document.querySelector('meta[name="twitter:description"]');
+          if (twitterDesc) {
+            twitterDesc.setAttribute('content', pageData.twitter.description);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:description';
+            meta.content = pageData.twitter.description;
+            document.head.appendChild(meta);
+          }
+        }
+
+        if (pageData.twitter.image?.url) {
+          let twitterImage = document.querySelector('meta[name="twitter:image"]');
+          if (twitterImage) {
+            twitterImage.setAttribute('content', pageData.twitter.image.url);
+          } else {
+            const meta = document.createElement('meta');
+            meta.name = 'twitter:image';
+            meta.content = pageData.twitter.image.url;
+            document.head.appendChild(meta);
+          }
+        }
+      }
+    }
+  }, [pageData]);
 
   const getPackagePriceLocal = useCallback((packageId: string) => {
     return getPackagePrice(packageId, 'comments', followerType as 'french' | 'international');
@@ -115,11 +269,19 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
                 <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                  Commentaires Instagram
+                  {(() => {
+                    const title = pageData?.hero?.title;
+                    console.log('🎨 RENDU - Hero Title affiché:', title || 'FALLBACK');
+                    return title || "Commentaires Instagram";
+                  })()}
                 </h1>
               </div>
               <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                Des commentaires authentiques et personnalisés pour booster l'engagement de vos posts
+                {(() => {
+                  const desc = pageData?.hero?.description;
+                  console.log('🎨 RENDU - Hero Description affichée:', desc || 'FALLBACK');
+                  return desc || "Des commentaires authentiques et personnalisés pour booster l'engagement de vos posts";
+                })()}
               </p>
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
@@ -272,7 +434,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
         {/* Testimonials Section */}
         <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">Avis des clients</h2>
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">{pageData?.sectionTitles?.testimonials || "Avis des clients"}</h2>
             <div className="flex items-center justify-center gap-3">
               <span className="text-3xl font-semibold bg-gradient-to-r from-soft-pink-500 to-lavender-500 bg-clip-text text-transparent">4.9</span>
               <div className="flex gap-1">
@@ -309,7 +471,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
         {/* Security & Guarantees Section */}
         <div className="bg-gradient-to-br from-lavender-50/50 via-soft-pink-50/50 to-peach-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-12">
-            Acheter des commentaires Instagram en toute sécurité avec Doctor Followers
+            {pageData?.sectionTitles?.security || "Acheter des commentaires Instagram en toute sécurité avec Doctor Followers"}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -354,73 +516,65 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
         {/* Why Buy Comments Section */}
         <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">
-            Pourquoi acheter des commentaires Instagram en 2025?
+            {pageData?.sectionTitles?.whyBuy || "Pourquoi acheter des commentaires Instagram en 2025?"}
           </h2>
 
           <div className="space-y-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Instagram Post with High Comments and Engagement" 
-                  className="rounded-card shadow-soft-xl"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Augmenter votre engagement</h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  Sur Instagram, les commentaires sont l'indicateur le plus fort d'engagement. Plus vos posts reçoivent de commentaires, 
-                  plus l'algorithme les met en avant. Que vous soyez créateur de contenu,
-                  entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. 
-                  <strong className="text-soft-pink-600">Acheter des commentaires Instagram</strong> permet de booster votre engagement. 
-                  Un post avec beaucoup de commentaires inspire confiance et attire naturellement plus d'interactions... 
-                  et suscite plus d'intérêt de la part de l'algorithme.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Améliorer votre portée organique</h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. 
-                  Plus vos posts reçoivent de commentaires dans les premières heures, plus ils sont susceptibles 
-                  d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs...
-                  <strong className="text-soft-pink-600">En achetant des commentaires Instagram français</strong>, 
-                  vous renforcez votre portée organique.
-                  Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
-                  vertueux que vous pouvez activer avec des commentaires de qualité.
-                </p>
-              </div>
-              <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Instagram Analytics Dashboard showing Reach and Comments" 
-                  className="rounded-card shadow-soft-xl"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Instagram Business Profile with High Comment Engagement" 
-                  className="rounded-card shadow-soft-xl"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Construire votre crédibilité</h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  <strong className="text-lavender-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
-                  Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique
-                  et durable. Chaque commentaire livré provient d'un utilisateur réel, susceptible d'interagir
-                  naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
-                  L'objectif n'est pas juste d'avoir plus de commentaires, mais de <strong className="text-lavender-600">créer une preuve sociale
-                  forte</strong> qui attire de vrais fans et clients.
-                </p>
-              </div>
-            </div>
+            {(pageData?.whyBuySection?.items || [
+              {
+                title: "Augmenter votre engagement",
+                description: "Sur Instagram, les commentaires sont l'indicateur le plus fort d'engagement. Plus vos posts reçoivent de commentaires, plus l'algorithme les met en avant. Que vous soyez créateur de contenu, entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. Acheter des commentaires Instagram permet de booster votre engagement. Un post avec beaucoup de commentaires inspire confiance et attire naturellement plus d'interactions... et suscite plus d'intérêt de la part de l'algorithme."
+              },
+              {
+                title: "Améliorer votre portée organique",
+                description: "L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. Plus vos posts reçoivent de commentaires dans les premières heures, plus ils sont susceptibles d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs... En achetant des commentaires Instagram français, vous renforcez votre portée organique. Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle vertueux que vous pouvez activer avec des commentaires de qualité."
+              },
+              {
+                title: "Construire votre crédibilité",
+                description: "Construire votre crédibilité ne doit pas se limiter à gonfler vos chiffres. Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique et durable. Chaque commentaire livré provient d'un utilisateur réel, susceptible d'interagir naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles. L'objectif n'est pas juste d'avoir plus de commentaires, mais de créer une preuve sociale forte qui attire de vrais fans et clients."
+              }
+            ]).map((item, index) => {
+              const isEven = index % 2 === 0;
+              const images = [
+                "https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              ];
+              
+              return (
+                <div key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${!isEven ? 'lg:grid-flow-dense' : ''}`}>
+                  {isEven ? (
+                    <>
+                      <div>
+                        <img 
+                          src={images[index] || images[0]} 
+                          alt={item.title} 
+                          className="rounded-card shadow-soft-xl"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">{item.title}</h3>
+                        <p className="text-base md:text-lg text-slate-600 leading-relaxed">{item.description}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">{item.title}</h3>
+                        <p className="text-base md:text-lg text-slate-600 leading-relaxed">{item.description}</p>
+                      </div>
+                      <div>
+                        <img 
+                          src={images[index] || images[1]} 
+                          alt={item.title} 
+                          className="rounded-card shadow-soft-xl"
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -428,7 +582,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
 
         {/* FAQ Section */}
         <FAQSection 
-          faqs={[
+          faqs={pageData?.faq?.questions || [
             {
               question: "Combien de temps faut-il pour recevoir mes commentaires ?",
               answer: "Dès que votre paiement est confirmé, la livraison des commentaires débute rapidement. En général, vous recevez vos commentaires dans un délai de 1 à 12 heures. Si vous optez pour l'option express, votre commande est traitée en moins de 2 heures. Il est également possible de choisir une livraison progressive, répartie sur plusieurs heures, pour un engagement plus naturel et durable de vos posts Instagram."

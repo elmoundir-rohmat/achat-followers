@@ -13,6 +13,15 @@ export const structure = (S: StructureBuilder) =>
             .documentId('homePage')
         ),
       
+      // Page Instagram Commentaires
+      S.listItem()
+        .title('Page Instagram Commentaires')
+        .child(
+          S.document()
+            .schemaType('instagramCommentsPage')
+            .documentId('instagramCommentsPage')
+        ),
+      
       // Articles de blog
       S.listItem()
         .title('Articles de Blog')
@@ -60,7 +69,7 @@ export const structure = (S: StructureBuilder) =>
       // Tous les documents
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['blogPost', 'page', 'homePage', 'author', 'category', 'tag'].includes(
+          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'author', 'category', 'tag'].includes(
             listItem.getId()!
           )
       ),

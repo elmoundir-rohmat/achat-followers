@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Eye, Instagram, Star, Shield, Clock, CheckCircle, TrendingUp, Users2, Zap, Play } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
@@ -10,6 +10,8 @@ import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
+import { PageService, InstagramViewsPageData } from '../services/pageService';
+import { updateSEOMetadata } from '../utils/seoMetadata';
 
 export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
   const [followerType, setFollowerType] = useState('french');
@@ -20,6 +22,17 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
   const [selectedPosts, setSelectedPosts] = useState<InstagramPost[]>([]);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername, updateLastItemPosts, updateLastItemPrice } = useCart();
+  const [pageData, setPageData] = useState<InstagramViewsPageData | null>(null);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    PageService.getInstagramViewsPage().then(setPageData);
+  }, []);
+
+  // Mettre à jour les métadonnées SEO
+  useEffect(() => {
+    updateSEOMetadata(pageData);
+  }, [pageData]);
 
   const getPackagePriceLocal = useCallback((packageId: string) => {
     return getPackagePrice(packageId, 'views', followerType as 'french' | 'international');
@@ -115,11 +128,11 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
                 <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                  Vues Instagram
+                  {pageData?.hero?.title || "Vues Instagram"}
                 </h1>
               </div>
               <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                Boostez vos reels avec des vues authentiques pour maximiser votre portée
+                {pageData?.hero?.description || "Boostez vos reels avec des vues authentiques pour maximiser votre portée"}
               </p>
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
@@ -272,7 +285,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
         {/* Testimonials Section */}
         <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">Avis des clients</h2>
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">{pageData?.sectionTitles?.testimonials || "Avis des clients"}</h2>
             <div className="flex items-center justify-center gap-3">
               <span className="text-3xl font-semibold bg-gradient-to-r from-soft-pink-500 to-lavender-500 bg-clip-text text-transparent">4.9</span>
               <div className="flex gap-1">
@@ -309,7 +322,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
         {/* Security & Guarantees Section */}
         <div className="bg-gradient-to-br from-lavender-50/50 via-soft-pink-50/50 to-peach-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-12">
-            Acheter des vues Instagram en toute sécurité avec Doctor Followers
+            {pageData?.sectionTitles?.security || "Acheter des vues Instagram en toute sécurité avec Doctor Followers"}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -354,7 +367,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
         {/* Why Buy Views Section */}
         <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">
-            Pourquoi acheter des vues Instagram en 2025?
+            {pageData?.sectionTitles?.whyBuy || "Pourquoi acheter des vues Instagram en 2025?"}
           </h2>
 
           <div className="space-y-16">
@@ -427,7 +440,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
 
         {/* FAQ Section */}
         <FAQSection 
-          faqs={[
+          faqs={pageData?.faq?.questions || [
             {
               question: "Combien de temps faut-il pour recevoir mes vues ?",
               answer: "Dès que votre paiement est confirmé, la livraison des vues débute rapidement. En général, vous recevez vos vues dans un délai de 1 à 12 heures. Si vous optez pour l'option express, votre commande est traitée en moins de 2 heures. Il est également possible de choisir une livraison progressive, répartie sur plusieurs heures, pour un engagement plus naturel et durable de vos reels Instagram."

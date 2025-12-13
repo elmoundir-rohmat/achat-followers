@@ -16,6 +16,153 @@ const homePageQuery = `*[_type == "homePage" && published == true][0] {
   published
 }`
 
+// Requête GROQ pour récupérer la page Instagram Followers
+const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
+// Requête GROQ pour récupérer la page Instagram Likes
+const instagramLikesPageQuery = `*[_type == "instagramLikesPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
+// Requête GROQ pour récupérer la page Instagram Views
+const instagramViewsPageQuery = `*[_type == "instagramViewsPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
 // Requête GROQ pour récupérer la page Instagram Commentaires
 const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
@@ -263,6 +410,72 @@ export class PageService {
       return data
     } catch (error) {
       console.error('❌ Erreur lors de la récupération de la page Instagram Commentaires:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page Instagram Followers
+   */
+  static async getInstagramFollowersPage(): Promise<InstagramFollowersPageData | null> {
+    try {
+      const data = await client.fetch(instagramFollowersPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page Instagram Followers:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page Instagram Likes
+   */
+  static async getInstagramLikesPage(): Promise<InstagramLikesPageData | null> {
+    try {
+      const data = await client.fetch(instagramLikesPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page Instagram Likes:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page Instagram Views
+   */
+  static async getInstagramViewsPage(): Promise<InstagramViewsPageData | null> {
+    try {
+      const data = await client.fetch(instagramViewsPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page Instagram Views:', error)
       return null
     }
   }

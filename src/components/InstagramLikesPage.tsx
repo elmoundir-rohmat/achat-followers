@@ -10,6 +10,8 @@ import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
+import { PageService, InstagramLikesPageData } from '../services/pageService';
+import { updateSEOMetadata } from '../utils/seoMetadata';
 
 // FAQ data pour le Schema.org
 const faqData = [
@@ -72,6 +74,17 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
   const [selectedPosts, setSelectedPosts] = useState<InstagramPost[]>([]);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername, updateLastItemPosts } = useCart();
+  const [pageData, setPageData] = useState<InstagramLikesPageData | null>(null);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    PageService.getInstagramLikesPage().then(setPageData);
+  }, []);
+
+  // Mettre à jour les métadonnées SEO
+  useEffect(() => {
+    updateSEOMetadata(pageData);
+  }, [pageData]);
 
   // Fonction pour naviguer vers d'autres pages Instagram
   const navigateToInstagramService = (service: 'followers' | 'views' | 'comments') => {
@@ -83,8 +96,9 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
     window.location.href = urls[service];
   };
 
-  // Ajouter le Schema FAQPage dynamique pour le SEO
+  // Ajouter le Schema FAQPage dynamique pour le SEO (utilise les FAQ de Sanity si disponibles)
   useEffect(() => {
+    const faqsToUse = pageData?.faq?.questions || faqData;
     const schemaScript = document.createElement('script');
     schemaScript.type = 'application/ld+json';
     schemaScript.id = 'faq-schema-instagram-likes';
@@ -92,7 +106,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
     const schemaData = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": faqData.map(faq => ({
+      "mainEntity": faqsToUse.map((faq: any) => ({
         "@type": "Question",
         "name": faq.question,
         "acceptedAnswer": {
@@ -104,7 +118,6 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
     
     schemaScript.textContent = JSON.stringify(schemaData);
     
-    // Supprimer l'ancien schema s'il existe
     const existingScript = document.getElementById('faq-schema-instagram-likes');
     if (existingScript) {
       existingScript.remove();
@@ -112,14 +125,13 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
     
     document.head.appendChild(schemaScript);
     
-    // Cleanup
     return () => {
       const script = document.getElementById('faq-schema-instagram-likes');
       if (script) {
         script.remove();
       }
     };
-  }, []);
+  }, [pageData]);
 
   const getPackagePriceLocal = (packageId: string) => {
     const price = getPackagePrice(packageId, 'likes', followerType as 'french' | 'international');
@@ -224,11 +236,11 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
                 <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                  Acheter des Likes Instagram Réels et Actifs
+                  {pageData?.hero?.title || "Acheter des Likes Instagram Réels et Actifs"}
                 </h1>
               </div>
               <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                Des likes réels et authentiques pour augmenter l'engagement de vos posts
+                {pageData?.hero?.description || "Des likes réels et authentiques pour augmenter l'engagement de vos posts"}
               </p>
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
@@ -381,7 +393,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
         {/* Testimonials Section */}
         <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">Avis des clients</h2>
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">{pageData?.sectionTitles?.testimonials || "Avis des clients"}</h2>
             <div className="flex items-center justify-center gap-3">
               <span className="text-3xl font-semibold bg-gradient-to-r from-soft-pink-500 to-lavender-500 bg-clip-text text-transparent">4.8</span>
               <div className="flex gap-1">
@@ -418,7 +430,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
         {/* Security & Guarantees Section */}
         <div className="bg-gradient-to-br from-soft-pink-50/50 via-peach-50/50 to-lavender-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-12">
-            Acheter des likes Instagram en toute sécurité avec Doctor Followers
+            {pageData?.sectionTitles?.security || "Acheter des likes Instagram en toute sécurité avec Doctor Followers"}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -463,7 +475,7 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
         {/* Why Buy Likes Section */}
         <div className="mb-20">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">
-            Pourquoi acheter des likes Instagram en 2025?
+            {pageData?.sectionTitles?.whyBuy || "Pourquoi acheter des likes Instagram en 2025?"}
           </h2>
 
           <div className="space-y-16">
@@ -545,8 +557,8 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
         <GuaranteeSection />
 
         {/* FAQ Section */}
-        <FAQSection 
-          faqs={faqData}
+        <FAQSection
+          faqs={pageData?.faq?.questions || faqData}
         />
       </main>
 

@@ -8,6 +8,8 @@ import CheckoutPage from './CheckoutPage';
 import FAQSection from './FAQSection';
 import { useCart } from '../contexts/CartContext';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
+import { PageService, InstagramFollowersPageData } from '../services/pageService';
+import { updateSEOMetadata } from '../utils/seoMetadata';
 
 // FAQ data pour le Schema.org
 const faqData = [
@@ -92,6 +94,17 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername } = useCart();
+  const [pageData, setPageData] = useState<InstagramFollowersPageData | null>(null);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    PageService.getInstagramFollowersPage().then(setPageData);
+  }, []);
+
+  // Mettre à jour les métadonnées SEO
+  useEffect(() => {
+    updateSEOMetadata(pageData);
+  }, [pageData]);
 
   // Fonction pour naviguer vers d'autres pages Instagram
   const navigateToInstagramService = (service: 'likes' | 'views' | 'comments') => {
@@ -103,8 +116,9 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     window.location.href = urls[service];
   };
 
-  // Ajouter le Schema FAQPage dynamique pour le SEO
+  // Ajouter le Schema FAQPage dynamique pour le SEO (utilise les FAQ de Sanity si disponibles)
   useEffect(() => {
+    const faqsToUse = pageData?.faq?.questions || faqData;
     const schemaScript = document.createElement('script');
     schemaScript.type = 'application/ld+json';
     schemaScript.id = 'faq-schema-instagram-followers';
@@ -112,7 +126,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     const schemaData = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": faqData.map(faq => ({
+      "mainEntity": faqsToUse.map((faq: any) => ({
         "@type": "Question",
         "name": faq.question,
         "acceptedAnswer": {
@@ -124,7 +138,6 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     
     schemaScript.textContent = JSON.stringify(schemaData);
     
-    // Supprimer l'ancien schema s'il existe
     const existingScript = document.getElementById('faq-schema-instagram-followers');
     if (existingScript) {
       existingScript.remove();
@@ -132,14 +145,13 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
     
     document.head.appendChild(schemaScript);
     
-    // Cleanup
     return () => {
       const script = document.getElementById('faq-schema-instagram-followers');
       if (script) {
         script.remove();
       }
     };
-  }, []);
+  }, [pageData]);
 
   const getPackagePriceLocal = (packageId: string) => {
     return getPackagePrice(packageId, 'followers', followerType as 'french' | 'international');
@@ -206,11 +218,11 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
                 <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                  Acheter des Followers Instagram Réels et Actifs
+                  {pageData?.hero?.title || "Acheter des Followers Instagram Réels et Actifs"}
                 </h1>
               </div>
               <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                Acheter des followers Instagram réels et actifs pour faire grandir votre communauté
+                {pageData?.hero?.description || "Acheter des followers Instagram réels et actifs pour faire grandir votre communauté"}
               </p>
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
@@ -362,7 +374,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         {/* Security & Guarantees Section */}
         <div className="bg-gradient-to-br from-lavender-50/50 via-soft-pink-50/50 to-peach-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-12">
-            Renforcez votre crédibilité sur Instagram
+            {pageData?.sectionTitles?.security || "Renforcez votre crédibilité sur Instagram"}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -407,7 +419,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         {/* Why Buy Followers Section */}
         <div className="mb-20">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">
-            Pourquoi acheter des followers Instagram réels et actifs en 2025?
+            {pageData?.sectionTitles?.whyBuy || "Pourquoi acheter des followers Instagram réels et actifs en 2025?"}
           </h2>
 
           <div className="space-y-16">
@@ -489,7 +501,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
 
         {/* FAQ Section */}
         <FAQSection 
-          faqs={faqData}
+          faqs={pageData?.faq?.questions || faqData}
         />
       </main>
 

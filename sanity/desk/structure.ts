@@ -22,6 +22,33 @@ export const structure = (S: StructureBuilder) =>
             .documentId('instagramCommentsPage')
         ),
       
+      // Page Instagram Followers
+      S.listItem()
+        .title('Page Instagram Followers')
+        .child(
+          S.document()
+            .schemaType('instagramFollowersPage')
+            .documentId('instagramFollowersPage')
+        ),
+      
+      // Page Instagram Likes
+      S.listItem()
+        .title('Page Instagram Likes')
+        .child(
+          S.document()
+            .schemaType('instagramLikesPage')
+            .documentId('instagramLikesPage')
+        ),
+      
+      // Page Instagram Views
+      S.listItem()
+        .title('Page Instagram Views')
+        .child(
+          S.document()
+            .schemaType('instagramViewsPage')
+            .documentId('instagramViewsPage')
+        ),
+      
       // Articles de blog
       S.listItem()
         .title('Articles de Blog')
@@ -69,7 +96,7 @@ export const structure = (S: StructureBuilder) =>
       // Tous les documents
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'author', 'category', 'tag'].includes(
+          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'author', 'category', 'tag'].includes(
             listItem.getId()!
           )
       ),

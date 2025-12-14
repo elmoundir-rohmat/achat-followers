@@ -37,6 +37,130 @@ Pourquoi acheter des vues Instagram en 2025?
 
 ---
 
+## Section "Types de Vues" - SEO
+
+### Vues Internationales
+
+**Titre (H3):**
+```
+Vues Internationales
+```
+
+**Descriptions (3 points):**
+1. ```
+Acheter de vraies vues Instagram pour vos reels, sans ciblage particulier, provenant du monde entier.
+```
+
+2. ```
+Les vues que nous vous fournissons proviennent d'utilisateurs actifs et authentiques.
+```
+
+3. ```
+Livraison progressive pour un engagement naturel et durable.
+```
+
+### Vues Instagram Françaises
+
+**Titre (H3):**
+```
+Vues Instagram Françaises
+```
+
+**Descriptions (3 points):**
+1. ```
+Acheter des vues ciblées selon votre région française.
+```
+
+2. ```
+Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité
+```
+
+3. ```
+Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.
+```
+
+---
+
+## Section "Sécurité & Garanties" - SEO
+
+### Service client 24/7
+
+**Titre (H3):**
+```
+Service client 24/7
+```
+
+**Description:**
+```
+Bien que les incidents soient rares, notre Service client est disponible par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande spécifique, nous pouvons également vous contacter par téléphone.
+```
+
+### Politique de remboursement
+
+**Titre (H3):**
+```
+Politique de remboursement
+```
+
+**Description:**
+```
+Notre offre 'Satisfait ou remboursé' est très simple: Satisfait ou remboursé. Dans le cas où la commande ne vous convient pas, nous vous faisons un remboursement dans les 24h.
+```
+
+### Paiements sécurisés
+
+**Titre (H3):**
+```
+Paiements sécurisés
+```
+
+**Description:**
+```
+Vos paiements sont 100% sécurisés grâce à un protocole SSL et des prestataires reconnus -et surtout, nous ne vous demanderons jamais vos identifiants Instagram.
+```
+
+---
+
+## Section "Pourquoi acheter des vues" - SEO
+
+### Maximiser la portée de vos reels
+
+**Titre (H3):**
+```
+Maximiser la portée de vos reels
+```
+
+**Description:**
+```
+Les reels Instagram sont devenus le contenu le plus performant de la plateforme. Plus vos reels reçoivent de vues, plus l'algorithme les met en avant dans l'onglet Explorer et les suggestions. Acheter des vues Instagram permet de donner un coup de pouce initial à vos reels. Un reel avec beaucoup de vues inspire confiance et attire naturellement plus d'engagement... et suscite plus d'intérêt de la part de l'algorithme pour le promouvoir.
+```
+
+### Améliorer votre visibilité organique
+
+**Titre (H3):**
+```
+Améliorer votre visibilité organique
+```
+
+**Description:**
+```
+L'algorithme d'Instagram privilégie les reels qui génèrent de l'engagement rapidement. Plus vos reels reçoivent de vues dans les premières heures, plus ils sont susceptibles d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs... En achetant des vues Instagram françaises, vous renforcez votre portée organique. Plus vos reels engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle vertueux que vous pouvez activer avec des vues de qualité.
+```
+
+### Construire votre crédibilité
+
+**Titre (H3):**
+```
+Construire votre crédibilité
+```
+
+**Description:**
+```
+Construire votre crédibilité ne doit pas se limiter à gonfler vos chiffres. Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique et durable. Chaque vue livrée provient d'un utilisateur réel, susceptible d'interagir naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles. L'objectif n'est pas juste d'avoir plus de vues, mais de créer une preuve sociale forte qui attire de vrais fans et clients.
+```
+
+---
+
 ## Section FAQ - SEO
 
 ### Question 1
@@ -246,10 +370,13 @@ Boostez vos reels Instagram avec des vues réelles. Livraison rapide, garantie 3
 1. **Créer le document** : Allez dans "Page Instagram Views" dans Sanity Studio
 2. **Remplir la Section Hero** : Copiez le titre H1 et la description
 3. **Remplir les Titres des Sections** : Copiez les 3 titres H2
-4. **Remplir la FAQ** : Ajoutez les 12 questions/réponses
-5. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
-6. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
-7. **Cocher "Publié"** et cliquer sur **"Publish"**
+4. **Remplir la Section "Types de Vues"** : Ajoutez les titres et descriptions pour Vues Internationales et Vues Françaises
+5. **Remplir la Section "Sécurité & Garanties"** : Ajoutez les 3 cartes (Service client, Remboursement, Paiements)
+6. **Remplir la Section "Pourquoi acheter"** : Ajoutez les 3 sous-sections avec leurs titres et descriptions
+7. **Remplir la FAQ** : Ajoutez les 12 questions/réponses
+8. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
+9. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
+10. **Cocher "Publié"** et cliquer sur **"Publish"**
 
 ---
 

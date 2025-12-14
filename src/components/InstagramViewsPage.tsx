@@ -7,6 +7,7 @@ import InstagramSearchModal from './InstagramSearchModal';
 import InstagramPostsModal from './InstagramPostsModal';
 // ViewsPage supprimé - utilisation du CheckoutPage unifié
 import FAQSection from './FAQSection';
+import PortableText from './PortableText';
 import { useCart } from '../contexts/CartContext';
 import { InstagramPost } from '../services/instagramService';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
@@ -131,9 +132,15 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
                   {pageData?.hero?.title || "Vues Instagram"}
                 </h1>
               </div>
-              <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                {pageData?.hero?.description || "Boostez vos reels avec des vues authentiques pour maximiser votre portée"}
-              </p>
+              {pageData?.hero?.description ? (
+                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  <PortableText content={pageData.hero.description} />
+                </div>
+              ) : (
+                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  Boostez vos reels avec des vues authentiques pour maximiser votre portée
+                </p>
+              )}
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
                   <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
@@ -240,21 +247,21 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
               <div className="w-14 h-14 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
                 <Eye className="w-7 h-7 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-800">Vues Internationales</h3>
+              <h3 className="text-2xl font-semibold text-slate-800">
+                {pageData?.viewTypes?.international?.title || "Vues Internationales"}
+              </h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Acheter de vraies vues Instagram pour vos reels, sans ciblage particulier, provenant du monde entier.</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Les vues que nous vous fournissons proviennent d'utilisateurs actifs et authentiques.</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Livraison progressive pour un engagement naturel et durable.</p>
-              </div>
+              {(pageData?.viewTypes?.international?.descriptions || [
+                "Acheter de vraies vues Instagram pour vos reels, sans ciblage particulier, provenant du monde entier.",
+                "Les vues que nous vous fournissons proviennent d'utilisateurs actifs et authentiques.",
+                "Livraison progressive pour un engagement naturel et durable."
+              ]).map((description, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <p className="text-slate-600 leading-relaxed">{description}</p>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -263,21 +270,21 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
               <div className="w-14 h-14 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
                 <Play className="w-7 h-7 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-800">Vues Instagram Françaises</h3>
+              <h3 className="text-2xl font-semibold text-slate-800">
+                {pageData?.viewTypes?.french?.title || "Vues Instagram Françaises"}
+              </h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Acheter des vues ciblées selon votre région française.</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.</p>
-              </div>
+              {(pageData?.viewTypes?.french?.descriptions || [
+                "Acheter des vues ciblées selon votre région française.",
+                "Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité",
+                "Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen."
+              ]).map((description, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <p className="text-slate-600 leading-relaxed">{description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -330,36 +337,60 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
               <div className="w-18 h-18 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
                 <Shield className="w-9 h-9 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Service client 24/7</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
-                par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
-                spécifique, nous pouvons également vous contacter par téléphone.
-              </p>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                {pageData?.securitySection?.serviceClient?.title || "Service client 24/7"}
+              </h3>
+              {pageData?.securitySection?.serviceClient?.description ? (
+                <div className="text-slate-600 text-sm leading-relaxed">
+                  <PortableText content={pageData.securitySection.serviceClient.description} />
+                </div>
+              ) : (
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
+                  par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
+                  spécifique, nous pouvons également vous contacter par téléphone.
+                </p>
+              )}
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
               <div className="w-18 h-18 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
                 <CheckCircle className="w-9 h-9 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Politique de remboursement</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
-                Dans le cas où la commande ne vous convient
-                pas, nous vous faisons un remboursement dans les 24h.
-              </p>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                {pageData?.securitySection?.remboursement?.title || "Politique de remboursement"}
+              </h3>
+              {pageData?.securitySection?.remboursement?.description ? (
+                <div className="text-slate-600 text-sm leading-relaxed">
+                  <PortableText content={pageData.securitySection.remboursement.description} />
+                </div>
+              ) : (
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
+                  Dans le cas où la commande ne vous convient
+                  pas, nous vous faisons un remboursement dans les 24h.
+                </p>
+              )}
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
               <div className="w-18 h-18 bg-gradient-to-br from-warm-yellow-100 to-soft-orange-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
                 <Zap className="w-9 h-9 text-soft-orange-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Paiements sécurisés</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
-                SSL et des prestataires reconnus -et surtout, nous ne vous
-                demanderons jamais vos identifiants Instagram.
-              </p>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                {pageData?.securitySection?.paiements?.title || "Paiements sécurisés"}
+              </h3>
+              {pageData?.securitySection?.paiements?.description ? (
+                <div className="text-slate-600 text-sm leading-relaxed">
+                  <PortableText content={pageData.securitySection.paiements.description} />
+                </div>
+              ) : (
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
+                  SSL et des prestataires reconnus -et surtout, nous ne vous
+                  demanderons jamais vos identifiants Instagram.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -380,29 +411,45 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
                 />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Maximiser la portée de vos reels</h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  Les reels Instagram sont devenus le contenu le plus performant de la plateforme. Plus vos reels reçoivent de vues, 
-                  plus l'algorithme les met en avant dans l'onglet Explorer et les suggestions. 
-                  <strong className="text-soft-pink-600">Acheter des vues Instagram</strong> permet de donner un coup de pouce initial à vos reels. 
-                  Un reel avec beaucoup de vues inspire confiance et attire naturellement plus d'engagement... 
-                  et suscite plus d'intérêt de la part de l'algorithme pour le promouvoir.
-                </p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.portee?.title || "Maximiser la portée de vos reels"}
+                </h3>
+                {pageData?.whyBuySection?.portee?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.portee.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    Les reels Instagram sont devenus le contenu le plus performant de la plateforme. Plus vos reels reçoivent de vues, 
+                    plus l'algorithme les met en avant dans l'onglet Explorer et les suggestions. 
+                    <strong className="text-soft-pink-600">Acheter des vues Instagram</strong> permet de donner un coup de pouce initial à vos reels. 
+                    Un reel avec beaucoup de vues inspire confiance et attire naturellement plus d'engagement... 
+                    et suscite plus d'intérêt de la part de l'algorithme pour le promouvoir.
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Améliorer votre visibilité organique</h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  L'algorithme d'Instagram privilégie les reels qui génèrent de l'engagement rapidement. 
-                  Plus vos reels reçoivent de vues dans les premières heures, plus ils sont susceptibles 
-                  d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs...
-                  <strong className="text-soft-pink-600">En achetant des vues Instagram françaises</strong>, 
-                  vous renforcez votre portée organique.
-                  Plus vos reels engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
-                  vertueux que vous pouvez activer avec des vues de qualité.
-                </p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.visibilite?.title || "Améliorer votre visibilité organique"}
+                </h3>
+                {pageData?.whyBuySection?.visibilite?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.visibilite.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    L'algorithme d'Instagram privilégie les reels qui génèrent de l'engagement rapidement. 
+                    Plus vos reels reçoivent de vues dans les premières heures, plus ils sont susceptibles 
+                    d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs...
+                    <strong className="text-soft-pink-600">En achetant des vues Instagram françaises</strong>, 
+                    vous renforcez votre portée organique.
+                    Plus vos reels engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
+                    vertueux que vous pouvez activer avec des vues de qualité.
+                  </p>
+                )}
               </div>
               <div>
                 <img 
@@ -422,15 +469,23 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
                 />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Construire votre crédibilité</h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  <strong className="text-lavender-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
-                  Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique
-                  et durable. Chaque vue livrée provient d'un utilisateur réel, susceptible d'interagir
-                  naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
-                  L'objectif n'est pas juste d'avoir plus de vues, mais de <strong className="text-lavender-600">créer une preuve sociale
-                  forte</strong> qui attire de vrais fans et clients.
-                </p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.credibilite?.title || "Construire votre crédibilité"}
+                </h3>
+                {pageData?.whyBuySection?.credibilite?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.credibilite.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <strong className="text-lavender-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
+                    Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique
+                    et durable. Chaque vue livrée provient d'un utilisateur réel, susceptible d'interagir
+                    naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
+                    L'objectif n'est pas juste d'avoir plus de vues, mais de <strong className="text-lavender-600">créer une preuve sociale
+                    forte</strong> qui attire de vrais fans et clients.
+                  </p>
+                )}
               </div>
             </div>
           </div>

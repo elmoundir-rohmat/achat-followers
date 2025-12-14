@@ -37,6 +37,130 @@ Pourquoi acheter des likes Instagram en 2025?
 
 ---
 
+## Section "Types de Likes" - SEO
+
+### Likes Internationaux
+
+**Titre (H3):**
+```
+Likes Internationaux
+```
+
+**Descriptions (3 points):**
+1. ```
+Acheter de vrais Instagram likes, sans ciblage particulier, provenant de l'Europe de l'ouest.
+```
+
+2. ```
+Les likes que nous vous fournissons proviennent de profils actifs et authentiques.
+```
+
+3. ```
+Livraison progressive pour un engagement naturel et durable.
+```
+
+### Likes Instagram Français
+
+**Titre (H3):**
+```
+Likes Instagram Français
+```
+
+**Descriptions (3 points):**
+1. ```
+Acheter des likes ciblés selon votre région française.
+```
+
+2. ```
+Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité
+```
+
+3. ```
+Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.
+```
+
+---
+
+## Section "Sécurité & Garanties" - SEO
+
+### Service client 24/7
+
+**Titre (H3):**
+```
+Service client 24/7
+```
+
+**Description:**
+```
+Bien que les incidents soient rares, notre Service client est disponible par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande spécifique, nous pouvons également vous contacter par téléphone.
+```
+
+### Politique de remboursement
+
+**Titre (H3):**
+```
+Politique de remboursement
+```
+
+**Description:**
+```
+Notre offre 'Satisfait ou remboursé' est très simple: Satisfait ou remboursé. Dans le cas où la commande ne vous convient pas, nous vous faisons un remboursement dans les 24h.
+```
+
+### Paiements sécurisés
+
+**Titre (H3):**
+```
+Paiements sécurisés
+```
+
+**Description:**
+```
+Vos paiements sont 100% sécurisés grâce à un protocole SSL et des prestataires reconnus -et surtout, nous ne vous demanderons jamais vos identifiants Instagram.
+```
+
+---
+
+## Section "Pourquoi acheter des likes" - SEO
+
+### Augmenter votre engagement
+
+**Titre (H3):**
+```
+Augmenter votre engagement
+```
+
+**Description:**
+```
+Sur Instagram, l'engagement est roi. Plus vos posts reçoivent de likes, plus l'algorithme les met en avant. Que vous soyez créateur de contenu, entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. Acheter des likes Instagram permet de booster votre engagement. Un post avec beaucoup de likes inspire confiance et attire naturellement plus d'interactions... et suscite plus d'intérêt de la part de l'algorithme. Pour une stratégie complète, combinez vos likes avec des followers Instagram, des vues Instagram et des commentaires Instagram pour maximiser votre visibilité.
+```
+
+### Améliorer votre portée organique
+
+**Titre (H3):**
+```
+Améliorer votre portée organique
+```
+
+**Description:**
+```
+L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. Plus vos posts reçoivent de likes dans les premières heures, plus ils sont susceptibles d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs. Pour renforcer votre stratégie, en achetant des likes Instagram français, vous renforcez votre portée organique. Complétez avec des followers Instagram pour augmenter votre base d'abonnés, des vues Instagram pour vos Reels et des commentaires Instagram pour enrichir vos posts. Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle vertueux que vous pouvez activer avec des likes de qualité.
+```
+
+### Construire votre crédibilité
+
+**Titre (H3):**
+```
+Construire votre crédibilité
+```
+
+**Description:**
+```
+Construire votre crédibilité ne doit pas se limiter à gonfler vos chiffres. Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique et durable. Chaque like livré provient d'un utilisateur réel, susceptible d'interagir naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles. L'objectif n'est pas juste d'avoir plus de likes, mais de créer une preuve sociale forte qui attire de vrais fans et clients. Pour une crédibilité complète, alliez vos likes avec des followers Instagram réels, des vues Instagram et des commentaires Instagram pour créer une présence complète et engageante.
+```
+
+---
+
 ## Section FAQ - SEO
 
 ### Question 1
@@ -246,10 +370,13 @@ Boostez l'engagement de vos posts Instagram avec des likes réels. Livraison rap
 1. **Créer le document** : Allez dans "Page Instagram Likes" dans Sanity Studio
 2. **Remplir la Section Hero** : Copiez le titre H1 et la description
 3. **Remplir les Titres des Sections** : Copiez les 3 titres H2
-4. **Remplir la FAQ** : Ajoutez les 12 questions/réponses
-5. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
-6. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
-7. **Cocher "Publié"** et cliquer sur **"Publish"**
+4. **Remplir la Section "Types de Likes"** : Ajoutez les titres et descriptions pour Likes Internationaux et Likes Français
+5. **Remplir la Section "Sécurité & Garanties"** : Ajoutez les 3 cartes (Service client, Remboursement, Paiements)
+6. **Remplir la Section "Pourquoi acheter"** : Ajoutez les 3 sous-sections avec leurs titres et descriptions
+7. **Remplir la FAQ** : Ajoutez les 12 questions/réponses
+8. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
+9. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
+10. **Cocher "Publié"** et cliquer sur **"Publish"**
 
 ---
 

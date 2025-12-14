@@ -116,6 +116,44 @@ const instagramLikesPageQuery = `*[_type == "instagramLikesPage" && published ==
     security,
     whyBuy
   },
+  likeTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    engagement {
+      title,
+      description
+    },
+    portee {
+      title,
+      description
+    },
+    credibilite {
+      title,
+      description
+    }
+  },
   faq {
     questions[] {
       question,
@@ -165,6 +203,44 @@ const instagramViewsPageQuery = `*[_type == "instagramViewsPage" && published ==
     security,
     whyBuy
   },
+  viewTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    portee {
+      title,
+      description
+    },
+    visibilite {
+      title,
+      description
+    },
+    credibilite {
+      title,
+      description
+    }
+  },
   faq {
     questions[] {
       question,
@@ -213,6 +289,30 @@ const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && publis
     testimonials,
     security,
     whyBuy
+  },
+  commentTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
   },
   whyBuySection {
     items[] {
@@ -326,17 +426,213 @@ export interface HomePageData {
   published?: boolean
 }
 
-export interface InstagramCommentsPageData {
+export interface InstagramLikesPageData {
   _id: string
   title: string
   hero?: {
     title?: string
-    description?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   }
   sectionTitles?: {
     testimonials?: string
     security?: string
     whyBuy?: string
+  }
+  likeTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: string
+    }
+    remboursement?: {
+      title?: string
+      description?: string
+    }
+    paiements?: {
+      title?: string
+      description?: string
+    }
+  }
+  whyBuySection?: {
+    engagement?: {
+      title?: string
+      description?: string
+    }
+    portee?: {
+      title?: string
+      description?: string
+    }
+    credibilite?: {
+      title?: string
+      description?: string
+    }
+  }
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
+export interface InstagramViewsPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  viewTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: string
+    }
+    remboursement?: {
+      title?: string
+      description?: string
+    }
+    paiements?: {
+      title?: string
+      description?: string
+    }
+  }
+  whyBuySection?: {
+    portee?: {
+      title?: string
+      description?: string
+    }
+    visibilite?: {
+      title?: string
+      description?: string
+    }
+    credibilite?: {
+      title?: string
+      description?: string
+    }
+  }
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
+export interface InstagramCommentsPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  commentTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: string
+    }
+    remboursement?: {
+      title?: string
+      description?: string
+    }
+    paiements?: {
+      title?: string
+      description?: string
+    }
   }
   whyBuySection?: {
     items?: Array<{
@@ -363,6 +659,7 @@ export interface InstagramCommentsPageData {
       asset?: {
         url?: string
       }
+      url?: string
     }
   }
   twitter?: {
@@ -373,6 +670,7 @@ export interface InstagramCommentsPageData {
       asset?: {
         url?: string
       }
+      url?: string
     }
   }
   published?: boolean
@@ -383,7 +681,7 @@ export interface InstagramFollowersPageData {
   title: string
   hero?: {
     title?: string
-    description?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   }
   sectionTitles?: {
     testimonials?: string
@@ -415,18 +713,18 @@ export interface InstagramFollowersPageData {
     }
   }
   whyBuySection?: {
-    credibilite?: {
-      title?: string
-      description?: string
-    }
-    explorer?: {
-      title?: string
-      description?: string
-    }
-    communaute?: {
-      title?: string
-      description?: string
-    }
+        credibilite?: {
+          title?: string
+          description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+        }
+        explorer?: {
+          title?: string
+          description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+        }
+        communaute?: {
+          title?: string
+          description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+        }
   }
   faq?: {
     questions?: Array<{

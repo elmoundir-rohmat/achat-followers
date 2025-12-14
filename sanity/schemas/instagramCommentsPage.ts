@@ -29,9 +29,9 @@ export default defineType({
         {
           name: 'description',
           title: 'Description (Paragraphe sous H1)',
-          type: 'text',
-          rows: 3,
-          description: 'Description importante pour le SEO - visible sous le titre',
+          type: 'array',
+          of: [{ type: 'block' }],
+          description: 'Description importante pour le SEO - visible sous le titre. Supporte le formatage : gras, italique, liens, etc.',
         },
       ],
     }),
@@ -49,13 +49,133 @@ export default defineType({
         },
         {
           name: 'security',
-          title: 'Titre Section "Sécurité" (H2)',
+          title: 'Titre Section "Sécurité & Garanties" (H2)',
           type: 'string',
         },
         {
           name: 'whyBuy',
-          title: 'Titre Section "Pourquoi acheter" (H2)',
+          title: 'Titre Section "Pourquoi acheter des commentaires..." (H2)',
           type: 'string',
+        },
+      ],
+    }),
+
+    // Section "Types de Commentaires" - SEO
+    defineField({
+      name: 'commentTypes',
+      title: 'Section "Types de Commentaires" - SEO',
+      type: 'object',
+      description: 'Contenu des sections "Commentaires Internationaux" et "Commentaires Instagram Français"',
+      fields: [
+        {
+          name: 'international',
+          title: 'Commentaires Internationaux',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Commentaires Internationaux',
+            },
+            {
+              name: 'descriptions',
+              title: 'Descriptions (3 points)',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Les 3 descriptions de la section Commentaires Internationaux',
+            },
+          ],
+        },
+        {
+          name: 'french',
+          title: 'Commentaires Instagram Français',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Commentaires Instagram Français',
+            },
+            {
+              name: 'descriptions',
+              title: 'Descriptions (3 points)',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Les 3 descriptions de la section Commentaires Instagram Français',
+            },
+          ],
+        },
+      ],
+    }),
+
+    // Section "Sécurité & Garanties" - SEO
+    defineField({
+      name: 'securitySection',
+      title: 'Section "Sécurité & Garanties" - SEO',
+      type: 'object',
+      description: 'Contenu des 3 cartes de la section Sécurité & Garanties',
+      fields: [
+        {
+          name: 'serviceClient',
+          title: 'Service client 24/7',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Service client 24/7',
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Supporte le formatage : gras, italique, liens, etc.',
+            },
+          ],
+        },
+        {
+          name: 'remboursement',
+          title: 'Politique de remboursement',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Politique de remboursement',
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Supporte le formatage : gras, italique, liens, etc.',
+            },
+          ],
+        },
+        {
+          name: 'paiements',
+          title: 'Paiements sécurisés',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Paiements sécurisés',
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Supporte le formatage : gras, italique, liens, etc.',
+            },
+          ],
         },
       ],
     }),
@@ -63,8 +183,9 @@ export default defineType({
     // Section "Pourquoi acheter" - Contenu SEO
     defineField({
       name: 'whyBuySection',
-      title: 'Section "Pourquoi acheter" - Contenu SEO',
+      title: 'Section "Pourquoi acheter des commentaires" - SEO',
       type: 'object',
+      description: 'Les sous-sections avec H3 et paragraphes de la section "Pourquoi acheter"',
       fields: [
         {
           name: 'items',
@@ -81,10 +202,10 @@ export default defineType({
                 },
                 {
                   name: 'description',
-                  title: 'Description',
-                  type: 'text',
-                  rows: 5,
-                  description: 'Contenu important pour le SEO',
+                  title: 'Description (Paragraphe)',
+                  type: 'array',
+                  of: [{ type: 'block' }],
+                  description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc.',
                 },
               ],
             },
@@ -157,6 +278,7 @@ export default defineType({
           name: 'canonicalUrl',
           title: 'URL Canonique',
           type: 'url',
+          initialValue: 'https://doctorfollowers.com/products/acheter-des-commentaires-instagram',
         },
       ],
     }),

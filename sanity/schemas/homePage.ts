@@ -35,9 +35,9 @@ export default defineType({
         {
           name: 'description',
           title: 'Description (Paragraphe sous H1)',
-          type: 'text',
-          rows: 3,
-          description: 'Description importante pour le SEO - visible sous le titre',
+          type: 'array',
+          of: [{ type: 'block' }],
+          description: 'Description importante pour le SEO - visible sous le titre. Supporte le formatage : gras, italique, liens, etc.',
         },
       ],
     }),

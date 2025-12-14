@@ -10,6 +10,7 @@ import { useCart } from '../contexts/CartContext';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 import { PageService, InstagramFollowersPageData } from '../services/pageService';
 import { updateSEOMetadata } from '../utils/seoMetadata';
+import PortableText from './PortableText';
 
 // FAQ data pour le Schema.org
 const faqData = [
@@ -221,9 +222,15 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                   {pageData?.hero?.title || "Acheter des Followers Instagram Réels et Actifs"}
                 </h1>
               </div>
-              <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                {pageData?.hero?.description || "Acheter des followers Instagram réels et actifs pour faire grandir votre communauté"}
-              </p>
+              {pageData?.hero?.description ? (
+                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  <PortableText content={pageData.hero.description} />
+                </div>
+              ) : (
+                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  Acheter des followers Instagram réels et actifs pour faire grandir votre communauté
+                </p>
+              )}
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
                   <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
@@ -453,21 +460,23 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.credibilite?.title || "Améliorer votre crédibilité"}
                 </h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  {pageData?.whyBuySection?.credibilite?.description || (
-                    <>
-                      Sur Instagram, la crédibilité d'un compte repose sur deux éléments : 
-                      le nombre d'abonnés et l'engagement. Que vous soyez créateur de contenu,
-                      entrepreneur ou influenceur, un faible nombre de followers nuit à votre image. 
-                      <strong className="text-soft-pink-600">Acheter des abonnés Instagram</strong> permet de franchir ce cap. 
-                      Un compte bien suivi inspire confiance, attire naturellement plus d'abonnés... 
-                      et suscite plus d'intérêt de la part de l'algorithme. Pour compléter votre stratégie, 
-                      pensez également à <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">acheter des likes Instagram</a>, 
-                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> ou 
-                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour renforcer votre engagement.
-                    </>
-                  )}
-                </p>
+                {pageData?.whyBuySection?.credibilite?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.credibilite.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    Sur Instagram, la crédibilité d'un compte repose sur deux éléments : 
+                    le nombre d'abonnés et l'engagement. Que vous soyez créateur de contenu,
+                    entrepreneur ou influenceur, un faible nombre de followers nuit à votre image. 
+                    <strong className="text-soft-pink-600">Acheter des abonnés Instagram</strong> permet de franchir ce cap. 
+                    Un compte bien suivi inspire confiance, attire naturellement plus d'abonnés... 
+                    et suscite plus d'intérêt de la part de l'algorithme. Pour compléter votre stratégie, 
+                    pensez également à <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">acheter des likes Instagram</a>, 
+                    <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> ou 
+                    <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour renforcer votre engagement.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -476,21 +485,23 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.explorer?.title || 'Apparaître dans l\'onglet "Explorer"'}
                 </h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  {pageData?.whyBuySection?.explorer?.description || (
-                    <>
-                      L'onglet "Explorer" est la vitrine ultime sur Instagram. C'est ici que l'algorithme
-                      met en avant les contenus susceptibles de devenir viraux. Pour y figurer, votre compte
-                      doit générer un taux d'interaction élevé : <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes</a>, 
-                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> commentaires</a>, 
-                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> vues</a>, partages...
-                      <strong className="text-soft-pink-600">En achetant des followers Instagram français</strong>, 
-                      vous renforcez votre activité sur la plateforme.
-                      Plus vos publications engagent, plus Instagram vous met en avant. C'est un cercle
-                      vertueux que vous pouvez activer avec des followers de qualité.
-                    </>
-                  )}
-                </p>
+                {pageData?.whyBuySection?.explorer?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.explorer.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    L'onglet "Explorer" est la vitrine ultime sur Instagram. C'est ici que l'algorithme
+                    met en avant les contenus susceptibles de devenir viraux. Pour y figurer, votre compte
+                    doit générer un taux d'interaction élevé : <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes</a>, 
+                    <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> commentaires</a>, 
+                    <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> vues</a>, partages...
+                    <strong className="text-soft-pink-600">En achetant des followers Instagram français</strong>, 
+                    vous renforcez votre activité sur la plateforme.
+                    Plus vos publications engagent, plus Instagram vous met en avant. C'est un cercle
+                    vertueux que vous pouvez activer avec des followers de qualité.
+                  </p>
+                )}
               </div>
               <div>
                 <img 
@@ -513,21 +524,23 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.communaute?.title || "Bâtir une vraie communauté"}
                 </h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  {pageData?.whyBuySection?.communaute?.description || (
-                    <>
-                      <strong className="text-lavender-600">Bâtir une vraie communauté</strong> ne doit pas se limiter à gonfler vos chiffres.
-                      Chez Doctor Followers, nous vous aidons à bâtir une communauté authentique
-                      et durable. Chaque abonné livré est un utilisateur réel, sélectionné pour correspondre
-                      à votre profil. Associé à un contenu régulier, cela favorise des interactions naturelles.
-                      L'objectif n'est pas juste d'avoir plus de followers, mais de <strong className="text-lavender-600">créer des liens avec des
-                      abonnés</strong> susceptibles de devenir clients, fans ou partenaires. Pour maximiser l'engagement, 
-                      combinez vos followers avec des <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes Instagram</a>, 
-                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
-                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour créer une dynamique d'interaction complète.
-                    </>
-                  )}
-                </p>
+                {pageData?.whyBuySection?.communaute?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.communaute.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <strong className="text-lavender-600">Bâtir une vraie communauté</strong> ne doit pas se limiter à gonfler vos chiffres.
+                    Chez Doctor Followers, nous vous aidons à bâtir une communauté authentique
+                    et durable. Chaque abonné livré est un utilisateur réel, sélectionné pour correspondre
+                    à votre profil. Associé à un contenu régulier, cela favorise des interactions naturelles.
+                    L'objectif n'est pas juste d'avoir plus de followers, mais de <strong className="text-lavender-600">créer des liens avec des
+                    abonnés</strong> susceptibles de devenir clients, fans ou partenaires. Pour maximiser l'engagement, 
+                    combinez vos followers avec des <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes Instagram</a>, 
+                    <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
+                    <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour créer une dynamique d'interaction complète.
+                  </p>
+                )}
               </div>
             </div>
           </div>

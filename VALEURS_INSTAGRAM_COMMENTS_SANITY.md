@@ -37,6 +37,90 @@ Pourquoi acheter des commentaires Instagram en 2025?
 
 ---
 
+## Section "Types de Commentaires" - SEO
+
+### Commentaires Internationaux
+
+**Titre (H3):**
+```
+Commentaires Internationaux
+```
+
+**Descriptions (3 points):**
+1. ```
+Acheter de vrais commentaires Instagram, sans ciblage particulier, provenant de l'Europe de l'ouest.
+```
+
+2. ```
+Les commentaires que nous vous fournissons proviennent de profils actifs et authentiques.
+```
+
+3. ```
+Livraison progressive pour un engagement naturel et durable.
+```
+
+### Commentaires Instagram Français
+
+**Titre (H3):**
+```
+Commentaires Instagram Français
+```
+
+**Descriptions (3 points):**
+1. ```
+Acheter des commentaires ciblés selon votre région française.
+```
+
+2. ```
+Nous sélectionnons les profils qui sont intéressés par votre domaine d'activité
+```
+
+3. ```
+Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.
+```
+
+---
+
+## Section "Sécurité & Garanties" - SEO
+
+### Service client 24/7
+
+**Titre (H3):**
+```
+Service client 24/7
+```
+
+**Description:**
+```
+Bien que les incidents soient rares, notre Service client est disponible par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande spécifique, nous pouvons également vous contacter par téléphone.
+```
+
+### Politique de remboursement
+
+**Titre (H3):**
+```
+Politique de remboursement
+```
+
+**Description:**
+```
+Notre offre 'Satisfait ou remboursé' est très simple: Satisfait ou remboursé. Dans le cas où la commande ne vous convient pas, nous vous faisons un remboursement dans les 24h.
+```
+
+### Paiements sécurisés
+
+**Titre (H3):**
+```
+Paiements sécurisés
+```
+
+**Description:**
+```
+Vos paiements sont 100% sécurisés grâce à un protocole SSL et des prestataires reconnus -et surtout, nous ne vous demanderons jamais vos identifiants Instagram.
+```
+
+---
+
 ## Section "Pourquoi acheter" - Contenu SEO
 
 ### Sous-section 1
@@ -283,11 +367,13 @@ Boostez l'engagement de vos posts Instagram avec des commentaires réels. Livrai
 1. **Créer le document** : Allez dans "Page Instagram Commentaires" dans Sanity Studio
 2. **Remplir la Section Hero** : Copiez le titre H1 et la description
 3. **Remplir les Titres des Sections** : Copiez les 3 titres H2
-4. **Remplir la Section "Pourquoi acheter"** : Ajoutez les 3 sous-sections avec leurs titres et descriptions
-5. **Remplir la FAQ** : Ajoutez les 12 questions/réponses
-6. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
-7. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
-8. **Cocher "Publié"** et cliquer sur **"Publish"**
+4. **Remplir la Section "Types de Commentaires"** : Ajoutez les titres et descriptions pour Commentaires Internationaux et Commentaires Français
+5. **Remplir la Section "Sécurité & Garanties"** : Ajoutez les 3 cartes (Service client, Remboursement, Paiements)
+6. **Remplir la Section "Pourquoi acheter"** : Ajoutez les 3 sous-sections avec leurs titres et descriptions
+7. **Remplir la FAQ** : Ajoutez les 12 questions/réponses
+8. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
+9. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
+10. **Cocher "Publié"** et cliquer sur **"Publish"**
 
 ---
 

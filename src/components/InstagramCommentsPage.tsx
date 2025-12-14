@@ -28,8 +28,6 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
   useEffect(() => {
     PageService.getInstagramCommentsPage()
       .then((data) => {
-        console.log('📦 Instagram Comments - pageData reçu dans le composant:', data)
-        console.log('📦 Instagram Comments - pageData.hero:', data?.hero)
         setPageData(data)
       })
       .catch((error) => {
@@ -270,11 +268,7 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
                 <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                  {(() => {
-                    const title = pageData?.hero?.title;
-                    console.log('🎨 RENDU - Hero Title affiché:', title || 'FALLBACK');
-                    return title || "Commentaires Instagram";
-                  })()}
+                  {pageData?.hero?.title || "Commentaires Instagram"}
                 </h1>
               </div>
               {pageData?.hero?.description ? (

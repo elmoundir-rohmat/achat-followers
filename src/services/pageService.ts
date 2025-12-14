@@ -809,15 +809,9 @@ export class PageService {
   static async getInstagramCommentsPage(): Promise<InstagramCommentsPageData | null> {
     try {
       const data = await client.fetch(instagramCommentsPageQuery)
-      console.log('🔍 Instagram Comments - Données brutes de Sanity:', data)
       if (!data || !data._id) {
-        console.warn('⚠️ Aucun document Instagram Comments trouvé dans Sanity')
         return null
       }
-      
-      console.log('✅ Instagram Comments - Hero:', data.hero)
-      console.log('✅ Instagram Comments - Hero Title:', data.hero?.title)
-      console.log('✅ Instagram Comments - Hero Description:', data.hero?.description)
       
       // Transformer l'image Open Graph si elle existe
       if (data.openGraph?.image?.asset) {

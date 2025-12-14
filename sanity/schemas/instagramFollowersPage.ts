@@ -49,13 +49,200 @@ export default defineType({
         },
         {
           name: 'security',
-          title: 'Titre Section "Sécurité" (H2)',
+          title: 'Titre Section "Sécurité & Garanties" (H2)',
           type: 'string',
         },
         {
           name: 'whyBuy',
-          title: 'Titre Section "Pourquoi acheter" (H2)',
+          title: 'Titre Section "Pourquoi acheter des followers..." (H2)',
           type: 'string',
+        },
+      ],
+    }),
+
+    // Section "Types de Followers" - SEO
+    defineField({
+      name: 'followerTypes',
+      title: 'Section "Types de Followers" - SEO',
+      type: 'object',
+      description: 'Contenu des sections "Followers Internationaux" et "Abonnés Instagram Français"',
+      fields: [
+        {
+          name: 'international',
+          title: 'Followers Internationaux',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Followers Internationaux',
+            },
+            {
+              name: 'descriptions',
+              title: 'Descriptions (3 points)',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Les 3 descriptions de la section Followers Internationaux',
+            },
+          ],
+        },
+        {
+          name: 'french',
+          title: 'Abonnés Instagram Français',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Abonnés Instagram Français',
+            },
+            {
+              name: 'descriptions',
+              title: 'Descriptions (3 points)',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Les 3 descriptions de la section Abonnés Instagram Français',
+            },
+          ],
+        },
+      ],
+    }),
+
+    // Section "Sécurité & Garanties" - SEO
+    defineField({
+      name: 'securitySection',
+      title: 'Section "Sécurité & Garanties" - SEO',
+      type: 'object',
+      description: 'Contenu des 3 cartes de la section Sécurité & Garanties',
+      fields: [
+        {
+          name: 'serviceClient',
+          title: 'Service client 24/7',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Service client 24/7',
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              rows: 4,
+            },
+          ],
+        },
+        {
+          name: 'remboursement',
+          title: 'Politique de remboursement',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Politique de remboursement',
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              rows: 4,
+            },
+          ],
+        },
+        {
+          name: 'paiements',
+          title: 'Paiements sécurisés',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Paiements sécurisés',
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              rows: 4,
+            },
+          ],
+        },
+      ],
+    }),
+
+    // Section "Pourquoi acheter" - SEO
+    defineField({
+      name: 'whyBuySection',
+      title: 'Section "Pourquoi acheter des followers" - SEO',
+      type: 'object',
+      description: 'Les 3 sous-sections avec H3 et paragraphes de la section "Pourquoi acheter"',
+      fields: [
+        {
+          name: 'credibilite',
+          title: 'Améliorer votre crédibilité',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Améliorer votre crédibilité',
+            },
+            {
+              name: 'description',
+              title: 'Description (Paragraphe)',
+              type: 'text',
+              rows: 6,
+              description: 'Paragraphe complet avec mots-clés SEO',
+            },
+          ],
+        },
+        {
+          name: 'explorer',
+          title: 'Apparaître dans l\'onglet "Explorer"',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Apparaître dans l\'onglet "Explorer"',
+            },
+            {
+              name: 'description',
+              title: 'Description (Paragraphe)',
+              type: 'text',
+              rows: 6,
+              description: 'Paragraphe complet avec mots-clés SEO',
+            },
+          ],
+        },
+        {
+          name: 'communaute',
+          title: 'Bâtir une vraie communauté',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Bâtir une vraie communauté',
+            },
+            {
+              name: 'description',
+              title: 'Description (Paragraphe)',
+              type: 'text',
+              rows: 6,
+              description: 'Paragraphe complet avec mots-clés SEO',
+            },
+          ],
         },
       ],
     }),
@@ -124,6 +311,7 @@ export default defineType({
           name: 'canonicalUrl',
           title: 'URL Canonique',
           type: 'url',
+          initialValue: 'https://doctorfollowers.com/products/acheter-followers-instagram',
         },
       ],
     }),

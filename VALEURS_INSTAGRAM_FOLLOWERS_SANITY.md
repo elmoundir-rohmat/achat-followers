@@ -37,6 +37,130 @@ Pourquoi acheter des followers Instagram réels et actifs en 2025?
 
 ---
 
+## Section "Types de Followers" - SEO
+
+### Followers Internationaux
+
+#### Titre (H3)
+```
+Followers Internationaux
+```
+
+#### Descriptions (3 points)
+```
+Acheter de vrais Instagram followers, sans ciblage particulier, provenant de l'Europe de l'ouest.
+```
+
+```
+Les followers que nous vous fournissons n'auront pas d'intérêts particuliers pour votre activité.
+```
+
+```
+Leur engagement est variable en fonction de la qualité de votre contenu.
+```
+
+### Abonnés Instagram Français
+
+#### Titre (H3)
+```
+Abonnés Instagram Français
+```
+
+#### Descriptions (3 points)
+```
+Acheter des Followers ciblés selon votre région.
+```
+
+```
+Nous sélectionnons les followers qui sont intéressés par votre domaine d'activité
+```
+
+```
+Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.
+```
+
+---
+
+## Section "Sécurité & Garanties" - SEO
+
+### Service client 24/7
+
+#### Titre (H3)
+```
+Service client 24/7
+```
+
+#### Description
+```
+Bien que les incidents soient rares, notre Service client est disponible par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande spécifique, nous pouvons également vous contacter par téléphone.
+```
+
+### Politique de remboursement
+
+#### Titre (H3)
+```
+Politique de remboursement
+```
+
+#### Description
+```
+Notre offre 'Satisfait ou remboursé' est très simple: Satisfait ou remboursé. Dans le cas où la commande ne vous convient pas, nous vous faisons un remboursement dans les 24h.
+```
+
+### Paiements sécurisés
+
+#### Titre (H3)
+```
+Paiements sécurisés
+```
+
+#### Description
+```
+Vos paiements sont 100% sécurisés grâce à un protocole SSL et des prestataires reconnus -et surtout, nous ne vous demanderons jamais vos identifiants Instagram.
+```
+
+---
+
+## Section "Pourquoi acheter des followers" - SEO
+
+### Améliorer votre crédibilité
+
+#### Titre (H3)
+```
+Améliorer votre crédibilité
+```
+
+#### Description (Paragraphe)
+```
+Sur Instagram, la crédibilité d'un compte repose sur deux éléments : le nombre d'abonnés et l'engagement. Que vous soyez créateur de contenu, entrepreneur ou influenceur, un faible nombre de followers nuit à votre image. Acheter des abonnés Instagram permet de franchir ce cap. Un compte bien suivi inspire confiance, attire naturellement plus d'abonnés... et suscite plus d'intérêt de la part de l'algorithme. Pour compléter votre stratégie, pensez également à acheter des likes Instagram, des vues Instagram ou des commentaires Instagram pour renforcer votre engagement.
+```
+
+### Apparaître dans l'onglet "Explorer"
+
+#### Titre (H3)
+```
+Apparaître dans l'onglet "Explorer"
+```
+
+#### Description (Paragraphe)
+```
+L'onglet "Explorer" est la vitrine ultime sur Instagram. C'est ici que l'algorithme met en avant les contenus susceptibles de devenir viraux. Pour y figurer, votre compte doit générer un taux d'interaction élevé : likes, commentaires, vues, partages... En achetant des followers Instagram français, vous renforcez votre activité sur la plateforme. Plus vos publications engagent, plus Instagram vous met en avant. C'est un cercle vertueux que vous pouvez activer avec des followers de qualité.
+```
+
+### Bâtir une vraie communauté
+
+#### Titre (H3)
+```
+Bâtir une vraie communauté
+```
+
+#### Description (Paragraphe)
+```
+Bâtir une vraie communauté ne doit pas se limiter à gonfler vos chiffres. Chez Doctor Followers, nous vous aidons à bâtir une communauté authentique et durable. Chaque abonné livré est un utilisateur réel, sélectionné pour correspondre à votre profil. Associé à un contenu régulier, cela favorise des interactions naturelles. L'objectif n'est pas juste d'avoir plus de followers, mais de créer des liens avec des abonnés susceptibles de devenir clients, fans ou partenaires. Pour maximiser l'engagement, combinez vos followers avec des likes Instagram, des vues Instagram et des commentaires Instagram pour créer une dynamique d'interaction complète.
+```
+
+---
+
 ## Section FAQ - SEO
 
 ### Question 1
@@ -312,10 +436,21 @@ Boostez votre communauté Instagram avec des followers réels. Livraison rapide,
 1. **Créer le document** : Allez dans "Page Instagram Followers" dans Sanity Studio
 2. **Remplir la Section Hero** : Copiez le titre H1 et la description
 3. **Remplir les Titres des Sections** : Copiez les 3 titres H2
-4. **Remplir la FAQ** : Ajoutez les 18 questions/réponses
-5. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
-6. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
-7. **Cocher "Publié"** et cliquer sur **"Publish"**
+4. **Remplir la Section "Types de Followers"** : 
+   - Ajoutez le titre et les 3 descriptions pour "Followers Internationaux"
+   - Ajoutez le titre et les 3 descriptions pour "Abonnés Instagram Français"
+5. **Remplir la Section "Sécurité & Garanties"** :
+   - Ajoutez le titre et la description pour "Service client 24/7"
+   - Ajoutez le titre et la description pour "Politique de remboursement"
+   - Ajoutez le titre et la description pour "Paiements sécurisés"
+6. **Remplir la Section "Pourquoi acheter"** :
+   - Ajoutez le titre et la description pour "Améliorer votre crédibilité"
+   - Ajoutez le titre et la description pour "Apparaître dans l'onglet Explorer"
+   - Ajoutez le titre et la description pour "Bâtir une vraie communauté"
+7. **Remplir la FAQ** : Ajoutez les 18 questions/réponses
+8. **Remplir les Réglages SEO** : Copiez le titre SEO, description, mots-clés et URL canonique
+9. **Remplir Open Graph et Twitter** : Ajoutez les titres, descriptions et uploadez les images
+10. **Cocher "Publié"** et cliquer sur **"Publish"**
 
 ---
 

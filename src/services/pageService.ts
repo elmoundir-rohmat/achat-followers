@@ -29,6 +29,44 @@ const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && publ
     security,
     whyBuy
   },
+  followerTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    credibilite {
+      title,
+      description
+    },
+    explorer {
+      title,
+      description
+    },
+    communaute {
+      title,
+      description
+    }
+  },
   faq {
     questions[] {
       question,
@@ -335,6 +373,92 @@ export interface InstagramCommentsPageData {
       asset?: {
         url?: string
       }
+    }
+  }
+  published?: boolean
+}
+
+export interface InstagramFollowersPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: string
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  followerTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: string
+    }
+    remboursement?: {
+      title?: string
+      description?: string
+    }
+    paiements?: {
+      title?: string
+      description?: string
+    }
+  }
+  whyBuySection?: {
+    credibilite?: {
+      title?: string
+      description?: string
+    }
+    explorer?: {
+      title?: string
+      description?: string
+    }
+    communaute?: {
+      title?: string
+      description?: string
+    }
+  }
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
     }
   }
   published?: boolean

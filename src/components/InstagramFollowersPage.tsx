@@ -328,21 +328,21 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="w-14 h-14 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
                 <Users className="w-7 h-7 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-800">Followers Internationaux</h3>
+              <h3 className="text-2xl font-semibold text-slate-800">
+                {pageData?.followerTypes?.international?.title || "Followers Internationaux"}
+              </h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Acheter de vrais Instagram followers, sans ciblage particulier, provenant de l'Europe de l'ouest.</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Les followers que nous vous fournissons n'auront pas d'intérêts particuliers pour votre activité.</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Leur engagement est variable en fonction de la qualité de votre contenu.</p>
-              </div>
+              {(pageData?.followerTypes?.international?.descriptions || [
+                "Acheter de vrais Instagram followers, sans ciblage particulier, provenant de l'Europe de l'ouest.",
+                "Les followers que nous vous fournissons n'auront pas d'intérêts particuliers pour votre activité.",
+                "Leur engagement est variable en fonction de la qualité de votre contenu."
+              ]).map((description, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-lavender-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <p className="text-slate-600 leading-relaxed">{description}</p>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -351,21 +351,21 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="w-14 h-14 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
                 <Heart className="w-7 h-7 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-800">Abonnés Instagram Français</h3>
+              <h3 className="text-2xl font-semibold text-slate-800">
+                {pageData?.followerTypes?.french?.title || "Abonnés Instagram Français"}
+              </h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Acheter des Followers ciblés selon votre région.</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Nous sélectionnons les followers qui sont intéressés par votre domaine d'activité</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-slate-600 leading-relaxed">Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen.</p>
-              </div>
+              {(pageData?.followerTypes?.french?.descriptions || [
+                "Acheter des Followers ciblés selon votre région.",
+                "Nous sélectionnons les followers qui sont intéressés par votre domaine d'activité",
+                "Ce sont des profils très actifs qui vont générer plus d'interactions que l'utilisateur moyen."
+              ]).map((description, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-soft-pink-500 mr-1 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <p className="text-slate-600 leading-relaxed">{description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -382,11 +382,17 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="w-18 h-18 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
                 <Shield className="w-9 h-9 text-lavender-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Service client 24/7</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                {pageData?.securitySection?.serviceClient?.title || "Service client 24/7"}
+              </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
-                par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
-                spécifique, nous pouvons également vous contacter par téléphone.
+                {pageData?.securitySection?.serviceClient?.description || (
+                  <>
+                    Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
+                    par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
+                    spécifique, nous pouvons également vous contacter par téléphone.
+                  </>
+                )}
               </p>
             </div>
 
@@ -394,11 +400,17 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="w-18 h-18 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
                 <CheckCircle className="w-9 h-9 text-soft-pink-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Politique de remboursement</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                {pageData?.securitySection?.remboursement?.title || "Politique de remboursement"}
+              </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
-                Dans le cas où la commande ne vous convient
-                pas, nous vous faisons un remboursement dans les 24h.
+                {pageData?.securitySection?.remboursement?.description || (
+                  <>
+                    Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
+                    Dans le cas où la commande ne vous convient
+                    pas, nous vous faisons un remboursement dans les 24h.
+                  </>
+                )}
               </p>
             </div>
 
@@ -406,11 +418,17 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
               <div className="w-18 h-18 bg-gradient-to-br from-warm-yellow-100 to-soft-orange-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-soft-lg">
                 <Zap className="w-9 h-9 text-soft-orange-600" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Paiements sécurisés</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                {pageData?.securitySection?.paiements?.title || "Paiements sécurisés"}
+              </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
-                SSL et des prestataires reconnus -et surtout, nous ne vous
-                demanderons jamais vos identifiants Instagram.
+                {pageData?.securitySection?.paiements?.description || (
+                  <>
+                    <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
+                    SSL et des prestataires reconnus -et surtout, nous ne vous
+                    demanderons jamais vos identifiants Instagram.
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -432,34 +450,46 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Améliorer votre crédibilité</h3>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.credibilite?.title || "Améliorer votre crédibilité"}
+                </h3>
                 <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  Sur Instagram, la crédibilité d'un compte repose sur deux éléments : 
-                  le nombre d'abonnés et l'engagement. Que vous soyez créateur de contenu,
-                  entrepreneur ou influenceur, un faible nombre de followers nuit à votre image. 
-                  <strong className="text-soft-pink-600">Acheter des abonnés Instagram</strong> permet de franchir ce cap. 
-                  Un compte bien suivi inspire confiance, attire naturellement plus d'abonnés... 
-                  et suscite plus d'intérêt de la part de l'algorithme. Pour compléter votre stratégie, 
-                  pensez également à <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">acheter des likes Instagram</a>, 
-                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> ou 
-                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour renforcer votre engagement.
+                  {pageData?.whyBuySection?.credibilite?.description || (
+                    <>
+                      Sur Instagram, la crédibilité d'un compte repose sur deux éléments : 
+                      le nombre d'abonnés et l'engagement. Que vous soyez créateur de contenu,
+                      entrepreneur ou influenceur, un faible nombre de followers nuit à votre image. 
+                      <strong className="text-soft-pink-600">Acheter des abonnés Instagram</strong> permet de franchir ce cap. 
+                      Un compte bien suivi inspire confiance, attire naturellement plus d'abonnés... 
+                      et suscite plus d'intérêt de la part de l'algorithme. Pour compléter votre stratégie, 
+                      pensez également à <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">acheter des likes Instagram</a>, 
+                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> ou 
+                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour renforcer votre engagement.
+                    </>
+                  )}
                 </p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Apparaître dans l'onglet "Explorer"</h3>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.explorer?.title || 'Apparaître dans l\'onglet "Explorer"'}
+                </h3>
                 <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  L'onglet "Explorer" est la vitrine ultime sur Instagram. C'est ici que l'algorithme
-                  met en avant les contenus susceptibles de devenir viraux. Pour y figurer, votre compte
-                  doit générer un taux d'interaction élevé : <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes</a>, 
-                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> commentaires</a>, 
-                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> vues</a>, partages...
-                  <strong className="text-soft-pink-600">En achetant des followers Instagram français</strong>, 
-                  vous renforcez votre activité sur la plateforme.
-                  Plus vos publications engagent, plus Instagram vous met en avant. C'est un cercle
-                  vertueux que vous pouvez activer avec des followers de qualité.
+                  {pageData?.whyBuySection?.explorer?.description || (
+                    <>
+                      L'onglet "Explorer" est la vitrine ultime sur Instagram. C'est ici que l'algorithme
+                      met en avant les contenus susceptibles de devenir viraux. Pour y figurer, votre compte
+                      doit générer un taux d'interaction élevé : <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes</a>, 
+                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> commentaires</a>, 
+                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> vues</a>, partages...
+                      <strong className="text-soft-pink-600">En achetant des followers Instagram français</strong>, 
+                      vous renforcez votre activité sur la plateforme.
+                      Plus vos publications engagent, plus Instagram vous met en avant. C'est un cercle
+                      vertueux que vous pouvez activer avec des followers de qualité.
+                    </>
+                  )}
                 </p>
               </div>
               <div>
@@ -480,17 +510,23 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">Bâtir une vraie communauté</h3>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.communaute?.title || "Bâtir une vraie communauté"}
+                </h3>
                 <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  <strong className="text-lavender-600">Bâtir une vraie communauté</strong> ne doit pas se limiter à gonfler vos chiffres.
-                  Chez Doctor Followers, nous vous aidons à bâtir une communauté authentique
-                  et durable. Chaque abonné livré est un utilisateur réel, sélectionné pour correspondre
-                  à votre profil. Associé à un contenu régulier, cela favorise des interactions naturelles.
-                  L'objectif n'est pas juste d'avoir plus de followers, mais de <strong className="text-lavender-600">créer des liens avec des
-                  abonnés</strong> susceptibles de devenir clients, fans ou partenaires. Pour maximiser l'engagement, 
-                  combinez vos followers avec des <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes Instagram</a>, 
-                  <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
-                  <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour créer une dynamique d'interaction complète.
+                  {pageData?.whyBuySection?.communaute?.description || (
+                    <>
+                      <strong className="text-lavender-600">Bâtir une vraie communauté</strong> ne doit pas se limiter à gonfler vos chiffres.
+                      Chez Doctor Followers, nous vous aidons à bâtir une communauté authentique
+                      et durable. Chaque abonné livré est un utilisateur réel, sélectionné pour correspondre
+                      à votre profil. Associé à un contenu régulier, cela favorise des interactions naturelles.
+                      L'objectif n'est pas juste d'avoir plus de followers, mais de <strong className="text-lavender-600">créer des liens avec des
+                      abonnés</strong> susceptibles de devenir clients, fans ou partenaires. Pour maximiser l'engagement, 
+                      combinez vos followers avec des <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('likes'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes Instagram</a>, 
+                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
+                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour créer une dynamique d'interaction complète.
+                    </>
+                  )}
                 </p>
               </div>
             </div>

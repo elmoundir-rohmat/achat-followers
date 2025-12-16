@@ -3,6 +3,7 @@ import { Instagram, Heart, MessageCircle, Eye, Users, Zap, Shield, Clock, ArrowR
 import { smmaService, SMMAOrder } from '../services/smmaService';
 import { smmaServiceClient } from '../services/smmaServiceClient';
 import { PageService, HomePageData } from '../services/pageService';
+import PortableText from './PortableText';
 
 interface Service {
   id: string;
@@ -439,9 +440,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 {homePageData?.hero?.title || "Achat followers Instagram & TikTok"}
                 <span className="block text-slate-600 mt-2">{homePageData?.hero?.subtitle || "simples, rapides et 100% réels."}</span>
               </h1>
+              {homePageData?.hero?.description ? (
+              <div className="text-base sm:text-lg text-slate-600 mb-10 max-w-xl leading-relaxed">
+                <PortableText content={homePageData.hero.description} />
+              </div>
+            ) : (
               <p className="text-base sm:text-lg text-slate-600 mb-10 max-w-xl leading-relaxed">
-                {homePageData?.hero?.description || "Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer votre audience en revenus, sans design chargé ni parcours compliqué."}
-            </p>
+                Boostez vos réseaux sociaux avec de vrais followers et commencez à transformer votre audience en revenus, sans design chargé ni parcours compliqué.
+              </p>
+            )}
             
             {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-10">

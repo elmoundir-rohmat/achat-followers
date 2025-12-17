@@ -2,6 +2,7 @@ import { ArrowLeft, Calendar, User, Clock, Tag, Users, ArrowRight } from 'lucide
 import { BlogPost } from '../lib/blog';
 import { BlogServiceSanity } from '../lib/blog/blogServiceSanity';
 import { parseMarkdownToHTML, generateTableOfContents } from '../utils/markdownParser';
+import PortableText from './PortableText';
 import { useEffect, useState } from 'react';
 
 interface BlogArticleProps {
@@ -112,8 +113,27 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
         }
       }
 
-      // Parser le contenu Markdown
-      if (post.content) {
+      // Parser le contenu (Markdown ou blockContent)
+      if (post.contentRich && Array.isArray(post.contentRich)) {
+        // Contenu riche (blockContent) de Sanity - pas besoin de parsing
+        // On extrait les headings pour la table des matières
+        const headings: Array<{ level: number; text: string; id: string }> = [];
+        post.contentRich.forEach((block: any, index: number) => {
+          if (block._type === 'block' && block.style && ['h1', 'h2', 'h3', 'h4'].includes(block.style)) {
+            const level = parseInt(block.style.replace('h', '')) || 1;
+            const text = block.children?.map((child: any) => child.text || '').join('') || '';
+            const id = `heading-${index}-${text.toLowerCase().replace(/\s+/g, '-')}`;
+            headings.push({ level, text, id });
+          }
+        });
+        setParsedContent({
+          html: '', // Pas besoin pour blockContent
+          headings,
+          wordCount: post.wordCount || 0,
+          readingTime: post.readTime || 5,
+        });
+      } else if (post.content && typeof post.content === 'string') {
+        // Contenu Markdown (legacy)
         const parsed = parseMarkdownToHTML(post.content);
         setParsedContent(parsed);
       }
@@ -245,7 +265,11 @@ export default function BlogArticle({ slug, onBack, onNavigate }: BlogArticlePro
 
           {/* Article Content */}
           <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-            {parsedContent ? (
+            {post.contentRich && Array.isArray(post.contentRich) ? (
+              // Contenu riche (blockContent) de Sanity
+              <PortableText content={post.contentRich} />
+            ) : parsedContent && parsedContent.html ? (
+              // Contenu Markdown (legacy)
               <div dangerouslySetInnerHTML={{ 
                 __html: parsedContent.html
               }} />

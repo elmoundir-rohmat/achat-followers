@@ -8,6 +8,7 @@ import instagramViewsPage from './instagramViewsPage'
 import author from './author'
 import category from './category'
 import tag from './tag'
+import blockContent from './blockContent'
 
 export const schemaTypes = [
   blogPost,
@@ -20,5 +21,6 @@ export const schemaTypes = [
   author,
   category,
   tag,
+  blockContent,
 ]
 

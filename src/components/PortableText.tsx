@@ -1,5 +1,6 @@
 import { PortableText as SanityPortableText, PortableTextComponents } from '@portabletext/react'
 import { PortableTextBlock } from '@portabletext/types'
+import { urlFor } from '../../sanity/lib/image'
 
 interface PortableTextProps {
   content: PortableTextBlock[] | null | undefined
@@ -82,6 +83,27 @@ export default function PortableText({ content, className = '' }: PortableTextPr
     listItem: {
       bullet: ({ children }) => <li className="ml-4">{children}</li>,
       number: ({ children }) => <li className="ml-4">{children}</li>,
+    },
+    // Images
+    types: {
+      image: ({ value }: any) => {
+        if (!value?.asset) return null
+        const imageUrl = urlFor(value).width(800).height(400).fit('crop').url()
+        return (
+          <figure className="my-8">
+            <img
+              src={imageUrl}
+              alt={value.alt || ''}
+              className="w-full h-auto rounded-card shadow-soft-lg"
+            />
+            {value.caption && (
+              <figcaption className="text-center text-sm text-slate-500 mt-2 italic">
+                {value.caption}
+              </figcaption>
+            )}
+          </figure>
+        )
+      },
     },
   }
 

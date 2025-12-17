@@ -57,6 +57,36 @@ function transformSanityPostToBlogPost(sanityPost: any): BlogPost {
   // Générer un ID numérique à partir de l'ID Sanity
   const numericId = parseInt(sanityPost._id.replace(/[^0-9]/g, '').slice(0, 10)) || Date.now()
   
+  // Détecter si le contenu est du blockContent (array) ou du Markdown (string)
+  const isBlockContent = Array.isArray(sanityPost.content)
+  const contentRich = isBlockContent ? sanityPost.content : undefined
+  const contentString = isBlockContent ? undefined : (sanityPost.content || '')
+  
+  // Calculer le wordCount depuis le blockContent si disponible
+  const calculateWordCount = (content: any): number => {
+    if (typeof content === 'string') {
+      return content.split(/\s+/).length
+    }
+    if (Array.isArray(content)) {
+      // Extraire le texte des blocks
+      const extractText = (blocks: any[]): string => {
+        return blocks
+          .map(block => {
+            if (block._type === 'block' && block.children) {
+              return block.children
+                .map((child: any) => child.text || '')
+                .join(' ')
+            }
+            return ''
+          })
+          .join(' ')
+      }
+      const text = extractText(content)
+      return text.split(/\s+/).filter(word => word.length > 0).length
+    }
+    return 0
+  }
+  
   return {
     id: numericId,
     title: sanityPost.title,
@@ -66,7 +96,8 @@ function transformSanityPostToBlogPost(sanityPost: any): BlogPost {
     author: sanityPost.author || 'Auteur inconnu',
     category: sanityPost.category || 'Non catégorisé',
     slug: sanityPost.slug?.current || '',
-    content: sanityPost.content || '',
+    content: contentString, // Markdown (string) pour compatibilité
+    contentRich: contentRich, // blockContent (array) de Sanity
     tags: sanityPost.tags || [],
     readTime: sanityPost.readTime || 5,
     featured: sanityPost.featured || false,
@@ -100,7 +131,7 @@ function transformSanityPostToBlogPost(sanityPost: any): BlogPost {
       creator: sanityPost.twitter.creator || '@doctorfollowers',
     } : undefined,
     relatedPosts: sanityPost.relatedPosts || [],
-    wordCount: sanityPost.content ? sanityPost.content.split(/\s+/).length : 0,
+    wordCount: calculateWordCount(sanityPost.content),
     readingTime: sanityPost.readTime || 5,
   }
 }

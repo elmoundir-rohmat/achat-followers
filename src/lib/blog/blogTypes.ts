@@ -102,7 +102,8 @@ export interface BlogPost {
   author: string;
   category: string;
   slug: string;
-  content?: string;
+  content?: string | any[]; // Supporte Markdown (string) ou blockContent (array) de Sanity
+  contentRich?: any[]; // Contenu riche (blockContent) de Sanity
   tags?: string[];
   readTime?: number;
   

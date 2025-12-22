@@ -1,5 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Copy, Check, Instagram, Type, ChevronDown } from 'lucide-react';
+import { PageService, FontGeneratorPageData } from '../services/pageService';
+import PortableText from './PortableText';
 
 interface FontStyle {
   id: string;
@@ -251,6 +253,125 @@ export default function FontGenerator() {
   const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>({});
   const [selectedStyles, setSelectedStyles] = useState<{ [key: string]: boolean }>({});
   const [showAllStyles, setShowAllStyles] = useState(false);
+  const [pageData, setPageData] = useState<FontGeneratorPageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Charger les données depuis Sanity
+  useEffect(() => {
+    const loadPageData = async () => {
+      try {
+        setLoading(true);
+        const data = await PageService.getFontGeneratorPage();
+        setPageData(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement de la page:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPageData();
+  }, []);
+
+  // Mise à jour des métadonnées SEO
+  useEffect(() => {
+    if (pageData?.seo) {
+      // Mise à jour du titre de la page
+      if (pageData.seo.metaTitle) {
+        document.title = pageData.seo.metaTitle;
+      }
+      
+      // Mise à jour de la meta description
+      if (pageData.seo.metaDescription) {
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute('content', pageData.seo.metaDescription);
+        } else {
+          const metaDesc = document.createElement('meta');
+          metaDesc.name = 'description';
+          metaDesc.content = pageData.seo.metaDescription;
+          document.head.appendChild(metaDesc);
+        }
+      }
+
+      // Mise à jour des meta keywords
+      if (pageData.seo.keywords && pageData.seo.keywords.length > 0) {
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute('content', pageData.seo.keywords.join(', '));
+        } else {
+          const metaKw = document.createElement('meta');
+          metaKw.name = 'keywords';
+          metaKw.content = pageData.seo.keywords.join(', ');
+          document.head.appendChild(metaKw);
+        }
+      }
+
+      // Mise à jour de l'URL canonique
+      if (pageData.seo.canonicalUrl) {
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+          canonical.setAttribute('href', pageData.seo.canonicalUrl);
+        } else {
+          const linkCanonical = document.createElement('link');
+          linkCanonical.rel = 'canonical';
+          linkCanonical.href = pageData.seo.canonicalUrl;
+          document.head.appendChild(linkCanonical);
+        }
+      }
+    }
+
+    // Open Graph
+    if (pageData?.openGraph) {
+      if (pageData.openGraph.title) {
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+          ogTitle.setAttribute('content', pageData.openGraph.title);
+        } else {
+          const metaOgTitle = document.createElement('meta');
+          metaOgTitle.setAttribute('property', 'og:title');
+          metaOgTitle.setAttribute('content', pageData.openGraph.title);
+          document.head.appendChild(metaOgTitle);
+        }
+      }
+
+      if (pageData.openGraph.description) {
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+          ogDescription.setAttribute('content', pageData.openGraph.description);
+        } else {
+          const metaOgDesc = document.createElement('meta');
+          metaOgDesc.setAttribute('property', 'og:description');
+          metaOgDesc.setAttribute('content', pageData.openGraph.description);
+          document.head.appendChild(metaOgDesc);
+        }
+      }
+
+      if (pageData.openGraph.url) {
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) {
+          ogUrl.setAttribute('content', pageData.openGraph.url);
+        } else {
+          const metaOgUrl = document.createElement('meta');
+          metaOgUrl.setAttribute('property', 'og:url');
+          metaOgUrl.setAttribute('content', pageData.openGraph.url);
+          document.head.appendChild(metaOgUrl);
+        }
+      }
+
+      if (pageData.openGraph.image?.url) {
+        const ogImage = document.querySelector('meta[property="og:image"]');
+        if (ogImage) {
+          ogImage.setAttribute('content', pageData.openGraph.image.url);
+        } else {
+          const metaOgImage = document.createElement('meta');
+          metaOgImage.setAttribute('property', 'og:image');
+          metaOgImage.setAttribute('content', pageData.openGraph.image.url);
+          document.head.appendChild(metaOgImage);
+        }
+      }
+    }
+  }, [pageData]);
 
   const copyToClipboard = useCallback(async (text: string, styleId: string) => {
     try {
@@ -278,16 +399,44 @@ export default function FontGenerator() {
 
   const displayedStyles = showAllStyles ? generatedTexts : generatedTexts.slice(0, 6);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center font-rounded">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-soft-pink-500 mx-auto mb-4"></div>
+          <p className="text-slate-600">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-cream font-rounded">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">Instagram Générateur de texte</h1>
-          <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
-            Nos générateurs de polices Instagram vous permettent de créer un texte agréable que vous pouvez copier et coller dans votre bio, légendes, commentaires et histoires Instagram.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-6">
+            {pageData?.hero?.title || 'Instagram Générateur de texte'}
+          </h1>
+          {pageData?.hero?.description ? (
+            <div className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
+              <PortableText content={pageData.hero.description} />
+            </div>
+          ) : (
+            <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
+              Nos générateurs de polices Instagram vous permettent de créer un texte agréable que vous pouvez copier et coller dans votre bio, légendes, commentaires et histoires Instagram.
+            </p>
+          )}
         </div>
+
+        {/* H2 avant le générateur */}
+        {pageData?.h2BeforeGenerator && (
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-4 text-center">
+              {pageData.h2BeforeGenerator}
+            </h2>
+          </div>
+        )}
 
         {/* Input Section */}
         <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8 mb-8">
@@ -402,6 +551,13 @@ export default function FontGenerator() {
             </div>
           </div>
         </div>
+
+        {/* Contenu enrichi après le générateur */}
+        {pageData?.contentAfterGenerator && (
+          <div className="mt-10 bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8">
+            <PortableText content={pageData.contentAfterGenerator} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -49,6 +49,15 @@ export const structure = (S: StructureBuilder) =>
             .documentId('instagramViewsPage')
         ),
       
+      // Page Générateur de Police Instagram
+      S.listItem()
+        .title('Page Générateur de Police Instagram')
+        .child(
+          S.document()
+            .schemaType('fontGeneratorPage')
+            .documentId('fontGeneratorPage')
+        ),
+      
       // Articles de blog
       S.listItem()
         .title('Articles de Blog')
@@ -96,7 +105,7 @@ export const structure = (S: StructureBuilder) =>
       // Tous les documents
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'author', 'category', 'tag'].includes(
+          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'fontGeneratorPage', 'author', 'category', 'tag'].includes(
             listItem.getId()!
           )
       ),

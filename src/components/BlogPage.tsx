@@ -50,6 +50,86 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
     loadCategories();
   }, []);
 
+  // Mise à jour des métadonnées SEO pour la page blog
+  useEffect(() => {
+    // Mise à jour du titre de la page
+    document.title = 'Blog Réseaux Sociaux : Instagram & TikTok | Doctor Followers';
+    
+    // Mise à jour de la meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Découvrez des conseils, stratégies et guides pour développer votre audience sur Instagram et TikTok. Astuces growth, engagement et visibilité social media.');
+    } else {
+      const metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      metaDesc.content = 'Découvrez des conseils, stratégies et guides pour développer votre audience sur Instagram et TikTok. Astuces growth, engagement et visibilité social media.';
+      document.head.appendChild(metaDesc);
+    }
+
+    // Mise à jour des meta keywords
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', 'blog, conseils, instagram, tiktok, youtube, réseaux sociaux, followers, engagement');
+    } else {
+      const metaKw = document.createElement('meta');
+      metaKw.name = 'keywords';
+      metaKw.content = 'blog, conseils, instagram, tiktok, youtube, réseaux sociaux, followers, engagement';
+      document.head.appendChild(metaKw);
+    }
+
+    // Mise à jour de l'URL canonique
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', 'https://doctorfollowers.com/blogs');
+    } else {
+      const linkCanonical = document.createElement('link');
+      linkCanonical.rel = 'canonical';
+      linkCanonical.href = 'https://doctorfollowers.com/blogs';
+      document.head.appendChild(linkCanonical);
+    }
+
+    // Open Graph
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Blog Réseaux Sociaux : Instagram & TikTok | Doctor Followers');
+    } else {
+      const metaOgTitle = document.createElement('meta');
+      metaOgTitle.setAttribute('property', 'og:title');
+      metaOgTitle.setAttribute('content', 'Blog Réseaux Sociaux : Instagram & TikTok | Doctor Followers');
+      document.head.appendChild(metaOgTitle);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Découvrez des conseils, stratégies et guides pour développer votre audience sur Instagram et TikTok. Astuces growth, engagement et visibilité social media.');
+    } else {
+      const metaOgDesc = document.createElement('meta');
+      metaOgDesc.setAttribute('property', 'og:description');
+      metaOgDesc.setAttribute('content', 'Découvrez des conseils, stratégies et guides pour développer votre audience sur Instagram et TikTok. Astuces growth, engagement et visibilité social media.');
+      document.head.appendChild(metaOgDesc);
+    }
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) {
+      ogUrl.setAttribute('content', 'https://doctorfollowers.com/blogs');
+    } else {
+      const metaOgUrl = document.createElement('meta');
+      metaOgUrl.setAttribute('property', 'og:url');
+      metaOgUrl.setAttribute('content', 'https://doctorfollowers.com/blogs');
+      document.head.appendChild(metaOgUrl);
+    }
+
+    const ogType = document.querySelector('meta[property="og:type"]');
+    if (ogType) {
+      ogType.setAttribute('content', 'website');
+    } else {
+      const metaOgType = document.createElement('meta');
+      metaOgType.setAttribute('property', 'og:type');
+      metaOgType.setAttribute('content', 'website');
+      document.head.appendChild(metaOgType);
+    }
+  }, []);
+
   const filteredPosts = posts.filter(post => {
     const matchesSearch = !searchQuery || 
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

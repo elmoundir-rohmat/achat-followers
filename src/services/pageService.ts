@@ -277,6 +277,46 @@ const instagramViewsPageQuery = `*[_type == "instagramViewsPage" && published ==
   published
 }`
 
+// Requête GROQ pour récupérer la page Générateur de Police Instagram
+const fontGeneratorPageQuery = `*[_type == "fontGeneratorPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  h2BeforeGenerator,
+  contentAfterGenerator,
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
 // Requête GROQ pour récupérer la page Instagram Commentaires
 const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
@@ -762,6 +802,45 @@ export interface InstagramFollowersPageData {
   published?: boolean
 }
 
+export interface FontGeneratorPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  h2BeforeGenerator?: string
+  contentAfterGenerator?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
 export interface PageData {
   _id: string
   title: string
@@ -906,6 +985,31 @@ export class PageService {
       return page
     } catch (error) {
       console.error('Erreur lors de la récupération de la page:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère les données de la page Générateur de Police Instagram
+   */
+  static async getFontGeneratorPage(): Promise<FontGeneratorPageData | null> {
+    try {
+      const data = await client.fetch(fontGeneratorPageQuery)
+      if (!data) return null
+      
+      // Transformer l'image Open Graph si elle existe
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      
+      // Transformer l'image Twitter si elle existe
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page générateur de police:', error)
       return null
     }
   }

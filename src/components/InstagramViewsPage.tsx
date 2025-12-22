@@ -495,6 +495,7 @@ export default function InstagramViewsPage({ onBack }: { onBack: () => void }) {
 
         {/* FAQ Section */}
         <FAQSection 
+          title="Questions fréquentes sur l'achat de vues Instagram"
           faqs={pageData?.faq?.questions || [
             {
               question: "Combien de temps faut-il pour recevoir mes vues ?",

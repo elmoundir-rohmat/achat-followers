@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeft, Mail, Phone, MapPin, Clock, MessageCircle, Users, Shield, Zap } from 'lucide-react';
 
 interface ContactPageProps {
@@ -6,6 +6,74 @@ interface ContactPageProps {
 }
 
 export default function ContactPage({ onBack }: ContactPageProps) {
+  // Mise à jour des métadonnées SEO pour la page contact
+  useEffect(() => {
+    // Mise à jour du titre de la page
+    document.title = 'Contact & Support Client 24/7 | Doctor Followers';
+    
+    // Mise à jour de la meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Contactez Doctor Followers pour toute question ou assistance. Support client 24/7, réponse rapide, conseils personnalisés pour booster vos réseaux sociaux.');
+    } else {
+      const metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      metaDesc.content = 'Contactez Doctor Followers pour toute question ou assistance. Support client 24/7, réponse rapide, conseils personnalisés pour booster vos réseaux sociaux.';
+      document.head.appendChild(metaDesc);
+    }
+
+    // Mise à jour de l'URL canonique
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', 'https://doctorfollowers.com/contact');
+    } else {
+      const linkCanonical = document.createElement('link');
+      linkCanonical.rel = 'canonical';
+      linkCanonical.href = 'https://doctorfollowers.com/contact';
+      document.head.appendChild(linkCanonical);
+    }
+
+    // Open Graph
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Contact & Support Client 24/7 | Doctor Followers');
+    } else {
+      const metaOgTitle = document.createElement('meta');
+      metaOgTitle.setAttribute('property', 'og:title');
+      metaOgTitle.setAttribute('content', 'Contact & Support Client 24/7 | Doctor Followers');
+      document.head.appendChild(metaOgTitle);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Contactez Doctor Followers pour toute question ou assistance. Support client 24/7, réponse rapide, conseils personnalisés pour booster vos réseaux sociaux.');
+    } else {
+      const metaOgDesc = document.createElement('meta');
+      metaOgDesc.setAttribute('property', 'og:description');
+      metaOgDesc.setAttribute('content', 'Contactez Doctor Followers pour toute question ou assistance. Support client 24/7, réponse rapide, conseils personnalisés pour booster vos réseaux sociaux.');
+      document.head.appendChild(metaOgDesc);
+    }
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) {
+      ogUrl.setAttribute('content', 'https://doctorfollowers.com/contact');
+    } else {
+      const metaOgUrl = document.createElement('meta');
+      metaOgUrl.setAttribute('property', 'og:url');
+      metaOgUrl.setAttribute('content', 'https://doctorfollowers.com/contact');
+      document.head.appendChild(metaOgUrl);
+    }
+
+    const ogType = document.querySelector('meta[property="og:type"]');
+    if (ogType) {
+      ogType.setAttribute('content', 'website');
+    } else {
+      const metaOgType = document.createElement('meta');
+      metaOgType.setAttribute('property', 'og:type');
+      metaOgType.setAttribute('content', 'website');
+      document.head.appendChild(metaOgType);
+    }
+  }, []);
   const contactMethods = [
     {
       icon: Mail,

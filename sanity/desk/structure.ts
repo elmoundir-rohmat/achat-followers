@@ -58,6 +58,45 @@ export const structure = (S: StructureBuilder) =>
             .documentId('fontGeneratorPage')
         ),
       
+      // Séparateur TikTok
+      S.divider(),
+      
+      // Page TikTok Followers
+      S.listItem()
+        .title('Page TikTok Followers')
+        .child(
+          S.document()
+            .schemaType('tiktokFollowersPage')
+            .documentId('tiktokFollowersPage')
+        ),
+      
+      // Page TikTok Likes
+      S.listItem()
+        .title('Page TikTok Likes')
+        .child(
+          S.document()
+            .schemaType('tiktokLikesPage')
+            .documentId('tiktokLikesPage')
+        ),
+      
+      // Page TikTok Views
+      S.listItem()
+        .title('Page TikTok Views')
+        .child(
+          S.document()
+            .schemaType('tiktokViewsPage')
+            .documentId('tiktokViewsPage')
+        ),
+      
+      // Page TikTok Comments
+      S.listItem()
+        .title('Page TikTok Commentaires')
+        .child(
+          S.document()
+            .schemaType('tiktokCommentsPage')
+            .documentId('tiktokCommentsPage')
+        ),
+      
       // Articles de blog
       S.listItem()
         .title('Articles de Blog')
@@ -105,7 +144,7 @@ export const structure = (S: StructureBuilder) =>
       // Tous les documents
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'fontGeneratorPage', 'author', 'category', 'tag'].includes(
+          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'fontGeneratorPage', 'tiktokFollowersPage', 'tiktokLikesPage', 'tiktokViewsPage', 'tiktokCommentsPage', 'author', 'category', 'tag'].includes(
             listItem.getId()!
           )
       ),

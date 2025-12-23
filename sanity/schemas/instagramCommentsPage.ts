@@ -214,6 +214,15 @@ export default defineType({
       ],
     }),
 
+    // Contenu riche avant FAQ - SEO
+    defineField({
+      name: 'contentBeforeFaq',
+      title: 'Contenu riche avant la FAQ',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Contenu riche qui apparaît juste avant la section FAQ. Supporte le formatage : gras, italique, liens, listes, etc. Important pour le SEO.',
+    }),
+
     // Section FAQ - SEO Important
     defineField({
       name: 'faq',

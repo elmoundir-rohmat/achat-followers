@@ -67,6 +67,7 @@ const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && publ
       description
     }
   },
+  contentBeforeFaq,
   faq {
     questions[] {
       question,
@@ -154,6 +155,7 @@ const instagramLikesPageQuery = `*[_type == "instagramLikesPage" && published ==
       description
     }
   },
+  contentBeforeFaq,
   faq {
     questions[] {
       question,
@@ -241,6 +243,7 @@ const instagramViewsPageQuery = `*[_type == "instagramViewsPage" && published ==
       description
     }
   },
+  contentBeforeFaq,
   faq {
     questions[] {
       question,
@@ -360,6 +363,7 @@ const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && publis
       description
     }
   },
+  contentBeforeFaq,
   faq {
     questions[] {
       question,
@@ -516,6 +520,7 @@ export interface InstagramLikesPageData {
       description?: string
     }
   }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   faq?: {
     questions?: Array<{
       question?: string
@@ -602,6 +607,7 @@ export interface InstagramViewsPageData {
       description?: string
     }
   }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   faq?: {
     questions?: Array<{
       question?: string
@@ -680,6 +686,7 @@ export interface InstagramCommentsPageData {
       description?: string
     }>
   }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   faq?: {
     questions?: Array<{
       question?: string
@@ -766,6 +773,7 @@ export interface InstagramFollowersPageData {
           description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
         }
   }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   faq?: {
     questions?: Array<{
       question?: string

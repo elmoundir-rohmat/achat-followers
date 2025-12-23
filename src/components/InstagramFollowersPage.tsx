@@ -548,6 +548,15 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
 
         <GuaranteeSection />
 
+        {/* Contenu riche avant FAQ */}
+        {pageData?.contentBeforeFaq && (
+          <div className="mt-10 py-8 px-4 bg-gradient-to-br from-soft-pink-50/30 via-peach-50/30 to-lavender-50/30">
+            <div className="max-w-4xl mx-auto">
+              <PortableText content={pageData.contentBeforeFaq} />
+            </div>
+          </div>
+        )}
+
         {/* FAQ Section */}
         <FAQSection 
           faqs={pageData?.faq?.questions || faqData}

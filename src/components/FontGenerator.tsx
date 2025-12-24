@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Copy, Check, Instagram, Type, ChevronDown } from 'lucide-react';
 import { PageService, FontGeneratorPageData } from '../services/pageService';
 import PortableText from './PortableText';
+import FAQSection from './FAQSection';
 
 interface FontStyle {
   id: string;
@@ -556,6 +557,19 @@ export default function FontGenerator() {
         {pageData?.contentAfterGenerator && (
           <div className="mt-10 bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8">
             <PortableText content={pageData.contentAfterGenerator} />
+          </div>
+        )}
+
+        {/* FAQ Section */}
+        {pageData?.faq?.questions && pageData.faq.questions.length > 0 && (
+          <div className="mt-10">
+            <FAQSection 
+              title={pageData.faq.title || "Questions fréquentes"}
+              faqs={pageData.faq.questions.map(q => ({
+                question: q.question || '',
+                answer: q.answer || ''
+              }))}
+            />
           </div>
         )}
       </div>

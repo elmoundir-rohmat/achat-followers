@@ -290,6 +290,13 @@ const fontGeneratorPageQuery = `*[_type == "fontGeneratorPage" && published == t
   },
   h2BeforeGenerator,
   contentAfterGenerator,
+  faq {
+    title,
+    questions[] {
+      question,
+      answer
+    }
+  },
   seo {
     metaTitle,
     metaDescription,
@@ -819,6 +826,13 @@ export interface FontGeneratorPageData {
   }
   h2BeforeGenerator?: string
   contentAfterGenerator?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  faq?: {
+    title?: string
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
   seo?: {
     metaTitle?: string
     metaDescription?: string

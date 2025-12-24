@@ -54,6 +54,47 @@ export default defineType({
       description: 'Contenu riche qui apparaît après l\'outil de génération. Supporte le formatage : gras, italique, liens, listes, etc. Important pour le SEO.',
     }),
 
+    // Section FAQ - SEO Important
+    defineField({
+      name: 'faq',
+      title: 'Section FAQ - SEO',
+      type: 'object',
+      fields: [
+        {
+          name: 'title',
+          title: 'Titre de la section FAQ',
+          type: 'string',
+          description: 'Titre H2 de la section FAQ (ex: "Questions fréquentes")',
+        },
+        {
+          name: 'questions',
+          title: 'Questions Fréquentes',
+          type: 'array',
+          description: 'Les FAQ sont importantes pour le SEO (rich snippets)',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'question',
+                  title: 'Question',
+                  type: 'string',
+                  description: 'Question visible par Google (rich snippets)',
+                },
+                {
+                  name: 'answer',
+                  title: 'Réponse',
+                  type: 'text',
+                  rows: 4,
+                  description: 'Réponse visible par Google (rich snippets)',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
+
     // SEO
     defineField({
       name: 'seo',

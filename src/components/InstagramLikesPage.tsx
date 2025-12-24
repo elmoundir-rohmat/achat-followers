@@ -240,9 +240,15 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                   {pageData?.hero?.title || "Acheter des Likes Instagram Réels et Actifs"}
                 </h1>
               </div>
-              <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                {pageData?.hero?.description || "Des likes réels et authentiques pour augmenter l'engagement de vos posts"}
-              </p>
+              {pageData?.hero?.description ? (
+                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  <PortableText content={pageData.hero.description} />
+                </div>
+              ) : (
+                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  Des likes réels et authentiques pour augmenter l'engagement de vos posts
+                </p>
+              )}
               <div className="flex flex-wrap items-center gap-6 text-base">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
                   <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
@@ -442,15 +448,17 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
               <h3 className="text-xl font-semibold text-slate-800 mb-4">
                 {pageData?.securitySection?.serviceClient?.title || "Service client 24/7"}
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                {pageData?.securitySection?.serviceClient?.description || (
-                  <>
-                    Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
-                    par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
-                    spécifique, nous pouvons également vous contacter par téléphone.
-                  </>
-                )}
-              </p>
+              {pageData?.securitySection?.serviceClient?.description ? (
+                <div className="text-slate-600 text-sm leading-relaxed">
+                  <PortableText content={pageData.securitySection.serviceClient.description} />
+                </div>
+              ) : (
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Bien que les incidents soient rares, notre <strong className="text-lavender-600">Service client</strong> est disponible
+                  par e-mail du lundi au dimanche, 24 heures sur 24. Si vous avez une demande
+                  spécifique, nous pouvons également vous contacter par téléphone.
+                </p>
+              )}
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
@@ -460,15 +468,17 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
               <h3 className="text-xl font-semibold text-slate-800 mb-4">
                 {pageData?.securitySection?.remboursement?.title || "Politique de remboursement"}
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                {pageData?.securitySection?.remboursement?.description || (
-                  <>
-                    Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
-                    Dans le cas où la commande ne vous convient
-                    pas, nous vous faisons un remboursement dans les 24h.
-                  </>
-                )}
-              </p>
+              {pageData?.securitySection?.remboursement?.description ? (
+                <div className="text-slate-600 text-sm leading-relaxed">
+                  <PortableText content={pageData.securitySection.remboursement.description} />
+                </div>
+              ) : (
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Notre offre <strong className="text-soft-pink-600">'Satisfait ou remboursé'</strong> est très simple: Satisfait ou remboursé.
+                  Dans le cas où la commande ne vous convient
+                  pas, nous vous faisons un remboursement dans les 24h.
+                </p>
+              )}
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg text-center border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
@@ -478,15 +488,17 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
               <h3 className="text-xl font-semibold text-slate-800 mb-4">
                 {pageData?.securitySection?.paiements?.title || "Paiements sécurisés"}
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                {pageData?.securitySection?.paiements?.description || (
-                  <>
-                    <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
-                    SSL et des prestataires reconnus -et surtout, nous ne vous
-                    demanderons jamais vos identifiants Instagram.
-                  </>
-                )}
-              </p>
+              {pageData?.securitySection?.paiements?.description ? (
+                <div className="text-slate-600 text-sm leading-relaxed">
+                  <PortableText content={pageData.securitySection.paiements.description} />
+                </div>
+              ) : (
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  <strong className="text-soft-orange-600">Vos paiements sont 100% sécurisés</strong> grâce à un protocole
+                  SSL et des prestataires reconnus -et surtout, nous ne vous
+                  demanderons jamais vos identifiants Instagram.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -510,21 +522,23 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.engagement?.title || "Augmenter votre engagement"}
                 </h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  {pageData?.whyBuySection?.engagement?.description || (
-                    <>
-                      Sur Instagram, l'engagement est roi. Plus vos posts reçoivent de likes, 
-                      plus l'algorithme les met en avant. Que vous soyez créateur de contenu,
-                      entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. 
-                      <strong className="text-soft-pink-600">Acheter des likes Instagram</strong> permet de booster votre engagement. 
-                      Un post avec beaucoup de likes inspire confiance et attire naturellement plus d'interactions... 
-                      et suscite plus d'intérêt de la part de l'algorithme. Pour une stratégie complète, combinez vos likes avec des 
-                      <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> followers Instagram</a>, 
-                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
-                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour maximiser votre visibilité.
-                    </>
-                  )}
-                </p>
+                {pageData?.whyBuySection?.engagement?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.engagement.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    Sur Instagram, l'engagement est roi. Plus vos posts reçoivent de likes, 
+                    plus l'algorithme les met en avant. Que vous soyez créateur de contenu,
+                    entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. 
+                    <strong className="text-soft-pink-600">Acheter des likes Instagram</strong> permet de booster votre engagement. 
+                    Un post avec beaucoup de likes inspire confiance et attire naturellement plus d'interactions... 
+                    et suscite plus d'intérêt de la part de l'algorithme. Pour une stratégie complète, combinez vos likes avec des 
+                    <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> followers Instagram</a>, 
+                    <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
+                    <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour maximiser votre visibilité.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -533,22 +547,24 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.portee?.title || "Améliorer votre portée organique"}
                 </h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  {pageData?.whyBuySection?.portee?.description || (
-                    <>
-                      L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. 
-                      Plus vos posts reçoivent de <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes</a> dans les premières heures, plus ils sont susceptibles 
-                      d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs. Pour renforcer votre stratégie, 
-                      <strong className="text-soft-pink-600">en achetant des likes Instagram français</strong>, 
-                      vous renforcez votre portée organique. Complétez avec des 
-                      <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> followers Instagram</a> pour augmenter votre base d'abonnés, 
-                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> pour vos Reels et 
-                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour enrichir vos posts. 
-                      Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
-                      vertueux que vous pouvez activer avec des likes de qualité.
-                    </>
-                  )}
-                </p>
+                {pageData?.whyBuySection?.portee?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.portee.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. 
+                    Plus vos posts reçoivent de <a href="/products/acheter-des-likes-instagram" onClick={(e) => { e.preventDefault(); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline">likes</a> dans les premières heures, plus ils sont susceptibles 
+                    d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs. Pour renforcer votre stratégie, 
+                    <strong className="text-soft-pink-600">en achetant des likes Instagram français</strong>, 
+                    vous renforcez votre portée organique. Complétez avec des 
+                    <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> followers Instagram</a> pour augmenter votre base d'abonnés, 
+                    <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> pour vos Reels et 
+                    <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour enrichir vos posts. 
+                    Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle
+                    vertueux que vous pouvez activer avec des likes de qualité.
+                  </p>
+                )}
               </div>
               <div>
                 <img 
@@ -571,21 +587,23 @@ export default function InstagramLikesPage({ onBack }: { onBack: () => void }) {
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.credibilite?.title || "Construire votre crédibilité"}
                 </h3>
-                <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                  {pageData?.whyBuySection?.credibilite?.description || (
-                    <>
-                      <strong className="text-orange-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
-                      Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique
-                      et durable. Chaque like livré provient d'un utilisateur réel, susceptible d'interagir
-                      naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
-                      L'objectif n'est pas juste d'avoir plus de likes, mais de <strong className="text-lavender-600">créer une preuve sociale
-                      forte</strong> qui attire de vrais fans et clients. Pour une crédibilité complète, alliez vos likes avec des 
-                      <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> followers Instagram réels</a>, 
-                      <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
-                      <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour créer une présence complète et engageante.
-                    </>
-                  )}
-                </p>
+                {pageData?.whyBuySection?.credibilite?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.credibilite.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <strong className="text-orange-600">Construire votre crédibilité</strong> ne doit pas se limiter à gonfler vos chiffres.
+                    Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique
+                    et durable. Chaque like livré provient d'un utilisateur réel, susceptible d'interagir
+                    naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles.
+                    L'objectif n'est pas juste d'avoir plus de likes, mais de <strong className="text-lavender-600">créer une preuve sociale
+                    forte</strong> qui attire de vrais fans et clients. Pour une crédibilité complète, alliez vos likes avec des 
+                    <a href="/products/acheter-followers-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('followers'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> followers Instagram réels</a>, 
+                    <a href="/products/acheter-des-vues-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('views'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des vues Instagram</a> et 
+                    <a href="/products/acheter-des-commentaires-instagram" onClick={(e) => { e.preventDefault(); navigateToInstagramService('comments'); }} className="text-soft-pink-600 hover:text-soft-pink-700 font-semibold underline"> des commentaires Instagram</a> pour créer une présence complète et engageante.
+                  </p>
+                )}
               </div>
             </div>
           </div>

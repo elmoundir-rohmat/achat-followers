@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, CreditCard, User, Mail, MapPin, Phone, X } from 'lucide-react';
+import { ShoppingCart, CreditCard, User, Mail, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
 import MockPayment from './MockPayment';
@@ -13,23 +13,15 @@ interface TikTokCheckoutPageProps {
 }
 
 interface CustomerData {
-  firstName: string;
-  lastName: string;
   email: string;
-  address: string;
   country: string;
-  phone: string;
 }
 
 export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckoutPageProps) {
   const { items, getTotalPrice, getTotalFollowers, clearCart, removeFromCart } = useCart();
   const [customerData, setCustomerData] = useState<CustomerData>({
-    firstName: '',
-    lastName: '',
     email: '',
-    address: '',
-    country: 'France',
-    phone: ''
+    country: 'France'
   });
 
   const [errors, setErrors] = useState<Partial<CustomerData>>({});
@@ -53,15 +45,11 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
   const validateForm = () => {
     const newErrors: Partial<CustomerData> = {};
     
-    if (!customerData.firstName.trim()) newErrors.firstName = 'Le prénom est requis';
-    if (!customerData.lastName.trim()) newErrors.lastName = 'Le nom est requis';
     if (!customerData.email.trim()) {
       newErrors.email = 'L\'email est requis';
     } else if (!/\S+@\S+\.\S+/.test(customerData.email)) {
       newErrors.email = 'L\'email n\'est pas valide';
     }
-    if (!customerData.address.trim()) newErrors.address = 'L\'adresse est requise';
-    if (!customerData.phone.trim()) newErrors.phone = 'Le téléphone est requis';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -257,44 +245,6 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Prénom *
-                  </label>
-                  <input
-                    type="text"
-                    value={customerData.firstName}
-                    onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
-                      errors.firstName ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Votre prénom"
-                  />
-                  {errors.firstName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nom *
-                  </label>
-                  <input
-                    type="text"
-                    value={customerData.lastName}
-                    onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
-                      errors.lastName ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Votre nom"
-                  />
-                  {errors.lastName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
-                  )}
-                </div>
-              </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Mail className="w-4 h-4 inline mr-2" />
@@ -312,63 +262,24 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
                 )}
+                <p className="text-xs text-gray-500 mt-1">Vous allez recevoir un email de confirmation</p>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <MapPin className="w-4 h-4 inline mr-2" />
-                  Adresse *
+                  Pays *
                 </label>
-                <input
-                  type="text"
-                  value={customerData.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
-                    errors.address ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="123 Rue de la Paix, 75001 Paris"
-                />
-                {errors.address && (
-                  <p className="text-red-500 text-sm mt-1">{errors.address}</p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Pays *
-                  </label>
-                  <select
-                    value={customerData.country}
-                    onChange={(e) => handleInputChange('country', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
-                  >
-                    <option value="France">France</option>
-                    <option value="Belgique">Belgique</option>
-                    <option value="Suisse">Suisse</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Autre">Autre</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <Phone className="w-4 h-4 inline mr-2" />
-                    Téléphone *
-                  </label>
-                  <input
-                    type="tel"
-                    value={customerData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
-                      errors.phone ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="06 12 34 56 78"
-                  />
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                  )}
-                </div>
+                <select
+                  value={customerData.country}
+                  onChange={(e) => handleInputChange('country', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                >
+                  <option value="France">France</option>
+                  <option value="Belgique">Belgique</option>
+                  <option value="Suisse">Suisse</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Autre">Autre</option>
+                </select>
               </div>
 
               <div className="space-y-3">

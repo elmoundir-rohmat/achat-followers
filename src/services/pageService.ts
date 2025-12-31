@@ -407,6 +407,94 @@ const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && publis
   published
 }`
 
+// Requête GROQ pour récupérer la page TikTok Followers
+const tiktokFollowersPageQuery = `*[_type == "tiktokFollowersPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  followerTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    credibilite {
+      title,
+      description
+    },
+    explorer {
+      title,
+      description
+    },
+    communaute {
+      title,
+      description
+    }
+  },
+  contentBeforeFaq,
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
 // Requête GROQ pour récupérer une page par slug
 const pageBySlugQuery = `*[_type == "page" && slug.current == $slug && published == true][0] {
   _id,
@@ -817,6 +905,93 @@ export interface InstagramFollowersPageData {
   published?: boolean
 }
 
+export interface TikTokFollowersPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  followerTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    remboursement?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    paiements?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  whyBuySection?: {
+    credibilite?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    explorer?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    communaute?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
 export interface FontGeneratorPageData {
   _id: string
   title: string
@@ -949,6 +1124,28 @@ export class PageService {
       return data
     } catch (error) {
       console.error('Erreur lors de la récupération de la page Instagram Followers:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page TikTok Followers
+   */
+  static async getTikTokFollowersPage(): Promise<TikTokFollowersPageData | null> {
+    try {
+      const data = await client.fetch(tiktokFollowersPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page TikTok Followers:', error)
       return null
     }
   }

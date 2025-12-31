@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Music, Star, Shield, Users2, Zap, ShoppingCart, X } from 'lucide-react';
 import PackageSelector from './PackageSelector';
 import TikTokDeliveryModal from './TikTokDeliveryModal';
 import TikTokCheckoutPage from './TikTokCheckoutPage';
 import { useCart } from '../contexts/CartContext';
 import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
+import { PageService, TikTokFollowersPageData } from '../services/pageService';
+import { updateSEOMetadata } from '../utils/seoMetadata';
+import PortableText from './PortableText';
 
 export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) {
   const [selectedPackage, setSelectedPackage] = useState('');
@@ -13,6 +16,17 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const [tiktokUrl, setTiktokUrl] = useState('');
   const { addToCart } = useCart();
+  const [pageData, setPageData] = useState<TikTokFollowersPageData | null>(null);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    PageService.getTikTokFollowersPage().then(setPageData);
+  }, []);
+
+  // Mettre à jour les métadonnées SEO
+  useEffect(() => {
+    updateSEOMetadata(pageData);
+  }, [pageData]);
 
   const getPrice = (packageId: string) => {
     return getPackagePrice(packageId, 'tiktok_followers');
@@ -108,12 +122,18 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
                 <Music className="w-9 h-9 text-white" strokeWidth={1.5} />
               </div>
               <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                Followers TikTok
+                {pageData?.hero?.title || "Followers TikTok"}
               </h1>
             </div>
-            <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-              Des followers réels et actifs pour faire exploser votre communauté TikTok
-            </p>
+            {pageData?.hero?.description ? (
+              <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                <PortableText content={pageData.hero.description} />
+              </div>
+            ) : (
+              <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                Des followers réels et actifs pour faire exploser votre communauté TikTok
+              </p>
+            )}
             <div className="flex flex-wrap items-center justify-center gap-6 text-base">
               <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
                 <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />

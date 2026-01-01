@@ -495,6 +495,262 @@ const tiktokFollowersPageQuery = `*[_type == "tiktokFollowersPage" && published 
   published
 }`
 
+// Requête GROQ pour récupérer la page TikTok Likes
+const tiktokLikesPageQuery = `*[_type == "tiktokLikesPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  likeTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    engagement {
+      title,
+      description
+    },
+    portee {
+      title,
+      description
+    },
+    credibilite {
+      title,
+      description
+    }
+  },
+  contentBeforeFaq,
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
+// Requête GROQ pour récupérer la page TikTok Comments
+const tiktokCommentsPageQuery = `*[_type == "tiktokCommentsPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  commentTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    items[] {
+      title,
+      description
+    }
+  },
+  contentBeforeFaq,
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
+// Requête GROQ pour récupérer la page TikTok Views
+const tiktokViewsPageQuery = `*[_type == "tiktokViewsPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  sectionTitles {
+    testimonials,
+    security,
+    whyBuy
+  },
+  viewTypes {
+    international {
+      title,
+      descriptions
+    },
+    french {
+      title,
+      descriptions
+    }
+  },
+  securitySection {
+    serviceClient {
+      title,
+      description
+    },
+    remboursement {
+      title,
+      description
+    },
+    paiements {
+      title,
+      description
+    }
+  },
+  whyBuySection {
+    portee {
+      title,
+      description
+    },
+    visibilite {
+      title,
+      description
+    },
+    credibilite {
+      title,
+      description
+    }
+  },
+  contentBeforeFaq,
+  faq {
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
 // Requête GROQ pour récupérer une page par slug
 const pageBySlugQuery = `*[_type == "page" && slug.current == $slug && published == true][0] {
   _id,
@@ -992,6 +1248,259 @@ export interface TikTokFollowersPageData {
   published?: boolean
 }
 
+export interface TikTokLikesPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  likeTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    remboursement?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    paiements?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  whyBuySection?: {
+    engagement?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    portee?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    credibilite?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
+export interface TikTokCommentsPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  commentTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    remboursement?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    paiements?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  whyBuySection?: {
+    items?: Array<{
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }>
+  }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
+export interface TikTokViewsPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  }
+  sectionTitles?: {
+    testimonials?: string
+    security?: string
+    whyBuy?: string
+  }
+  viewTypes?: {
+    international?: {
+      title?: string
+      descriptions?: string[]
+    }
+    french?: {
+      title?: string
+      descriptions?: string[]
+    }
+  }
+  securitySection?: {
+    serviceClient?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    remboursement?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    paiements?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  whyBuySection?: {
+    portee?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    visibilite?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+    credibilite?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    }
+  }
+  contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  faq?: {
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
 export interface FontGeneratorPageData {
   _id: string
   title: string
@@ -1190,6 +1699,72 @@ export class PageService {
       return data
     } catch (error) {
       console.error('Erreur lors de la récupération de la page Instagram Views:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page TikTok Likes
+   */
+  static async getTikTokLikesPage(): Promise<TikTokLikesPageData | null> {
+    try {
+      const data = await client.fetch(tiktokLikesPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page TikTok Likes:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page TikTok Comments
+   */
+  static async getTikTokCommentsPage(): Promise<TikTokCommentsPageData | null> {
+    try {
+      const data = await client.fetch(tiktokCommentsPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page TikTok Comments:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère la page TikTok Views
+   */
+  static async getTikTokViewsPage(): Promise<TikTokViewsPageData | null> {
+    try {
+      const data = await client.fetch(tiktokViewsPageQuery)
+      if (!data || !data._id) return null
+      
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page TikTok Views:', error)
       return null
     }
   }

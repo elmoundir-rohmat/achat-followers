@@ -33,6 +33,23 @@ export default defineType({
           of: [{ type: 'block' }],
           description: 'Description importante pour le SEO - visible sous le titre. Supporte le formatage : gras, italique, liens, etc.',
         },
+        {
+          name: 'image',
+          title: 'Image Hero',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Texte alternatif (Alt)',
+              type: 'string',
+              description: 'Important pour l\'accessibilité et le SEO',
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+        },
       ],
     }),
 
@@ -205,6 +222,23 @@ export default defineType({
               of: [{ type: 'block' }],
               description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc.',
             },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
+            },
           ],
         },
         {
@@ -225,6 +259,23 @@ export default defineType({
               of: [{ type: 'block' }],
               description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc.',
             },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
+            },
           ],
         },
         {
@@ -244,6 +295,23 @@ export default defineType({
               type: 'array',
               of: [{ type: 'block' }],
               description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc.',
+            },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
             },
           ],
         },

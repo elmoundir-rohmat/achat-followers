@@ -219,11 +219,19 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1611162617263-4d4e51421e7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="TikTok Likes and Engagement Analytics" 
-                className="rounded-card shadow-soft-xl"
-              />
+              {pageData?.hero?.image?.url ? (
+                <img 
+                  src={pageData.hero.image.url} 
+                  alt={pageData.hero.image.alt || "TikTok Likes and Engagement Analytics"} 
+                  className="rounded-card shadow-soft-xl"
+                />
+              ) : (
+                <img 
+                  src="https://images.unsplash.com/photo-1611162617263-4d4e51421e7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                  alt="TikTok Likes and Engagement Analytics" 
+                  className="rounded-card shadow-soft-xl"
+                />
+              )}
               <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
                 <div className="text-soft-pink-600 font-semibold text-lg">❤️ +127% Engagement</div>
                 <div className="text-sm text-slate-600">Boost achieved</div>
@@ -460,11 +468,19 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
           <div className="space-y-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1611162617263-4d4e51421e7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="TikTok Video with High Likes and Engagement" 
-                  className="rounded-card shadow-soft-xl"
-                />
+                {pageData?.whyBuySection?.engagement?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.engagement.image.url} 
+                    alt={pageData.whyBuySection.engagement.image.alt || "TikTok Video with High Likes and Engagement"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1611162617263-4d4e51421e7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="TikTok Video with High Likes and Engagement" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
               </div>
               <div>
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
@@ -508,21 +524,37 @@ export default function TikTokLikesPage({ onBack }: { onBack: () => void }) {
                 )}
               </div>
               <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="TikTok Analytics Dashboard showing Reach and Impressions" 
-                  className="rounded-card shadow-soft-xl"
-                />
+                {pageData?.whyBuySection?.portee?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.portee.image.url} 
+                    alt={pageData.whyBuySection.portee.image.alt || "TikTok Analytics Dashboard showing Reach and Impressions"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="TikTok Analytics Dashboard showing Reach and Impressions" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="TikTok Business Profile with High Engagement Metrics" 
-                  className="rounded-card shadow-soft-xl"
-                />
+                {pageData?.whyBuySection?.credibilite?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.credibilite.image.url} 
+                    alt={pageData.whyBuySection.credibilite.image.alt || "TikTok Business Profile with High Engagement Metrics"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="TikTok Business Profile with High Engagement Metrics" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
               </div>
               <div>
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">

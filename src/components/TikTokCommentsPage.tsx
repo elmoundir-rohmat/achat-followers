@@ -249,11 +249,19 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="TikTok Comments and Engagement Analytics" 
-                className="rounded-card shadow-soft-xl"
-              />
+              {pageData?.hero?.image?.url ? (
+                <img 
+                  src={pageData.hero.image.url} 
+                  alt={pageData.hero.image.alt || "TikTok Comments and Engagement Analytics"} 
+                  className="rounded-card shadow-soft-xl"
+                />
+              ) : (
+                <img 
+                  src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                  alt="TikTok Comments and Engagement Analytics" 
+                  className="rounded-card shadow-soft-xl"
+                />
+              )}
               <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
                 <div className="text-soft-pink-600 font-semibold text-lg">💬 +85% Engagement</div>
                 <div className="text-sm text-slate-600">Boost achieved</div>
@@ -510,11 +518,17 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
               }
             ]).map((item, index) => {
               const isEven = index % 2 === 0;
-              const images = [
+              // Images de fallback statiques
+              const fallbackImages = [
                 "https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 "https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
               ];
+              
+              // Récupérer l'image depuis Sanity si disponible
+              const sanityItem = pageData?.whyBuySection?.items?.[index];
+              const imageUrl = sanityItem?.image?.url || fallbackImages[index] || fallbackImages[0];
+              const imageAlt = sanityItem?.image?.alt || item.title;
               
               return (
                 <div key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${!isEven ? 'lg:grid-flow-dense' : ''}`}>
@@ -522,8 +536,8 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
                     <>
                       <div>
                         <img 
-                          src={images[index] || images[0]} 
-                          alt={item.title} 
+                          src={imageUrl} 
+                          alt={imageAlt} 
                           className="rounded-card shadow-soft-xl"
                         />
                       </div>
@@ -552,8 +566,8 @@ export default function TikTokCommentsPage({ onBack }: { onBack: () => void }) {
                       </div>
                       <div>
                         <img 
-                          src={images[index] || images[1]} 
-                          alt={item.title} 
+                          src={imageUrl} 
+                          alt={imageAlt} 
                           className="rounded-card shadow-soft-xl"
                         />
                       </div>

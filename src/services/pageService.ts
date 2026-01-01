@@ -413,7 +413,14 @@ const tiktokFollowersPageQuery = `*[_type == "tiktokFollowersPage" && published 
   title,
   hero {
     title,
-    description
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      },
+      alt
+    }
   },
   sectionTitles {
     testimonials,
@@ -447,15 +454,36 @@ const tiktokFollowersPageQuery = `*[_type == "tiktokFollowersPage" && published 
   whyBuySection {
     credibilite {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     explorer {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     communaute {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     }
   },
   contentBeforeFaq,
@@ -501,7 +529,14 @@ const tiktokLikesPageQuery = `*[_type == "tiktokLikesPage" && published == true 
   title,
   hero {
     title,
-    description
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      },
+      alt
+    }
   },
   sectionTitles {
     testimonials,
@@ -535,15 +570,36 @@ const tiktokLikesPageQuery = `*[_type == "tiktokLikesPage" && published == true 
   whyBuySection {
     engagement {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     portee {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     credibilite {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     }
   },
   contentBeforeFaq,
@@ -589,7 +645,14 @@ const tiktokCommentsPageQuery = `*[_type == "tiktokCommentsPage" && published ==
   title,
   hero {
     title,
-    description
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      },
+      alt
+    }
   },
   sectionTitles {
     testimonials,
@@ -623,7 +686,14 @@ const tiktokCommentsPageQuery = `*[_type == "tiktokCommentsPage" && published ==
   whyBuySection {
     items[] {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     }
   },
   contentBeforeFaq,
@@ -669,7 +739,14 @@ const tiktokViewsPageQuery = `*[_type == "tiktokViewsPage" && published == true 
   title,
   hero {
     title,
-    description
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      },
+      alt
+    }
   },
   sectionTitles {
     testimonials,
@@ -703,15 +780,36 @@ const tiktokViewsPageQuery = `*[_type == "tiktokViewsPage" && published == true 
   whyBuySection {
     portee {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     visibilite {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     credibilite {
       title,
-      description
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     }
   },
   contentBeforeFaq,
@@ -1167,6 +1265,13 @@ export interface TikTokFollowersPageData {
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+      alt?: string
+    }
   }
   sectionTitles?: {
     testimonials?: string
@@ -1201,14 +1306,35 @@ export interface TikTokFollowersPageData {
     credibilite?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     explorer?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     communaute?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1254,6 +1380,13 @@ export interface TikTokLikesPageData {
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+      alt?: string
+    }
   }
   sectionTitles?: {
     testimonials?: string
@@ -1288,14 +1421,35 @@ export interface TikTokLikesPageData {
     engagement?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     portee?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     credibilite?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1341,6 +1495,13 @@ export interface TikTokCommentsPageData {
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+      alt?: string
+    }
   }
   sectionTitles?: {
     testimonials?: string
@@ -1375,6 +1536,13 @@ export interface TikTokCommentsPageData {
     items?: Array<{
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }>
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1420,6 +1588,13 @@ export interface TikTokViewsPageData {
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+      alt?: string
+    }
   }
   sectionTitles?: {
     testimonials?: string
@@ -1454,14 +1629,35 @@ export interface TikTokViewsPageData {
     portee?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     visibilite?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     credibilite?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1645,6 +1841,19 @@ export class PageService {
       const data = await client.fetch(tiktokFollowersPageQuery)
       if (!data || !data._id) return null
       
+      // Transformer les URLs d'images
+      if (data.hero?.image?.asset) {
+        data.hero.image.url = urlFor(data.hero.image).url()
+      }
+      if (data.whyBuySection?.credibilite?.image?.asset) {
+        data.whyBuySection.credibilite.image.url = urlFor(data.whyBuySection.credibilite.image).url()
+      }
+      if (data.whyBuySection?.explorer?.image?.asset) {
+        data.whyBuySection.explorer.image.url = urlFor(data.whyBuySection.explorer.image).url()
+      }
+      if (data.whyBuySection?.communaute?.image?.asset) {
+        data.whyBuySection.communaute.image.url = urlFor(data.whyBuySection.communaute.image).url()
+      }
       if (data.openGraph?.image?.asset) {
         data.openGraph.image.url = urlFor(data.openGraph.image).url()
       }
@@ -1711,6 +1920,19 @@ export class PageService {
       const data = await client.fetch(tiktokLikesPageQuery)
       if (!data || !data._id) return null
       
+      // Transformer les URLs d'images
+      if (data.hero?.image?.asset) {
+        data.hero.image.url = urlFor(data.hero.image).url()
+      }
+      if (data.whyBuySection?.engagement?.image?.asset) {
+        data.whyBuySection.engagement.image.url = urlFor(data.whyBuySection.engagement.image).url()
+      }
+      if (data.whyBuySection?.portee?.image?.asset) {
+        data.whyBuySection.portee.image.url = urlFor(data.whyBuySection.portee.image).url()
+      }
+      if (data.whyBuySection?.credibilite?.image?.asset) {
+        data.whyBuySection.credibilite.image.url = urlFor(data.whyBuySection.credibilite.image).url()
+      }
       if (data.openGraph?.image?.asset) {
         data.openGraph.image.url = urlFor(data.openGraph.image).url()
       }
@@ -1733,6 +1955,17 @@ export class PageService {
       const data = await client.fetch(tiktokCommentsPageQuery)
       if (!data || !data._id) return null
       
+      // Transformer les URLs d'images
+      if (data.hero?.image?.asset) {
+        data.hero.image.url = urlFor(data.hero.image).url()
+      }
+      if (data.whyBuySection?.items) {
+        data.whyBuySection.items.forEach((item: any) => {
+          if (item.image?.asset) {
+            item.image.url = urlFor(item.image).url()
+          }
+        })
+      }
       if (data.openGraph?.image?.asset) {
         data.openGraph.image.url = urlFor(data.openGraph.image).url()
       }
@@ -1755,6 +1988,19 @@ export class PageService {
       const data = await client.fetch(tiktokViewsPageQuery)
       if (!data || !data._id) return null
       
+      // Transformer les URLs d'images
+      if (data.hero?.image?.asset) {
+        data.hero.image.url = urlFor(data.hero.image).url()
+      }
+      if (data.whyBuySection?.portee?.image?.asset) {
+        data.whyBuySection.portee.image.url = urlFor(data.whyBuySection.portee.image).url()
+      }
+      if (data.whyBuySection?.visibilite?.image?.asset) {
+        data.whyBuySection.visibilite.image.url = urlFor(data.whyBuySection.visibilite.image).url()
+      }
+      if (data.whyBuySection?.credibilite?.image?.asset) {
+        data.whyBuySection.credibilite.image.url = urlFor(data.whyBuySection.credibilite.image).url()
+      }
       if (data.openGraph?.image?.asset) {
         data.openGraph.image.url = urlFor(data.openGraph.image).url()
       }

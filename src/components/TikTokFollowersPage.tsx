@@ -222,11 +222,19 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="TikTok Followers Growth Dashboard" 
-                className="rounded-card shadow-soft-xl"
-              />
+              {pageData?.hero?.image?.url ? (
+                <img 
+                  src={pageData.hero.image.url} 
+                  alt={pageData.hero.image.alt || "TikTok Followers Growth Dashboard"} 
+                  className="rounded-card shadow-soft-xl"
+                />
+              ) : (
+                <img 
+                  src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                  alt="TikTok Followers Growth Dashboard" 
+                  className="rounded-card shadow-soft-xl"
+                />
+              )}
               <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
                 <div className="text-lavender-600 font-semibold text-lg">+1.2M Followers</div>
                 <div className="text-sm text-slate-600">Growth achieved</div>
@@ -426,11 +434,19 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
           <div className="space-y-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="TikTok Profile with High Follower Count" 
-                  className="rounded-card shadow-soft-xl"
-                />
+                {pageData?.whyBuySection?.credibilite?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.credibilite.image.url} 
+                    alt={pageData.whyBuySection.credibilite.image.alt || "TikTok Profile with High Follower Count"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="TikTok Profile with High Follower Count" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
               </div>
               <div>
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
@@ -475,21 +491,37 @@ export default function TikTokFollowersPage({ onBack }: { onBack: () => void }) 
                 )}
               </div>
               <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="TikTok For You Page with Trending Videos" 
-                  className="rounded-card shadow-soft-xl"
-                />
+                {pageData?.whyBuySection?.explorer?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.explorer.image.url} 
+                    alt={pageData.whyBuySection.explorer.image.alt || "TikTok For You Page with Trending Videos"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="TikTok For You Page with Trending Videos" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <img 
-                  src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="TikTok Community Building and Engagement" 
-                  className="rounded-card shadow-soft-xl"
-                />
+                {pageData?.whyBuySection?.communaute?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.communaute.image.url} 
+                    alt={pageData.whyBuySection.communaute.image.alt || "TikTok Community Building and Engagement"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="TikTok Community Building and Engagement" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
               </div>
               <div>
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">

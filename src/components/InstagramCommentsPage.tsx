@@ -549,79 +549,101 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
           </h2>
 
           <div className="space-y-16">
-            {(pageData?.whyBuySection?.items || [
-              {
-                title: "Augmenter votre engagement",
-                description: "Sur Instagram, les commentaires sont l'indicateur le plus fort d'engagement. Plus vos posts reçoivent de commentaires, plus l'algorithme les met en avant. Que vous soyez créateur de contenu, entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. Acheter des commentaires Instagram permet de booster votre engagement. Un post avec beaucoup de commentaires inspire confiance et attire naturellement plus d'interactions... et suscite plus d'intérêt de la part de l'algorithme."
-              },
-              {
-                title: "Améliorer votre portée organique",
-                description: "L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. Plus vos posts reçoivent de commentaires dans les premières heures, plus ils sont susceptibles d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs... En achetant des commentaires Instagram français, vous renforcez votre portée organique. Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle vertueux que vous pouvez activer avec des commentaires de qualité."
-              },
-              {
-                title: "Construire votre crédibilité",
-                description: "Construire votre crédibilité ne doit pas se limiter à gonfler vos chiffres. Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique et durable. Chaque commentaire livré provient d'un utilisateur réel, susceptible d'interagir naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles. L'objectif n'est pas juste d'avoir plus de commentaires, mais de créer une preuve sociale forte qui attire de vrais fans et clients."
-              }
-            ]).map((item, index) => {
-              const isEven = index % 2 === 0;
-              // Images de fallback statiques
-              const fallbackImages = [
-                "https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              ];
-              
-              // Récupérer l'image depuis Sanity si disponible
-              const sanityItem = pageData?.whyBuySection?.items?.[index];
-              const imageUrl = sanityItem?.image?.url || fallbackImages[index] || fallbackImages[0];
-              const imageAlt = sanityItem?.image?.alt || item.title;
-              
-              return (
-                <div key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${!isEven ? 'lg:grid-flow-dense' : ''}`}>
-                  {isEven ? (
-                    <>
-                      <div>
-                        <img 
-                          src={imageUrl} 
-                          alt={imageAlt} 
-                          className="rounded-card shadow-soft-xl"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">{item.title}</h3>
-                        {Array.isArray(item.description) ? (
-                          <div className="text-base md:text-lg text-slate-600 leading-relaxed">
-                            <PortableText content={item.description} />
-                          </div>
-                        ) : (
-                          <p className="text-base md:text-lg text-slate-600 leading-relaxed">{item.description}</p>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">{item.title}</h3>
-                        {Array.isArray(item.description) ? (
-                          <div className="text-base md:text-lg text-slate-600 leading-relaxed">
-                            <PortableText content={item.description} />
-                          </div>
-                        ) : (
-                          <p className="text-base md:text-lg text-slate-600 leading-relaxed">{item.description}</p>
-                        )}
-                      </div>
-                      <div>
-                        <img 
-                          src={imageUrl} 
-                          alt={imageAlt} 
-                          className="rounded-card shadow-soft-xl"
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              );
-            })}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                {pageData?.whyBuySection?.engagement?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.engagement.image.url} 
+                    alt={pageData.whyBuySection.engagement.image.alt || "Instagram Comments and Engagement Analytics"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="Instagram Comments and Engagement Analytics" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.engagement?.title || "Augmenter votre engagement"}
+                </h3>
+                {pageData?.whyBuySection?.engagement?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.engagement.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    Sur Instagram, les commentaires sont l'indicateur le plus fort d'engagement. Plus vos posts reçoivent de commentaires, plus l'algorithme les met en avant. Que vous soyez créateur de contenu, entrepreneur ou influenceur, un faible engagement nuit à votre visibilité. Acheter des commentaires Instagram permet de booster votre engagement. Un post avec beaucoup de commentaires inspire confiance et attire naturellement plus d'interactions... et suscite plus d'intérêt de la part de l'algorithme.
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.portee?.title || "Améliorer votre portée organique"}
+                </h3>
+                {pageData?.whyBuySection?.portee?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.portee.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    L'algorithme d'Instagram privilégie les contenus qui génèrent de l'engagement rapidement. Plus vos posts reçoivent de commentaires dans les premières heures, plus ils sont susceptibles d'apparaître dans l'onglet Explorer et d'être montrés à plus d'utilisateurs... En achetant des commentaires Instagram français, vous renforcez votre portée organique. Plus vos publications engagent, plus Instagram vous montre à de nouveaux utilisateurs. C'est un cercle vertueux que vous pouvez activer avec des commentaires de qualité.
+                  </p>
+                )}
+              </div>
+              <div>
+                {pageData?.whyBuySection?.portee?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.portee.image.url} 
+                    alt={pageData.whyBuySection.portee.image.alt || "Instagram Analytics Dashboard showing Comments and Reach"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="Instagram Analytics Dashboard showing Comments and Reach" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                {pageData?.whyBuySection?.credibilite?.image?.url ? (
+                  <img 
+                    src={pageData.whyBuySection.credibilite.image.url} 
+                    alt={pageData.whyBuySection.credibilite.image.alt || "Instagram Business Profile with High Comments"} 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                ) : (
+                  <img 
+                    src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="Instagram Business Profile with High Comments" 
+                    className="rounded-card shadow-soft-xl"
+                  />
+                )}
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
+                  {pageData?.whyBuySection?.credibilite?.title || "Construire votre crédibilité"}
+                </h3>
+                {pageData?.whyBuySection?.credibilite?.description ? (
+                  <div className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    <PortableText content={pageData.whyBuySection.credibilite.description} />
+                  </div>
+                ) : (
+                  <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                    Construire votre crédibilité ne doit pas se limiter à gonfler vos chiffres. Chez Doctor Followers, nous vous aidons à construire une crédibilité authentique et durable. Chaque commentaire livré provient d'un utilisateur réel, susceptible d'interagir naturellement avec votre contenu. Associé à un contenu régulier, cela favorise des interactions naturelles. L'objectif n'est pas juste d'avoir plus de commentaires, mais de créer une preuve sociale forte qui attire de vrais fans et clients.
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 

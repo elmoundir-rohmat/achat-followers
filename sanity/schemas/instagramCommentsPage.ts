@@ -197,49 +197,119 @@ export default defineType({
       ],
     }),
 
-    // Section "Pourquoi acheter" - Contenu SEO
+    // Section "Pourquoi acheter" - SEO
     defineField({
       name: 'whyBuySection',
       title: 'Section "Pourquoi acheter des commentaires" - SEO',
       type: 'object',
-      description: 'Les sous-sections avec H3 et paragraphes de la section "Pourquoi acheter"',
+      description: 'Les 3 sous-sections avec H3 et paragraphes de la section "Pourquoi acheter"',
       fields: [
         {
-          name: 'items',
-          title: 'Sous-sections',
-          type: 'array',
-          of: [
+          name: 'engagement',
+          title: 'Augmenter votre engagement',
+          type: 'object',
+          fields: [
             {
-              type: 'object',
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Augmenter votre engagement',
+            },
+            {
+              name: 'description',
+              title: 'Description (Paragraphe)',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc. Utilisez les boutons de la barre d\'outils pour formater.',
+            },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
               fields: [
                 {
-                  name: 'title',
-                  title: 'Titre (H3)',
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
                   type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
                 },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'portee',
+          title: 'Améliorer votre portée organique',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Améliorer votre portée organique',
+            },
+            {
+              name: 'description',
+              title: 'Description (Paragraphe)',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc. Utilisez les boutons de la barre d\'outils pour formater.',
+            },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
                 {
-                  name: 'description',
-                  title: 'Description (Paragraphe)',
-                  type: 'array',
-                  of: [{ type: 'block' }],
-                  description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc.',
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
                 },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'credibilite',
+          title: 'Construire votre crédibilité',
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titre (H3)',
+              type: 'string',
+              initialValue: 'Construire votre crédibilité',
+            },
+            {
+              name: 'description',
+              title: 'Description (Paragraphe)',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Paragraphe complet avec mots-clés SEO. Supporte le formatage : gras, italique, liens, etc. Utilisez les boutons de la barre d\'outils pour formater.',
+            },
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
                 {
-                  name: 'image',
-                  title: 'Image',
-                  type: 'image',
-                  options: {
-                    hotspot: true,
-                  },
-                  fields: [
-                    {
-                      name: 'alt',
-                      title: 'Texte alternatif (Alt)',
-                      type: 'string',
-                      description: 'Important pour l\'accessibilité et le SEO',
-                      validation: (Rule: any) => Rule.required(),
-                    },
-                  ],
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
                 },
               ],
             },

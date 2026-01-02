@@ -456,7 +456,29 @@ const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && publis
     }
   },
   whyBuySection {
-    items[] {
+    engagement {
+      title,
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
+    },
+    portee {
+      title,
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
+    },
+    credibilite {
       title,
       description,
       image {
@@ -782,7 +804,29 @@ const tiktokCommentsPageQuery = `*[_type == "tiktokCommentsPage" && published ==
     }
   },
   whyBuySection {
-    items[] {
+    engagement {
+      title,
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
+    },
+    portee {
+      title,
+      description,
+      image {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
+    },
+    credibilite {
       title,
       description,
       image {
@@ -1291,9 +1335,9 @@ export interface InstagramCommentsPageData {
     }
   }
   whyBuySection?: {
-    items?: Array<{
+    engagement?: {
       title?: string
-      description?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
       image?: {
         asset?: {
           url?: string
@@ -1301,7 +1345,29 @@ export interface InstagramCommentsPageData {
         url?: string
         alt?: string
       }
-    }>
+    }
+    portee?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
+    }
+    credibilite?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
+    }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   faq?: {
@@ -1729,7 +1795,7 @@ export interface TikTokCommentsPageData {
     }
   }
   whyBuySection?: {
-    items?: Array<{
+    engagement?: {
       title?: string
       description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
       image?: {
@@ -1739,7 +1805,29 @@ export interface TikTokCommentsPageData {
         url?: string
         alt?: string
       }
-    }>
+    }
+    portee?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
+    }
+    credibilite?: {
+      title?: string
+      description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+      image?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
+    }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
   faq?: {
@@ -1994,12 +2082,14 @@ export class PageService {
       if (data.hero?.image?.asset) {
         data.hero.image.url = urlFor(data.hero.image).url()
       }
-      if (data.whyBuySection?.items) {
-        data.whyBuySection.items.forEach((item: any) => {
-          if (item.image?.asset) {
-            item.image.url = urlFor(item.image).url()
-          }
-        })
+      if (data.whyBuySection?.engagement?.image?.asset) {
+        data.whyBuySection.engagement.image.url = urlFor(data.whyBuySection.engagement.image).url()
+      }
+      if (data.whyBuySection?.portee?.image?.asset) {
+        data.whyBuySection.portee.image.url = urlFor(data.whyBuySection.portee.image).url()
+      }
+      if (data.whyBuySection?.credibilite?.image?.asset) {
+        data.whyBuySection.credibilite.image.url = urlFor(data.whyBuySection.credibilite.image).url()
       }
       // Transformer l'image Open Graph si elle existe
       if (data.openGraph?.image?.asset) {
@@ -2205,12 +2295,14 @@ export class PageService {
       if (data.hero?.image?.asset) {
         data.hero.image.url = urlFor(data.hero.image).url()
       }
-      if (data.whyBuySection?.items) {
-        data.whyBuySection.items.forEach((item: any) => {
-          if (item.image?.asset) {
-            item.image.url = urlFor(item.image).url()
-          }
-        })
+      if (data.whyBuySection?.engagement?.image?.asset) {
+        data.whyBuySection.engagement.image.url = urlFor(data.whyBuySection.engagement.image).url()
+      }
+      if (data.whyBuySection?.portee?.image?.asset) {
+        data.whyBuySection.portee.image.url = urlFor(data.whyBuySection.portee.image).url()
+      }
+      if (data.whyBuySection?.credibilite?.image?.asset) {
+        data.whyBuySection.credibilite.image.url = urlFor(data.whyBuySection.credibilite.image).url()
       }
       if (data.openGraph?.image?.asset) {
         data.openGraph.image.url = urlFor(data.openGraph.image).url()

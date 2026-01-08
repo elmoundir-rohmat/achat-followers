@@ -6,7 +6,7 @@ image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=400
 date: "2025-10-08"
 author: "Moundir Rohmat"
 category: "Instagram"
-slug: "boostez-votre-popularite-instagram-avec-doctorfollowers"
+slug: "boostez-votre-popularite-sur-instagram-avec-doctorfollowers"
 tags: ["Instagram", "DoctorFollowers", "Followers", "Marketing Digital", "Startup Française"]
 readTime: 6
 featured: true
@@ -24,7 +24,7 @@ seo:
   metaDescription: "Découvrez DoctorFollowers, la startup française qui accompagne le développement de comptes Instagram avec des followers réels français, des stratégies marketing personnalisées et un service client français."
   focusKeyword: "doctorfollowers instagram"
   keywords: ["doctorfollowers", "followers instagram", "startup française", "marketing digital", "influenceurs", "followers français", "boost instagram", "croissance instagram", "stratégie réseaux sociaux"]
-  canonicalUrl: "https://doctorfollowers.com/blogs/boostez-votre-popularite-instagram-avec-doctorfollowers"
+  canonicalUrl: "https://doctorfollowers.com/blogs/boostez-votre-popularite-sur-instagram-avec-doctorfollowers"
   imageAlt: "Image illustrant les services de DoctorFollowers pour booster votre popularité sur Instagram"
   noIndex: false
   noFollow: false

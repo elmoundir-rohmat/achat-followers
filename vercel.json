@@ -5,6 +5,14 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   
+  "redirects": [
+    {
+      "source": "/blogs/boostez-votre-popularite-instagram-avec-doctorfollowers",
+      "destination": "/blogs/boostez-votre-popularite-sur-instagram-avec-doctorfollowers",
+      "permanent": true
+    }
+  ],
+  
   "rewrites": [
     {
       "source": "/payment/success",

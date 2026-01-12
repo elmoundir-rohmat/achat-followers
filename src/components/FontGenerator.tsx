@@ -1857,7 +1857,7 @@ export default function FontGenerator() {
 
   const generatedTexts = fontStyles.map(style => ({
     ...style,
-    generated: style.generator(inputText)
+    generated: style.generator(inputText || 'Exemple')
   }));
 
   const displayedStyles = showAllStyles ? generatedTexts : generatedTexts.slice(0, 50);
@@ -1937,12 +1937,12 @@ export default function FontGenerator() {
               />
               <div className="flex-1">
                 <span className="text-lg font-medium text-slate-800">
-                  {style.generated || 'Votre texte stylisé apparaîtra ici...'}
+                  {style.generated}
                 </span>
               </div>
               <button
                 onClick={() => copyToClipboard(style.generated, style.id)}
-                disabled={!style.generated}
+                disabled={!style.generated || style.generated.trim() === ''}
                 className="ml-4 px-4 py-2 text-sm bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white rounded-button hover:shadow-soft-lg disabled:bg-gray-400 disabled:opacity-50 transition-all shadow-soft font-medium"
               >
                 {copiedStates[style.id] ? (

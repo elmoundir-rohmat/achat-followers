@@ -39,11 +39,25 @@ const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && publ
   followerTypes {
     international {
       title,
-      descriptions
+      descriptions,
+      exampleImage {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     },
     french {
       title,
-      descriptions
+      descriptions,
+      exampleImage {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      }
     }
   },
   securitySection {
@@ -1429,10 +1443,24 @@ export interface InstagramFollowersPageData {
     international?: {
       title?: string
       descriptions?: string[]
+      exampleImage?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
     french?: {
       title?: string
       descriptions?: string[]
+      exampleImage?: {
+        asset?: {
+          url?: string
+        }
+        url?: string
+        alt?: string
+      }
     }
   }
   securitySection?: {
@@ -2128,6 +2156,12 @@ export class PageService {
       }
       if (data.whyBuySection?.communaute?.image?.asset) {
         data.whyBuySection.communaute.image.url = urlFor(data.whyBuySection.communaute.image).url()
+      }
+      if (data.followerTypes?.international?.exampleImage?.asset) {
+        data.followerTypes.international.exampleImage.url = urlFor(data.followerTypes.international.exampleImage).url()
+      }
+      if (data.followerTypes?.french?.exampleImage?.asset) {
+        data.followerTypes.french.exampleImage.url = urlFor(data.followerTypes.french.exampleImage).url()
       }
       if (data.openGraph?.image?.asset) {
         data.openGraph.image.url = urlFor(data.openGraph.image).url()

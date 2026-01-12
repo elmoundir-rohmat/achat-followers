@@ -359,6 +359,26 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 </div>
               ))}
             </div>
+            <div className="mt-6 pt-6 border-t border-lavender-200/50">
+              <h4 className="text-xl font-semibold text-slate-800 mb-4">
+                Vous receverez des followers de ce type.
+              </h4>
+              <div className="mt-4">
+                {pageData?.followerTypes?.international?.exampleImage?.url ? (
+                  <img 
+                    src={pageData.followerTypes.international.exampleImage.url} 
+                    alt={pageData.followerTypes.international.exampleImage.alt || "Exemples de followers Instagram internationaux"} 
+                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                  />
+                ) : (
+                  <img 
+                    src="/images/followers-instagram-internationaux-exemple.png" 
+                    alt="Exemples de followers Instagram internationaux" 
+                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                  />
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg border-2 border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
@@ -381,6 +401,26 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                   <p className="text-slate-600 leading-relaxed">{description}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-6 pt-6 border-t border-soft-pink-200/50">
+              <h4 className="text-xl font-semibold text-slate-800 mb-4">
+                Vous receverez des followers de ce type.
+              </h4>
+              <div className="mt-4">
+                {pageData?.followerTypes?.french?.exampleImage?.url ? (
+                  <img 
+                    src={pageData.followerTypes.french.exampleImage.url} 
+                    alt={pageData.followerTypes.french.exampleImage.alt || "Exemples de followers Instagram français"} 
+                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                  />
+                ) : (
+                  <img 
+                    src="/images/followers-instagram-francais-exemple.png" 
+                    alt="Exemples de followers Instagram français" 
+                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

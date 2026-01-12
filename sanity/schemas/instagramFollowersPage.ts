@@ -102,6 +102,24 @@ export default defineType({
               of: [{ type: 'string' }],
               description: 'Les 3 descriptions de la section Followers Internationaux',
             },
+            {
+              name: 'exampleImage',
+              title: 'Image d\'exemple des followers internationaux',
+              type: 'image',
+              description: 'Image montrant des exemples de followers Instagram internationaux',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
+            },
           ],
         },
         {
@@ -121,6 +139,24 @@ export default defineType({
               type: 'array',
               of: [{ type: 'string' }],
               description: 'Les 3 descriptions de la section Abonnés Instagram Français',
+            },
+            {
+              name: 'exampleImage',
+              title: 'Image d\'exemple des followers français',
+              type: 'image',
+              description: 'Image montrant des exemples de followers Instagram français (notifications Instagram)',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  title: 'Texte alternatif (Alt)',
+                  type: 'string',
+                  description: 'Important pour l\'accessibilité et le SEO',
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
             },
           ],
         },

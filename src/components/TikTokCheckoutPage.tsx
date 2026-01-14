@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShoppingCart, CreditCard, User, Mail, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CardinityPayment from './CardinityPayment';
@@ -41,6 +41,27 @@ export default function TikTokCheckoutPage({ onBack, onComplete }: TikTokCheckou
     onClose: () => setToast(prev => ({ ...prev, isVisible: false })),
     isVisible: false
   });
+
+  // Sauvegarder pendingOrder avec customer avant la redirection vers le paiement
+  useEffect(() => {
+    if (showPayment) {
+      const orderDetails = {
+        orderId,
+        amount: getTotalPrice(),
+        currency: 'EUR',
+        description: `${getTotalFollowers()} followers TikTok`,
+        followers: getTotalFollowers(),
+        followerType: items[0]?.followerType || 'international',
+        username: items[0]?.username || '',
+        platform: 'TikTok',
+        items: items,
+        customer: customerData, // ✅ AJOUTER LES DONNÉES CLIENT (email, country)
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
+      console.log('💾 TikTokCheckoutPage: pendingOrder sauvegardé dans localStorage:', orderDetails);
+    }
+  }, [showPayment, orderId, getTotalPrice, getTotalFollowers, items, customerData]);
 
   const validateForm = () => {
     const newErrors: Partial<CustomerData> = {};

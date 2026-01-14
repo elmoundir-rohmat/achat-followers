@@ -10,6 +10,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [smmaResults, setSmmaResults] = useState<any>(null);
   const [isProcessingSMMA, setIsProcessingSMMA] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
     // Récupérer les détails de la commande depuis l'URL ou le localStorage
@@ -23,15 +24,21 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
     if (savedOrder) {
       try {
         const order = JSON.parse(savedOrder);
-        setOrderDetails({
+        const fullOrderDetails = {
           orderId: orderId || order.orderId,
           amount: amount || order.amount,
           currency: currency || order.currency || 'EUR',
           followers: order.followers,
           followerType: order.followerType,
           username: order.username,
-          timestamp: new Date().toLocaleString('fr-FR')
-        });
+          description: order.description,
+          platform: order.platform || 'Instagram',
+          customer: order.customer, // ✅ Récupérer les données client
+          timestamp: new Date().toLocaleString('fr-FR'),
+          // Garder la référence complète pour l'email
+          _fullOrder: order
+        };
+        setOrderDetails(fullOrderDetails);
         
         // NE PAS nettoyer le localStorage ici, on en a besoin pour SMMA
         // localStorage.removeItem('pendingOrder');
@@ -54,6 +61,23 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         try {
           const results = JSON.parse(savedSmmaResults);
           setSmmaResults(results);
+          
+          // Envoyer les emails de confirmation
+          const savedPendingOrder = localStorage.getItem('pendingOrder');
+          if (savedPendingOrder) {
+            try {
+              const pendingOrder = JSON.parse(savedPendingOrder);
+              sendConfirmationEmail({
+                ...pendingOrder,
+                orderId: orderId || pendingOrder.orderId,
+                amount: amount || pendingOrder.amount,
+                currency: currency || pendingOrder.currency || 'EUR',
+              });
+            } catch (error) {
+              console.error('❌ Erreur lors de la préparation de l\'email:', error);
+            }
+          }
+          
           // Nettoyer le localStorage
           localStorage.removeItem('smmaResults');
         } catch (error) {
@@ -65,6 +89,45 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       }
     }
   }, []);
+
+  // Fonction pour envoyer les emails de confirmation
+  const sendConfirmationEmail = async (order: any) => {
+    // Éviter les doublons
+    if (emailSent || !order?.customer?.email) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/email/send-confirmation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderId: order.orderId,
+          amount: order.amount,
+          currency: order.currency || 'EUR',
+          description: order.description || `${order.followers || 0} followers ${order.platform || 'Instagram'}`,
+          customer: order.customer,
+          username: order.username,
+          followers: order.followers,
+          followerType: order.followerType,
+          platform: order.platform || 'Instagram',
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ Emails de confirmation envoyés:', result);
+        setEmailSent(true);
+      } else {
+        console.error('❌ Erreur lors de l\'envoi des emails:', await response.text());
+      }
+    } catch (error) {
+      // Ne pas bloquer l'utilisateur en cas d'erreur d'email
+      console.error('❌ Erreur lors de l\'envoi des emails (non bloquant):', error);
+    }
+  };
 
   const processSMMAIntegrationWithCardinity = async (orderId: string, paymentId: string) => {
     setIsProcessingSMMA(true);
@@ -283,6 +346,22 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       console.log('📊 Résultat:', smmaResult);
       setSmmaResults([smmaResult]);
       
+      // Envoyer les emails de confirmation après le traitement SMMA
+      const savedPendingOrder = localStorage.getItem('pendingOrder');
+      if (savedPendingOrder) {
+        try {
+          const pendingOrder = JSON.parse(savedPendingOrder);
+          await sendConfirmationEmail({
+            ...pendingOrder,
+            orderId: orderId || pendingOrder.orderId,
+            amount: pendingOrder.amount,
+            currency: pendingOrder.currency || 'EUR',
+          });
+        } catch (error) {
+          console.error('❌ Erreur lors de la préparation de l\'email:', error);
+        }
+      }
+      
       // Nettoyer le localStorage après succès
       localStorage.removeItem('pendingOrder');
       localStorage.removeItem('cartItems');
@@ -341,6 +420,22 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
         );
 
         setSmmaResults(smmaResults);
+        
+        // Envoyer les emails de confirmation après le traitement SMMA
+        const savedPendingOrder = localStorage.getItem('pendingOrder');
+        if (savedPendingOrder) {
+          try {
+            const pendingOrder = JSON.parse(savedPendingOrder);
+            await sendConfirmationEmail({
+              ...pendingOrder,
+              orderId: orderDetails.orderId,
+              amount: orderDetails.amount,
+              currency: orderDetails.currency || 'EUR',
+            });
+          } catch (error) {
+            console.error('❌ Erreur lors de la préparation de l\'email:', error);
+          }
+        }
         
         // Nettoyer le panier
         localStorage.removeItem('cartItems');

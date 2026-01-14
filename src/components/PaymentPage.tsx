@@ -55,6 +55,20 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
         description = `${totalFollowers} followers Instagram`;
       }
       
+      // Récupérer le customer depuis un pendingOrder existant s'il y en a un
+      let existingCustomer = null;
+      try {
+        const existingPendingOrder = localStorage.getItem('pendingOrder');
+        if (existingPendingOrder) {
+          const parsed = JSON.parse(existingPendingOrder);
+          if (parsed.customer) {
+            existingCustomer = parsed.customer;
+          }
+        }
+      } catch (e) {
+        // Ignorer les erreurs de parsing
+      }
+      
       const newOrder = {
         orderId,
         amount: totalAmount,
@@ -68,6 +82,7 @@ export default function PaymentPage({ onBack }: PaymentPageProps) {
         // SAUVEGARDER TOUTES LES DONNÉES DU PANIER
         cartItems: cartItems, // Sauvegarder les articles complets
         selectedPosts: cartItems[0]?.selectedPosts || [], // Sauvegarder les posts sélectionnés
+        customer: existingCustomer, // ✅ PRÉSERVER LE CUSTOMER S'IL EXISTE DÉJÀ
         timestamp: new Date().toISOString()
       };
       

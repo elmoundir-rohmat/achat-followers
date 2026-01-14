@@ -138,6 +138,7 @@ export default function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) 
         platform: items[0]?.platform || 'Instagram', // ✅ AJOUTER LA PLATEFORME
         selectedPosts: selectedPosts, // Posts sélectionnés pour likes/comments/views
         items: items, // ✅ AJOUTER TOUS LES ITEMS DU PANIER
+        customer: customerData, // ✅ AJOUTER LES DONNÉES CLIENT (email, country)
         timestamp: new Date().toISOString()
       };
       localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));

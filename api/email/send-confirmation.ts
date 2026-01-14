@@ -111,7 +111,7 @@ export default async function handler(req: any, res: any) {
                 </div>
               </div>
 
-              <p>Votre commande est en cours de traitement. Vous recevrez vos followers dans les 24-72 heures.</p>
+              <p>Votre commande est en cours de traitement. Le temps de livraison dépend du service choisi et varie en général entre quelques minutes à quelques jours si vous avez choisi d'être livré progressivement.</p>
               
               <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
               

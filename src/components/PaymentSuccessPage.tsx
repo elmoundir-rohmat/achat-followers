@@ -347,7 +347,7 @@ export default function PaymentSuccessPage({ onBack }: PaymentSuccessPageProps) 
       setSmmaResults([smmaResult]);
       
       // Envoyer les emails de confirmation après le traitement SMMA
-      const savedPendingOrder = localStorage.getItem('pendingOrder');
+      // Réutiliser savedPendingOrder qui a déjà été récupéré au début de la fonction
       if (savedPendingOrder) {
         try {
           const pendingOrder = JSON.parse(savedPendingOrder);

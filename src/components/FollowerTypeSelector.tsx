@@ -1,4 +1,3 @@
-import React from 'react';
 import { Globe, MapPin, Flag, Shuffle, Edit } from 'lucide-react';
 import { ServiceTypeConfig, getAvailableTypes } from '../config/serviceTypes';
 
@@ -10,7 +9,7 @@ interface Props {
   customTypes?: ServiceTypeConfig[]; // Types personnalisés (optionnel)
 }
 
-export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Type de followers", serviceKey, customTypes }: Props) {
+export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Acheter des followers Instagram", serviceKey, customTypes }: Props) {
   // Fonction pour obtenir l'icône React à partir du nom de l'icône
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -67,7 +66,7 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
         {availableTypes.map((type) => (
           <button
             key={type.id}
-            className={`relative px-6 py-3 rounded-pill border cursor-pointer transition-all duration-300 hover:scale-105 ${
+            className={`relative px-2 py-2 rounded-pill border cursor-pointer transition-all duration-300 hover:scale-105 ${
               selectedType === type.id
                 ? 'border-soft-pink-300 bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white shadow-soft-lg'
                 : 'border-soft-pink-200/50 bg-white/80 backdrop-blur-sm hover:border-soft-pink-300/50 hover:shadow-soft text-slate-700'

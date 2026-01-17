@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Zap, Shield, Clock } from 'lucide-react';
+import { Check, Shield } from 'lucide-react';
 import { getPackagesForService, PackageConfig } from '../config/packagesConfig';
 
 interface Package {
@@ -54,10 +54,6 @@ export default function PackageSelector({ selectedPackage, onPackageChange, foll
 
   return (
     <div className="mb-12">
-      <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-8 text-center">
-        Sélectionnez votre pack
-      </h2>
-      
       {/* Grille compacte 4x2 */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
         {packages.map((pkg) => (

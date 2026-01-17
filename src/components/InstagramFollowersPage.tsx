@@ -209,70 +209,6 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   return (
     <div className="min-h-screen bg-cream font-rounded">
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="flex items-center mb-8">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
-                  <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
-                </div>
-                <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
-                  {pageData?.hero?.title || "Acheter des Followers Instagram Réels et Actifs"}
-                </h1>
-              </div>
-              {pageData?.hero?.description ? (
-                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                  <PortableText content={pageData.hero.description} />
-                </div>
-              ) : (
-                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                  Acheter des followers Instagram réels et actifs pour faire grandir votre communauté
-                </p>
-              )}
-              <div className="flex flex-wrap items-center gap-6 text-base">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
-                  <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
-                  <span className="font-medium text-slate-700">4.7/5</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
-                  <Users2 className="w-5 h-5 text-lavender-500" strokeWidth={1.5} />
-                  <span className="font-medium text-slate-700">Service pro</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
-                  <Shield className="w-5 h-5 text-soft-pink-500" strokeWidth={1.5} />
-                  <span className="font-medium text-slate-700">100% sécurisé</span>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              {pageData?.hero?.image?.url ? (
-                <img 
-                  src={pageData.hero.image.url} 
-                  alt={pageData.hero.image.alt || "Instagram Followers Growth Dashboard"} 
-                  className="rounded-card shadow-soft-xl"
-                />
-              ) : (
-                <img 
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Instagram Followers Growth Dashboard" 
-                  className="rounded-card shadow-soft-xl"
-                />
-              )}
-              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
-                <div className="text-lavender-600 font-semibold text-lg">+2.5M Followers</div>
-                <div className="text-sm text-slate-600">Growth achieved</div>
-              </div>
-              <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
-                <div className="text-soft-pink-600 font-semibold text-lg">📈 +127% Growth</div>
-                <div className="text-sm text-slate-600">Monthly increase</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         <FollowerTypeSelector
@@ -287,54 +223,20 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
           followerType={followerType}
         />
 
-        {/* Purchase Section */}
-        {selectedPackage && (
-          <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-xl p-10 border border-soft-pink-200/50 mb-14">
-            <div className="text-center">
-              <h3 className="text-3xl font-semibold text-slate-800 mb-6">
-                Résumé de votre commande
-              </h3>
-              
-              <div className="bg-gradient-to-br from-soft-pink-50 via-peach-50 to-lavender-50 rounded-card-sm p-8 mb-8 border border-soft-pink-200/50">
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-xl font-semibold text-slate-700">
-                    {getPackageFollowers(selectedPackage).toLocaleString()} followers {followerType === 'french' ? 'français' : 'internationaux'}
-                  </span>
-                  <span className="text-4xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">
-                    {getPackagePriceLocal(selectedPackage)?.toFixed(2)}€
-                  </span>
-                </div>
-                
-                <div className="flex flex-wrap justify-center items-center gap-4 text-sm">
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-lavender-200/50 shadow-soft">
-                    <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>
-                    <span className="text-slate-700 font-medium">Garantie 30 jours</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-lavender-200/50 shadow-soft">
-                    <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>
-                    <span className="text-slate-700 font-medium">Livraison progressive</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-lavender-200/50 shadow-soft">
-                    <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>
-                    <span className="text-slate-700 font-medium">Profils réels</span>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={handlePurchase}
-                className="w-full sm:w-auto bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 hover:shadow-soft-xl hover:scale-105 text-white font-semibold py-5 px-14 rounded-button transition-all duration-300 shadow-soft-lg text-lg"
-              >
-                <Users className="w-6 h-6 inline mr-3" strokeWidth={2} />
-                Acheter maintenant
-              </button>
-
-              <p className="text-sm text-slate-600 mt-6">
-                🔒 Paiement sécurisé • Aucun mot de passe requis • Livraison garantie
-              </p>
-            </div>
-          </div>
-        )}
+        {/* Purchase Button */}
+        <div className="flex justify-center mb-3">
+          <button
+            onClick={handlePurchase}
+            disabled={!selectedPackage}
+            className="w-full sm:w-auto bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 hover:shadow-soft-xl hover:scale-105 text-white font-semibold py-5 px-14 rounded-button transition-all duration-300 shadow-soft-lg text-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            <Users className="w-6 h-6 inline mr-3" strokeWidth={2} />
+            Acheter maintenant
+          </button>
+        </div>
+        <p className="text-sm text-slate-600 text-center mt-0 mb-12">
+          🔒 Paiement sécurisé • Aucun mot de passe requis
+        </p>
 
         {/* Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
@@ -488,6 +390,73 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
             </div>
           </div>
         </div>
+      </main>
+
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="flex items-center mb-8">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
+                  <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
+                  {pageData?.hero?.title || "Acheter des Followers Instagram Réels et Actifs"}
+                </h1>
+              </div>
+              {pageData?.hero?.description ? (
+                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  <PortableText content={pageData.hero.description} />
+                </div>
+              ) : (
+                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  Acheter des followers Instagram réels et actifs pour faire grandir votre communauté
+                </p>
+              )}
+              <div className="flex flex-wrap items-center gap-6 text-base">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">4.7/5</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Users2 className="w-5 h-5 text-lavender-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">Service pro</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Shield className="w-5 h-5 text-soft-pink-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">100% sécurisé</span>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              {pageData?.hero?.image?.url ? (
+                <img 
+                  src={pageData.hero.image.url} 
+                  alt={pageData.hero.image.alt || "Instagram Followers Growth Dashboard"} 
+                  className="rounded-card shadow-soft-xl"
+                />
+              ) : (
+                <img 
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                  alt="Instagram Followers Growth Dashboard" 
+                  className="rounded-card shadow-soft-xl"
+                />
+              )}
+              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
+                <div className="text-lavender-600 font-semibold text-lg">+2.5M Followers</div>
+                <div className="text-sm text-slate-600">Growth achieved</div>
+              </div>
+              <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
+                <div className="text-soft-pink-600 font-semibold text-lg">📈 +127% Growth</div>
+                <div className="text-sm text-slate-600">Monthly increase</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
 
         {/* Why Buy Followers Section */}
         <div className="mb-20">

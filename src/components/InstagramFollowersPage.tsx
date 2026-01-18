@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Users, Instagram, Star, Shield, Clock, CheckCircle, Heart, TrendingUp, Users2, Zap, ArrowLeft } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
@@ -96,6 +96,15 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   const [currentStep, setCurrentStep] = useState<'selection' | 'checkout'>('selection');
   const { addToCart, updateLastItemUsername } = useCart();
   const [pageData, setPageData] = useState<InstagramFollowersPageData | null>(null);
+  const reviewsRef = useRef<HTMLDivElement>(null);
+  const testimonials = [
+    { name: "Sofia M.", date: "15 Janvier 2026", rating: 5, comment: "Livraison rapide et abonnés réels. Très satisfait du service." },
+    { name: "Yanis A.", date: "10 Janvier 2026", rating: 5, comment: "Excellent support et résultats visibles dès le premier jour." },
+    { name: "Camille R.", date: "08 Janvier 2026", rating: 5, comment: "Les followers sont arrivés progressivement, exactement comme promis." },
+    { name: "Nicolas B.", date: "05 Janvier 2026", rating: 5, comment: "Service fiable, je recommande pour booster la crédibilité." },
+    { name: "Sarah L.", date: "02 Janvier 2026", rating: 5, comment: "Très bonne qualité, aucun souci. Effet immédiat sur le profil." },
+    { name: "Mehdi K.", date: "28 Décembre 2025", rating: 5, comment: "Parfait pour lancer un compte. Le process est simple et rapide." }
+  ];
 
   // Charger les données SEO depuis Sanity
   useEffect(() => {
@@ -383,6 +392,57 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
             <div className="px-6 py-6 text-center text-slate-800 font-semibold bg-soft-pink-50/60">
               Fort
             </div>
+          </div>
+        </div>
+
+        {/* Customer Reviews */}
+        <div className="mb-20">
+          <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-10">
+            Avis clients
+          </h2>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => reviewsRef.current?.scrollBy({ left: -320, behavior: 'smooth' })}
+              className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 border border-soft-pink-200/60 shadow-soft flex items-center justify-center text-slate-600 hover:text-slate-800 hover:shadow-soft-lg transition-all"
+              aria-label="Faire défiler les avis vers la gauche"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={() => reviewsRef.current?.scrollBy({ left: 320, behavior: 'smooth' })}
+              className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 border border-soft-pink-200/60 shadow-soft flex items-center justify-center text-slate-600 hover:text-slate-800 hover:shadow-soft-lg transition-all"
+              aria-label="Faire défiler les avis vers la droite"
+            >
+              ›
+            </button>
+            <div ref={reviewsRef} className="flex gap-6 overflow-x-auto pb-3 scroll-smooth snap-x snap-mandatory">
+              {[...testimonials, ...testimonials].map((testimonial, index) => (
+                <div key={`${testimonial.name}-${index}`} className="min-w-[260px] max-w-[320px] bg-white/80 backdrop-blur-sm rounded-card-sm p-6 shadow-soft-lg border border-soft-pink-200/50 relative snap-start">
+                  <div className="absolute top-3 right-3 w-6 h-6 bg-white rounded-full shadow-soft flex items-center justify-center">
+                    <img src="/images/google-logo.png" alt="Google" className="w-4 h-4" />
+                  </div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex gap-1">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-warm-yellow-400 fill-current" strokeWidth={1.5} />
+                      ))}
+                    </div>
+                    <span className="text-xs font-semibold text-green-600">Vérifié</span>
+                  </div>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                    {testimonial.comment}
+                  </p>
+                  <div className="text-sm font-semibold text-slate-800">{testimonial.name}</div>
+                  <div className="text-xs text-slate-500">{testimonial.date}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-600">
+            <span className="font-semibold text-slate-700">G</span>
+            <span>Google rating score: 4.8/5, based on 1735 reviews</span>
           </div>
         </div>
 

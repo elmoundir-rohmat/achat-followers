@@ -327,6 +327,64 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
           </div>
         </div>
 
+        {/* Comparison Table */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 overflow-hidden mb-20">
+          <div className="grid grid-cols-3 text-center border-b border-soft-pink-200/50">
+            <div className="px-6 py-5 text-left font-semibold text-slate-700 bg-white/90">
+              Comparatif
+            </div>
+            <div className="px-6 py-5 font-semibold text-slate-800 bg-white/90">
+              Monde
+            </div>
+            <div className="px-6 py-5 font-semibold text-slate-800 bg-soft-pink-50/60">
+              France
+            </div>
+          </div>
+          <div className="grid grid-cols-3 border-b border-soft-pink-200/50">
+            <div className="px-6 py-6 text-left font-semibold text-slate-700 bg-white/90">
+              Type De Compte
+            </div>
+            <div className="px-6 py-6 text-center text-slate-700 bg-white/90">
+              Réels
+            </div>
+            <div className="px-6 py-6 text-center text-slate-800 font-semibold bg-soft-pink-50/60">
+              Réels
+            </div>
+          </div>
+          <div className="grid grid-cols-3 border-b border-soft-pink-200/50">
+            <div className="px-6 py-6 text-left font-semibold text-slate-700 bg-white/90">
+              Provenance
+            </div>
+            <div className="px-6 py-6 text-center text-slate-700 bg-white/90">
+              Monde (Amerique Latine et Europe)
+            </div>
+            <div className="px-6 py-6 text-center text-slate-800 font-semibold bg-soft-pink-50/60">
+              France
+            </div>
+          </div>
+          <div className="grid grid-cols-3 border-b border-soft-pink-200/50">
+            <div className="px-6 py-6 text-left font-semibold text-slate-700 bg-white/90">
+              Niveau D'activité
+            </div>
+            <div className="px-6 py-6 text-center text-slate-700 bg-white/90">
+              Actifs
+            </div>
+            <div className="px-6 py-6 text-center text-slate-800 font-semibold bg-soft-pink-50/60">
+              Actifs
+            </div>
+          </div>
+          <div className="grid grid-cols-3">
+            <div className="px-6 py-6 text-left font-semibold text-slate-700 bg-white/90">
+              Taux d'Engagement
+            </div>
+            <div className="px-6 py-6 text-center text-slate-700 bg-white/90">
+              Bon
+            </div>
+            <div className="px-6 py-6 text-center text-slate-800 font-semibold bg-soft-pink-50/60">
+              Fort
+            </div>
+          </div>
+        </div>
 
         {/* Security & Guarantees Section */}
         <div className="bg-gradient-to-br from-lavender-50/50 via-soft-pink-50/50 to-peach-50/50 rounded-card p-10 mb-20 border border-soft-pink-200/50 shadow-soft-lg">

@@ -67,15 +67,15 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
   }, [activeDropdown]);
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-soft-pink-200/50 sticky top-0 z-50 shadow-soft font-rounded">
+    <nav className="bg-white/80 backdrop-blur-md border-b border-soft-pink-200/50 shadow-soft font-rounded relative z-50">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-4">
-              <Instagram className="w-6 h-6 text-white" strokeWidth={1.5} />
+            <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-3 sm:mr-4">
+              <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={1.5} />
             </div>
-            <span className="text-2xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">Doctor Followers</span>
+            <span className="text-xl sm:text-2xl font-semibold bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">Doctor Followers</span>
           </div>
 
           {/* Desktop Navigation */}

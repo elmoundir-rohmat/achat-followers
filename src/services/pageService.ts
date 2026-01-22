@@ -20,6 +20,7 @@ const homePageQuery = `*[_type == "homePage" && published == true][0] {
 const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -1423,6 +1424,7 @@ export interface InstagramCommentsPageData {
 export interface InstagramFollowersPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage

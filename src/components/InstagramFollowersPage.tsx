@@ -224,6 +224,8 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
           selectedType={followerType}
           onTypeChange={setFollowerType}
           serviceKey="instagram_followers"
+          headingLevel="h1"
+          title={pageData?.pageH1 || "Acheter des followers Instagram"}
         />
 
         <PackageSelector
@@ -519,9 +521,9 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
-                <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
+                <h2 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
                   {pageData?.hero?.title || "Acheter des Followers Instagram Réels et Actifs"}
-                </h1>
+                </h2>
               </div>
               {pageData?.hero?.description ? (
                 <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">

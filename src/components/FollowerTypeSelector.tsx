@@ -7,9 +7,11 @@ interface Props {
   title?: string; // Titre personnalisé
   serviceKey?: string; // Clé du service pour obtenir les types disponibles
   customTypes?: ServiceTypeConfig[]; // Types personnalisés (optionnel)
+  headingLevel?: 'h1' | 'h2'; // Niveau de titre pour le SEO
 }
 
-export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Acheter des followers Instagram", serviceKey, customTypes }: Props) {
+export default function FollowerTypeSelector({ selectedType, onTypeChange, title = "Acheter des followers Instagram", serviceKey, customTypes, headingLevel = 'h2' }: Props) {
+  const HeadingTag = headingLevel === 'h1' ? 'h1' : 'h2';
   // Fonction pour obtenir l'icône React à partir du nom de l'icône
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -59,9 +61,9 @@ export default function FollowerTypeSelector({ selectedType, onTypeChange, title
 
   return (
     <div className="mb-10">
-      <h2 className="text-xl md:text-2xl font-semibold text-slate-800 mb-6 text-center">
+      <HeadingTag className="text-2xl md:text-3xl font-semibold text-slate-800 mt-0 mb-6 text-center">
         {title}
-      </h2>
+      </HeadingTag>
       <div className="flex gap-4 justify-center max-w-lg mx-auto">
         {availableTypes.map((type) => (
           <button

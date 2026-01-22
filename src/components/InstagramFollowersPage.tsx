@@ -267,8 +267,8 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         </p>
 
         {/* Features Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-          <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20 max-w-5xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-6 shadow-soft-lg border border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300 w-full">
             <div className="flex items-center mb-6">
               <div className="w-14 h-14 bg-gradient-to-br from-lavender-100 to-baby-purple-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
                 <Users className="w-7 h-7 text-lavender-600" strokeWidth={1.5} />
@@ -291,27 +291,27 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
             </div>
             <div className="mt-6 pt-6 border-t border-lavender-200/50">
               <h4 className="text-xl font-semibold text-slate-800 mb-4">
-                Vous receverez des followers de ce type.
+                Exemples de profils qui vont vous suivre
               </h4>
               <div className="mt-4">
                 {pageData?.followerTypes?.international?.exampleImage?.url ? (
                   <img 
                     src={pageData.followerTypes.international.exampleImage.url} 
                     alt={pageData.followerTypes.international.exampleImage.alt || "Exemples de followers Instagram internationaux"} 
-                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                    className="rounded-card shadow-soft-lg w-full max-w-md mx-auto"
                   />
                 ) : (
                   <img 
                     src="/images/followers-instagram-internationaux-exemple.png" 
                     alt="Exemples de followers Instagram internationaux" 
-                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                    className="rounded-card shadow-soft-lg w-full max-w-md mx-auto"
                   />
                 )}
               </div>
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-8 shadow-soft-lg border-2 border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300">
+          <div className="bg-white/80 backdrop-blur-sm rounded-card-sm p-6 shadow-soft-lg border-2 border-soft-pink-200/50 hover:shadow-soft-xl transition-all duration-300 w-full">
             <div className="flex items-center mb-6">
               <div className="w-14 h-14 bg-gradient-to-br from-soft-pink-100 to-peach-100 rounded-card-sm flex items-center justify-center mr-4 shadow-soft">
                 <Heart className="w-7 h-7 text-soft-pink-600" strokeWidth={1.5} />
@@ -334,20 +334,20 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
             </div>
             <div className="mt-6 pt-6 border-t border-soft-pink-200/50">
               <h4 className="text-xl font-semibold text-slate-800 mb-4">
-                Vous receverez des followers de ce type.
+                Exemples de profils qui vont vous suivre
               </h4>
               <div className="mt-4">
                 {pageData?.followerTypes?.french?.exampleImage?.url ? (
                   <img 
                     src={pageData.followerTypes.french.exampleImage.url} 
                     alt={pageData.followerTypes.french.exampleImage.alt || "Exemples de followers Instagram français"} 
-                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                    className="rounded-card shadow-soft-lg w-full max-w-md mx-auto"
                   />
                 ) : (
                   <img 
                     src="/images/followers-instagram-francais-exemple.png" 
                     alt="Exemples de followers Instagram français" 
-                    className="rounded-card shadow-soft-lg w-full max-w-full"
+                    className="rounded-card shadow-soft-lg w-full max-w-md mx-auto"
                   />
                 )}
               </div>
@@ -535,10 +535,10 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center mb-8">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
+                <div className="flex h-16 w-16 shrink-0 aspect-square items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
                   <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
-                <h2 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
+                <h2 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight">
                   {pageData?.hero?.title || "Acheter des Followers Instagram Réels et Actifs"}
                 </h2>
               </div>
@@ -598,7 +598,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
         {/* Why Buy Followers Section */}
         <div className="mb-20">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">
-            {pageData?.sectionTitles?.whyBuy || "Pourquoi acheter des followers Instagram réels et actifs en 2025?"}
+            {pageData?.sectionTitles?.whyBuy || "Pourquoi acheter des followers Instagram réels et actifs en 2026?"}
           </h2>
 
           <div className="space-y-16">
@@ -643,7 +643,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
+              <div className="order-1 lg:order-none">
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.explorer?.title || 'Apparaître dans l\'onglet "Explorer"'}
                 </h3>
@@ -665,7 +665,7 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
                   </p>
                 )}
               </div>
-              <div>
+              <div className="order-first lg:order-none">
                 {pageData?.whyBuySection?.explorer?.image?.url ? (
                   <img 
                     src={pageData.whyBuySection.explorer.image.url} 

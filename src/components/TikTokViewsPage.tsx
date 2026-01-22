@@ -178,10 +178,10 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center mb-8">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
+                <div className="flex h-16 w-16 shrink-0 aspect-square items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
                   <Eye className="w-9 h-9 text-white" strokeWidth={1.5} />
                 </div>
-                <h1 className="text-4xl md:text-6xl font-semibold text-slate-800 leading-tight">
+                <h1 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight">
                   {pageData?.hero?.title || "Vues TikTok"}
                 </h1>
               </div>
@@ -494,7 +494,7 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
+              <div className="order-1 lg:order-none">
                 <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6">
                   {pageData?.whyBuySection?.visibilite?.title || "Améliorer votre visibilité organique"}
                 </h3>
@@ -514,7 +514,7 @@ export default function TikTokViewsPage({ onBack }: { onBack: () => void }) {
                   </p>
                 )}
               </div>
-              <div>
+              <div className="order-first lg:order-none">
                 {pageData?.whyBuySection?.visibilite?.image?.url ? (
                   <img 
                     src={pageData.whyBuySection.visibilite.image.url} 

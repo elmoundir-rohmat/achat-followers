@@ -125,7 +125,7 @@ export const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
     availableTypes: [
       {
         id: 'international',
-        title: 'Views Monde',
+        title: 'Vues comptes Monde',
         description: 'Vues provenant du monde entier',
         features: [
           'Diversité géographique',
@@ -137,7 +137,7 @@ export const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
       },
       {
         id: 'french',
-        title: 'Views France',
+        title: 'Vues comptes Français',
         description: 'Vues ciblées spécifiquement depuis la France',
         features: [
           'Profils 100% français',

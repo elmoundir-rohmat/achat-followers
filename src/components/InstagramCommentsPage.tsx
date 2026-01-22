@@ -257,77 +257,12 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
 
   return (
     <div className="min-h-screen bg-cream font-rounded">
-
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="flex items-center mb-8">
-                <div className="flex h-16 w-16 shrink-0 aspect-square items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
-                  <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
-                </div>
-                <h1 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight">
-                  {pageData?.hero?.title || "Commentaires Instagram"}
-                </h1>
-              </div>
-              {pageData?.hero?.description ? (
-                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                  <PortableText content={pageData.hero.description} />
-                </div>
-              ) : (
-                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
-                  Des commentaires authentiques et personnalisés pour booster l'engagement de vos posts
-                </p>
-              )}
-              <div className="flex flex-wrap items-center gap-6 text-base">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
-                  <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
-                  <span className="font-medium text-slate-700">4.9/5</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
-                  <MessageCircle className="w-5 h-5 text-lavender-500" strokeWidth={1.5} />
-                  <span className="font-medium text-slate-700">+50K commentaires</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
-                  <Shield className="w-5 h-5 text-soft-pink-500" strokeWidth={1.5} />
-                  <span className="font-medium text-slate-700">100% sécurisé</span>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              {pageData?.hero?.image?.url ? (
-                <img 
-                  src={pageData.hero.image.url} 
-                  alt={pageData.hero.image.alt || "Instagram Comments and Engagement Analytics"} 
-                  className="rounded-card shadow-soft-xl"
-                />
-              ) : (
-                <img 
-                  src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Instagram Comments and Engagement Analytics" 
-                  className="rounded-card shadow-soft-xl"
-                />
-              )}
-              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
-                <div className="text-soft-pink-600 font-semibold text-lg">💬 +85% Engagement</div>
-                <div className="text-sm text-slate-600">Boost achieved</div>
-              </div>
-              <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
-                <div className="text-lavender-600 font-semibold text-lg">📊 +20K Comments</div>
-                <div className="text-sm text-slate-600">Monthly delivered</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         <FollowerTypeSelector
           selectedType={followerType}
           onTypeChange={setFollowerType}
-          title="Type de commentaires"
+          title={pageData?.pageH1 || "Acheter des commentaires Instagram"}
+          headingLevel="h1"
           serviceKey="instagram_comments"
         />
 
@@ -542,6 +477,73 @@ export default function InstagramCommentsPage({ onBack }: { onBack: () => void }
           </div>
         </div>
 
+      </main>
+
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-peach-50 via-soft-pink-50 to-lavender-50 py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="flex items-center mb-8">
+                <div className="flex h-16 w-16 shrink-0 aspect-square items-center justify-center rounded-full bg-gradient-to-br from-soft-pink-400 via-peach-400 to-lavender-400 shadow-soft-lg mr-5">
+                  <Instagram className="w-9 h-9 text-white" strokeWidth={1.5} />
+                </div>
+                <h2 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight">
+                  {pageData?.hero?.title || "Commentaires Instagram"}
+                </h2>
+              </div>
+              {pageData?.hero?.description ? (
+                <div className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  <PortableText content={pageData.hero.description} />
+                </div>
+              ) : (
+                <p className="text-lg md:text-xl mb-10 text-slate-600 leading-relaxed">
+                  Des commentaires authentiques et personnalisés pour booster l'engagement de vos posts
+                </p>
+              )}
+              <div className="flex flex-wrap items-center gap-6 text-base">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Star className="w-5 h-5 text-warm-yellow-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">4.9/5</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <MessageCircle className="w-5 h-5 text-lavender-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">+50K commentaires</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-pill bg-white/80 backdrop-blur-sm border border-soft-pink-200/50 shadow-soft">
+                  <Shield className="w-5 h-5 text-soft-pink-500" strokeWidth={1.5} />
+                  <span className="font-medium text-slate-700">100% sécurisé</span>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              {pageData?.hero?.image?.url ? (
+                <img 
+                  src={pageData.hero.image.url} 
+                  alt={pageData.hero.image.alt || "Instagram Comments and Engagement Analytics"} 
+                  className="rounded-card shadow-soft-xl"
+                />
+              ) : (
+                <img 
+                  src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                  alt="Instagram Comments and Engagement Analytics" 
+                  className="rounded-card shadow-soft-xl"
+                />
+              )}
+              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
+                <div className="text-soft-pink-600 font-semibold text-lg">💬 +85% Engagement</div>
+                <div className="text-sm text-slate-600">Boost achieved</div>
+              </div>
+              <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm rounded-card-sm p-4 shadow-soft-lg border border-soft-pink-200/50">
+                <div className="text-lavender-600 font-semibold text-lg">📊 +20K Comments</div>
+                <div className="text-sm text-slate-600">Monthly delivered</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         {/* Why Buy Comments Section */}
         <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold text-center text-slate-800 mb-16">

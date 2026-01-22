@@ -14,6 +14,15 @@ export default defineType({
       readOnly: true,
     }),
 
+    // Titre H1 principal
+    defineField({
+      name: 'pageH1',
+      title: 'Titre Principal (H1)',
+      type: 'string',
+      description: 'H1 principal affiche au-dessus des packs.',
+      initialValue: 'Acheter des commentaires Instagram',
+    }),
+
     // Section Hero - SEO
     defineField({
       name: 'hero',
@@ -22,13 +31,13 @@ export default defineType({
       fields: [
         {
           name: 'title',
-          title: 'Titre Principal (H1)',
+          title: 'Titre du Hero (H2)',
           type: 'string',
-          description: 'Le titre principal H1 de la page - Important pour le SEO',
+          description: 'Le titre du hero, desormais en H2',
         },
         {
           name: 'description',
-          title: 'Description (Paragraphe sous H1)',
+          title: 'Description (Paragraphe sous H2)',
           type: 'array',
           of: [{ type: 'block' }],
           description: 'Description importante pour le SEO - visible sous le titre. Supporte le formatage : gras, italique, liens, etc.',

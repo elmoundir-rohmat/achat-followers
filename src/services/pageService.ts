@@ -163,6 +163,7 @@ const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && publ
 const instagramLikesPageQuery = `*[_type == "instagramLikesPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -279,6 +280,7 @@ const instagramLikesPageQuery = `*[_type == "instagramLikesPage" && published ==
 const instagramViewsPageQuery = `*[_type == "instagramViewsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -442,6 +444,7 @@ const fontGeneratorPageQuery = `*[_type == "fontGeneratorPage" && published == t
 const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -1097,6 +1100,7 @@ export interface HomePageData {
 export interface InstagramLikesPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1218,6 +1222,7 @@ export interface InstagramLikesPageData {
 export interface InstagramViewsPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1339,6 +1344,7 @@ export interface InstagramViewsPageData {
 export interface InstagramCommentsPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage

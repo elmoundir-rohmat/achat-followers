@@ -172,6 +172,47 @@ export default defineType({
       ],
     }),
 
+    // Section "Avis clients"
+    defineField({
+      name: 'reviews',
+      title: 'Section "Avis clients"',
+      type: 'array',
+      description: 'Avis affiches dans la section Avis clients',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'name',
+              title: 'Nom et prenom',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'date',
+              title: 'Date',
+              type: 'string',
+              description: 'Ex: 15 Janvier 2026',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'rating',
+              title: "Nombre d'etoiles",
+              type: 'number',
+              validation: (Rule: any) => Rule.required().min(1).max(5),
+            },
+            {
+              name: 'comment',
+              title: 'Commentaire',
+              type: 'text',
+              rows: 3,
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+        },
+      ],
+    }),
+
     // Section "Sécurité & Garanties" - SEO
     defineField({
       name: 'securitySection',
@@ -401,6 +442,47 @@ export default defineType({
                   description: 'Réponse visible par Google (rich snippets)',
                 },
               ],
+            },
+          ],
+        },
+      ],
+    }),
+
+    // Section Avis clients
+    defineField({
+      name: 'testimonials',
+      title: 'Avis clients',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'name',
+              title: 'Nom / Prénom',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'date',
+              title: 'Date',
+              type: 'string',
+              description: 'Ex: 15 Janvier 2026',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'rating',
+              title: 'Nombre d\'étoiles',
+              type: 'number',
+              description: 'De 1 à 5',
+              validation: (Rule: any) => Rule.min(1).max(5).required(),
+            },
+            {
+              name: 'comment',
+              title: 'Commentaire',
+              type: 'text',
+              rows: 3,
+              validation: (Rule: any) => Rule.required(),
             },
           ],
         },

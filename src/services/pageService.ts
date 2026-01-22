@@ -111,11 +111,23 @@ const instagramFollowersPageQuery = `*[_type == "instagramFollowersPage" && publ
     }
   },
   contentBeforeFaq,
+  reviews[] {
+    name,
+    date,
+    rating,
+    comment
+  },
   faq {
     questions[] {
       question,
       answer
     }
+  },
+  testimonials[] {
+    name,
+    date,
+    rating,
+    comment
   },
   seo {
     metaTitle,
@@ -1048,6 +1060,12 @@ export interface HomePageData {
       answer?: string
     }>
   }
+  testimonials?: Array<{
+    name?: string
+    date?: string
+    rating?: number
+    comment?: string
+  }>
   seo?: {
     metaTitle?: string
     metaDescription?: string
@@ -1155,6 +1173,12 @@ export interface InstagramLikesPageData {
     }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  reviews?: Array<{
+    name?: string
+    date?: string
+    rating?: number
+    comment?: string
+  }>
   faq?: {
     questions?: Array<{
       question?: string
@@ -1270,6 +1294,12 @@ export interface InstagramViewsPageData {
     }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  reviews?: Array<{
+    name?: string
+    date?: string
+    rating?: number
+    comment?: string
+  }>
   faq?: {
     questions?: Array<{
       question?: string
@@ -1385,6 +1415,12 @@ export interface InstagramCommentsPageData {
     }
   }
   contentBeforeFaq?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
+  reviews?: Array<{
+    name?: string
+    date?: string
+    rating?: number
+    comment?: string
+  }>
   faq?: {
     questions?: Array<{
       question?: string

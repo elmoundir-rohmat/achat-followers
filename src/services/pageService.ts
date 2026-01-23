@@ -561,6 +561,7 @@ const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && publis
 const tiktokFollowersPageQuery = `*[_type == "tiktokFollowersPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -677,6 +678,7 @@ const tiktokFollowersPageQuery = `*[_type == "tiktokFollowersPage" && published 
 const tiktokLikesPageQuery = `*[_type == "tiktokLikesPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -793,6 +795,7 @@ const tiktokLikesPageQuery = `*[_type == "tiktokLikesPage" && published == true 
 const tiktokCommentsPageQuery = `*[_type == "tiktokCommentsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -909,6 +912,7 @@ const tiktokCommentsPageQuery = `*[_type == "tiktokCommentsPage" && published ==
 const tiktokViewsPageQuery = `*[_type == "tiktokViewsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
   title,
+  pageH1,
   hero {
     title,
     description,
@@ -1596,6 +1600,7 @@ export interface InstagramFollowersPageData {
 export interface TikTokFollowersPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1711,6 +1716,7 @@ export interface TikTokFollowersPageData {
 export interface TikTokLikesPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1826,6 +1832,7 @@ export interface TikTokLikesPageData {
 export interface TikTokCommentsPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage
@@ -1941,6 +1948,7 @@ export interface TikTokCommentsPageData {
 export interface TikTokViewsPageData {
   _id: string
   title: string
+  pageH1?: string
   hero?: {
     title?: string
     description?: any[] // Contenu riche (blockContent) de Sanity - supporte le formatage

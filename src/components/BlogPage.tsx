@@ -156,7 +156,15 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
   };
 
   const formatDate = (dateString: string) => {
-    return dateString; // La date est déjà formatée dans les données
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
+      return dateString;
+    }
+    return new Intl.DateTimeFormat('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
   };
 
   if (loading) {
@@ -257,7 +265,7 @@ export default function BlogPage({ onNavigate, onViewArticle }: BlogPageProps) {
                     <Calendar className="w-4 h-4 mr-1" strokeWidth={1.5} />
                     <span className="mr-4">{formatDate(post.date)}</span>
                     <User className="w-4 h-4 mr-1" strokeWidth={1.5} />
-                    <span className="mr-4">{post.authorId}</span>
+                    <span className="mr-4">{post.author}</span>
                     <Clock className="w-4 h-4 mr-1" strokeWidth={1.5} />
                     <span>{post.readTime} min</span>
                   </div>

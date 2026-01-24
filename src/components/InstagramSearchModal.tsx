@@ -518,12 +518,6 @@ export default function InstagramSearchModal({ isOpen, onClose, onSelectProfile,
           <p className="text-xs text-gray-500 text-center mt-2">
             🔒 Nous ne demandons jamais votre mot de passe Instagram
           </p>
-          <div className="mt-2 p-2 bg-green-50 rounded-lg">
-            <p className="text-xs text-green-700 text-center">
-              📸 <strong>Vraies photos Instagram:</strong> Nous récupérons directement les vraies photos de profil Instagram via proxy. 
-              Plus d'images mockées - seulement des photos Instagram authentiques !
-            </p>
-          </div>
         </div>
       </div>
     </div>

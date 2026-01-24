@@ -115,14 +115,6 @@ export const FOLLOWERS_PACKAGES_FRENCH: PackageConfig[] = [
     features: ['Livraison progressive', 'Profils premium', 'Garantie 30j', 'Remplacement gratuit'],
     delivery: '24-72h',
     popular: true
-  },
-  {
-    id: '2500',
-    quantity: 2500,
-    priceInternational: 19.95,
-    priceFrench: 199.95,
-    features: ['Livraison sécurisée', 'Profils premium', 'Garantie 30j', 'Support prioritaire'],
-    delivery: '48-72h'
   }
 ];
 

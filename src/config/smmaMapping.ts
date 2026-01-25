@@ -10,7 +10,7 @@ export interface SMMAServiceMapping {
 export const SMMA_SERVICE_MAPPING: SMMAServiceMapping[] = [
   {
     followerType: 'international',
-    smmaServiceId: 3510,
+    smmaServiceId: 4235,
     description: 'Instagram followers internationaux'
   },
   {

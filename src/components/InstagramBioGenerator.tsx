@@ -24,8 +24,9 @@ const MAX_CHARACTERS = 150;
 export default function InstagramBioGenerator() {
   const [profileType, setProfileType] = useState<ProfileType>('Influenceur');
   const [tone, setTone] = useState<ToneType>('Pro');
-  const [keywords, setKeywords] = useState('');
+  const [description, setDescription] = useState('');
   const [useEmojis, setUseEmojis] = useState(true);
+  const [useHashtags, setUseHashtags] = useState(false);
   const [bios, setBios] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,8 +46,9 @@ export default function InstagramBioGenerator() {
         body: JSON.stringify({
           profileType,
           tone,
-          keywords: keywords.trim() || undefined,
+          description: description.trim() || undefined,
           emojis: useEmojis,
+          hashtags: useHashtags,
           count: OUTPUT_COUNT
         })
       });
@@ -125,13 +127,13 @@ export default function InstagramBioGenerator() {
 
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                Mots-clés (optionnel)
+                Description <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                value={keywords}
-                onChange={(event) => setKeywords(event.target.value)}
-                placeholder="Ex: marketing, fitness, lifestyle"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                placeholder="Ex: J'aide les marques a vendre plus avec du contenu"
                 className="w-full p-3 border border-soft-pink-200/50 rounded-button focus:ring-2 focus:ring-soft-pink-300 focus:border-soft-pink-300 focus:outline-none bg-white/80 text-slate-900"
               />
             </div>
@@ -165,6 +167,36 @@ export default function InstagramBioGenerator() {
                 </button>
               </div>
             </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Hashtags
+              </label>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setUseHashtags(true)}
+                  className={`px-4 py-2 rounded-button text-sm font-medium transition-all border ${
+                    useHashtags
+                      ? 'bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white border-transparent shadow-soft'
+                      : 'bg-white/80 text-slate-700 border-soft-pink-200/50 hover:bg-soft-pink-50'
+                  }`}
+                >
+                  Oui
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setUseHashtags(false)}
+                  className={`px-4 py-2 rounded-button text-sm font-medium transition-all border ${
+                    !useHashtags
+                      ? 'bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white border-transparent shadow-soft'
+                      : 'bg-white/80 text-slate-700 border-soft-pink-200/50 hover:bg-soft-pink-50'
+                  }`}
+                >
+                  Non
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -174,7 +206,7 @@ export default function InstagramBioGenerator() {
             <button
               type="button"
               onClick={handleGenerate}
-              disabled={isLoading}
+              disabled={isLoading || description.trim() === ''}
               className="px-6 py-3 text-base bg-gradient-to-r from-soft-pink-400 via-peach-400 to-lavender-400 text-white rounded-button hover:shadow-soft-lg transition-all shadow-soft font-medium flex items-center gap-2 disabled:opacity-60"
             >
               <Sparkles className="w-5 h-5" strokeWidth={1.5} />

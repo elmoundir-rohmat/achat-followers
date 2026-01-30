@@ -3,8 +3,9 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 interface BioRequestBody {
   profileType: string;
   tone: string;
-  keywords?: string;
+  description?: string;
   emojis?: boolean;
+  hashtags?: boolean;
   count?: number;
 }
 
@@ -18,15 +19,12 @@ const normalizeText = (text: string) =>
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
 
-const splitKeywords = (keywords?: string) =>
-  (keywords || '')
-    .split(',')
-    .map((keyword) => keyword.trim())
-    .filter(Boolean);
+const normalizeDescription = (description?: string) =>
+  (description || '').replace(/\s+/g, ' ').trim();
 
 const buildFallbackBios = (payload: BioRequestBody) => {
-  const keywords = splitKeywords(payload.keywords);
-  const keywordShort = keywords.length > 0 ? keywords.slice(0, 3).join(' • ') : '';
+  const shortDescription = normalizeDescription(payload.description);
+  const descriptionSnippet = shortDescription ? shortDescription.split(' ').slice(0, 10).join(' ') : '';
   const emojiPrefix = payload.emojis ? '✨ ' : '';
   const cta = payload.emojis ? 'DM pour collab' : 'DM pour collab';
 
@@ -55,14 +53,14 @@ const buildFallbackBios = (payload: BioRequestBody) => {
     normalizeText(parts.filter(Boolean).join(' '));
 
   const templates = [
-    joinSpace(emojiPrefix + profileLabel, toneLabel + '.', keywordShort),
-    joinSpace(emojiPrefix + valueSentence + '.', keywordShort),
-    joinSpace(emojiPrefix + keywordShort, cta),
-    join(emojiPrefix + profileLabel, keywordShort, cta),
+    joinSpace(emojiPrefix + profileLabel, toneLabel + '.', descriptionSnippet),
+    joinSpace(emojiPrefix + valueSentence + '.', descriptionSnippet),
+    joinSpace(emojiPrefix + descriptionSnippet, cta),
+    join(emojiPrefix + profileLabel, descriptionSnippet, cta),
     joinSpace(emojiPrefix + toneLabel + '.', valueSentence),
     joinSpace(emojiPrefix + profileLabel + '.', 'Disponible pour projets.'),
-    joinSpace(emojiPrefix + keywordShort, 'Dispo pour collaborations.'),
-    join(emojiPrefix + toneLabel, profileLabel, keywordShort)
+    joinSpace(emojiPrefix + descriptionSnippet, 'Dispo pour collaborations.'),
+    join(emojiPrefix + toneLabel, profileLabel, descriptionSnippet)
   ];
 
   return templates
@@ -80,14 +78,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       profileType,
       tone,
-      keywords,
+      description,
       emojis = true,
+      hashtags = false,
       count = 8
     }: BioRequestBody = req.body || {};
 
-    if (!profileType || !tone) {
+    if (!profileType || !tone || !description) {
       return res.status(400).json({
-        error: 'Missing required fields: profileType and tone'
+        error: 'Missing required fields: profileType, tone, and description'
       });
     }
 
@@ -118,8 +117,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       '- Respecte strictement :',
       `  - le type de profil (${profileType})`,
       `  - le ton (${tone})`,
-      `  - les mots-cles (${keywords || ''})`,
-      '- Les mots-cles doivent etre integres de maniere naturelle (jamais listes)',
+      `  - la description (${description || ''})`,
+      '- La description doit etre integree de maniere naturelle (jamais listee)',
       '- Evite absolument :',
       '  - les phrases plates ou descriptives',
       '  - les slogans creux',
@@ -131,6 +130,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       '- Si "emojis" = true → ajoute 1 a 2 emojis maximum',
       '- Si "emojis" = false → aucun emoji',
       '',
+      'Hashtags :',
+      '- Si "hashtags" = true → ajoute 1 a 2 hashtags maximum, integres naturellement',
+      '- Si "hashtags" = false → aucun hashtag',
+      '',
       'Format de sortie :',
       '- Reponds UNIQUEMENT en JSON strict',
       '- Cle unique : "bios"',
@@ -141,8 +144,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const userPayload = {
       profileType,
       tone,
-      keywords,
-      emojis
+      description,
+      emojis,
+      hashtags
     };
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -199,7 +203,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const fallbackBios = buildFallbackBios({
         profileType,
         tone,
-        keywords,
+        description,
         emojis
       });
       for (const bio of fallbackBios) {

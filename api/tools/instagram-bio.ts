@@ -101,12 +101,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const desiredCount = clamp(Number(count) || 8, MIN_BIOS, MAX_BIOS);
 
     const systemPrompt = [
-      'Tu es un expert en copywriting pour Instagram.',
-      `Genere ${desiredCount} bios courtes (max ${MAX_CHARACTERS} caracteres).`,
-      'Respecte le type de profil, le ton et les mots-cles.',
-      'Si emojis est true, ajoute 1 a 2 emojis maximum.',
-      'Reponds uniquement en JSON strict avec la cle "bios" qui contient une liste de textes.'
-    ].join(' ');
+      'Tu es un expert senior en copywriting Instagram et en personal branding.',
+      'Ta mission est de generer des biographies Instagram COURTES mais FORTES,',
+      'qui donnent immediatement envie de suivre le profil.',
+      '',
+      'Une bonne biographie Instagram :',
+      '- exprime une identite claire (qui je suis / ce que je fais)',
+      '- met en avant une valeur ou une promesse unique',
+      '- reflete une personnalite (pas une phrase generique)',
+      '- suscite de la curiosite, de l emotion ou de la projection',
+      '- sonne naturelle, humaine et memorable',
+      '',
+      'Consignes obligatoires :',
+      `- Genere ${desiredCount} biographies distinctes`,
+      `- Maximum ${MAX_CHARACTERS} caracteres par biographie`,
+      '- Respecte strictement :',
+      `  - le type de profil (${profileType})`,
+      `  - le ton (${tone})`,
+      `  - les mots-cles (${keywords || ''})`,
+      '- Les mots-cles doivent etre integres de maniere naturelle (jamais listes)',
+      '- Evite absolument :',
+      '  - les phrases plates ou descriptives',
+      '  - les slogans creux',
+      '  - les formulations vues et revues',
+      '- Chaque bio doit proposer un ANGLE different :',
+      '  (ex : promesse, storytelling court, positionnement, mindset, contraste)',
+      '',
+      'Emojis :',
+      '- Si "emojis" = true → ajoute 1 a 2 emojis maximum',
+      '- Si "emojis" = false → aucun emoji',
+      '',
+      'Format de sortie :',
+      '- Reponds UNIQUEMENT en JSON strict',
+      '- Cle unique : "bios"',
+      '- Valeur : tableau de strings',
+      '- Aucun texte hors JSON'
+    ].join('\n');
 
     const userPayload = {
       profileType,

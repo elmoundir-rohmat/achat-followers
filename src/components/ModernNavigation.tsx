@@ -123,13 +123,46 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
               )}
             </div>
 
+            {/* Outils Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => handleDropdownToggle('outils')}
+                className="flex items-center text-slate-700 hover:text-soft-pink-600 transition-colors font-medium px-4 py-2 rounded-button hover:bg-soft-pink-50"
+              >
+                <span>Outils</span>
+                <ChevronDown className={`w-4 h-4 ml-1.5 transition-transform duration-300 ${activeDropdown === 'outils' ? 'rotate-180' : ''}`} strokeWidth={1.5} />
+              </button>
+
+              {activeDropdown === 'outils' && (
+                <div className="absolute top-full left-0 mt-3 w-72 bg-white/95 backdrop-blur-sm rounded-card shadow-soft-xl border border-soft-pink-200/50 py-4">
+                  <div className="px-5 py-2">
+                    <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">
+                      Outils
+                    </h3>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => onNavigate?.('tools-font')}
+                        className="flex items-center space-x-2.5 px-3 py-2.5 rounded-card-sm hover:bg-gradient-to-r hover:from-soft-pink-50 hover:to-lavender-50 transition-all duration-300 group w-full text-left hover:shadow-soft"
+                      >
+                        <span className="text-sm text-slate-700 group-hover:text-slate-800 font-medium">
+                          Générateur de police
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => onNavigate?.('tools-bio')}
+                        className="flex items-center space-x-2.5 px-3 py-2.5 rounded-card-sm hover:bg-gradient-to-r hover:from-soft-pink-50 hover:to-lavender-50 transition-all duration-300 group w-full text-left hover:shadow-soft"
+                      >
+                        <span className="text-sm text-slate-700 group-hover:text-slate-800 font-medium">
+                          Générateur de bio
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Other Menu Items */}
-            <button
-              onClick={() => onNavigate?.('tools')}
-              className="text-slate-700 hover:text-soft-pink-600 transition-colors font-medium px-4 py-2 rounded-button hover:bg-soft-pink-50"
-            >
-              Outils
-            </button>
             <button
               onClick={() => onNavigate?.('blog')}
               className="text-slate-700 hover:text-soft-pink-600 transition-colors font-medium px-4 py-2 rounded-button hover:bg-soft-pink-50"
@@ -202,17 +235,33 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
                 </div>
               </div>
 
+              {/* Mobile Tools */}
+              <div className="pt-2 border-t border-soft-pink-100">
+                <h3 className="text-slate-800 font-semibold mb-4 text-base">Outils</h3>
+                <div className="space-y-2 ml-2">
+                  <button
+                    onClick={() => {
+                      onNavigate?.('tools-font');
+                      setIsMenuOpen(false);
+                    }}
+                    className="block text-slate-700 hover:text-soft-pink-600 hover:bg-soft-pink-50 transition-all duration-300 w-full text-left px-3 py-2.5 rounded-card-sm font-medium"
+                  >
+                    Générateur de police
+                  </button>
+                  <button
+                    onClick={() => {
+                      onNavigate?.('tools-bio');
+                      setIsMenuOpen(false);
+                    }}
+                    className="block text-slate-700 hover:text-soft-pink-600 hover:bg-soft-pink-50 transition-all duration-300 w-full text-left px-3 py-2.5 rounded-card-sm font-medium"
+                  >
+                    Générateur de bio
+                  </button>
+                </div>
+              </div>
+
               {/* Other Mobile Links */}
               <div className="space-y-2 pt-2 border-t border-soft-pink-100">
-                <button
-                  onClick={() => {
-                    onNavigate?.('tools');
-                    setIsMenuOpen(false);
-                  }}
-                  className="block text-slate-700 hover:text-soft-pink-600 hover:bg-soft-pink-50 transition-all duration-300 w-full text-left px-3 py-2.5 rounded-card-sm font-medium"
-                >
-                  Outils
-                </button>
                 <button
                   onClick={() => {
                     onNavigate?.('blog');

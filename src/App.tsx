@@ -31,9 +31,11 @@ import { getServicePageBySlug } from './config/serviceSlugs';
 import { RoutingService } from './services/routingService';
 import { usePageTracking, trackEvent, trackPageView } from './hooks/usePageTracking';
 import ToolsPage from './components/ToolsPage';
+import FontGenerator from './components/FontGenerator';
+import InstagramBioGenerator from './components/InstagramBioGenerator';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel' | 'tools'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel' | 'tools' | 'tools-font' | 'tools-bio'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
@@ -62,7 +64,9 @@ function AppContent() {
       'about': '/about',
       'contact': '/contact',
       'blog': '/blog',
-      'tools': '/generateur-police-instagram'
+      'tools': '/outils',
+      'tools-font': '/generateur-police-instagram',
+      'tools-bio': '/generateur-bio-instagram'
     };
     
     const pageUrl = pageMap[currentPage] || `/${currentPage}`;
@@ -200,8 +204,14 @@ function AppContent() {
         setCurrentPage('contact');
       }
       // Page d'accueil
-      else if (path === '/generateur-police-instagram') {
+      else if (path === '/outils') {
         setCurrentPage('tools');
+      }
+      else if (path === '/generateur-police-instagram') {
+        setCurrentPage('tools-font');
+      }
+      else if (path === '/generateur-bio-instagram') {
+        setCurrentPage('tools-bio');
       }
       else if (path === '/') {
         setCurrentPage('home');
@@ -399,7 +409,21 @@ function AppContent() {
     // Page Outils
     if (page === 'tools') {
       setCurrentPage('tools');
+      window.history.pushState({}, '', '/outils');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+
+    if (page === 'tools-font') {
+      setCurrentPage('tools-font');
       window.history.pushState({}, '', '/generateur-police-instagram');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+
+    if (page === 'tools-bio') {
+      setCurrentPage('tools-bio');
+      window.history.pushState({}, '', '/generateur-bio-instagram');
       setTimeout(() => setIsNavigating(false), 100);
       return;
     }
@@ -657,11 +681,13 @@ function AppContent() {
   }
 
   // Page Outils
-  if (currentPage === 'tools') {
+  if (currentPage === 'tools' || currentPage === 'tools-font' || currentPage === 'tools-bio') {
     return (
       <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
-        <ToolsPage onNavigate={handleNavigate} />
+        {currentPage === 'tools' && <ToolsPage onNavigate={handleNavigate} />}
+        {currentPage === 'tools-font' && <FontGenerator />}
+        {currentPage === 'tools-bio' && <InstagramBioGenerator />}
         <Footer onNavigate={handleNavigate} />
       </div>
     );

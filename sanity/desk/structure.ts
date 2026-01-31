@@ -57,6 +57,24 @@ export const structure = (S: StructureBuilder) =>
             .schemaType('fontGeneratorPage')
             .documentId('fontGeneratorPage')
         ),
+
+      // Page Générateur de Bio Instagram
+      S.listItem()
+        .title('Page Générateur de Bio Instagram')
+        .child(
+          S.document()
+            .schemaType('bioGeneratorPage')
+            .documentId('bioGeneratorPage')
+        ),
+
+      // Page Générateur de Captions Instagram
+      S.listItem()
+        .title('Page Générateur de Captions Instagram')
+        .child(
+          S.document()
+            .schemaType('captionGeneratorPage')
+            .documentId('captionGeneratorPage')
+        ),
       
       // Séparateur TikTok
       S.divider(),
@@ -144,7 +162,7 @@ export const structure = (S: StructureBuilder) =>
       // Tous les documents
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'fontGeneratorPage', 'tiktokFollowersPage', 'tiktokLikesPage', 'tiktokViewsPage', 'tiktokCommentsPage', 'author', 'category', 'tag'].includes(
+          !['blogPost', 'page', 'homePage', 'instagramCommentsPage', 'instagramFollowersPage', 'instagramLikesPage', 'instagramViewsPage', 'fontGeneratorPage', 'bioGeneratorPage', 'captionGeneratorPage', 'tiktokFollowersPage', 'tiktokLikesPage', 'tiktokViewsPage', 'tiktokCommentsPage', 'author', 'category', 'tag'].includes(
             listItem.getId()!
           )
       ),

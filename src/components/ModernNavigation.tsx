@@ -136,9 +136,6 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
               {activeDropdown === 'outils' && (
                 <div className="absolute top-full left-0 mt-3 w-72 bg-white/95 backdrop-blur-sm rounded-card shadow-soft-xl border border-soft-pink-200/50 py-4">
                   <div className="px-5 py-2">
-                    <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">
-                      Outils
-                    </h3>
                     <div className="space-y-2">
                       <button
                         onClick={() => onNavigate?.('tools-font')}

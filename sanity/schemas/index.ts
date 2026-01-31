@@ -6,6 +6,8 @@ import instagramFollowersPage from './instagramFollowersPage'
 import instagramLikesPage from './instagramLikesPage'
 import instagramViewsPage from './instagramViewsPage'
 import fontGeneratorPage from './fontGeneratorPage'
+import bioGeneratorPage from './bioGeneratorPage'
+import captionGeneratorPage from './captionGeneratorPage'
 import tiktokFollowersPage from './tiktokFollowersPage'
 import tiktokLikesPage from './tiktokLikesPage'
 import tiktokViewsPage from './tiktokViewsPage'
@@ -24,6 +26,8 @@ export const schemaTypes = [
   instagramLikesPage,
   instagramViewsPage,
   fontGeneratorPage,
+  bioGeneratorPage,
+  captionGeneratorPage,
   tiktokFollowersPage,
   tiktokLikesPage,
   tiktokViewsPage,

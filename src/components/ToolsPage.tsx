@@ -43,6 +43,19 @@ export default function ToolsPage({ onNavigate }: ToolsPageProps) {
               Créez des bios courtes et impactantes selon votre profil et votre ton.
             </p>
           </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate?.('tools-caption')}
+            className="text-left bg-white/80 backdrop-blur-sm rounded-card shadow-soft border border-soft-pink-200/50 p-6 hover:shadow-soft-lg transition-all"
+          >
+            <h2 className="text-xl font-semibold text-slate-800 mb-2">
+              Générateur de captions
+            </h2>
+            <p className="text-slate-600">
+              Générez des captions engageantes à partir d'une description de post.
+            </p>
+          </button>
         </div>
       </div>
     </div>

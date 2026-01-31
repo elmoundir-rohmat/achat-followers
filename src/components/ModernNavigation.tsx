@@ -156,6 +156,14 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
                           Générateur de bio
                         </span>
                       </button>
+                      <button
+                        onClick={() => onNavigate?.('tools-caption')}
+                        className="flex items-center space-x-2.5 px-3 py-2.5 rounded-card-sm hover:bg-gradient-to-r hover:from-soft-pink-50 hover:to-lavender-50 transition-all duration-300 group w-full text-left hover:shadow-soft"
+                      >
+                        <span className="text-sm text-slate-700 group-hover:text-slate-800 font-medium">
+                          Générateur de captions
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -256,6 +264,15 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
                     className="block text-slate-700 hover:text-soft-pink-600 hover:bg-soft-pink-50 transition-all duration-300 w-full text-left px-3 py-2.5 rounded-card-sm font-medium"
                   >
                     Générateur de bio
+                  </button>
+                  <button
+                    onClick={() => {
+                      onNavigate?.('tools-caption');
+                      setIsMenuOpen(false);
+                    }}
+                    className="block text-slate-700 hover:text-soft-pink-600 hover:bg-soft-pink-50 transition-all duration-300 w-full text-left px-3 py-2.5 rounded-card-sm font-medium"
+                  >
+                    Générateur de captions
                   </button>
                 </div>
               </div>

@@ -33,9 +33,10 @@ import { usePageTracking, trackEvent, trackPageView } from './hooks/usePageTrack
 import ToolsPage from './components/ToolsPage';
 import FontGenerator from './components/FontGenerator';
 import InstagramBioGenerator from './components/InstagramBioGenerator';
+import InstagramCaptionGenerator from './components/InstagramCaptionGenerator';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel' | 'tools' | 'tools-font' | 'tools-bio'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'instagram-followers' | 'instagram-likes' | 'instagram-comments' | 'instagram-views' | 'tiktok-followers' | 'tiktok-likes' | 'tiktok-views' | 'tiktok-comments' | 'followers' | 'likes' | 'legal' | 'about' | 'contact' | 'blog' | 'blog-article' | 'cart' | 'payment' | 'payment-success' | 'payment-cancel' | 'tools' | 'tools-font' | 'tools-bio' | 'tools-caption'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string>('');
   const [currentLegalSection, setCurrentLegalSection] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
@@ -66,7 +67,8 @@ function AppContent() {
       'blog': '/blog',
       'tools': '/outils',
       'tools-font': '/generateur-police-instagram',
-      'tools-bio': '/generateur-bio-instagram'
+      'tools-bio': '/generateur-bio-instagram',
+      'tools-caption': '/generateur-captions-instagram'
     };
     
     const pageUrl = pageMap[currentPage] || `/${currentPage}`;
@@ -212,6 +214,9 @@ function AppContent() {
       }
       else if (path === '/generateur-bio-instagram') {
         setCurrentPage('tools-bio');
+      }
+      else if (path === '/generateur-captions-instagram') {
+        setCurrentPage('tools-caption');
       }
       else if (path === '/') {
         setCurrentPage('home');
@@ -424,6 +429,13 @@ function AppContent() {
     if (page === 'tools-bio') {
       setCurrentPage('tools-bio');
       window.history.pushState({}, '', '/generateur-bio-instagram');
+      setTimeout(() => setIsNavigating(false), 100);
+      return;
+    }
+
+    if (page === 'tools-caption') {
+      setCurrentPage('tools-caption');
+      window.history.pushState({}, '', '/generateur-captions-instagram');
       setTimeout(() => setIsNavigating(false), 100);
       return;
     }
@@ -681,13 +693,14 @@ function AppContent() {
   }
 
   // Page Outils
-  if (currentPage === 'tools' || currentPage === 'tools-font' || currentPage === 'tools-bio') {
+  if (currentPage === 'tools' || currentPage === 'tools-font' || currentPage === 'tools-bio' || currentPage === 'tools-caption') {
     return (
       <div className="min-h-screen bg-cream">
         <ModernNavigation onNavigate={handleNavigate} />
         {currentPage === 'tools' && <ToolsPage onNavigate={handleNavigate} />}
         {currentPage === 'tools-font' && <FontGenerator />}
         {currentPage === 'tools-bio' && <InstagramBioGenerator />}
+        {currentPage === 'tools-caption' && <InstagramCaptionGenerator />}
         <Footer onNavigate={handleNavigate} />
       </div>
     );

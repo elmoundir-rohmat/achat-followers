@@ -79,9 +79,9 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-6" ref={dropdownRef}>
             {/* Produits Dropdown */}
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative">
               <button
                 onClick={() => handleDropdownToggle('produits')}
                 className="flex items-center text-slate-700 hover:text-soft-pink-600 transition-colors font-medium px-4 py-2 rounded-button hover:bg-soft-pink-50"
@@ -124,7 +124,7 @@ export default function ModernNavigation({ onNavigate }: ModernNavigationProps) 
             </div>
 
             {/* Outils Dropdown */}
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative">
               <button
                 onClick={() => handleDropdownToggle('outils')}
                 className="flex items-center text-slate-700 hover:text-soft-pink-600 transition-colors font-medium px-4 py-2 rounded-button hover:bg-soft-pink-50"

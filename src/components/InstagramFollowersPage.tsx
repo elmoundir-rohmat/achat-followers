@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Users, Instagram, Star, Shield, Clock, CheckCircle, Heart, TrendingUp, Users2, Zap, ArrowLeft } from 'lucide-react';
+import { Users, Instagram, Star, Shield, Clock, CheckCircle, Heart, TrendingUp, Users2, Zap, ArrowLeft, Calendar, User, ArrowRight } from 'lucide-react';
 import FollowerTypeSelector from './FollowerTypeSelector';
 import PackageSelector from './PackageSelector';
 import GuaranteeSection from './GuaranteeSection';
@@ -11,6 +11,8 @@ import { getPackagePrice, getPackageQuantity } from '../config/packagesConfig';
 import { PageService, InstagramFollowersPageData } from '../services/pageService';
 import { updateSEOMetadata } from '../utils/seoMetadata';
 import PortableText from './PortableText';
+import { BlogServiceSanity } from '../lib/blog/blogServiceSanity';
+import { BlogMetadata } from '../lib/blog';
 
 // FAQ data pour le Schema.org
 const faqData = [
@@ -97,6 +99,9 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   const { addToCart, updateLastItemUsername } = useCart();
   const [pageData, setPageData] = useState<InstagramFollowersPageData | null>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
+  const blogCarouselRef = useRef<HTMLDivElement>(null);
+  const [blogPosts, setBlogPosts] = useState<BlogMetadata[]>([]);
+  const [blogLoading, setBlogLoading] = useState(true);
   type Review = {
     name: string;
     date: string;
@@ -126,6 +131,24 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
   // Charger les données SEO depuis Sanity
   useEffect(() => {
     PageService.getInstagramFollowersPage().then(setPageData);
+  }, []);
+
+  // Charger les articles de blog pour le carrousel
+  useEffect(() => {
+    const loadBlogPosts = async () => {
+      try {
+        setBlogLoading(true);
+        const response = await BlogServiceSanity.getArticlesList({ limit: 8, sortBy: 'date', sortOrder: 'desc' });
+        setBlogPosts(response.posts);
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+        setBlogPosts([]);
+      } finally {
+        setBlogLoading(false);
+      }
+    };
+
+    loadBlogPosts();
   }, []);
 
   // Mettre à jour les métadonnées SEO
@@ -186,6 +209,23 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
 
   const getPackageFollowers = (packageId: string) => {
     return getPackageQuantity(packageId, 'followers');
+  };
+
+  const faqsToDisplay = (pageData?.faq?.questions || faqData).map((faq: { question?: string; answer?: string }) => ({
+    question: faq.question || '',
+    answer: faq.answer || ''
+  }));
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
+      return dateString;
+    }
+    return new Intl.DateTimeFormat('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
   };
 
   const handlePurchase = () => {
@@ -737,8 +777,112 @@ export default function InstagramFollowersPage({ onBack }: { onBack: () => void 
 
         {/* FAQ Section */}
         <FAQSection 
-          faqs={pageData?.faq?.questions || faqData}
+          faqs={faqsToDisplay}
         />
+
+        {/* Blog carousel */}
+        <div className="mt-16">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between mb-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-3">
+                Nos derniers articles de blog
+              </h2>
+              <p className="text-slate-600 text-base md:text-lg">
+                Conseils, stratégies et bonnes pratiques pour réussir sur Instagram.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => { window.location.href = '/blogs'; }}
+              className="self-start md:self-auto px-5 py-3 rounded-button border border-soft-pink-200/60 bg-white/80 backdrop-blur-sm text-slate-700 hover:text-slate-900 hover:bg-soft-pink-50/60 shadow-soft transition-all"
+            >
+              Voir tous les articles
+            </button>
+          </div>
+
+          {blogLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-soft-pink-500"></div>
+            </div>
+          ) : blogPosts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-500 text-lg">Aucun article disponible pour le moment.</p>
+            </div>
+          ) : (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => blogCarouselRef.current?.scrollBy({ left: -360, behavior: 'smooth' })}
+                className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 border border-soft-pink-200/60 shadow-soft flex items-center justify-center text-slate-600 hover:text-slate-800 hover:shadow-soft-lg transition-all"
+                aria-label="Faire défiler les articles vers la gauche"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={() => blogCarouselRef.current?.scrollBy({ left: 360, behavior: 'smooth' })}
+                className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 border border-soft-pink-200/60 shadow-soft flex items-center justify-center text-slate-600 hover:text-slate-800 hover:shadow-soft-lg transition-all"
+                aria-label="Faire défiler les articles vers la droite"
+              >
+                ›
+              </button>
+              <div ref={blogCarouselRef} className="flex gap-6 overflow-x-auto pb-3 scroll-smooth snap-x snap-mandatory">
+                {blogPosts.map((post) => (
+                  <article
+                    key={post.id}
+                    className="min-w-[260px] max-w-[320px] md:min-w-[320px] bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 overflow-hidden hover:shadow-soft-xl transition-all duration-300 cursor-pointer snap-start"
+                    onClick={() => { window.location.href = `/blogs/${post.slug}`; }}
+                  >
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+
+                    <div className="p-6">
+                      <div className="flex flex-wrap items-center text-xs text-slate-500 mb-4 gap-3">
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                          <span>{formatDate(post.date)}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <User className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                          <span>{post.author}</span>
+                        </div>
+                        {post.readTime ? (
+                          <div className="flex items-center">
+                            <Clock className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                            <span>{post.readTime} min</span>
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2">
+                        {post.title}
+                      </h3>
+
+                      <p className="text-slate-600 mb-4 line-clamp-3 leading-relaxed text-sm">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="flex items-center justify-between">
+                        <span className="px-3 py-1.5 bg-gradient-to-br from-soft-pink-50 to-lavender-50 text-soft-pink-700 text-xs rounded-pill border border-soft-pink-200/50 font-medium">
+                          {post.category}
+                        </span>
+                        <div className="flex items-center bg-gradient-to-r from-soft-pink-500 via-peach-500 to-lavender-500 bg-clip-text text-transparent">
+                          <span className="text-xs font-semibold">Lire l'article</span>
+                          <ArrowRight className="w-4 h-4 ml-1" strokeWidth={1.5} />
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </main>
 
       <InstagramSearchModal

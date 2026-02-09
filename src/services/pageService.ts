@@ -440,6 +440,100 @@ const fontGeneratorPageQuery = `*[_type == "fontGeneratorPage" && published == t
   published
 }`
 
+// Requête GROQ pour récupérer la page Générateur de Bio Instagram
+const bioGeneratorPageQuery = `*[_type == "bioGeneratorPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  h2BeforeGenerator,
+  contentAfterGenerator,
+  faq {
+    title,
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
+// Requête GROQ pour récupérer la page Générateur de Captions Instagram
+const captionGeneratorPageQuery = `*[_type == "captionGeneratorPage" && published == true && !(_id in path("drafts.**"))][0] {
+  _id,
+  title,
+  hero {
+    title,
+    description
+  },
+  h2BeforeGenerator,
+  contentAfterGenerator,
+  faq {
+    title,
+    questions[] {
+      question,
+      answer
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  },
+  openGraph {
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  twitter {
+    card,
+    title,
+    description,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    }
+  },
+  published
+}`
+
 // Requête GROQ pour récupérer la page Instagram Commentaires
 const instagramCommentsPageQuery = `*[_type == "instagramCommentsPage" && published == true && !(_id in path("drafts.**"))][0] {
   _id,
@@ -2107,6 +2201,98 @@ export interface FontGeneratorPageData {
   published?: boolean
 }
 
+export interface BioGeneratorPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[]
+  }
+  h2BeforeGenerator?: string
+  contentAfterGenerator?: any[]
+  faq?: {
+    title?: string
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
+export interface CaptionGeneratorPageData {
+  _id: string
+  title: string
+  hero?: {
+    title?: string
+    description?: any[]
+  }
+  h2BeforeGenerator?: string
+  contentAfterGenerator?: any[]
+  faq?: {
+    title?: string
+    questions?: Array<{
+      question?: string
+      answer?: string
+    }>
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    canonicalUrl?: string
+  }
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    image?: {
+      asset?: {
+        url?: string
+      }
+      url?: string
+    }
+  }
+  published?: boolean
+}
+
 export interface PageData {
   _id: string
   title: string
@@ -2474,6 +2660,56 @@ export class PageService {
       return data
     } catch (error) {
       console.error('Erreur lors de la récupération de la page générateur de police:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère les données de la page Générateur de Bio Instagram
+   */
+  static async getBioGeneratorPage(): Promise<BioGeneratorPageData | null> {
+    try {
+      const data = await client.fetch(bioGeneratorPageQuery)
+      if (!data) return null
+
+      // Transformer l'image Open Graph si elle existe
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+
+      // Transformer l'image Twitter si elle existe
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page générateur de bio:', error)
+      return null
+    }
+  }
+
+  /**
+   * Récupère les données de la page Générateur de Captions Instagram
+   */
+  static async getCaptionGeneratorPage(): Promise<CaptionGeneratorPageData | null> {
+    try {
+      const data = await client.fetch(captionGeneratorPageQuery)
+      if (!data) return null
+
+      // Transformer l'image Open Graph si elle existe
+      if (data.openGraph?.image?.asset) {
+        data.openGraph.image.url = urlFor(data.openGraph.image).url()
+      }
+
+      // Transformer l'image Twitter si elle existe
+      if (data.twitter?.image?.asset) {
+        data.twitter.image.url = urlFor(data.twitter.image).url()
+      }
+
+      return data
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la page générateur de captions:', error)
       return null
     }
   }

@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Copy, Check, Sparkles } from 'lucide-react';
+import { PageService, BioGeneratorPageData } from '../services/pageService';
+import PortableText from './PortableText';
+import FAQSection from './FAQSection';
 
 type ProfileType = 'Influenceur' | 'Business / Marque' | 'Coach / Freelance' | 'Artiste / Créateur';
 type ToneType = 'Pro' | 'Fun' | 'Inspirant' | 'Minimaliste';
@@ -31,6 +34,120 @@ export default function InstagramBioGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [pageData, setPageData] = useState<BioGeneratorPageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Charger les données SEO depuis Sanity
+  useEffect(() => {
+    const loadPageData = async () => {
+      try {
+        setLoading(true);
+        const data = await PageService.getBioGeneratorPage();
+        setPageData(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement de la page:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPageData();
+  }, []);
+
+  // Mise à jour des métadonnées SEO
+  useEffect(() => {
+    if (pageData?.seo) {
+      if (pageData.seo.metaTitle) {
+        document.title = pageData.seo.metaTitle;
+      }
+
+      if (pageData.seo.metaDescription) {
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute('content', pageData.seo.metaDescription);
+        } else {
+          const metaDesc = document.createElement('meta');
+          metaDesc.name = 'description';
+          metaDesc.content = pageData.seo.metaDescription;
+          document.head.appendChild(metaDesc);
+        }
+      }
+
+      if (pageData.seo.keywords && pageData.seo.keywords.length > 0) {
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute('content', pageData.seo.keywords.join(', '));
+        } else {
+          const metaKw = document.createElement('meta');
+          metaKw.name = 'keywords';
+          metaKw.content = pageData.seo.keywords.join(', ');
+          document.head.appendChild(metaKw);
+        }
+      }
+
+      if (pageData.seo.canonicalUrl) {
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+          canonical.setAttribute('href', pageData.seo.canonicalUrl);
+        } else {
+          const linkCanonical = document.createElement('link');
+          linkCanonical.rel = 'canonical';
+          linkCanonical.href = pageData.seo.canonicalUrl;
+          document.head.appendChild(linkCanonical);
+        }
+      }
+    }
+
+    if (pageData?.openGraph) {
+      if (pageData.openGraph.title) {
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+          ogTitle.setAttribute('content', pageData.openGraph.title);
+        } else {
+          const metaOgTitle = document.createElement('meta');
+          metaOgTitle.setAttribute('property', 'og:title');
+          metaOgTitle.setAttribute('content', pageData.openGraph.title);
+          document.head.appendChild(metaOgTitle);
+        }
+      }
+
+      if (pageData.openGraph.description) {
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+          ogDescription.setAttribute('content', pageData.openGraph.description);
+        } else {
+          const metaOgDesc = document.createElement('meta');
+          metaOgDesc.setAttribute('property', 'og:description');
+          metaOgDesc.setAttribute('content', pageData.openGraph.description);
+          document.head.appendChild(metaOgDesc);
+        }
+      }
+
+      if (pageData.openGraph.url) {
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) {
+          ogUrl.setAttribute('content', pageData.openGraph.url);
+        } else {
+          const metaOgUrl = document.createElement('meta');
+          metaOgUrl.setAttribute('property', 'og:url');
+          metaOgUrl.setAttribute('content', pageData.openGraph.url);
+          document.head.appendChild(metaOgUrl);
+        }
+      }
+
+      if (pageData.openGraph.image?.url) {
+        const ogImage = document.querySelector('meta[property="og:image"]');
+        if (ogImage) {
+          ogImage.setAttribute('content', pageData.openGraph.image.url);
+        } else {
+          const metaOgImage = document.createElement('meta');
+          metaOgImage.setAttribute('property', 'og:image');
+          metaOgImage.setAttribute('content', pageData.openGraph.image.url);
+          document.head.appendChild(metaOgImage);
+        }
+      }
+    }
+  }, [pageData]);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -77,17 +194,43 @@ export default function InstagramBioGenerator() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center font-rounded">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-soft-pink-500 mx-auto mb-4"></div>
+          <p className="text-slate-600">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-cream font-rounded">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
-            Générateur de bio Instagram
+            {pageData?.hero?.title || 'Générateur de bio Instagram'}
           </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
-            Créez 5 à 10 bios prêtes à l'emploi, courtes et optimisées pour les 150 caractères.
-          </p>
+          {pageData?.hero?.description ? (
+            <div className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
+              <PortableText content={pageData.hero.description} />
+            </div>
+          ) : (
+            <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-lg">
+              Créez 5 à 10 bios prêtes à l'emploi, courtes et optimisées pour les 150 caractères.
+            </p>
+          )}
         </div>
+
+        {/* H2 avant le générateur */}
+        {pageData?.h2BeforeGenerator && (
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-4 text-center">
+              {pageData.h2BeforeGenerator}
+            </h2>
+          </div>
+        )}
 
         <div className="bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -272,6 +415,26 @@ export default function InstagramBioGenerator() {
             </div>
           )}
         </div>
+
+        {/* Contenu enrichi après le générateur */}
+        {pageData?.contentAfterGenerator && (
+          <div className="mt-10 bg-white/80 backdrop-blur-sm rounded-card shadow-soft-lg border border-soft-pink-200/50 p-8">
+            <PortableText content={pageData.contentAfterGenerator} />
+          </div>
+        )}
+
+        {/* FAQ Section */}
+        {pageData?.faq?.questions && pageData.faq.questions.length > 0 && (
+          <div className="mt-10">
+            <FAQSection 
+              title={pageData.faq.title || "Questions fréquentes"}
+              faqs={pageData.faq.questions.map(q => ({
+                question: q.question || '',
+                answer: q.answer || ''
+              }))}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -302,6 +302,16 @@ export default defineType({
       description: 'Cochez cette case pour publier l\'article',
     }),
     defineField({
+      name: 'indexNow',
+      title: 'Indexer maintenant (Google)',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Activez pour envoyer manuellement une demande d\'indexation Google via le webhook',
+      options: {
+        layout: 'checkbox',
+      },
+    }),
+    defineField({
       name: 'featured',
       title: 'Article mis en avant',
       type: 'boolean',

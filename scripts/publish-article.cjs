@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { GoogleAuth } = require('google-auth-library');
 
 class ArticlePublisher {
   constructor() {
@@ -30,6 +31,9 @@ class ArticlePublisher {
       
       // Vérifier la cohérence
       await this.verifyConsistency();
+
+      // Déclencher l'indexation Google (non bloquant)
+      await this.notifyIndexing(`https://doctorfollowers.com/blogs/${slug}`, 'URL_UPDATED');
       
       console.log('\n✅ Article publié avec succès !');
       console.log(`🔗 URL: https://doctorfollowers.com/blogs/${slug}`);
@@ -46,6 +50,9 @@ class ArticlePublisher {
       
       await this.updatePublicationStatus(slug, false);
       await this.generatePublicMetadata();
+
+      // Notifier la suppression (non bloquant)
+      await this.notifyIndexing(`https://doctorfollowers.com/blogs/${slug}`, 'URL_DELETED');
       
       console.log('✅ Article dépublié avec succès !');
       
@@ -179,6 +186,51 @@ class ArticlePublisher {
     });
     
     console.log(`📊 Total: ${metadata.articles.length} articles (${metadata.stats.publishedArticles} publiés, ${metadata.stats.draftArticles} brouillons)`);
+  }
+
+  async notifyIndexing(url, type) {
+    const rawCredentials = process.env.GOOGLE_INDEXING_CREDENTIALS;
+    if (!rawCredentials) {
+      console.log('⚠️ Indexing API ignorée: GOOGLE_INDEXING_CREDENTIALS manquant.');
+      return;
+    }
+
+    let credentials;
+    try {
+      credentials = JSON.parse(rawCredentials);
+    } catch (error) {
+      console.log('⚠️ Indexing API ignorée: GOOGLE_INDEXING_CREDENTIALS invalide.');
+      return;
+    }
+
+    try {
+      const auth = new GoogleAuth({
+        credentials,
+        scopes: ['https://www.googleapis.com/auth/indexing']
+      });
+
+      const client = await auth.getClient();
+      const accessToken = await client.getAccessToken();
+
+      const response = await fetch('https://indexing.googleapis.com/v3/urlNotifications:publish', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken.token}`
+        },
+        body: JSON.stringify({ url, type })
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        console.log(`⚠️ Indexing API erreur (${response.status}):`, data);
+        return;
+      }
+
+      console.log(`✅ Indexing API OK: ${type} -> ${url}`);
+    } catch (error) {
+      console.log('⚠️ Indexing API ignorée:', error.message);
+    }
   }
 }
 

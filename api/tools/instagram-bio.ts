@@ -22,6 +22,26 @@ const clamp = (value: number, min: number, max: number) =>
 const normalizeDescription = (description?: string) =>
   (description || '').replace(/\s+/g, ' ').trim();
 
+const sanitizeOpenAiMessage = (message: string) =>
+  message.replace(/sk-[A-Za-z0-9-_]{10,}/g, 'sk-***');
+
+const buildOpenAiErrorMessage = (status: number, errorPayload: any) => {
+  const rawMessage =
+    typeof errorPayload?.error?.message === 'string' ? errorPayload.error.message : '';
+  const sanitized = sanitizeOpenAiMessage(rawMessage);
+
+  if (status === 401) {
+    return 'Clé OpenAI invalide ou manquante côté serveur.';
+  }
+  if (status === 429) {
+    return 'Quota OpenAI dépassé ou trop de requêtes.';
+  }
+  if (sanitized) {
+    return `OpenAI: ${sanitized}`;
+  }
+  return 'OpenAI request failed';
+};
+
 const buildFallbackBios = (payload: BioRequestBody) => {
   const shortDescription = normalizeDescription(payload.description);
   const descriptionSnippet = shortDescription ? shortDescription.split(' ').slice(0, 10).join(' ') : '';
@@ -93,7 +113,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const openAiKey = process.env.OPENAI_API_KEY;
     if (!openAiKey) {
       return res.status(500).json({
-        error: 'OpenAI API key is not configured'
+        error: 'Clé OpenAI non configurée côté serveur.'
       });
     }
 
@@ -168,9 +188,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!response.ok) {
       const errorPayload = await response.json().catch(() => ({}));
-      console.error('❌ OpenAI error:', errorPayload);
+      console.error('❌ OpenAI error:', { status: response.status, errorPayload });
       return res.status(502).json({
-        error: 'OpenAI request failed'
+        error: buildOpenAiErrorMessage(response.status, errorPayload)
       });
     }
 
